@@ -1,0 +1,11 @@
+<resources>
+    <declare-styleable name="StarsContainer">
+
+        <attr name="max" format="integer"/>
+        <attr name="progress" format="integer"/>
+
+        <attr name="starsSrc" format="reference"/>
+        <attr name="starsCompletedSrc" format="reference"/>
+
+    </declare-styleable>
+</resources>
