@@ -1,8 +1,10 @@
 package com.greenkey.librain.reciverview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.greenkey.librain.PixelConverter;
@@ -16,6 +18,12 @@ import java.util.Arrays;
  */
 
 public class BoardView extends LinearLayout {
+
+    private static final int ROW_COUNT_DEFAULT_VALUE = 3;
+    private static final int COLUMN_COUNT_DEFAULT_VALUE = 3;
+
+    private int rowCount;
+    private int columnCount;
 
     //private OnTouchListener itemsImageViewOnTouchListener;
     public void setItemsImageViewOnTouchListener(OnTouchListener listener) {
@@ -35,36 +43,45 @@ public class BoardView extends LinearLayout {
         }
     }
 
-    private int rowCount;
-    private int columnCount;
-
     private BoardItemView[] items;
-
-    private Context context;
 
     public BoardView(Context context) {
         super(context);
-        this.context = context;
+        init(null, 0);
     }
 
     public BoardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
+        init(attrs, 0);
     }
 
     public BoardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
+        init(attrs, defStyleAttr);
     }
 
-    private static LinearLayout.LayoutParams boardItemParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    private void init(AttributeSet attrs, int defStyle) {
+        final TypedArray typedArray = getContext().obtainStyledAttributes(
+                attrs, R.styleable.BoardView, defStyle, 0);
 
-    private static final int ITEM_SIZE_DP = 50;
-    private static final int ITEM_MARGIN_DP = 8;
+        rowCount = typedArray.getInteger(R.styleable.BoardView_rowCount, ROW_COUNT_DEFAULT_VALUE);
+        columnCount = typedArray.getInteger(R.styleable.BoardView_columnCount, COLUMN_COUNT_DEFAULT_VALUE);
 
-    public void createItems(int rowCount, int columnCount) {
+        typedArray.recycle();
+
+        createItems(getContext(), rowCount, columnCount);
+    }
+
+    private static final LinearLayout.LayoutParams boardItemParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    private static final int ITEM_SIZE_DP = 60;
+    private static final int ITEM_MARGIN_DP = 4;
+    private static final int ITEM_PADDING_DP = 2;
+
+    public void createItems(Context context, int rowCount, int columnCount) {
         int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
         int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
+        int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
 
         LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
         itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
@@ -82,6 +99,7 @@ public class BoardView extends LinearLayout {
 
             for (int j = 0; j < columnCount; j++) {
                 BoardItemView boardItemView = new BoardItemView(context);
+                boardItemView.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
                 boardItemView.setLayoutParams(itemLayoutParams);
                 boardItemView.setBackgroundResource(R.drawable.normal_shape);
 

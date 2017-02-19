@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.greenkey.librain.PixelConverter;
 import com.greenkey.librain.R;
 import com.greenkey.librain.ResourceType;
 
@@ -91,19 +92,22 @@ public class DistributorItemView extends FrameLayout {
         }
     }
 
+    private static final int TEXT_PADDING_DP = 5;
+
     private static final int TEXT_SIZE_SP = 12;
     private static final FrameLayout.LayoutParams itemsCountTextViewLayoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.END);
 
     private void createItemsCountTextView(Context context) {
+        int paddingPx = PixelConverter.dpToPx(context, TEXT_PADDING_DP);
+
         itemsCountTextView = new TextView(context);
 
         itemsCountTextView.setLayoutParams(itemsCountTextViewLayoutParams);
         itemsCountTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE_SP);
         itemsCountTextView.setTextColor(Color.WHITE); //
 
-        itemsCountTextView.setPadding(10, 10, 10 ,10);
-
-        itemsCountTextView.setBackgroundResource(R.drawable.answer_item_count_background); ////
+        itemsCountTextView.setPadding(paddingPx, 0, paddingPx, 0);
+        itemsCountTextView.setBackgroundResource(R.drawable.distributor_item_count_background); ////
 
         this.addView(itemsCountTextView);
     }

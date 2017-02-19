@@ -42,8 +42,9 @@ public class DistributorView extends LinearLayout {
         this.context = context;
     }
 
-    private static final int ITEM_SIZE_DP = 50;
-    private static final int ITEM_MARGIN_DP = 8;
+    private static final int ITEM_SIZE_DP = 60;
+    private static final int ITEM_MARGIN_DP = 4;
+    private static final int ITEM_PADDING_DP = 2;
 
     public void setItems(Rule[] rules) {
         this.removeItems();
@@ -56,6 +57,7 @@ public class DistributorView extends LinearLayout {
 
         int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
         int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
+        int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
 
         LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
         itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
@@ -67,6 +69,7 @@ public class DistributorView extends LinearLayout {
                 DistributorItemView distributorItemView = new DistributorItemView(context, rule.getItemsCount(), rule.getResourceType());
 
                 distributorItemView.setLayoutParams(itemLayoutParams);
+                distributorItemView.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
                 distributorItemView.setBackgroundResource(R.drawable.normal_shape);
 
                 items[i] = distributorItemView;

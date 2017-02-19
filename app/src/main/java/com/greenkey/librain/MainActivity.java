@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenkey.librain.campaign.Level;
@@ -23,10 +24,12 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LEVEL_PARAM = "level";
+
     private static final int COLUMN_COUNT = 3;
     private static final int ROW_COUNT = 3;
 
-    private StarsContainer starsContainer;
+    private RatingBar ratingBar;
 
     private BoardView boardView;
     private DistributorView distributorView;
@@ -45,34 +48,17 @@ public class MainActivity extends AppCompatActivity {
         boardView = (BoardView) findViewById(R.id.table_linear_layout);
         distributorView = (DistributorView) findViewById(R.id.distributorFrameLayout);
 
-        rowCount = getIntent().getIntExtra("rowCount", ROW_COUNT);
-        columnCount = getIntent().getIntExtra("columnCount", COLUMN_COUNT);
-
-        starsContainer = (StarsContainer) findViewById(R.id.stars);
-
-        int itemsTypesCount = getIntent().getIntExtra("itemsTypeCount", 2);
-        int itemsCount = getIntent().getIntExtra("itemsCount", 4);
-
-        Rule rule1 = new Rule(itemsCount / itemsTypesCount, ResourceType.EU);
-        Rule rule2 = new Rule(itemsCount / itemsTypesCount, ResourceType.GB);
-        Rule rule3 = new Rule(itemsCount / itemsTypesCount + itemsCount % itemsTypesCount, ResourceType.EN);
-
-        rules = new Rule[itemsTypesCount];
-
-        System.arraycopy(new Rule[] {rule1, rule2, rule3}, 0, rules, 0, itemsTypesCount);
-
-        final Level level = getIntent().getParcelableExtra("level");
+        final Level level = getIntent().getParcelableExtra(LEVEL_PARAM);
         if (level != null) {
             rowCount = level.getRowCount();
             columnCount = level.getColumnCount();
 
             rules = level.getRules();
-
         }
 
         resourceItems = ItemGenerator.createItems(rules, rowCount * columnCount);
 
-        boardView.createItems(rowCount, columnCount);
+        boardView.createItems(this, rowCount, columnCount);
         boardView.setItemsDragListener(new DragListenerWrapper(distributorView));
 
         distributorView.setItems(rules);
@@ -86,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     ResourceType[] userAnswer = boardView.getItemsResources();
                     if (Arrays.equals(userAnswer, resourceItems)) {
+
                         Toast.makeText(MainActivity.this, "Красавчик", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(MainActivity.this, "Не красавчик", Toast.LENGTH_SHORT).show();
@@ -94,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button restartButton = (Button) findViewById(R.id.restartKnopka);
+        ImageView restartButton = (ImageView) findViewById(R.id.restartKnopka);
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

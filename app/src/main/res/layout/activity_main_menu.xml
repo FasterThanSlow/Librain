@@ -12,8 +12,6 @@
     tools:context="com.greenkey.librain.MainMenuActivity">
 
     <TextView
-        android:layout_centerInParent="true"
-
         android:text="ЗдарАва, Тестер, а нука, протести!"
         android:textSize="40sp"
 
@@ -22,72 +20,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/rowCountEditText"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        android:inputType="numberSigned"
+        <Button
+            android:id="@+id/gogo"
 
+            android:layout_marginTop="16dp"
 
-        android:padding="16dp"
+            android:text="Играть"
+            android:layout_gravity="center"
 
-        android:hint="Рядов кол-во"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/columnCountEditText"
-
-        android:padding="16dp"
-
-        android:inputType="numberSigned"
-
-
-        android:hint="Столбцов кол-во"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/itemsTypeCountEditText"
-
-        android:padding="16dp"
-
-        android:inputType="numberSigned"
-        android:hint="Типы элементов кол-во (макс 3)"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/itemsCount"
-
-        android:inputType="numberSigned"
-        android:hint="Количество элементов (Подумай)"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/startBuuton"
-
-        android:layout_marginTop="16dp"
-
-        android:text="Старт"
-        android:layout_gravity="center_horizontal"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/gogo"
-
-        android:layout_marginTop="16dp"
-
-        android:text="Смотреть менюшку"
-        android:layout_gravity="center_horizontal"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 </LinearLayout>
