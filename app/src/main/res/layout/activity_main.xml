@@ -47,14 +47,9 @@
     </LinearLayout>
 
     <com.greenkey.librain.reciverview.BoardView
-        android:orientation="vertical"
-
-        android:id="@+id/table_linear_layout"
+        android:id="@+id/board_view"
 
         android:gravity="center"
-
-        app:columnCount="4"
-        app:rowCount="4"
 
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -62,7 +57,7 @@
     </com.greenkey.librain.reciverview.BoardView>
 
     <com.greenkey.librain.distributorview.DistributorView
-        android:id="@+id/distributorFrameLayout"
+        android:id="@+id/distributorView"
 
         android:gravity="center_horizontal"
 

@@ -2,12 +2,15 @@ package com.greenkey.librain.reciverview;
 
 import android.content.Context;
 import android.support.v7.app.ActionBar;
+import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.greenkey.librain.PixelConverter;
+import com.greenkey.librain.R;
 import com.greenkey.librain.ResourceType;
 
 /**
@@ -21,10 +24,14 @@ public class BoardItemView extends FrameLayout {
         this.boardItemDragListener = listener;
     }
 
-    private Context context;
+    private final Context context;
 
     private ImageView imageView;
     private ResourceType resourceType;
+
+    private static final int ITEM_SIZE_DP = 60;
+    private static final int ITEM_MARGIN_DP = 4;
+    private static final int ITEM_PADDING_DP = 2;
 
     public ResourceType getResourceType() {
         if (resourceType == null) {
@@ -36,8 +43,35 @@ public class BoardItemView extends FrameLayout {
 
     public BoardItemView(Context context) {
         super(context);
-
         this.context = context;
+        init();
+    }
+
+    public BoardItemView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+
+        init();
+    }
+
+    public BoardItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.context = context;
+
+        init();
+    }
+
+    private void init() {
+        int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
+        int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
+        int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
+
+        LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
+        itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
+
+        this.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
+        this.setLayoutParams(itemLayoutParams);
+        this.setBackgroundResource(R.drawable.normal_shape);
     }
 
     private OnTouchListener imageViewOnTouchListener;

@@ -4,14 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.LinearLayout;
 
-import com.greenkey.librain.PixelConverter;
 import com.greenkey.librain.R;
 import com.greenkey.librain.ResourceType;
-
-import java.util.Arrays;
 
 /**
  * Created by Alexander on 10.02.2017.
@@ -25,9 +21,9 @@ public class BoardView extends LinearLayout {
     private int rowCount;
     private int columnCount;
 
-    //private OnTouchListener itemsImageViewOnTouchListener;
+    private OnTouchListener itemsImageViewOnTouchListener;
     public void setItemsImageViewOnTouchListener(OnTouchListener listener) {
-        //this.itemsImageViewOnTouchListener = listener;
+        this.itemsImageViewOnTouchListener = listener;
 
         int itemsCount = rowCount * columnCount;
         for (int i = 0; i < itemsCount; i++) {
@@ -35,8 +31,10 @@ public class BoardView extends LinearLayout {
         }
     }
 
-    //private OnBoardItemDragListener itemsDragListener;
+    private OnBoardItemDragListener itemsDragListener;
     public void setItemsDragListener(OnBoardItemDragListener listener) {
+        this.itemsDragListener = listener;
+
         int itemsCount = rowCount * columnCount;
         for (int i = 0; i < itemsCount; i++) {
             items[i].setBoardItemDragListener(listener);
@@ -45,22 +43,29 @@ public class BoardView extends LinearLayout {
 
     private BoardItemView[] items;
 
+    private final Context context;
+
     public BoardView(Context context) {
         super(context);
+        this.context = context;
         init(null, 0);
     }
 
     public BoardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         init(attrs, 0);
     }
 
     public BoardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         init(attrs, defStyleAttr);
     }
 
     private void init(AttributeSet attrs, int defStyle) {
+        this.setOrientation(VERTICAL);
+
         final TypedArray typedArray = getContext().obtainStyledAttributes(
                 attrs, R.styleable.BoardView, defStyle, 0);
 
@@ -69,39 +74,34 @@ public class BoardView extends LinearLayout {
 
         typedArray.recycle();
 
-        createItems(getContext(), rowCount, columnCount);
+        createItems(rowCount, columnCount);
     }
 
-    private static final LinearLayout.LayoutParams boardItemParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    private static final LinearLayout.LayoutParams boardRowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-    private static final int ITEM_SIZE_DP = 60;
-    private static final int ITEM_MARGIN_DP = 4;
-    private static final int ITEM_PADDING_DP = 2;
+    private void removeItems() {
+        this.removeAllViews();
+    }
 
-    public void createItems(Context context, int rowCount, int columnCount) {
-        int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
-        int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
-        int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
-
-        LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
-        itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
+    public void createItems(int rowCount, int columnCount) {
+        removeItems();
 
         this.rowCount = rowCount;
         this.columnCount = columnCount;
 
-        items = new BoardItemView[rowCount * columnCount];
+        this.items = new BoardItemView[rowCount * columnCount];
 
         int currentIndex = 0;
         for (int i = 0; i < rowCount; i++) {
             LinearLayout lineLinearLayout = new LinearLayout(context);
             lineLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            lineLinearLayout.setLayoutParams(boardItemParams);
+            lineLinearLayout.setLayoutParams(boardRowParams);
 
             for (int j = 0; j < columnCount; j++) {
-                BoardItemView boardItemView = new BoardItemView(context);
-                boardItemView.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
-                boardItemView.setLayoutParams(itemLayoutParams);
-                boardItemView.setBackgroundResource(R.drawable.normal_shape);
+                final BoardItemView boardItemView = new BoardItemView(context);
+
+                boardItemView.setImageViewOnTouchListener(itemsImageViewOnTouchListener);
+                boardItemView.setBoardItemDragListener(itemsDragListener);
 
                 items[currentIndex] = boardItemView;
 

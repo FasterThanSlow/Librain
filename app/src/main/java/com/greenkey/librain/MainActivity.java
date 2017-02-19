@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenkey.librain.campaign.Level;
@@ -45,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        boardView = (BoardView) findViewById(R.id.table_linear_layout);
-        distributorView = (DistributorView) findViewById(R.id.distributorFrameLayout);
+        boardView = (BoardView) findViewById(R.id.board_view);
+        distributorView = (DistributorView) findViewById(R.id.distributorView);
 
         final Level level = getIntent().getParcelableExtra(LEVEL_PARAM);
         if (level != null) {
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         resourceItems = ItemGenerator.createItems(rules, rowCount * columnCount);
 
-        boardView.createItems(this, rowCount, columnCount);
+        boardView.createItems(rowCount, columnCount);
         boardView.setItemsDragListener(new DragListenerWrapper(distributorView));
 
         distributorView.setItems(rules);
