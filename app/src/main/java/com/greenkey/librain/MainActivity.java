@@ -2,17 +2,21 @@ package com.greenkey.librain;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenkey.librain.campaign.Level;
+import com.greenkey.librain.campaign.LevelGenerator;
 import com.greenkey.librain.distributorview.DistributorItemView;
 import com.greenkey.librain.distributorview.DistributorView;
 import com.greenkey.librain.reciverview.BoardItemView;
@@ -25,10 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "level";
 
-    private static final int COLUMN_COUNT = 3;
-    private static final int ROW_COUNT = 3;
+    private int trueAnswersCount;
+    private int countTries;
+    private static final int MAX_TRIES_COUNT = 3;
+
+    private int levelNumber;
 
     private RatingBar ratingBar;
+    private TextView confirmTextView;
 
     private BoardView boardView;
     private DistributorView distributorView;
@@ -37,60 +45,96 @@ public class MainActivity extends AppCompatActivity {
     private int columnCount;
 
     private Rule[] rules;
-    private ResourceType[] resourceItems;
+    private ResourceType[] resources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        boardView = (BoardView) findViewById(R.id.board_view);
-        distributorView = (DistributorView) findViewById(R.id.distributorView);
-
         final Level level = getIntent().getParcelableExtra(LEVEL_PARAM);
         if (level != null) {
+            levelNumber = level.getLevelNumber();
+
             rowCount = level.getRowCount();
             columnCount = level.getColumnCount();
 
             rules = level.getRules();
         }
 
-        resourceItems = ItemGenerator.createItems(rules, rowCount * columnCount);
+        boardView = (BoardView) findViewById(R.id.board_view);
+        distributorView = (DistributorView) findViewById(R.id.distributor_view);
+        ratingBar = (RatingBar) findViewById(R.id.stars);
+        confirmTextView = (TextView) findViewById(R.id.confirm_text_view);
+
+        distributorView.createItems(rules);
 
         boardView.createItems(rowCount, columnCount);
-        boardView.setItemsDragListener(new DragListenerWrapper(distributorView));
+        boardView.setItemsDragListener(new DragListenerWrapper(distributorView, confirmTextView));
 
-        distributorView.setItems(rules);
-
-        final Button button = (Button) findViewById(R.id.knopka);
-        button.setOnClickListener(new View.OnClickListener() {
+        confirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ( ! distributorView.allItemsResourcesUsed()) {
-                    Toast.makeText(MainActivity.this, "Не все элементы испольованы", Toast.LENGTH_SHORT).show();
-                } else {
-                    ResourceType[] userAnswer = boardView.getItemsResources();
-                    if (Arrays.equals(userAnswer, resourceItems)) {
+                distributorView.setVisibility(View.VISIBLE);
+                confirmTextView.setVisibility(View.GONE);
 
-                        Toast.makeText(MainActivity.this, "Красавчик", Toast.LENGTH_SHORT).show();
+                ResourceType[] userAnswer = boardView.getItemsResources();
+                    if (Arrays.equals(userAnswer, resources)) {
+                        trueAnswersCount++;
+                        ratingBar.setProgress(trueAnswersCount);
+
+
                     } else {
-                        Toast.makeText(MainActivity.this, "Не красавчик", Toast.LENGTH_SHORT).show();
+
+                        //Toast.makeText(MainActivity.this, "Не красавчик", Toast.LENGTH_SHORT).show();
+
                     }
-                }
+
+                countTries++;
+
+                if (countTries < MAX_TRIES_COUNT) {
+                    boardView.post(start);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+
+                    builder.setTitle("Уровень пройден!")
+                            .setMessage("Звёзд: " + trueAnswersCount)
+                            .setCancelable(false)
+                            .setPositiveButton("Далее", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+
+                                    Level nextLevel = LevelGenerator.findLevel(levelNumber + 1);
+
+                                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                    intent.putExtra(LEVEL_PARAM, nextLevel);
+
+                                    startActivity(intent);
+
+                                    MainActivity.this.finish();
+                                }
+                            })
+                            .setNegativeButton("Выход",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+
+                                            MainActivity.this.finish();
+                                        }
+                                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();                }
             }
         });
 
-        ImageView restartButton = (ImageView) findViewById(R.id.restartKnopka);
+        final ImageView restartButton = (ImageView) findViewById(R.id.restartKnopka);
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resourceItems = ItemGenerator.createItems(rules, rowCount * columnCount);
-
-                distributorView.setItems(rules);
                 distributorView.setItemsImageViewOnTouchListener(null);
-
                 boardView.setItemsImageViewOnTouchListener(null);
-                boardView.setItemsResources(resourceItems);
 
                 boardView.post(start);
             }
@@ -114,7 +158,11 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    boardView.setItemsResources(resourceItems);
+                    resources = BoardViewItemGenerator.createResources(rules, rowCount * columnCount);
+
+                    distributorView.setRules(rules);
+
+                    boardView.setItemsResources(resources);
                     boardView.postDelayed(end, 5000);
                 }
 
@@ -160,12 +208,14 @@ public class MainActivity extends AppCompatActivity {
     private class DragListenerWrapper implements OnBoardItemDragListener {
 
         private DistributorView distributorView;
+        private View confirmButton;
 
-        public DragListenerWrapper(DistributorView distributorView) {
+        public DragListenerWrapper(DistributorView distributorView, View confirmButton) {
             this.distributorView = distributorView;
+            this.confirmButton = confirmButton;
         }
 
-        private boolean dragIsSupported = true;
+        private boolean dragIsNotUsing = true;
 
         @Override
         public boolean onBoardItemDrag(BoardItemView receiverView, DragEvent event) {
@@ -177,24 +227,15 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_STARTED:
                     receiverView.setBackgroundResource(R.drawable.exist_shape);
 
-                    if (dragIsSupported) {
+                    if (dragIsNotUsing) {
                         if (dragViewParent instanceof BoardItemView) {
                             dragView.setVisibility(View.INVISIBLE);
                         } else if (dragViewParent instanceof DistributorItemView) {
                             ((DistributorItemView) dragViewParent).removeImageView();
                         }
 
-                        dragIsSupported = false;
+                        dragIsNotUsing = false;
                     }
-                    /*
-                    if (dragViewParent instanceof DistributorItemView) {
-                        if (dragIsSupported) {
-                            Log.d("ACTION_DRAG", "ACTION_DRAG_STARTED");
-
-                            ((DistributorItemView) dragViewParent).removeImageView();
-                            dragIsSupported = false;
-                        }
-                    }*/
                     break;
 
                 case DragEvent.ACTION_DRAG_EXITED:
@@ -208,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENDED:
                     receiverView.setBackgroundResource(R.drawable.normal_shape);
 
-                    if ( ! dragIsSupported) {
+                    if ( !dragIsNotUsing) {
                         if (dragViewParent instanceof BoardItemView) {
 
                             ResourceType resourceType = ((BoardItemView) dragViewParent).getResourceType();
@@ -227,35 +268,13 @@ public class MainActivity extends AppCompatActivity {
                                 }
                         }
 
-                        dragIsSupported = true;
-                    }
-                    /*
-                    if (dragViewParent instanceof BoardItemView) {
-
-                        ResourceType resourceType = ((BoardItemView)dragViewParent).getResourceType();
-                        ((BoardItemView)dragViewParent).removeImageView();
-
-                        DistributorItemView itemView = distributorView.findItem(resourceType);
-                        if (itemView != null) {
-                            itemView.addImageView();
+                        if ( ! distributorView.allItemsResourcesUsed()) {
+                            distributorView.setVisibility(View.VISIBLE);
+                            confirmButton.setVisibility(View.GONE);
                         }
 
-                        dragView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                dragView.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    } else if (dragViewParent instanceof DistributorItemView) {
-                        if ( ! dragIsSupported) {
-                            if (!isDropped(event)) {
-                                ((DistributorItemView) dragViewParent).addImageView();
-                                Log.d("ACTION_DRAG", "ACTION_DRAG_ENDED");
-                            }
-                            dragIsSupported = true;
-                        }
+                        dragIsNotUsing = true;
                     }
-                    */
                     break;
 
                 case DragEvent.ACTION_DROP:
@@ -267,9 +286,9 @@ public class MainActivity extends AppCompatActivity {
                         if (receiverView.hasImageView()) {
                             ResourceType resourceType = receiverView.getResourceType();
 
-                            DistributorItemView founddistributorItemView = ((DistributorView) distributorItemView.getParent()).findItem(resourceType);
-                            if (founddistributorItemView != null) {
-                                founddistributorItemView.addImageView();
+                            DistributorItemView foundDistributorItemView = distributorView.findItem(resourceType);
+                            if (foundDistributorItemView != null) {
+                                foundDistributorItemView.addImageView();
                             }
 
                             receiverView.removeImageView();
@@ -277,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             receiverView.createImageView(distributorItemView.getResourceType());
                         }
+
                     } else if (viewParent instanceof BoardItemView) {
                         BoardItemView owner = (BoardItemView) viewParent;
                         ResourceType ownerResourceType = owner.getResourceType();
@@ -290,6 +310,14 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             receiverView.createImageView(ownerResourceType);
                         }
+                    }
+
+                    if (distributorView.allItemsResourcesUsed()) {
+                        distributorView.setVisibility(View.GONE);
+                        confirmButton.setVisibility(View.VISIBLE);
+                    } else {
+                        distributorView.setVisibility(View.VISIBLE);
+                        confirmButton.setVisibility(View.GONE);
                     }
                     break;
             }

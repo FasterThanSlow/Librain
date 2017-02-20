@@ -17,7 +17,7 @@ public class ExampleUnitTest {
         Rule rule1 = new Rule(2, ResourceType.EU);
         Rule rule2 = new Rule(3, ResourceType.GB);
 
-        ResourceType[] result = ItemGenerator.createItems(new Rule[] {rule1, rule2}, size);
+        ResourceType[] result = BoardViewItemGenerator.createResources(new Rule[] {rule1, rule2}, size);
 
         int countNoneType = 0;
         for (ResourceType resourceType : result) {

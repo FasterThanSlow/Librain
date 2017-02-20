@@ -66,7 +66,7 @@ public class BoardView extends LinearLayout {
     private void init(AttributeSet attrs, int defStyle) {
         this.setOrientation(VERTICAL);
 
-        final TypedArray typedArray = getContext().obtainStyledAttributes(
+        final TypedArray typedArray = context.obtainStyledAttributes(
                 attrs, R.styleable.BoardView, defStyle, 0);
 
         rowCount = typedArray.getInteger(R.styleable.BoardView_rowCount, ROW_COUNT_DEFAULT_VALUE);
@@ -79,8 +79,11 @@ public class BoardView extends LinearLayout {
 
     private static final LinearLayout.LayoutParams boardRowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-    private void removeItems() {
+    public void removeItems() {
         this.removeAllViews();
+        this.rowCount = 0;
+        this.columnCount = 0;
+        this.items = null;
     }
 
     public void createItems(int rowCount, int columnCount) {

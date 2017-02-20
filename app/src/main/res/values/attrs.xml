@@ -7,9 +7,14 @@
         <attr name="starsCompletedSrc" format="reference"/>
     </declare-styleable>
 
-
     <declare-styleable name="BoardView">
         <attr name="rowCount" format="integer"/>
         <attr name="columnCount" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="DistributorView">
+        <attr name="itemsCount" format="integer"/>
+    </declare-styleable>
+
+
 </resources>

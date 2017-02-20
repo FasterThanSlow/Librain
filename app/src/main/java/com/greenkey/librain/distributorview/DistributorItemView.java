@@ -2,6 +2,7 @@ package com.greenkey.librain.distributorview;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.greenkey.librain.PixelConverter;
 import com.greenkey.librain.R;
 import com.greenkey.librain.ResourceType;
+import com.greenkey.librain.Rule;
 
 /**
  * Created by Alexander on 10.02.2017.
@@ -33,17 +35,56 @@ public class DistributorItemView extends FrameLayout {
         }
     }
 
-    public DistributorItemView(Context context, int itemsCount, ResourceType resourceType) {
+    private static final int ITEM_SIZE_DP = 60;
+    private static final int ITEM_MARGIN_DP = 4;
+    private static final int ITEM_PADDING_DP = 2;
+
+    private final Context context;
+
+    public DistributorItemView(Context context) {
         super(context);
+        this.context = context;
+        init();
+    }
 
-        this.itemsCount = itemsCount;
-        this.resourceType = resourceType;
+    public DistributorItemView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        init();
+    }
 
-        createImageView(context);
-        setImageResource(resourceType, itemsCount);
+    public DistributorItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.context = context;
+        init();
+    }
 
-        createItemsCountTextView(context);
-        updateCountItemsTextView(itemsCount);
+    private void init() {
+        int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
+        int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
+        int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
+
+        LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
+        itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
+
+        this.setLayoutParams(itemLayoutParams);
+        this.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
+        this.setBackgroundResource(R.drawable.normal_shape);
+    }
+
+    public void setRule(Rule rule) {
+        if (rule != null) {
+            this.itemsCount = rule.getItemsCount();
+            this.resourceType = rule.getResourceType();
+
+            createImageView(context);
+
+            if (resourceType != ResourceType.NONE)
+                setImageResource(resourceType, itemsCount);
+
+            createItemsCountTextView(context);
+            updateCountItemsTextView(itemsCount);
+        }
     }
 
     public boolean allResourcesUsed() {
@@ -104,10 +145,10 @@ public class DistributorItemView extends FrameLayout {
 
         itemsCountTextView.setLayoutParams(itemsCountTextViewLayoutParams);
         itemsCountTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE_SP);
-        itemsCountTextView.setTextColor(Color.WHITE); //
+        itemsCountTextView.setTextColor(Color.WHITE);
 
         itemsCountTextView.setPadding(paddingPx, 0, paddingPx, 0);
-        itemsCountTextView.setBackgroundResource(R.drawable.distributor_item_count_background); ////
+        itemsCountTextView.setBackgroundResource(R.drawable.distributor_items_count_background);
 
         this.addView(itemsCountTextView);
     }

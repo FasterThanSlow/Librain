@@ -33,6 +33,6 @@ public class LevelGenerator {
         if (levelNumber > LEVELS_COUNT)
             return null;
 
-        return levels.get(levelNumber);
+        return levels.get(levelNumber - 1);
     }
 }

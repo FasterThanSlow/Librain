@@ -7,11 +7,11 @@ import java.util.Random;
  * Created by Alexander on 09.02.2017.
  */
 
-public class ItemGenerator {
+public class BoardViewItemGenerator {
 
     private static Random random = new Random();
 
-    public static ResourceType[] createItems(Rule[] rules, int size) {
+    public static ResourceType[] createResources(Rule[] rules, int size) {
         ResourceType[] result = new ResourceType[size];
         Arrays.fill(result, ResourceType.NONE);
 

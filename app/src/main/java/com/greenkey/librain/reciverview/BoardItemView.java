@@ -1,10 +1,8 @@
 package com.greenkey.librain.reciverview;
 
 import android.content.Context;
-import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
 import android.view.DragEvent;
-import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,14 +80,15 @@ public class BoardItemView extends FrameLayout {
         }
     }
 
-    private static final FrameLayout.LayoutParams imageLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+    private static final FrameLayout.LayoutParams imageViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+            LayoutParams.MATCH_PARENT);
 
     public void createImageView(ResourceType resourceType) {
         this.resourceType = resourceType;
 
         imageView = new ImageView(context);
 
-        imageView.setLayoutParams(imageLayoutParams);
+        imageView.setLayoutParams(imageViewLayoutParams);
         imageView.setImageResource(resourceType.getEnabledItemResourceId());
         imageView.setOnTouchListener(imageViewOnTouchListener);
 

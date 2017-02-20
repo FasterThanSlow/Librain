@@ -51,30 +51,60 @@
 
         android:gravity="center"
 
+        app:columnCount="3"
+        app:rowCount="4"
+
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
     </com.greenkey.librain.reciverview.BoardView>
 
-    <com.greenkey.librain.distributorview.DistributorView
-        android:id="@+id/distributorView"
-
-        android:gravity="center_horizontal"
+    <LinearLayout
+        android:orientation="vertical"
 
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
 
+        android:gravity="center"
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.greenkey.librain.distributorview.DistributorView>
+        android:layout_height="80dp">
 
-    <Button
-        android:id="@+id/knopka"
+        <com.greenkey.librain.distributorview.DistributorView
+            android:id="@+id/distributor_view"
 
-        android:text="Жми, как готов"
+            app:itemsCount="5"
 
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:gravity="center_horizontal"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.greenkey.librain.distributorview.DistributorView>
+
+        <TextView
+            android:id="@+id/confirm_text_view"
+            android:clickable="true"
+
+            android:visibility="gone"
+
+            android:layout_gravity="center_horizontal"
+
+            android:text="Подтвердить"
+            android:textSize="20sp"
+
+            android:background="@drawable/distributor_confirm_backround"
+
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

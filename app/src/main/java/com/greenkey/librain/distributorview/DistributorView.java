@@ -1,7 +1,9 @@
 package com.greenkey.librain.distributorview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.greenkey.librain.PixelConverter;
@@ -15,10 +17,14 @@ import com.greenkey.librain.Rule;
 
 public class DistributorView extends LinearLayout {
 
-    public void setItemsImageViewOnTouchListener(OnTouchListener itemOnTouchListener) {
+    private static final int ITEMS_COUNT_DEFAULT_VALUE = 3;
+
+    private OnTouchListener itemsImageViewOnTouchListener;
+    public void setItemsImageViewOnTouchListener(OnTouchListener listener) {
+        this.itemsImageViewOnTouchListener = listener;
         for (int i = 0; i < itemsCount; i++) {
             if (items[i] != null)
-                items[i].setImageViewOnTouchListener(itemOnTouchListener);
+                items[i].setImageViewOnTouchListener(listener);
         }
     }
 
@@ -30,23 +36,63 @@ public class DistributorView extends LinearLayout {
     public DistributorView(Context context) {
         super(context);
         this.context = context;
+        init(null, 0);
     }
 
     public DistributorView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        init(attrs, 0);
     }
 
     public DistributorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        init(attrs, defStyleAttr);
     }
 
-    private static final int ITEM_SIZE_DP = 60;
-    private static final int ITEM_MARGIN_DP = 4;
-    private static final int ITEM_PADDING_DP = 2;
+    private void init(AttributeSet attrs, int defStyle) {
+        this.setOrientation(HORIZONTAL);
 
-    public void setItems(Rule[] rules) {
+        final TypedArray typedArray = context.obtainStyledAttributes(
+                attrs, R.styleable.DistributorView, defStyle, 0);
+
+        itemsCount = typedArray.getInteger(R.styleable.DistributorView_itemsCount, ITEMS_COUNT_DEFAULT_VALUE);
+
+        typedArray.recycle();
+
+        createItems(itemsCount);
+    }
+
+    public void createItems(int itemsCount) {
+        this.removeItems();
+
+        if (itemsCount < 0) {
+            this.itemsCount = 0;
+        } else {
+            this.itemsCount = itemsCount;
+        }
+
+        items = new DistributorItemView[this.itemsCount];
+        for (int i = 0; i < itemsCount; i++) {
+            DistributorItemView distributorItemView = new DistributorItemView(context);
+            distributorItemView.setImageViewOnTouchListener(itemsImageViewOnTouchListener);
+
+            items[i] = distributorItemView;
+
+            this.addView(distributorItemView);
+        }
+    }
+
+    public void setRules(Rule[] rules) {
+        if (rules != null) {
+            for (int i = 0; i < itemsCount; i++) {
+                items[i].setRule(rules[i]);
+            }
+        }
+    }
+
+    public void createItems(Rule[] rules) {
         this.removeItems();
 
         if (rules == null) {
@@ -55,27 +101,15 @@ public class DistributorView extends LinearLayout {
             itemsCount = rules.length;
         }
 
-        int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
-        int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
-        int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
-
-        LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
-        itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
-
         items = new DistributorItemView[itemsCount];
         for (int i = 0; i < itemsCount; i++) {
-            Rule rule = rules[i];
-            if (rule != null) {
-                DistributorItemView distributorItemView = new DistributorItemView(context, rule.getItemsCount(), rule.getResourceType());
+            DistributorItemView distributorItemView = new DistributorItemView(context);
+            distributorItemView.setRule(rules[i]);
+            distributorItemView.setImageViewOnTouchListener(itemsImageViewOnTouchListener);
 
-                distributorItemView.setLayoutParams(itemLayoutParams);
-                distributorItemView.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
-                distributorItemView.setBackgroundResource(R.drawable.normal_shape);
+            items[i] = distributorItemView;
 
-                items[i] = distributorItemView;
-
-                this.addView(distributorItemView);
-            }
+            this.addView(distributorItemView);
         }
     }
 
