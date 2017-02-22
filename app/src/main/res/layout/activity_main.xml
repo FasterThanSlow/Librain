@@ -27,6 +27,8 @@
         <com.greenkey.librain.RatingBar
             android:id="@+id/stars"
 
+            android:padding="8dp"
+
             android:orientation="horizontal"
 
             android:layout_width="wrap_content"
@@ -40,7 +42,18 @@
         <ImageView
             android:id="@+id/restartKnopka"
 
+            android:padding="8dp"
+
             android:src="@drawable/restart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/pause"
+
+            android:padding="8dp"
+
+            android:src="@drawable/pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

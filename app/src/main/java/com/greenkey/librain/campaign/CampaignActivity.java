@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class CampaignActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign);
-
+        Log.d("TUT", "CAMPAIGN_ON_CREATE");
         final CampaignGridViewAdapter adapter = new CampaignGridViewAdapter(CampaignActivity.this, LevelGenerator.getLevels());
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleview);

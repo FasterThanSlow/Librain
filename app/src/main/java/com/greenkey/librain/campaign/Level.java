@@ -13,6 +13,8 @@ public class Level implements Parcelable {
 
     private final int levelNumber;
 
+    private final int showingTime;
+
     private final int rowCount;
     private final int columnCount;
 
@@ -20,6 +22,10 @@ public class Level implements Parcelable {
 
     public Rule[] getRules() {
         return rules;
+    }
+
+    public int getShowingTime() {
+        return showingTime;
     }
 
     public int getLevelNumber() {
@@ -34,8 +40,9 @@ public class Level implements Parcelable {
         return columnCount;
     }
 
-    public Level(int levelNumber, int rowCount, int columnCount, Rule[] rules) {
+    public Level(int levelNumber, int showingTime, int rowCount, int columnCount, Rule[] rules) {
         this.levelNumber = levelNumber;
+        this.showingTime = showingTime;
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.rules = rules;
@@ -43,6 +50,7 @@ public class Level implements Parcelable {
 
     public Level(Parcel in) {
         this.levelNumber = in.readInt();
+        this.showingTime = in.readInt();
         this.rowCount = in.readInt();
         this.columnCount = in.readInt();
         this.rules = in.createTypedArray(Rule.CREATOR);
@@ -51,6 +59,7 @@ public class Level implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(levelNumber);
+        dest.writeInt(showingTime);
         dest.writeInt(rowCount);
         dest.writeInt(columnCount);
         dest.writeTypedArray(rules, flags);

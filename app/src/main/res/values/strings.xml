@@ -2,4 +2,10 @@
     <string name="app_name" translatable="false">LiBrain</string>
 
     <string name="level">Level</string>
+
+    <string name="pause_menu_levels">Levels</string>
+    <string name="pause_menu_restart">Restart</string>
+    <string name="pause_menu_continue">Continue</string>
+
+
 </resources>

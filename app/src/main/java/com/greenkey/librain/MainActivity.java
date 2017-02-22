@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenkey.librain.campaign.CampaignActivity;
 import com.greenkey.librain.campaign.Level;
 import com.greenkey.librain.campaign.LevelGenerator;
 import com.greenkey.librain.distributorview.DistributorItemView;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int MAX_TRIES_COUNT = 3;
 
     private int levelNumber;
+
+    private int showingTime;
 
     private RatingBar ratingBar;
     private TextView confirmTextView;
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         final Level level = getIntent().getParcelableExtra(LEVEL_PARAM);
         if (level != null) {
             levelNumber = level.getLevelNumber();
+
+            showingTime = level.getShowingTime();
 
             rowCount = level.getRowCount();
             columnCount = level.getColumnCount();
@@ -129,6 +136,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPauseDialog();
+            }
+        });
+
         final ImageView restartButton = (ImageView) findViewById(R.id.restartKnopka);
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     distributorView.setRules(rules);
 
                     boardView.setItemsResources(resources);
-                    boardView.postDelayed(end, 5000);
+                    boardView.postDelayed(end, showingTime);
                 }
 
                 @Override
@@ -188,6 +203,56 @@ public class MainActivity extends AppCompatActivity {
             distributorView.setItemsImageViewOnTouchListener(touchListener);
         }
     };
+
+
+    @Override
+    public void onBackPressed() {
+        showPauseDialog();
+    }
+
+    private AlertDialog pauseDialog;
+
+    private void showPauseDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        final View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.pause_dialog, null);
+
+        final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_levels_text_view);
+        levelsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                //startActivity(new Intent(MainActivity.this, CampaignActivity.class)); //maybe we should use forResult
+            }
+        });
+
+        final TextView restartTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_restart_text_view);
+        restartTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boardView.post(start); // shit
+            }
+        });
+
+        final TextView continueTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_continue_text_view);
+        continueTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseDialog.dismiss();
+            }
+        });
+
+        builder.setView(dialogView);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Log.d("TUT", "DISMISS");
+            }
+        });
+
+        pauseDialog = builder.create();
+        pauseDialog.show();
+    }
 
 
     private View.OnTouchListener touchListener = new View.OnTouchListener() {

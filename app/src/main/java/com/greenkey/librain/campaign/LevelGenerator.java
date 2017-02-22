@@ -18,10 +18,10 @@ public class LevelGenerator {
 
     private static final List<Level> levels = new ArrayList<>(LEVELS_COUNT);
     static {
-        levels.add(new Level(1, 3, 3, new Rule[] {new Rule(2, ResourceType.EU)}));
-        levels.add(new Level(2, 3, 4, new Rule[] {new Rule(2, ResourceType.EU), new Rule(2, ResourceType.GB)}));
-        levels.add(new Level(3, 3, 3, new Rule[] {new Rule(2, ResourceType.EU)}));
-        levels.add(new Level(4, 3, 4, new Rule[] {new Rule(2, ResourceType.EU), new Rule(2, ResourceType.GB)}));
+        levels.add(new Level(1, 2000, 3, 3, new Rule[] {new Rule(2, ResourceType.EU)}));
+        levels.add(new Level(2, 5000 ,3, 4, new Rule[] {new Rule(2, ResourceType.EU), new Rule(2, ResourceType.GB)}));
+        levels.add(new Level(3, 3000, 3, 3, new Rule[] {new Rule(2, ResourceType.EU)}));
+        levels.add(new Level(4, 1000, 3, 4, new Rule[] {new Rule(2, ResourceType.EU), new Rule(2, ResourceType.GB)}));
     }
 
     @NonNull
