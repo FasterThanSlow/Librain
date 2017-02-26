@@ -3,9 +3,12 @@
 
     <string name="level">Level</string>
 
-    <string name="pause_menu_levels">Levels</string>
-    <string name="pause_menu_restart">Restart</string>
-    <string name="pause_menu_continue">Continue</string>
+    <string name="pause_dialog_levels">Levels</string>
+    <string name="pause_dialog_restart">Restart</string>
+    <string name="pause_dialog_continue">Continue</string>
 
+    <string name="result_dialog_levels">Levels</string>
+    <string name="result_dialog_restart">Restart</string>
+    <string name="result_dialog_next">Next</string>
 
 </resources>

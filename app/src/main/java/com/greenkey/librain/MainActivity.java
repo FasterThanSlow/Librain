@@ -3,7 +3,7 @@ package com.greenkey.librain;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,9 +15,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.greenkey.librain.campaign.CampaignActivity;
 import com.greenkey.librain.campaign.Level;
 import com.greenkey.librain.campaign.LevelGenerator;
 import com.greenkey.librain.distributorview.DistributorItemView;
@@ -38,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     private int levelNumber;
 
-    private int showingTime;
+    private int levelShowingTime;
 
     private RatingBar ratingBar;
-    private TextView confirmTextView;
+    private TextView confirmButton;
+    private TextView levelNumberTextView;
 
     private BoardView boardView;
     private DistributorView distributorView;
@@ -52,87 +51,99 @@ public class MainActivity extends AppCompatActivity {
     private Rule[] rules;
     private ResourceType[] resources;
 
+    private Handler handler = new Handler();
+
+    private ObjectAnimator preShowAnimator;
+    private ShowBoardItemRunnable showBoardItemsRunnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Level level = getIntent().getParcelableExtra(LEVEL_PARAM);
-        if (level != null) {
-            levelNumber = level.getLevelNumber();
-
-            showingTime = level.getShowingTime();
-
-            rowCount = level.getRowCount();
-            columnCount = level.getColumnCount();
-
-            rules = level.getRules();
-        }
-
         boardView = (BoardView) findViewById(R.id.board_view);
         distributorView = (DistributorView) findViewById(R.id.distributor_view);
         ratingBar = (RatingBar) findViewById(R.id.stars);
-        confirmTextView = (TextView) findViewById(R.id.confirm_text_view);
+        levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
+        confirmButton = (TextView) findViewById(R.id.confirm_text_view);
 
-        distributorView.createItems(rules);
+        final Level level = getIntent().getParcelableExtra(LEVEL_PARAM);
+        if (level != null) {
+            setCurrentLevel(level);
+        } else {
+            return;
+        }
 
-        boardView.createItems(rowCount, columnCount);
-        boardView.setItemsDragListener(new DragListenerWrapper(distributorView, confirmTextView));
+        boardView.setItemsDragListener(new DragListenerWrapper(distributorView, confirmButton));
 
-        confirmTextView.setOnClickListener(new View.OnClickListener() {
+        preShowAnimator = ObjectAnimator.ofFloat(boardView, View.ALPHA, 0f, 1f);
+        preShowAnimator.setDuration(1000);
+        preShowAnimator.addListener(new Animator.AnimatorListener() {
+
+            private boolean isAlphaAnimationPaused;
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                isAlphaAnimationPaused = false;
+
+                boardView.setItemsImageViewOnTouchListener(null);
+                distributorView.setItemsImageViewOnTouchListener(null);
+
+                Log.d("Anim", "Start");
+                boardView.removeItemsResources();
+
+                distributorView.setRules(rules);
+
+                distributorView.setVisibility(View.VISIBLE);
+                confirmButton.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if ( ! isAlphaAnimationPaused) {
+                    Log.d("Anim", "End");
+                    resources = BoardViewItemGenerator.createResources(rules, rowCount * columnCount);
+                    boardView.setItemsResources(resources);
+
+                    showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);
+
+                    handler.post(showBoardItemsRunnable);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                Log.d("Anim", "Cancel");
+                isAlphaAnimationPaused = true;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 distributorView.setVisibility(View.VISIBLE);
-                confirmTextView.setVisibility(View.GONE);
+                confirmButton.setVisibility(View.GONE);
 
                 ResourceType[] userAnswer = boardView.getItemsResources();
                     if (Arrays.equals(userAnswer, resources)) {
                         trueAnswersCount++;
                         ratingBar.setProgress(trueAnswersCount);
-
-
                     } else {
-
                         //Toast.makeText(MainActivity.this, "Не красавчик", Toast.LENGTH_SHORT).show();
-
                     }
 
                 countTries++;
 
                 if (countTries < MAX_TRIES_COUNT) {
-                    boardView.post(start);
+                    preShowAnimator.start();
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-
-                    builder.setTitle("Уровень пройден!")
-                            .setMessage("Звёзд: " + trueAnswersCount)
-                            .setCancelable(false)
-                            .setPositiveButton("Далее", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-
-                                    Level nextLevel = LevelGenerator.findLevel(levelNumber + 1);
-
-                                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                                    intent.putExtra(LEVEL_PARAM, nextLevel);
-
-                                    startActivity(intent);
-
-                                    MainActivity.this.finish();
-                                }
-                            })
-                            .setNegativeButton("Выход",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-
-                                            MainActivity.this.finish();
-                                        }
-                                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();                }
+                    showResultDialog();
+                }
             }
         });
 
@@ -148,81 +159,201 @@ public class MainActivity extends AppCompatActivity {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                distributorView.setItemsImageViewOnTouchListener(null);
-                boardView.setItemsImageViewOnTouchListener(null);
+                restartButton.setClickable(false);
 
-                boardView.post(start);
+                if (preShowAnimator.isStarted()) {
+                    preShowAnimator.cancel();
+                } else if (showBoardItemsRunnable.isRunning()) {
+                    showBoardItemsRunnable.cancel();
+                }
+
+                preShowAnimator.start();
+
+                restartButton.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (restartButton != null) {
+                            restartButton.setClickable(true);
+                        }
+                    }
+                }, 1000);
             }
         });
-
-        boardView.post(start);
     }
 
-    private Runnable start = new Runnable() {
+    private void setCurrentLevel(Level level) {
+        levelNumber = level.getLevelNumber();
+        levelNumberTextView.setText(String.valueOf(levelNumber));
+
+        levelShowingTime = level.getShowingTime();
+
+        rowCount = level.getRowCount();
+        columnCount = level.getColumnCount();
+        boardView.createItems(rowCount, columnCount);
+
+
+        rules = level.getRules();
+        distributorView.createItems(rules);
+    }
+
+    private void resetLevelProgress() {
+        ratingBar.setProgress(0);
+
+        trueAnswersCount = 0;
+        countTries = 0;
+    }
+
+    private class ShowBoardItemRunnable implements Runnable {
+
+        private static final int DEFAULT_DELAY = 100;
+
+        private volatile boolean isRunning;
+        public boolean isRunning() {
+            return isRunning;
+        }
+
+        private boolean isCancelled;
+        public boolean isCancelled() {
+            return isCancelled;
+        }
+
+        private int currentShowTime;
+        public int getCurrentShowTime() {
+            return currentShowTime;
+        }
+
+        public void cancel() {
+            isCancelled = true;
+        }
+
+        private final int showTime;
+        public ShowBoardItemRunnable(int showTime) {
+            this.showTime = showTime;
+        }
+
         @Override
         public void run() {
-            ObjectAnimator animator = ObjectAnimator.ofFloat(boardView, View.ALPHA, 0f, 1f);
-            animator.setDuration(1000);
-            animator.start();
+            if (isCancelled) {
+                Log.d("Anim", "showingPausing" + getTaskId());
+                isRunning = false;
+            } else {
+                if (currentShowTime < showTime) {
+                    Log.d("Anim", "Showing " + getTaskId());
 
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
+                    isRunning = true;
 
+                    currentShowTime += DEFAULT_DELAY;
+                    handler.postDelayed(this, DEFAULT_DELAY);
+                } else {
+                    Log.d("Anim", "ShowEnded " + getTaskId());
+
+                    isRunning = false;
+
+                    boardView.removeItemsResources();
+
+                    boardView.setItemsImageViewOnTouchListener(touchListener);
+                    distributorView.setItemsImageViewOnTouchListener(touchListener);
                 }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    resources = BoardViewItemGenerator.createResources(rules, rowCount * columnCount);
-
-                    distributorView.setRules(rules);
-
-                    boardView.setItemsResources(resources);
-                    boardView.postDelayed(end, showingTime);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
+            }
         }
-    };
-
-    private Runnable end = new Runnable() {
-        @Override
-        public void run() {
-            boardView.removeItemsResources();
-
-            boardView.setItemsImageViewOnTouchListener(touchListener);
-            distributorView.setItemsImageViewOnTouchListener(touchListener);
-        }
-    };
-
+    }
 
     @Override
     public void onBackPressed() {
         showPauseDialog();
     }
 
+    //ResultDialog//////////
+
+    private AlertDialog resultDialog;
+
+    private void showResultDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        final View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.result_dialog, null);
+
+        final TextView levelTextView = (TextView) dialogView.findViewById(R.id.result_dialog_level_text_view);
+        levelTextView.setText(String.valueOf(levelNumber));
+
+        final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
+        ratingBar.setProgress(trueAnswersCount);
+
+        final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.result_dialog_levels_text_view);
+        levelsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultDialog.dismiss();
+                finish();
+            }
+        });
+
+        final TextView restartTextView = (TextView) dialogView.findViewById(R.id.result_dialog_restart_text_view);
+        restartTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultDialog.dismiss();
+
+                resetLevelProgress();
+                preShowAnimator.start();
+            }
+        });
+
+        final TextView nextTextView = (TextView) dialogView.findViewById(R.id.result_dialog_next_text_view);
+        nextTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultDialog.dismiss();
+
+                Level nextLevel = LevelGenerator.findLevel(levelNumber + 1);
+
+                setCurrentLevel(nextLevel);
+                resetLevelProgress();
+                preShowAnimator.start();
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.setView(dialogView);
+
+        resultDialog = builder.create();
+        resultDialog.show();
+    }
+
+
+    //PauseDialog///////////////
+
     private AlertDialog pauseDialog;
 
+    private boolean isContinuePressed;
+    private boolean isGame;
+
     private void showPauseDialog() {
+
+        isGame = true;
+
+        if (preShowAnimator.isStarted()) {
+            Log.d("Anim", "alphaAnimationIsStarted");
+            isGame = false;
+            preShowAnimator.cancel();
+        } else if (showBoardItemsRunnable.isRunning()) {
+            Log.d("Anim", "endRunnableIsRunning");
+            isGame = false;
+            showBoardItemsRunnable.cancel();
+        }
+
+        isContinuePressed = true; // Эмулиция продолжение на нажатие мимо диалога
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         final View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.pause_dialog, null);
-
         final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_levels_text_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isContinuePressed = false;
+                pauseDialog.dismiss();
+
                 finish();
-                //startActivity(new Intent(MainActivity.this, CampaignActivity.class)); //maybe we should use forResult
             }
         });
 
@@ -230,7 +361,10 @@ public class MainActivity extends AppCompatActivity {
         restartTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardView.post(start); // shit
+                isContinuePressed = false;
+                pauseDialog.dismiss();
+
+                preShowAnimator.start();
             }
         });
 
@@ -238,6 +372,7 @@ public class MainActivity extends AppCompatActivity {
         continueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isContinuePressed = true;
                 pauseDialog.dismiss();
             }
         });
@@ -246,7 +381,11 @@ public class MainActivity extends AppCompatActivity {
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                Log.d("TUT", "DISMISS");
+                if (isContinuePressed) {
+                    if ( ! isGame) {
+                        preShowAnimator.start();
+                    }
+                }
             }
         });
 
@@ -254,6 +393,30 @@ public class MainActivity extends AppCompatActivity {
         pauseDialog.show();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (resultDialog == null || ! resultDialog.isShowing()) {
+            preShowAnimator.start();
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        if (preShowAnimator.isStarted()) {
+            preShowAnimator.cancel();
+        } else if (showBoardItemsRunnable.isRunning()) {
+            showBoardItemsRunnable.cancel();
+        } else {
+            if (pauseDialog != null && pauseDialog.isShowing()) {
+                pauseDialog.dismiss();
+            }
+        }
+
+        super.onPause();
+    }
 
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override

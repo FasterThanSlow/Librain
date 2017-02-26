@@ -14,9 +14,7 @@ import java.util.List;
 
 public class LevelGenerator {
 
-    private static final int LEVELS_COUNT = 25;
-
-    private static final List<Level> levels = new ArrayList<>(LEVELS_COUNT);
+    private static final List<Level> levels = new ArrayList<>();
     static {
         levels.add(new Level(1, 1000,3, 3, new Rule[] {new Rule(2, ResourceType.EU)}));
         levels.add(new Level(2, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EU)}));
@@ -37,7 +35,9 @@ public class LevelGenerator {
         levels.add(new Level(17, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EU),new Rule(2, ResourceType.GB)}));
         levels.add(new Level(18, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.EU),new Rule(2, ResourceType.GB)}));
         levels.add(new Level(19, 1000, 3, 3, new Rule[] {new Rule(1, ResourceType.EU),new Rule(1, ResourceType.GB),new Rule(1, ResourceType.EN)}));
-        levels.add(new Level(20, 1000, 4, 4, new Rule[] {new Rule(1, ResourceType.EU),new Rule(1, ResourceType.GB),new Rule(1, ResourceType.EN)}));
+
+        levels.add(new Level(20, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.MARS),new Rule(1, ResourceType.EARTH)}));
+
         levels.add(new Level(21, 1000, 5, 5, new Rule[] {new Rule(1, ResourceType.EU),new Rule(1, ResourceType.GB),new Rule(1, ResourceType.EN)}));
         levels.add(new Level(22, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EU),new Rule(1, ResourceType.GB),new Rule(1, ResourceType.EN)}));
         levels.add(new Level(23, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EU),new Rule(1, ResourceType.GB),new Rule(1, ResourceType.EN)}));
@@ -56,7 +56,7 @@ public class LevelGenerator {
     }
 
     public static Level findLevel(int levelNumber) {
-        if (levelNumber > LEVELS_COUNT)
+        if (levelNumber > levels.size())
             return null;
 
         return levels.get(levelNumber - 1);

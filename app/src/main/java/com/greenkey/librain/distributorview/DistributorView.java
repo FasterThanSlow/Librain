@@ -3,6 +3,7 @@ package com.greenkey.librain.distributorview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -21,6 +22,8 @@ public class DistributorView extends LinearLayout {
 
     private OnTouchListener itemsImageViewOnTouchListener;
     public void setItemsImageViewOnTouchListener(OnTouchListener listener) {
+        Log.d("Anim", "SetTouchListener");
+
         this.itemsImageViewOnTouchListener = listener;
         for (int i = 0; i < itemsCount; i++) {
             if (items[i] != null)
