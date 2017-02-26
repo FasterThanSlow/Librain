@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setCurrentLevel(Level level) {
         levelNumber = level.getLevelNumber();
-        levelNumberTextView.setText(String.valueOf(levelNumber));
+        levelNumberTextView.setText(" " + String.valueOf(levelNumber));
 
         levelShowingTime = level.getShowingTime();
 

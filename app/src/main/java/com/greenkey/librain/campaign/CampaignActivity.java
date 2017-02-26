@@ -23,7 +23,7 @@ import java.util.List;
 
 public class CampaignActivity extends AppCompatActivity {
 
-    private static final int COLUMNS_COUNT = 3;
+    private static final int COLUMNS_COUNT = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
