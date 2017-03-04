@@ -24,5 +24,13 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(new Intent(MainMenuActivity.this, CampaignActivity.class));
             }
         });
+
+        final Button startTutorialButton = (Button) findViewById(R.id.startTutorialButton);
+        startTutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenuActivity.this, TutorialActivity.class));
+            }
+        });
     }
 }

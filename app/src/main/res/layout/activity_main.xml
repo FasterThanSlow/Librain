@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:background="#ffffff"
-
     android:orientation="vertical"
 
     tools:context="com.greenkey.librain.MainActivity">
@@ -15,8 +13,9 @@
     <LinearLayout
         android:orientation="horizontal"
 
+        android:background="#607D8B"
+
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
 
         android:paddingLeft="16dp"
         android:paddingStart="16dp"
@@ -29,7 +28,7 @@
         <com.greenkey.librain.RatingBar
             android:id="@+id/stars"
 
-            android:padding="8dp"
+            android:layout_gravity="center_vertical"
 
             android:orientation="horizontal"
 
@@ -64,17 +63,48 @@
     <LinearLayout
         android:orientation="horizontal"
 
+        android:background="#607D8B"
+
+        android:paddingBottom="8dp"
+
         android:paddingLeft="16dp"
         android:paddingStart="16dp"
         android:paddingRight="16dp"
         android:paddingEnd="16dp"
-        android:gravity="center"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:text="@string/state"
+            android:textSize="16sp"
+
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/state_text_view"
+            tools:text="1 / 3"
+            android:textSize="16sp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
             android:text="@string/level"
             android:textSize="16sp"
+
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -85,16 +115,16 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
-
 
     <com.greenkey.librain.reciverview.BoardView
         android:id="@+id/board_view"
 
+        android:background="@drawable/space"
+
         android:gravity="center"
 
-        app:columnCount="5"
+        app:columnCount="4"
         app:rowCount="5"
 
         android:layout_weight="1"
@@ -105,18 +135,17 @@
     <LinearLayout
         android:orientation="vertical"
 
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:background="#607D8B"
 
         android:gravity="center"
 
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="90dp">
 
         <com.greenkey.librain.distributorview.DistributorView
             android:id="@+id/distributor_view"
 
-            app:itemsCount="5"
+            app:itemsCount="4"
 
             android:gravity="center_horizontal"
 
@@ -132,7 +161,7 @@
 
             android:layout_gravity="center_horizontal"
 
-            android:text="Подтвердить"
+            android:text="@string/confirm"
             android:textSize="20sp"
 
             android:background="@drawable/distributor_confirm_backround"

@@ -2,6 +2,7 @@ package com.greenkey.librain;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -15,9 +16,9 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenkey.librain.campaign.Level;
-import com.greenkey.librain.campaign.LevelGenerator;
 import com.greenkey.librain.distributorview.DistributorItemView;
 import com.greenkey.librain.distributorview.DistributorView;
 import com.greenkey.librain.reciverview.BoardItemView;
@@ -28,19 +29,26 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    private LevelDao levelDao;
+
     private static final String LEVEL_PARAM = "level";
+
+    private Level level;
 
     private int trueAnswersCount;
     private int countTries;
     private static final int MAX_TRIES_COUNT = 3;
 
     private int levelNumber;
+    private int record;
 
     private int levelShowingTime;
 
     private RatingBar ratingBar;
-    private TextView confirmButton;
     private TextView levelNumberTextView;
+    private TextView stateTextView;
+
+    private TextView confirmButton;
 
     private BoardView boardView;
     private DistributorView distributorView;
@@ -61,14 +69,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        levelDao = LevelDao.getInstance(MainActivity.this);
+
         boardView = (BoardView) findViewById(R.id.board_view);
         distributorView = (DistributorView) findViewById(R.id.distributor_view);
         ratingBar = (RatingBar) findViewById(R.id.stars);
+        stateTextView = (TextView) findViewById(R.id.state_text_view);
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
         confirmButton = (TextView) findViewById(R.id.confirm_text_view);
 
-        final Level level = getIntent().getParcelableExtra(LEVEL_PARAM);
+        level = getIntent().getParcelableExtra(LEVEL_PARAM);
         if (level != null) {
+            resetLevelProgress();
             setCurrentLevel(level);
         } else {
             return;
@@ -140,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 countTries++;
 
                 if (countTries < MAX_TRIES_COUNT) {
+                    setState(countTries, MAX_TRIES_COUNT);
                     preShowAnimator.start();
                 } else {
                     showResultDialog();
@@ -182,15 +195,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentLevel(Level level) {
-        levelNumber = level.getLevelNumber();
-        levelNumberTextView.setText(" " + String.valueOf(levelNumber));
+        levelNumber = level.getLevelId();
+        levelNumberTextView.setText(String.valueOf(levelNumber));
 
+        record = level.getRecord();
         levelShowingTime = level.getShowingTime();
 
         rowCount = level.getRowCount();
         columnCount = level.getColumnCount();
         boardView.createItems(rowCount, columnCount);
-
 
         rules = level.getRules();
         distributorView.createItems(rules);
@@ -201,6 +214,12 @@ public class MainActivity extends AppCompatActivity {
 
         trueAnswersCount = 0;
         countTries = 0;
+
+        setState(countTries, MAX_TRIES_COUNT);
+    }
+
+    private void setState(int countTries, int maxCountTries) {
+        stateTextView.setText((countTries + 1) + "/" + maxCountTries);
     }
 
     private class ShowBoardItemRunnable implements Runnable {
@@ -278,6 +297,14 @@ public class MainActivity extends AppCompatActivity {
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
         ratingBar.setProgress(trueAnswersCount);
 
+        if (trueAnswersCount > record) {
+            Toast.makeText(MainActivity.this, "Новый рекорд (Тест)", Toast.LENGTH_LONG).show();
+
+            level.setRecord(trueAnswersCount);
+
+            levelDao.updateLevel(level);
+        }
+
         final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.result_dialog_levels_text_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,7 +331,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 resultDialog.dismiss();
 
-                Level nextLevel = LevelGenerator.findLevel(levelNumber + 1);
+                Level nextLevel = levelDao.findLevel(levelNumber + 1);
+                nextLevel.setEnabled(true);
+
+                levelDao.updateLevel(nextLevel);
 
                 setCurrentLevel(nextLevel);
                 resetLevelProgress();
@@ -318,9 +348,6 @@ public class MainActivity extends AppCompatActivity {
         resultDialog = builder.create();
         resultDialog.show();
     }
-
-
-    //PauseDialog///////////////
 
     private AlertDialog pauseDialog;
 
@@ -400,14 +427,13 @@ public class MainActivity extends AppCompatActivity {
         if (resultDialog == null || ! resultDialog.isShowing()) {
             preShowAnimator.start();
         }
-
     }
 
     @Override
     protected void onPause() {
-        if (preShowAnimator.isStarted()) {
+        if (preShowAnimator != null && preShowAnimator.isStarted()) {
             preShowAnimator.cancel();
-        } else if (showBoardItemsRunnable.isRunning()) {
+        } else if (showBoardItemsRunnable != null && showBoardItemsRunnable.isRunning()) {
             showBoardItemsRunnable.cancel();
         } else {
             if (pauseDialog != null && pauseDialog.isShowing()) {

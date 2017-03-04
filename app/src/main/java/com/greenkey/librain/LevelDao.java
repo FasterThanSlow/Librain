@@ -1,22 +1,43 @@
-package com.greenkey.librain.campaign;
+package com.greenkey.librain;
 
-import android.support.annotation.NonNull;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
-import com.greenkey.librain.ResourceType;
-import com.greenkey.librain.Rule;
+import com.greenkey.librain.campaign.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
+
 /**
- * Created by Alexander on 16.02.2017.
+ * Created by Alexander on 02.03.2017.
  */
 
-public class LevelGenerator {
+public class LevelDao {
 
-    private static final List<Level> levels = new ArrayList<>();
-    static {
-        levels.add(new Level(1, 1000,3, 3, new Rule[] {new Rule(2, ResourceType.EU)}));
+    public static final int LEVELS_COUNT = 30;
+
+    private static LevelDao levelDao;
+    public static LevelDao getInstance(Context context) {
+        if (levelDao == null) {
+            levelDao = new LevelDao(context);
+        }
+
+        return levelDao;
+    }
+
+    private final List<Level> levels;
+    private final SQLiteDatabase database;
+
+    private LevelDao(Context context) {
+        this.database = new LevelDatabaseHelper(context).getWritableDatabase();
+
+        this.levels = new ArrayList<>(LEVELS_COUNT);
+
+        levels.add(new Level(1, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EU)}));
         levels.add(new Level(2, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EU)}));
         levels.add(new Level(3, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.EU)}));
         levels.add(new Level(4, 1000, 3, 3, new Rule[] {new Rule(3, ResourceType.EU)}));
@@ -50,15 +71,50 @@ public class LevelGenerator {
         levels.add(new Level(30, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.EU),new Rule(2, ResourceType.GB),new Rule(1, ResourceType.EN)}));
     }
 
-    @NonNull
-    public static List<Level> getLevels() {
+    public List<Level> getLevels() {
+        Cursor cursor = database.query(LevelDatabaseHelper.LevelEntry.TABLE_NAME, LevelDatabaseHelper.LevelEntry.COLUMNS, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex(LevelDatabaseHelper.LevelEntry._ID));
+                int starsCount = cursor.getInt(cursor.getColumnIndex(LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN));
+                int enabled = cursor.getInt(cursor.getColumnIndex(LevelDatabaseHelper.LevelEntry.LEVEL_ENABLED_COLUMN));
+
+                Level level = levels.get(id - 1);
+                if (level != null) {
+                    level.setRecord(starsCount);
+                    level.setEnabled(enabled == 1); // true
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
         return levels;
     }
 
-    public static Level findLevel(int levelNumber) {
-        if (levelNumber > levels.size())
+    public Level findLevel(int levelId) {
+        if (levelId > levels.size())
             return null;
 
-        return levels.get(levelNumber - 1);
+        Level level = levels.get(levelId - 1);
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + LevelDatabaseHelper.LevelEntry.TABLE_NAME + " WHERE " + LevelDatabaseHelper.LevelEntry._ID + "='" + levelId + "'" , null);
+        if (cursor.moveToFirst()) {
+            int starsCount = cursor.getInt(cursor.getColumnIndex(LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN));
+            int enabled = cursor.getInt(cursor.getColumnIndex(LevelDatabaseHelper.LevelEntry.LEVEL_ENABLED_COLUMN));
+
+            level.setRecord(starsCount);
+            level.setEnabled(enabled == 1);
+        }
+        cursor.close();
+
+        return level;
+    }
+
+    public void updateLevel(Level level) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN, level.getRecord());
+        contentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_ENABLED_COLUMN, level.isEnabled());
+
+        database.update(LevelDatabaseHelper.LevelEntry.TABLE_NAME, contentValues, LevelDatabaseHelper.LevelEntry._ID + " = '" + level.getLevelId() + "'", null);
     }
 }

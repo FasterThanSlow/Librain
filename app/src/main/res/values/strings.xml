@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">LiBrain</string>
 
+    <string name="state">State</string>
     <string name="level">Level</string>
+
+    <string name="confirm">Confirm</string>
 
     <string name="pause_dialog_levels">Levels</string>
     <string name="pause_dialog_restart">Restart</string>
@@ -10,5 +13,10 @@
     <string name="result_dialog_levels">Levels</string>
     <string name="result_dialog_restart">Restart</string>
     <string name="result_dialog_next">Next</string>
+
+
+    <string name="title_activity_tutorial">TutorialActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>
