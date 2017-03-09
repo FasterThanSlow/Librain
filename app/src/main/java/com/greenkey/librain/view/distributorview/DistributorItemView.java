@@ -27,7 +27,7 @@ public class DistributorItemView extends FrameLayout {
     private ImageView imageView;
     private TextView itemsCountTextView;
 
-    private static final int ITEM_SIZE_DP = 50;
+    private static final int ITEM_SIZE_DP = 60;
     private static final int ITEM_MARGIN_DP = 4;
     private static final int ITEM_PADDING_DP = 2;
 
