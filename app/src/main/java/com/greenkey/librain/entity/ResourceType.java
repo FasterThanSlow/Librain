@@ -16,7 +16,17 @@ public enum ResourceType {
     EN(R.drawable.ic_england, R.drawable.ic_england_dis),
 
     EARTH(R.drawable.ic_planet_earth, R.drawable.ic_planet_earth),
-    MARS(R.drawable.ic_mars, R.drawable.ic_mars);
+    MARS(R.drawable.ic_mars, R.drawable.ic_mars),
+
+    ORANGE(R.drawable.ic_orange,R.drawable.ic_orange),
+    CHERRY(R.drawable.ic_cherries,R.drawable.ic_cherries),
+    FRUIT(R.drawable.ic_fruit,R.drawable.ic_fruit),
+
+    PEAS(R.drawable.ic_peas,R.drawable.ic_peas),
+    PUMPKIN(R.drawable.ic_pumpkin,R.drawable.ic_pumpkin),
+    FOOD(R.drawable.ic_food,R.drawable.ic_food);
+
+
 
     private int enabledItemResourceId;
     private int disabledItemResourceId;
