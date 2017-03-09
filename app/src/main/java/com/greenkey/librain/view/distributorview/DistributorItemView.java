@@ -61,7 +61,7 @@ public class DistributorItemView extends FrameLayout {
 
         this.setLayoutParams(itemLayoutParams);
         this.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
-        this.setBackgroundResource(R.drawable.normal_shape);
+        this.setBackgroundResource(R.drawable.destributer_item_background);
     }
 
     public void setRule(Rule rule) {

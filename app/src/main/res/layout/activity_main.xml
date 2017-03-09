@@ -13,7 +13,7 @@
     <LinearLayout
         android:orientation="horizontal"
 
-        android:background="#607D8B"
+        android:background="#ffffff"
 
         android:paddingTop="8dp"
 
@@ -63,7 +63,7 @@
     <LinearLayout
         android:orientation="horizontal"
 
-        android:background="#607D8B"
+        android:background="#ffffff"
 
         android:paddingBottom="8dp"
 
@@ -124,9 +124,7 @@
 
         <com.greenkey.librain.view.boardview.BoardView
             android:id="@+id/board_view"
-
-            android:background="@drawable/space"
-
+            android:background="#FFFFFF"
             android:gravity="center"
 
             app:columnCount="4"
@@ -137,7 +135,8 @@
 
         <com.greenkey.librain.view.distributorview.DistributorView
             android:id="@+id/hidden_stuff"
-            android:background="#b34e4e"
+            android:background="@drawable/distributer_background"
+            android:padding="5dp"
 
             android:visibility="invisible"
 
@@ -151,7 +150,7 @@
     <LinearLayout
         android:orientation="vertical"
 
-        android:background="#607D8B"
+        android:background="#ffffff"
 
         android:gravity="center"
 
