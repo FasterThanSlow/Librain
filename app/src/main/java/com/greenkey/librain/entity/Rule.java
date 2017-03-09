@@ -1,4 +1,4 @@
-package com.greenkey.librain;
+package com.greenkey.librain.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

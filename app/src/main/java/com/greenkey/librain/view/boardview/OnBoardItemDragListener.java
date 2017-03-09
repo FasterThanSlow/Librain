@@ -1,8 +1,6 @@
-package com.greenkey.librain.reciverview;
+package com.greenkey.librain.view.boardview;
 
 import android.view.DragEvent;
-
-import com.greenkey.librain.MainActivity;
 
 /**
  * Created by Alexander on 10.02.2017.

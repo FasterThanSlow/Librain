@@ -1,4 +1,4 @@
-package com.greenkey.librain.distributorview;
+package com.greenkey.librain.view.distributorview;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.greenkey.librain.PixelConverter;
+import com.greenkey.librain.view.PixelConverter;
 import com.greenkey.librain.R;
-import com.greenkey.librain.ResourceType;
-import com.greenkey.librain.Rule;
+import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.Rule;
 
 /**
  * Created by Alexander on 10.02.2017.
@@ -27,15 +27,7 @@ public class DistributorItemView extends FrameLayout {
     private ImageView imageView;
     private TextView itemsCountTextView;
 
-    private OnTouchListener imageViewOnTouchListener;
-    public void setImageViewOnTouchListener(OnTouchListener listener) {
-        imageViewOnTouchListener = listener;
-        if (imageView != null) {
-            imageView.setOnTouchListener(listener);
-        }
-    }
-
-    private static final int ITEM_SIZE_DP = 60;
+    private static final int ITEM_SIZE_DP = 50;
     private static final int ITEM_MARGIN_DP = 4;
     private static final int ITEM_PADDING_DP = 2;
 
@@ -87,6 +79,21 @@ public class DistributorItemView extends FrameLayout {
         }
     }
 
+    private boolean isItemSelected;
+    public boolean isItemSelected() {
+        return isItemSelected;
+    }
+
+    public void select() {
+        this.isItemSelected = true;
+        this.setBackgroundColor(Color.CYAN);
+    }
+
+    public void deselect() {
+        this.isItemSelected = false;
+        this.setBackgroundResource(R.drawable.normal_shape);
+    }
+
     public boolean allResourcesUsed() {
         return itemsCount == 0;
     }
@@ -118,7 +125,6 @@ public class DistributorItemView extends FrameLayout {
         updateCountItemsTextView(itemsCount);
 
         if (itemsCount == 1) {
-            imageView.setOnTouchListener(imageViewOnTouchListener);
             imageView.setImageResource(resourceType.getEnabledItemResourceId());
         }
     }

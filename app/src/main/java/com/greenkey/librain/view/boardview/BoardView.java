@@ -1,4 +1,4 @@
-package com.greenkey.librain.reciverview;
+package com.greenkey.librain.view.boardview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.greenkey.librain.R;
-import com.greenkey.librain.ResourceType;
+import com.greenkey.librain.entity.ResourceType;
 
 /**
  * Created by Alexander on 10.02.2017.
@@ -21,23 +21,13 @@ public class BoardView extends LinearLayout {
     private int rowCount;
     private int columnCount;
 
-    private OnTouchListener itemsImageViewOnTouchListener;
-    public void setItemsImageViewOnTouchListener(OnTouchListener listener) {
-        this.itemsImageViewOnTouchListener = listener;
+    private OnTouchListener itemsOnTouchListener;
+    public void setItemsOnTouchListener(OnTouchListener listener) {
+        this.itemsOnTouchListener = listener;
 
         int itemsCount = rowCount * columnCount;
         for (int i = 0; i < itemsCount; i++) {
-            items[i].setImageViewOnTouchListener(listener);
-        }
-    }
-
-    private OnBoardItemDragListener itemsDragListener;
-    public void setItemsDragListener(OnBoardItemDragListener listener) {
-        this.itemsDragListener = listener;
-
-        int itemsCount = rowCount * columnCount;
-        for (int i = 0; i < itemsCount; i++) {
-            items[i].setBoardItemDragListener(listener);
+            items[i].setOnTouchListener(listener);
         }
     }
 
@@ -103,8 +93,8 @@ public class BoardView extends LinearLayout {
             for (int j = 0; j < columnCount; j++) {
                 final BoardItemView boardItemView = new BoardItemView(context);
 
-                boardItemView.setImageViewOnTouchListener(itemsImageViewOnTouchListener);
-                boardItemView.setBoardItemDragListener(itemsDragListener);
+                boardItemView.setOnTouchListener(itemsOnTouchListener);
+                //boardItemView.setBoardItemDragListener(itemsDragListener);
 
                 items[currentIndex] = boardItemView;
 

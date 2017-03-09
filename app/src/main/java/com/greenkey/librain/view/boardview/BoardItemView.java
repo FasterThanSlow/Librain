@@ -1,26 +1,21 @@
-package com.greenkey.librain.reciverview;
+package com.greenkey.librain.view.boardview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.DragEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.greenkey.librain.PixelConverter;
+import com.greenkey.librain.view.PixelConverter;
 import com.greenkey.librain.R;
-import com.greenkey.librain.ResourceType;
+import com.greenkey.librain.entity.ResourceType;
 
 /**
  * Created by Alexander on 10.02.2017.
  */
 
 public class BoardItemView extends FrameLayout {
-
-    private OnBoardItemDragListener boardItemDragListener;
-    public void setBoardItemDragListener(OnBoardItemDragListener listener) {
-        this.boardItemDragListener = listener;
-    }
 
     private final Context context;
 
@@ -48,14 +43,12 @@ public class BoardItemView extends FrameLayout {
     public BoardItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-
         init();
     }
 
     public BoardItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-
         init();
     }
 
@@ -72,27 +65,35 @@ public class BoardItemView extends FrameLayout {
         this.setBackgroundResource(R.drawable.normal_shape);
     }
 
-    private OnTouchListener imageViewOnTouchListener;
-    public void setImageViewOnTouchListener(OnTouchListener listener) {
-        imageViewOnTouchListener = listener;
-        if (imageView != null) {
-            imageView.setOnTouchListener(listener);
-        }
-    }
-
     private static final FrameLayout.LayoutParams imageViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
             LayoutParams.MATCH_PARENT);
 
     public void createImageView(ResourceType resourceType) {
         this.resourceType = resourceType;
 
-        imageView = new ImageView(context);
+        if (imageView == null){
+            imageView = new ImageView(context);
+            imageView.setLayoutParams(imageViewLayoutParams);
 
-        imageView.setLayoutParams(imageViewLayoutParams);
+            this.addView(imageView);
+        }
+
         imageView.setImageResource(resourceType.getEnabledItemResourceId());
-        imageView.setOnTouchListener(imageViewOnTouchListener);
+    }
 
-        this.addView(imageView);
+    private boolean isItemPressed;
+    public boolean isItemPressed() {
+        return isItemPressed;
+    }
+
+    public void press() {
+        isItemPressed = true;
+        this.setBackgroundColor(Color.CYAN);
+    }
+
+    public void depress() {
+        isItemPressed = false;
+        this.setBackgroundResource(R.drawable.normal_shape);
     }
 
     public void removeImageView() {
@@ -105,14 +106,5 @@ public class BoardItemView extends FrameLayout {
 
     public boolean hasImageView() {
         return imageView != null;
-    }
-
-    @Override
-    public boolean onDragEvent(DragEvent event) {
-        if (boardItemDragListener != null) {
-            return boardItemDragListener.onBoardItemDrag(this, event);
-        }
-
-        return super.onDragEvent(event);
     }
 }

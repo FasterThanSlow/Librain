@@ -1,5 +1,9 @@
 package com.greenkey.librain;
 
+import com.greenkey.librain.view.boardview.BoardViewItemGenerator;
+import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.Rule;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

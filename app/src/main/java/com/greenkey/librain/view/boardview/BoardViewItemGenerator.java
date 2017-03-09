@@ -1,4 +1,7 @@
-package com.greenkey.librain;
+package com.greenkey.librain.view.boardview;
+
+import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.Rule;
 
 import java.util.Arrays;
 import java.util.Random;

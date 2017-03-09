@@ -3,7 +3,7 @@ package com.greenkey.librain.campaign;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.greenkey.librain.Rule;
+import com.greenkey.librain.entity.Rule;
 
 /**
  * Created by Alexander on 16.02.2017.

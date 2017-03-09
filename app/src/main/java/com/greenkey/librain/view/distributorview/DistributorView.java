@@ -1,16 +1,13 @@
-package com.greenkey.librain.distributorview;
+package com.greenkey.librain.view.distributorview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.greenkey.librain.PixelConverter;
 import com.greenkey.librain.R;
-import com.greenkey.librain.ResourceType;
-import com.greenkey.librain.Rule;
+import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.Rule;
 
 /**
  * Created by Alexander on 10.02.2017.
@@ -20,14 +17,13 @@ public class DistributorView extends LinearLayout {
 
     private static final int ITEMS_COUNT_DEFAULT_VALUE = 3;
 
-    private OnTouchListener itemsImageViewOnTouchListener;
-    public void setItemsImageViewOnTouchListener(OnTouchListener listener) {
-        Log.d("Anim", "SetTouchListener");
+    private OnTouchListener itemsOnTouchListener;
+    public void setItemsOnTouchListener(OnTouchListener listener) {
 
-        this.itemsImageViewOnTouchListener = listener;
+        this.itemsOnTouchListener = listener;
         for (int i = 0; i < itemsCount; i++) {
             if (items[i] != null)
-                items[i].setImageViewOnTouchListener(listener);
+                items[i].setOnTouchListener(listener);
         }
     }
 
@@ -79,7 +75,7 @@ public class DistributorView extends LinearLayout {
         items = new DistributorItemView[this.itemsCount];
         for (int i = 0; i < itemsCount; i++) {
             DistributorItemView distributorItemView = new DistributorItemView(context);
-            distributorItemView.setImageViewOnTouchListener(itemsImageViewOnTouchListener);
+            distributorItemView.setOnTouchListener(itemsOnTouchListener);
 
             items[i] = distributorItemView;
 
@@ -108,7 +104,7 @@ public class DistributorView extends LinearLayout {
         for (int i = 0; i < itemsCount; i++) {
             DistributorItemView distributorItemView = new DistributorItemView(context);
             distributorItemView.setRule(rules[i]);
-            distributorItemView.setImageViewOnTouchListener(itemsImageViewOnTouchListener);
+            distributorItemView.setOnTouchListener(itemsOnTouchListener);
 
             items[i] = distributorItemView;
 
@@ -122,7 +118,15 @@ public class DistributorView extends LinearLayout {
         this.removeAllViews();
     }
 
-    public DistributorItemView findItem(ResourceType resourceType) {
+    public void addRecourse(ResourceType resourceType) {
+        final DistributorItemView itemView = findItem(resourceType);
+        if (itemView != null) {
+            itemView.addImageView();
+        }
+    }
+
+
+    private DistributorItemView findItem(ResourceType resourceType) {
         for (int i = 0; i < itemsCount; i++) {
             if (items[i].getResourceType() == resourceType)
                 return items[i];

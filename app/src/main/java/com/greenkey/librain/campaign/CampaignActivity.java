@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.greenkey.librain.MainActivity;
 import com.greenkey.librain.R;
-import com.greenkey.librain.RatingBar;
-import com.greenkey.librain.LevelDao;
+import com.greenkey.librain.view.RatingBar;
+import com.greenkey.librain.dao.LevelDao;
 
 import java.util.List;
 

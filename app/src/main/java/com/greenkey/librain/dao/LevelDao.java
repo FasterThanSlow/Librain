@@ -1,16 +1,16 @@
-package com.greenkey.librain;
+package com.greenkey.librain.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.campaign.Level;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 
 /**
  * Created by Alexander on 02.03.2017.

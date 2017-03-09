@@ -1,12 +1,10 @@
-package com.greenkey.librain;
+package com.greenkey.librain.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
-
-import com.greenkey.librain.campaign.Level;
 
 /**
  * Created by Alexander on 02.03.2017.

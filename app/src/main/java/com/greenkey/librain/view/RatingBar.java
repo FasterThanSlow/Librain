@@ -1,10 +1,12 @@
-package com.greenkey.librain;
+package com.greenkey.librain.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.greenkey.librain.R;
 
 import java.util.ArrayList;
 import java.util.List;

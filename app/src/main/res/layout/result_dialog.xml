@@ -41,7 +41,7 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <com.greenkey.librain.RatingBar
+    <com.greenkey.librain.view.RatingBar
         android:id="@+id/result_dialog_rating_bar"
 
         android:gravity="center_horizontal"

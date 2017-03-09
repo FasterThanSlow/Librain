@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.greenkey.librain.RatingBar
+        <com.greenkey.librain.view.RatingBar
             android:id="@+id/stars"
 
             android:layout_gravity="center_vertical"
@@ -117,20 +117,36 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <com.greenkey.librain.reciverview.BoardView
-        android:id="@+id/board_view"
-
-        android:background="@drawable/space"
-
-        android:gravity="center"
-
-        app:columnCount="4"
-        app:rowCount="5"
-
+    <FrameLayout
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
-    </com.greenkey.librain.reciverview.BoardView>
+
+        <com.greenkey.librain.view.boardview.BoardView
+            android:id="@+id/board_view"
+
+            android:background="@drawable/space"
+
+            android:gravity="center"
+
+            app:columnCount="4"
+            app:rowCount="5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.greenkey.librain.view.boardview.BoardView>
+
+        <com.greenkey.librain.view.distributorview.DistributorView
+            android:id="@+id/hidden_stuff"
+            android:background="#b34e4e"
+
+            android:visibility="invisible"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -141,17 +157,6 @@
 
         android:layout_width="match_parent"
         android:layout_height="90dp">
-
-        <com.greenkey.librain.distributorview.DistributorView
-            android:id="@+id/distributor_view"
-
-            app:itemsCount="4"
-
-            android:gravity="center_horizontal"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </com.greenkey.librain.distributorview.DistributorView>
 
         <TextView
             android:id="@+id/confirm_text_view"

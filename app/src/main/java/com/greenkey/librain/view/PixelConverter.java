@@ -1,4 +1,4 @@
-package com.greenkey.librain;
+package com.greenkey.librain.view;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

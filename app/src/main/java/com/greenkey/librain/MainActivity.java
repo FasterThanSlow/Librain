@@ -2,28 +2,30 @@ package com.greenkey.librain;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenkey.librain.campaign.Level;
-import com.greenkey.librain.distributorview.DistributorItemView;
-import com.greenkey.librain.distributorview.DistributorView;
-import com.greenkey.librain.reciverview.BoardItemView;
-import com.greenkey.librain.reciverview.BoardView;
-import com.greenkey.librain.reciverview.OnBoardItemDragListener;
+import com.greenkey.librain.dao.LevelDao;
+import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.Rule;
+import com.greenkey.librain.view.RatingBar;
+import com.greenkey.librain.view.boardview.BoardItemView;
+import com.greenkey.librain.view.boardview.BoardView;
+import com.greenkey.librain.view.boardview.BoardViewItemGenerator;
+import com.greenkey.librain.view.distributorview.DistributorItemView;
+import com.greenkey.librain.view.distributorview.DistributorView;
 
 import java.util.Arrays;
 
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int levelShowingTime;
 
+    private DistributorView hiddenStuff;
+
     private RatingBar ratingBar;
     private TextView levelNumberTextView;
     private TextView stateTextView;
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView confirmButton;
 
     private BoardView boardView;
-    private DistributorView distributorView;
+    //private DistributorView distributorView;
 
     private int rowCount;
     private int columnCount;
@@ -71,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
         levelDao = LevelDao.getInstance(MainActivity.this);
 
+        hiddenStuff = (DistributorView) findViewById(R.id.hidden_stuff);
+
         boardView = (BoardView) findViewById(R.id.board_view);
-        distributorView = (DistributorView) findViewById(R.id.distributor_view);
         ratingBar = (RatingBar) findViewById(R.id.stars);
         stateTextView = (TextView) findViewById(R.id.state_text_view);
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
@@ -86,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        boardView.setItemsDragListener(new DragListenerWrapper(distributorView, confirmButton));
-
         preShowAnimator = ObjectAnimator.ofFloat(boardView, View.ALPHA, 0f, 1f);
         preShowAnimator.setDuration(1000);
         preShowAnimator.addListener(new Animator.AnimatorListener() {
@@ -98,15 +101,20 @@ public class MainActivity extends AppCompatActivity {
             public void onAnimationStart(Animator animation) {
                 isAlphaAnimationPaused = false;
 
-                boardView.setItemsImageViewOnTouchListener(null);
-                distributorView.setItemsImageViewOnTouchListener(null);
+                if (selectedBoardItem != null) {
+                    selectedBoardItem.depress();
+                    selectedBoardItem = null;
+                }
+
+                boardView.setItemsOnTouchListener(null);
+                hiddenStuff.setItemsOnTouchListener(null);
 
                 Log.d("Anim", "Start");
                 boardView.removeItemsResources();
 
-                distributorView.setRules(rules);
+                hiddenStuff.setRules(rules);
 
-                distributorView.setVisibility(View.VISIBLE);
+                hiddenStuff.setVisibility(View.GONE);
                 confirmButton.setVisibility(View.GONE);
             }
 
@@ -138,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                distributorView.setVisibility(View.VISIBLE);
+                hiddenStuff.setVisibility(View.GONE);
                 confirmButton.setVisibility(View.GONE);
 
                 ResourceType[] userAnswer = boardView.getItemsResources();
@@ -206,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         boardView.createItems(rowCount, columnCount);
 
         rules = level.getRules();
-        distributorView.createItems(rules);
+        hiddenStuff.createItems(rules);
     }
 
     private void resetLevelProgress() {
@@ -270,8 +278,8 @@ public class MainActivity extends AppCompatActivity {
 
                     boardView.removeItemsResources();
 
-                    boardView.setItemsImageViewOnTouchListener(touchListener);
-                    distributorView.setItemsImageViewOnTouchListener(touchListener);
+                    boardView.setItemsOnTouchListener(boardTouchListener);
+                    hiddenStuff.setItemsOnTouchListener(distributorTouchListener);
                 }
             }
         }
@@ -444,143 +452,92 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private View.OnTouchListener touchListener = new View.OnTouchListener() {
+    private BoardItemView selectedBoardItem;
+
+    private BoardTouchListenerWrapper boardTouchListener = new BoardTouchListenerWrapper();
+    private class BoardTouchListenerWrapper implements View.OnTouchListener {
+
         @Override
-        public boolean onTouch(View view, MotionEvent event) {
+        public boolean onTouch(View touchView, MotionEvent event) {
+
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(view);
+                BoardItemView boardItemView = (BoardItemView) touchView;
 
-                view.startDrag(null, myShadow, view, 0);
+                if (boardItemView.hasImageView()) {
+                    Log.d("Lel", "Удаление фигурки с поля");
+                    hiddenStuff.addRecourse(boardItemView.getResourceType());
+                    hiddenStuff.setVisibility(View.INVISIBLE);
 
-                return true;
-            }
+                    boardItemView.removeImageView();
 
-            return false;
-        }
-    };
+                    if (selectedBoardItem != null)
+                        selectedBoardItem.depress();
 
-    private class DragListenerWrapper implements OnBoardItemDragListener {
+                    confirmButton.setVisibility(View.GONE);
+                } else {
+                    if (boardItemView.isItemPressed()) { //Второй клик по пустой клетке
+                        Log.d("Lel", "Убрать инструменты");
 
-        private DistributorView distributorView;
-        private View confirmButton;
+                        selectedBoardItem.depress();
+                        boardItemView.depress();
 
-        public DragListenerWrapper(DistributorView distributorView, View confirmButton) {
-            this.distributorView = distributorView;
-            this.confirmButton = confirmButton;
-        }
+                        selectedBoardItem = null;
 
-        private boolean dragIsNotUsing = true;
+                        hiddenStuff.setVisibility(View.INVISIBLE);
+                    } else { //Клик по пустой клетке
+                        Log.d("Lel", "Показать инструменты");
 
-        @Override
-        public boolean onBoardItemDrag(BoardItemView receiverView, DragEvent event) {
+                        boardItemView.press();
 
-            final ImageView dragView = (ImageView) event.getLocalState();
-            final ViewParent dragViewParent = dragView.getParent();
-
-            switch (event.getAction()) {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    receiverView.setBackgroundResource(R.drawable.exist_shape);
-
-                    if (dragIsNotUsing) {
-                        if (dragViewParent instanceof BoardItemView) {
-                            dragView.setVisibility(View.INVISIBLE);
-                        } else if (dragViewParent instanceof DistributorItemView) {
-                            ((DistributorItemView) dragViewParent).removeImageView();
+                        if (selectedBoardItem != null) {
+                            selectedBoardItem.depress();
                         }
+                        selectedBoardItem = boardItemView;
 
-                        dragIsNotUsing = false;
+                        LinearLayout row = (LinearLayout) boardItemView.getParent();
+
+                        float x = row.getX() + boardItemView.getX();
+                        float y = row.getY() + boardItemView.getY();
+
+                        hiddenStuff.setX(x);
+                        hiddenStuff.setY(y - hiddenStuff.getHeight());
+
+                        hiddenStuff.setVisibility(View.VISIBLE);
                     }
-                    break;
-
-                case DragEvent.ACTION_DRAG_EXITED:
-                    receiverView.setBackgroundResource(R.drawable.exist_shape);
-                    break;
-
-                case DragEvent.ACTION_DRAG_ENTERED :
-                    receiverView.setBackgroundResource(R.drawable.enterd_shape);
-                    break;
-
-                case DragEvent.ACTION_DRAG_ENDED:
-                    receiverView.setBackgroundResource(R.drawable.normal_shape);
-
-                    if ( !dragIsNotUsing) {
-                        if (dragViewParent instanceof BoardItemView) {
-
-                            ResourceType resourceType = ((BoardItemView) dragViewParent).getResourceType();
-                            ((BoardItemView)dragViewParent).removeImageView();
-
-                            DistributorItemView itemView = distributorView.findItem(resourceType);
-                            if (itemView != null) {
-                                itemView.addImageView();
-                            }
-
-                            dragView.setVisibility(View.VISIBLE);
-
-                        } else if (dragViewParent instanceof DistributorItemView) {
-                                if ( ! isDropped(event)) {
-                                    ((DistributorItemView) dragViewParent).addImageView();
-                                }
-                        }
-
-                        if ( ! distributorView.allItemsResourcesUsed()) {
-                            distributorView.setVisibility(View.VISIBLE);
-                            confirmButton.setVisibility(View.GONE);
-                        }
-
-                        dragIsNotUsing = true;
-                    }
-                    break;
-
-                case DragEvent.ACTION_DROP:
-                    ViewParent viewParent = dragView.getParent();
-
-                    if (viewParent instanceof DistributorItemView) {
-                        DistributorItemView distributorItemView = (DistributorItemView) viewParent;
-
-                        if (receiverView.hasImageView()) {
-                            ResourceType resourceType = receiverView.getResourceType();
-
-                            DistributorItemView foundDistributorItemView = distributorView.findItem(resourceType);
-                            if (foundDistributorItemView != null) {
-                                foundDistributorItemView.addImageView();
-                            }
-
-                            receiverView.removeImageView();
-                            receiverView.createImageView(distributorItemView.getResourceType());
-                        } else {
-                            receiverView.createImageView(distributorItemView.getResourceType());
-                        }
-
-                    } else if (viewParent instanceof BoardItemView) {
-                        BoardItemView owner = (BoardItemView) viewParent;
-                        ResourceType ownerResourceType = owner.getResourceType();
-                        owner.removeImageView();
-
-                        if (receiverView.hasImageView()) {
-                            owner.createImageView(receiverView.getResourceType());
-                            receiverView.removeImageView();
-
-                            receiverView.createImageView(ownerResourceType);
-                        } else {
-                            receiverView.createImageView(ownerResourceType);
-                        }
-                    }
-
-                    if (distributorView.allItemsResourcesUsed()) {
-                        distributorView.setVisibility(View.GONE);
-                        confirmButton.setVisibility(View.VISIBLE);
-                    } else {
-                        distributorView.setVisibility(View.VISIBLE);
-                        confirmButton.setVisibility(View.GONE);
-                    }
-                    break;
+                }
             }
 
             return true;
         }
+    }
 
-        private boolean isDropped(DragEvent event) {
-            return event.getResult();
+    private DistributorTouchListenerWrapper distributorTouchListener = new DistributorTouchListenerWrapper();
+    private class DistributorTouchListenerWrapper implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View touchView, MotionEvent event) {
+
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                DistributorItemView distributorItemView = (DistributorItemView) touchView;
+
+                if ( ! distributorItemView.allResourcesUsed()) {
+                    distributorItemView.removeImageView();
+                    selectedBoardItem.createImageView(distributorItemView.getResourceType());
+                    selectedBoardItem.depress();
+                }
+
+                hiddenStuff.setVisibility(View.INVISIBLE);
+
+                if (hiddenStuff.allItemsResourcesUsed()) {
+                    confirmButton.setVisibility(View.VISIBLE);
+                } else {
+                    confirmButton.setVisibility(View.GONE);
+                }
+            }
+
+            return true;
         }
     }
+
+
 }

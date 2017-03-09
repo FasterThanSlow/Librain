@@ -1,6 +1,8 @@
-package com.greenkey.librain;
+package com.greenkey.librain.entity;
 
 import android.os.Parcelable;
+
+import com.greenkey.librain.R;
 
 /**
  * Created by Alexander on 09.02.2017.
