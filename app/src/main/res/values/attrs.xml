@@ -9,7 +9,7 @@
 
     <declare-styleable name="ViewPagerIndicator">
         <attr name="indicatorSrc" format="reference"/>
-        <attr name="selectedIndicatorItemSrc" format="reference"/>
+        <attr name="selectedIndicatorSrc" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="BoardView">

@@ -55,7 +55,7 @@ public class ViewPagerIndicator extends LinearLayout {
                 attrs, R.styleable.ViewPagerIndicator, defStyle, 0);
 
         indicatorId = typedArray.getResourceId(R.styleable.ViewPagerIndicator_indicatorSrc, DEFAULT_INDICATOR_DRAWABLE);
-        selectedIndicatorId = typedArray.getResourceId(R.styleable.ViewPagerIndicator_selectedIndicatorItemSrc, DEFAULT_SELECTED_DRAWABLE_DRAWABLE);
+        selectedIndicatorId = typedArray.getResourceId(R.styleable.ViewPagerIndicator_selectedIndicatorSrc, DEFAULT_SELECTED_DRAWABLE_DRAWABLE);
 
         typedArray.recycle();
     }
@@ -96,7 +96,6 @@ public class ViewPagerIndicator extends LinearLayout {
         PagerAdapter adapter = viewPager.getAdapter();
         if (adapter != null) {
             initIndicators(adapter.getCount(), viewPager.getCurrentItem());
-            //setSelectedIndicator(viewPager.getCurrentItem());
         }
 
         viewPager.addOnAdapterChangeListener(onAdapterChangeListener);

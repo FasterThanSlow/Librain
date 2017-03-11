@@ -151,7 +151,7 @@ public class CampaignActivity extends AppCompatActivity {
                 holder.ratingBar.setProgress(currentLevel.getRecord());
 
                 if (currentLevel.isEnabled()) {
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    holder.backgroundView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(context, MainActivity.class);

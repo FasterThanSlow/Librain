@@ -38,7 +38,35 @@ public class LevelDao {
 
         this.levels = new ArrayList<>();
 
-        this.levels.add(new Level(1, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH)}));
+        this.levels.add(new Level(1, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(2, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(3, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(4, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(5, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(6, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(7, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(8, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(9, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(10, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(11, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(12, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(13, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(14, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+
+        this.levels.add(new Level(15, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(16, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(17, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(18, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(19, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(20, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(21, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(22, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(23, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+
+        for (Level le : levels) {
+            le.setEnabled(true);
+        }
+        /*
         this.levels.add(new Level(2, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EARTH)}));
         this.levels.add(new Level(3, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.EARTH)}));
         this.levels.add(new Level(4, 1000, 3, 3, new Rule[] {new Rule(3, ResourceType.EARTH)}));
@@ -69,6 +97,7 @@ public class LevelDao {
         this.levels.add(new Level(28, 1000, 4, 4, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
         this.levels.add(new Level(29, 1000, 5, 5, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
         this.levels.add(new Level(30, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        */
     }
 
     private static final int LEVELS_PER_PAGE = 20;
@@ -100,6 +129,8 @@ public class LevelDao {
                 if (level != null) {
                     level.setRecord(starsCount);
                     level.setEnabled(enabled == 1); // true
+
+                    level.setEnabled(true); // true
                 }
             } while (cursor.moveToNext());
         }
@@ -121,6 +152,8 @@ public class LevelDao {
 
             level.setRecord(starsCount);
             level.setEnabled(enabled == 1);
+
+            level.setEnabled(true);
         }
         cursor.close();
 

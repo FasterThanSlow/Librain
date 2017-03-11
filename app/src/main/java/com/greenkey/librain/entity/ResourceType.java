@@ -26,8 +26,6 @@ public enum ResourceType {
     PUMPKIN(R.drawable.ic_pumpkin,R.drawable.ic_pumpkin),
     FOOD(R.drawable.ic_food,R.drawable.ic_food);
 
-
-
     private int enabledItemResourceId;
     private int disabledItemResourceId;
 

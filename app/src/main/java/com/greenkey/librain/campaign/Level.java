@@ -3,6 +3,7 @@ package com.greenkey.librain.campaign;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.greenkey.librain.dao.LevelEnvironment;
 import com.greenkey.librain.entity.Rule;
 
 /**
@@ -21,10 +22,10 @@ public class Level implements Parcelable {
     private int record;
     private boolean isEnabled;
 
-    private final Rule[] rules;
+    private LevelEnvironment levelEnvironment;
 
     public Rule[] getRules() {
-        return rules;
+        return levelEnvironment.getRules();
     }
 
     public int getShowingTime() {
@@ -59,12 +60,12 @@ public class Level implements Parcelable {
         isEnabled = enabled;
     }
 
-    public Level(int levelId, int showingTime, int rowCount, int columnCount, Rule[] rules) {
+    public Level(int levelId, int showingTime, int rowCount, int columnCount, LevelEnvironment levelEnvironment) {
         this.levelId = levelId;
         this.showingTime = showingTime;
         this.rowCount = rowCount;
         this.columnCount = columnCount;
-        this.rules = rules;
+        this.levelEnvironment = levelEnvironment;
     }
 
     public Level(Parcel in) {
@@ -72,7 +73,7 @@ public class Level implements Parcelable {
         this.showingTime = in.readInt();
         this.rowCount = in.readInt();
         this.columnCount = in.readInt();
-        this.rules = in.createTypedArray(Rule.CREATOR);
+        this.levelEnvironment = in.readParcelable(LevelEnvironment.class.getClassLoader());
 
         this.record = in.readInt();
         this.isEnabled = in.readInt() == 1;
@@ -84,7 +85,7 @@ public class Level implements Parcelable {
         dest.writeInt(showingTime);
         dest.writeInt(rowCount);
         dest.writeInt(columnCount);
-        dest.writeTypedArray(rules, flags);
+        dest.writeParcelable(levelEnvironment, flags);
 
         dest.writeInt(record);
         dest.writeInt(isEnabled ? 1 : 0);
