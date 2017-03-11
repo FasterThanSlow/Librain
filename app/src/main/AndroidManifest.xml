@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.greenkey.librain">
 
     <application
@@ -10,27 +9,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name=".MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".campaign.CampaignActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-
         <activity
             android:name=".TutorialActivity"
             android:label="@string/title_activity_tutorial"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".campaign.CampaignActivity"
+            android:label="@string/title_activity_new_campaign"
+            android:parentActivityName=".MainMenuActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.greenkey.librain.MainMenuActivity" />
+        </activity>
     </application>
 
 </manifest>

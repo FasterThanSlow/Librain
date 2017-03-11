@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int levelShowingTime;
 
-    private DistributorView hiddenStuff;
+    private DistributorView distributorView;
 
     private RatingBar ratingBar;
     private TextView levelNumberTextView;
@@ -75,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
         levelDao = LevelDao.getInstance(MainActivity.this);
 
-        hiddenStuff = (DistributorView) findViewById(R.id.hidden_stuff);
-
         boardView = (BoardView) findViewById(R.id.board_view);
+        distributorView = (DistributorView) findViewById(R.id.hidden_stuff);
+
         ratingBar = (RatingBar) findViewById(R.id.stars);
         stateTextView = (TextView) findViewById(R.id.state_text_view);
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
@@ -107,14 +107,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 boardView.setItemsOnTouchListener(null);
-                hiddenStuff.setItemsOnTouchListener(null);
+                distributorView.setItemsOnTouchListener(null);
 
                 Log.d("Anim", "Start");
                 boardView.removeItemsResources();
 
-                hiddenStuff.setRules(rules);
+                distributorView.setRules(rules);
 
-                hiddenStuff.setVisibility(View.GONE);
+                distributorView.setVisibility(View.GONE);
                 confirmButton.setVisibility(View.GONE);
             }
 
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hiddenStuff.setVisibility(View.GONE);
+                distributorView.setVisibility(View.GONE);
                 confirmButton.setVisibility(View.GONE);
 
                 ResourceType[] userAnswer = boardView.getItemsResources();
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         boardView.createItems(rowCount, columnCount);
 
         rules = level.getRules();
-        hiddenStuff.createItems(rules);
+        distributorView.createItems(rules);
     }
 
     private void resetLevelProgress() {
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                     boardView.removeItemsResources();
 
                     boardView.setItemsOnTouchListener(boardTouchListener);
-                    hiddenStuff.setItemsOnTouchListener(distributorTouchListener);
+                    distributorView.setItemsOnTouchListener(distributorTouchListener);
                 }
             }
         }
@@ -465,8 +465,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (boardItemView.hasImageView()) {
                     Log.d("Lel", "Удаление фигурки с поля");
-                    hiddenStuff.addRecourse(boardItemView.getResourceType());
-                    hiddenStuff.setVisibility(View.INVISIBLE);
+                    distributorView.addRecourse(boardItemView.getResourceType());
+                    distributorView.setVisibility(View.INVISIBLE);
 
                     boardItemView.removeImageView();
 
@@ -483,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
 
                         selectedBoardItem = null;
 
-                        hiddenStuff.setVisibility(View.INVISIBLE);
+                        distributorView.setVisibility(View.INVISIBLE);
                     } else { //Клик по пустой клетке
                         Log.d("Lel", "Показать инструменты");
 
@@ -494,15 +494,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                         selectedBoardItem = boardItemView;
 
+                        distributorView.setVisibility(View.VISIBLE);
+
                         LinearLayout row = (LinearLayout) boardItemView.getParent();
+
+                        distributorView.measure(View.MeasureSpec.makeMeasureSpec(boardView.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.AT_MOST));
 
                         float x = row.getX() + boardItemView.getX();
                         float y = row.getY() + boardItemView.getY();
 
-                        hiddenStuff.setX(x);
-                        hiddenStuff.setY(y - hiddenStuff.getHeight());
+                        Log.d("Test", String.valueOf(distributorView.getMeasuredHeight()));
 
-                        hiddenStuff.setVisibility(View.VISIBLE);
+                        distributorView.setX(x);
+                        distributorView.setY(y - distributorView.getHeight());
+
                     }
                 }
             }
@@ -526,9 +531,9 @@ public class MainActivity extends AppCompatActivity {
                     selectedBoardItem.depress();
                 }
 
-                hiddenStuff.setVisibility(View.INVISIBLE);
+                distributorView.setVisibility(View.INVISIBLE);
 
-                if (hiddenStuff.allItemsResourcesUsed()) {
+                if (distributorView.allItemsResourcesUsed()) {
                     confirmButton.setVisibility(View.VISIBLE);
                 } else {
                     confirmButton.setVisibility(View.GONE);

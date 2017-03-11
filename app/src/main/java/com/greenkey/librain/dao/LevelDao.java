@@ -29,46 +29,63 @@ public class LevelDao {
         return levelDao;
     }
 
-    private final List<Level> levels;
     private final SQLiteDatabase database;
+
+    private final List<Level> levels;
 
     private LevelDao(Context context) {
         this.database = new LevelDatabaseHelper(context).getWritableDatabase();
 
-        this.levels = new ArrayList<>(LEVELS_COUNT);
+        this.levels = new ArrayList<>();
 
-        levels.add(new Level(1, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH)}));
-        levels.add(new Level(2, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EARTH)}));
-        levels.add(new Level(3, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.EARTH)}));
-        levels.add(new Level(4, 1000, 3, 3, new Rule[] {new Rule(3, ResourceType.EARTH)}));
-        levels.add(new Level(5, 1000, 4, 4, new Rule[] {new Rule(3, ResourceType.EARTH)}));
-        levels.add(new Level(6, 1000, 5, 5, new Rule[] {new Rule(3, ResourceType.EARTH)}));
-        levels.add(new Level(7, 1000, 3, 3, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
-        levels.add(new Level(8, 1000, 4, 4, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
-        levels.add(new Level(9, 1000, 5, 5, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(1, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH)}));
+        this.levels.add(new Level(2, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EARTH)}));
+        this.levels.add(new Level(3, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.EARTH)}));
+        this.levels.add(new Level(4, 1000, 3, 3, new Rule[] {new Rule(3, ResourceType.EARTH)}));
+        this.levels.add(new Level(5, 1000, 4, 4, new Rule[] {new Rule(3, ResourceType.EARTH)}));
+        this.levels.add(new Level(6, 1000, 5, 5, new Rule[] {new Rule(3, ResourceType.EARTH)}));
+        this.levels.add(new Level(7, 1000, 3, 3, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(8, 1000, 4, 4, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(9, 1000, 5, 5, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(10, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(11, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(1, ResourceType.FOOD)}));
+        this.levels.add(new Level(12, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(1, ResourceType.FOOD)}));
+        this.levels.add(new Level(13, 1000, 3, 3, new Rule[] {new Rule(4, ResourceType.PEAS)}));
+        this.levels.add(new Level(14, 1000, 4, 4, new Rule[] {new Rule(4, ResourceType.PEAS)}));
+        this.levels.add(new Level(15, 1000, 5, 5, new Rule[] {new Rule(4, ResourceType.PEAS)}));
+        this.levels.add(new Level(16, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(2, ResourceType.PEAS)}));
+        this.levels.add(new Level(17, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(2, ResourceType.PEAS)}));
+        this.levels.add(new Level(18, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.FOOD),new Rule(2, ResourceType.PUMPKIN)}));
+        this.levels.add(new Level(19, 1000, 3, 3, new Rule[] {new Rule(1, ResourceType.PEAS),new Rule(1, ResourceType.FOOD),new Rule(1, ResourceType.PUMPKIN)}));
+        this.levels.add(new Level(20, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(1, ResourceType.PEAS)}));
 
-        levels.add(new Level(10, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
-        levels.add(new Level(11, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(1, ResourceType.FOOD)}));
-        levels.add(new Level(12, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(1, ResourceType.FOOD)}));
-        levels.add(new Level(13, 1000, 3, 3, new Rule[] {new Rule(4, ResourceType.PEAS)}));
-        levels.add(new Level(14, 1000, 4, 4, new Rule[] {new Rule(4, ResourceType.PEAS)}));
-        levels.add(new Level(15, 1000, 5, 5, new Rule[] {new Rule(4, ResourceType.PEAS)}));
-        levels.add(new Level(16, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(2, ResourceType.PEAS)}));
-        levels.add(new Level(17, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(2, ResourceType.PEAS)}));
-        levels.add(new Level(18, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.FOOD),new Rule(2, ResourceType.PUMPKIN)}));
-        levels.add(new Level(19, 1000, 3, 3, new Rule[] {new Rule(1, ResourceType.PEAS),new Rule(1, ResourceType.FOOD),new Rule(1, ResourceType.PUMPKIN)}));
-        levels.add(new Level(20, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.PUMPKIN),new Rule(1, ResourceType.PEAS)}));
+        this.levels.add(new Level(21, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH)}));
+        this.levels.add(new Level(22, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EARTH)}));
+        this.levels.add(new Level(23, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.EARTH)}));
+        this.levels.add(new Level(24, 1000, 3, 3, new Rule[] {new Rule(3, ResourceType.EARTH)}));
+        this.levels.add(new Level(25, 1000, 4, 4, new Rule[] {new Rule(3, ResourceType.EARTH)}));
+        this.levels.add(new Level(26, 1000, 5, 5, new Rule[] {new Rule(3, ResourceType.EARTH)}));
+        this.levels.add(new Level(27, 1000, 3, 3, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(28, 1000, 4, 4, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(29, 1000, 5, 5, new Rule[] {new Rule(1, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+        this.levels.add(new Level(30, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.EARTH),new Rule(1, ResourceType.MARS)}));
+    }
 
-        levels.add(new Level(21, 1000, 5, 5, new Rule[] {new Rule(1, ResourceType.FRUIT),new Rule(1, ResourceType.CHERRY),new Rule(1, ResourceType.ORANGE)}));
-        levels.add(new Level(22, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.FRUIT),new Rule(1, ResourceType.CHERRY),new Rule(1, ResourceType.ORANGE)}));
-        levels.add(new Level(23, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.FRUIT),new Rule(1, ResourceType.CHERRY),new Rule(1, ResourceType.ORANGE)}));
-        levels.add(new Level(24, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.FRUIT),new Rule(1, ResourceType.CHERRY),new Rule(1, ResourceType.ORANGE)}));
-        levels.add(new Level(25, 1000, 3, 3, new Rule[] {new Rule(3, ResourceType.FRUIT),new Rule(2, ResourceType.ORANGE)}));
-        levels.add(new Level(26, 1000, 4, 4, new Rule[] {new Rule(3, ResourceType.FRUIT),new Rule(2, ResourceType.ORANGE)}));
-        levels.add(new Level(27, 1000, 5, 5, new Rule[] {new Rule(3, ResourceType.FRUIT),new Rule(2, ResourceType.ORANGE)}));
-        levels.add(new Level(28, 1000, 3, 3, new Rule[] {new Rule(2, ResourceType.ORANGE),new Rule(2, ResourceType.CHERRY),new Rule(1, ResourceType.FRUIT)}));
-        levels.add(new Level(29, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.ORANGE),new Rule(2, ResourceType.CHERRY),new Rule(1, ResourceType.FRUIT)}));
-        levels.add(new Level(30, 1000, 5, 5, new Rule[] {new Rule(2, ResourceType.ORANGE),new Rule(2, ResourceType.CHERRY),new Rule(1, ResourceType.FRUIT)}));
+    private static final int LEVELS_PER_PAGE = 20;
+
+    public int getLevelsPagesCount() {
+        return 2;
+    }
+
+    public Level[] getLevelsPage(int pageIndex) {
+        int startIndex = pageIndex * LEVELS_PER_PAGE;
+        int endIndex = (pageIndex + 1) * LEVELS_PER_PAGE;
+
+        if (endIndex > levels.size()) {
+            endIndex = levels.size();
+        }
+
+        return levels.subList(startIndex, endIndex).toArray(new Level[endIndex - startIndex]);
     }
 
     public List<Level> getLevels() {
