@@ -18,7 +18,7 @@ public class LevelEnvironment implements Parcelable {
     public enum LevelEnvironmentType {
 
         SPACE(new ResourceType[] {ResourceType.MARS, ResourceType.EARTH}),
-        FRUIT(new ResourceType[] {ResourceType.ORANGE, ResourceType.CHERRY, ResourceType.PUMPKIN});
+        FRUIT(new ResourceType[] {ResourceType.ORANGE, ResourceType.CHERRY, ResourceType.PUMPKIN, ResourceType.PEAS});
 
         private ResourceType[] resources;
         LevelEnvironmentType(ResourceType[] resources) {
@@ -80,7 +80,8 @@ public class LevelEnvironment implements Parcelable {
 
         int index;
         int itemsTypesCount = source.length;
-        for (int i = 0; i < itemsTypesCount; i++) {
+
+        for (int i = 0; i < itemsCount; i++) {
             do {
                 index = random.nextInt(itemsTypesCount);
             } while (containsInArray(usedItemIndexes, index));
@@ -89,7 +90,7 @@ public class LevelEnvironment implements Parcelable {
         }
 
         ResourceType[] result = new ResourceType[itemsCount];
-        for (int i = 0; i < itemsTypesCount; i++) {
+        for (int i = 0; i < itemsCount; i++) {
             result[i] = source[usedItemIndexes[i]];
         }
 

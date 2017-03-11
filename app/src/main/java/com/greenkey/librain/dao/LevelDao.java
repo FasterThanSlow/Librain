@@ -39,8 +39,8 @@ public class LevelDao {
         this.levels = new ArrayList<>();
 
         this.levels.add(new Level(1, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(2, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(3, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levels.add(new Level(2, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.FRUIT, new int[] {1, 2} )));
+        this.levels.add(new Level(3, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.FRUIT, new int[] {2, 2} )));
         this.levels.add(new Level(4, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
         this.levels.add(new Level(5, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
         this.levels.add(new Level(6, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
