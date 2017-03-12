@@ -1,9 +1,8 @@
-package com.greenkey.librain.campaign;
+package com.greenkey.librain.level;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.greenkey.librain.dao.LevelEnvironment;
 import com.greenkey.librain.entity.Rule;
 
 /**

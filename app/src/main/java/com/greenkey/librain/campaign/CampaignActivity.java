@@ -1,8 +1,8 @@
 package com.greenkey.librain.campaign;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.greenkey.librain.MainActivity;
 import com.greenkey.librain.R;
 import com.greenkey.librain.dao.LevelDao;
+import com.greenkey.librain.level.Level;
 import com.greenkey.librain.view.RatingBar;
 
 public class CampaignActivity extends AppCompatActivity {
@@ -51,6 +52,20 @@ public class CampaignActivity extends AppCompatActivity {
         viewPagerIndicator.addViewPagerObserve(viewPager);
     }
 
+    private static final int UPDATE_REQUEST_CODE = 100;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao);
+
+                viewPager.setAdapter(sectionsPagerAdapter);
+            }
+        }
+    }
 
     public static class LevelsPageFragment extends Fragment {
 
@@ -68,15 +83,18 @@ public class CampaignActivity extends AppCompatActivity {
             return fragment;
         }
 
+        private LevelsRecycleViewAdapter adapter;
+        private RecyclerView recyclerView;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.campaign_fragment, container, false);
 
             final Level[] levels = (Level[]) getArguments().getParcelableArray(LEVELS_PARAM);
             if (levels != null) {
-                final LevelsRecycleViewAdapter adapter = new LevelsRecycleViewAdapter(getContext(), levels);
+                adapter = new LevelsRecycleViewAdapter(getContext(), levels);
 
-                final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.campaign_fragment_recyclerview);
+                recyclerView = (RecyclerView) rootView.findViewById(R.id.campaign_fragment_recyclerview);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), COLUMNS_COUNT));
                 recyclerView.setAdapter(adapter);
@@ -157,7 +175,9 @@ public class CampaignActivity extends AppCompatActivity {
                             Intent intent = new Intent(context, MainActivity.class);
                             intent.putExtra(LEVEL_PARAM, currentLevel);
 
-                            context.startActivity(intent);
+                            ((Activity) context).startActivityForResult(intent, UPDATE_REQUEST_CODE);
+
+                            //context(intent);
                         }
                     });
                 } else {
@@ -176,4 +196,5 @@ public class CampaignActivity extends AppCompatActivity {
             return levels.length;
         }
     }
+
 }

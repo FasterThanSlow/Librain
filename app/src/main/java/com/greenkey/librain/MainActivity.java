@@ -14,9 +14,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.greenkey.librain.campaign.Level;
+import com.greenkey.librain.level.Level;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
@@ -35,18 +34,17 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "level";
 
-    private Level level;
+    private Level currentLevel;
 
     private int trueAnswersCount;
     private int countTries;
     private static final int MAX_TRIES_COUNT = 3;
 
-    private int levelNumber;
+    private int levelId;
     private int record;
 
     private int levelShowingTime;
 
-    private DistributorView distributorView;
 
     private RatingBar ratingBar;
     private TextView levelNumberTextView;
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView confirmButton;
 
     private BoardView boardView;
-    //private DistributorView distributorView;
+    private DistributorView distributorView;
 
     private int rowCount;
     private int columnCount;
@@ -83,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
         confirmButton = (TextView) findViewById(R.id.confirm_text_view);
 
-        level = getIntent().getParcelableExtra(LEVEL_PARAM);
-        if (level != null) {
+        currentLevel = getIntent().getParcelableExtra(LEVEL_PARAM);
+        if (currentLevel != null) {
             resetLevelProgress();
-            setCurrentLevel(level);
+            setCurrentLevel(currentLevel);
         } else {
             return;
         }
@@ -203,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentLevel(Level level) {
-        levelNumber = level.getLevelId();
-        levelNumberTextView.setText(String.valueOf(levelNumber));
+        levelId = level.getLevelId();
+        levelNumberTextView.setText(String.valueOf(levelId));
 
         record = level.getRecord();
         levelShowingTime = level.getShowingTime();
@@ -290,8 +288,6 @@ public class MainActivity extends AppCompatActivity {
         showPauseDialog();
     }
 
-    //ResultDialog//////////
-
     private AlertDialog resultDialog;
 
     private void showResultDialog() {
@@ -300,24 +296,19 @@ public class MainActivity extends AppCompatActivity {
         final View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.result_dialog, null);
 
         final TextView levelTextView = (TextView) dialogView.findViewById(R.id.result_dialog_level_text_view);
-        levelTextView.setText(String.valueOf(levelNumber));
+        levelTextView.setText(String.valueOf(levelId));
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
         ratingBar.setProgress(trueAnswersCount);
-
-        if (trueAnswersCount > record) {
-            Toast.makeText(MainActivity.this, "Новый рекорд (Тест)", Toast.LENGTH_LONG).show();
-
-            level.setRecord(trueAnswersCount);
-
-            levelDao.updateLevel(level);
-        }
 
         final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.result_dialog_levels_text_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resultDialog.dismiss();
+
+                setResult(RESULT_OK);
+
                 finish();
             }
         });
@@ -333,22 +324,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (trueAnswersCount > record) {
+            currentLevel = levelDao.updateRecord(levelId, trueAnswersCount);
+        }
+
         final TextView nextTextView = (TextView) dialogView.findViewById(R.id.result_dialog_next_text_view);
-        nextTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resultDialog.dismiss();
+        final Level nextLevel = levelDao.getLevel(levelId + 1);
+        if (nextLevel.isEnabled()) {
+            nextTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resultDialog.dismiss();
 
-                Level nextLevel = levelDao.findLevel(levelNumber + 1);
-                nextLevel.setEnabled(true);
+                    setCurrentLevel(nextLevel);
+                    resetLevelProgress();
 
-                levelDao.updateLevel(nextLevel);
+                    preShowAnimator.start();
+                }
+            });
+        } else {
+            if (trueAnswersCount > 0) {
+                final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
 
-                setCurrentLevel(nextLevel);
-                resetLevelProgress();
-                preShowAnimator.start();
+                nextTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        resultDialog.dismiss();
+
+                        setCurrentLevel(unlockedLevel);
+                        resetLevelProgress();
+
+                        preShowAnimator.start();
+                    }
+                });
+            } else {
+                nextTextView.setVisibility(View.GONE);
             }
-        });
+        }
 
         builder.setCancelable(false);
         builder.setView(dialogView);

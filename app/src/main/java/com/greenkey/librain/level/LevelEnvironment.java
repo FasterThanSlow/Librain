@@ -1,4 +1,4 @@
-package com.greenkey.librain.dao;
+package com.greenkey.librain.level;
 
 import android.os.Parcel;
 import android.os.Parcelable;

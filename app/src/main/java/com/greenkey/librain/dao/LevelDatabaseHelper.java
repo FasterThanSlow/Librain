@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 /**
  * Created by Alexander on 02.03.2017.
@@ -25,7 +26,7 @@ public class LevelDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + LevelEntry.TABLE_NAME + " (" +
-                    LevelEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    LevelEntry._ID + " INTEGER PRIMARY KEY, " +
                     LevelEntry.LEVEL_ENABLED_COLUMN + " INTEGER, " +
                     LevelEntry.LEVEL_STARS_COUNT_COLUMN + " INTEGER " +
             " )";
@@ -43,16 +44,11 @@ public class LevelDatabaseHelper extends SQLiteOpenHelper {
 
         //Открытый первый уровнь
         ContentValues firstLevelContentValues = new ContentValues();
+        firstLevelContentValues.put(LevelDatabaseHelper.LevelEntry._ID, 1);
         firstLevelContentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN, 0);
         firstLevelContentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_ENABLED_COLUMN, true);
-        db.insert(LevelEntry.TABLE_NAME, null, firstLevelContentValues);
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN, 0);
-        contentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_ENABLED_COLUMN, false);
-        for (int i = 1; i < LevelDao.LEVELS_COUNT; i++) {
-            db.insert(LevelEntry.TABLE_NAME, null, contentValues);
-        }
+        db.insert(LevelEntry.TABLE_NAME, null, firstLevelContentValues);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
