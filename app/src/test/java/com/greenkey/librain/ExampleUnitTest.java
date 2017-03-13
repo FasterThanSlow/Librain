@@ -1,6 +1,6 @@
 package com.greenkey.librain;
 
-import com.greenkey.librain.view.boardview.BoardViewItemGenerator;
+import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
 
@@ -21,7 +21,7 @@ public class ExampleUnitTest {
         Rule rule1 = new Rule(2, ResourceType.EU);
         Rule rule2 = new Rule(3, ResourceType.GB);
 
-        ResourceType[] result = BoardViewItemGenerator.createResources(new Rule[] {rule1, rule2}, size);
+        ResourceType[] result = Generator.createBoardItemsResources(new Rule[] {rule1, rule2}, size);
 
         int countNoneType = 0;
         for (ResourceType resourceType : result) {

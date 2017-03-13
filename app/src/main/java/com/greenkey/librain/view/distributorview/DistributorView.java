@@ -118,7 +118,7 @@ public class DistributorView extends LinearLayout {
         this.removeAllViews();
     }
 
-    public void addRecourse(ResourceType resourceType) {
+    public void addResource(ResourceType resourceType) {
         final DistributorItemView itemView = findItem(resourceType);
         if (itemView != null) {
             itemView.addImageView();

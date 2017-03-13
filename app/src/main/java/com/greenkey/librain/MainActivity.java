@@ -15,14 +15,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.greenkey.librain.level.Level;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
+import com.greenkey.librain.level.Level;
 import com.greenkey.librain.view.RatingBar;
 import com.greenkey.librain.view.boardview.BoardItemView;
 import com.greenkey.librain.view.boardview.BoardView;
-import com.greenkey.librain.view.boardview.BoardViewItemGenerator;
+import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.view.distributorview.DistributorItemView;
 import com.greenkey.librain.view.distributorview.DistributorView;
 
@@ -30,21 +30,21 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LevelDao levelDao;
-
     private static final String LEVEL_PARAM = "level";
+
+    private static final int MAX_TRIES_COUNT = 3;
+
+    private LevelDao levelDao;
 
     private Level currentLevel;
 
     private int trueAnswersCount;
     private int countTries;
-    private static final int MAX_TRIES_COUNT = 3;
 
     private int levelId;
     private int record;
 
     private int levelShowingTime;
-
 
     private RatingBar ratingBar;
     private TextView levelNumberTextView;
@@ -58,13 +58,18 @@ public class MainActivity extends AppCompatActivity {
     private int rowCount;
     private int columnCount;
 
-    private Rule[] rules;
+    //private Rule[] rules;
+    private int[] levelItems;
+    private Level.LevelType levelType;
+
     private ResourceType[] resources;
 
     private Handler handler = new Handler();
 
     private ObjectAnimator preShowAnimator;
     private ShowBoardItemRunnable showBoardItemsRunnable;
+
+    private int distributorViewHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationStart(Animator animation) {
+
                 isAlphaAnimationPaused = false;
 
                 if (selectedBoardItem != null) {
@@ -110,17 +116,25 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Anim", "Start");
                 boardView.removeItemsResources();
 
-                distributorView.setRules(rules);
-
-                distributorView.setVisibility(View.GONE);
+                distributorView.setVisibility(View.INVISIBLE);
                 confirmButton.setVisibility(View.GONE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
+
                 if ( ! isAlphaAnimationPaused) {
                     Log.d("Anim", "End");
-                    resources = BoardViewItemGenerator.createResources(rules, rowCount * columnCount);
+
+                    if (distributorViewHeight == 0) {
+                        distributorViewHeight = distributorView.getHeight();
+                    }
+
+                    Rule[] rules = Generator.createRules(levelType, levelItems);
+
+                    distributorView.createItems(rules);
+
+                    resources = Generator.createBoardItemsResources(rules, rowCount * columnCount);
                     boardView.setItemsResources(resources);
 
                     showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);
@@ -144,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                distributorView.setVisibility(View.GONE);
+                distributorView.setVisibility(View.INVISIBLE);
                 confirmButton.setVisibility(View.GONE);
 
                 ResourceType[] userAnswer = boardView.getItemsResources();
@@ -158,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 countTries++;
 
                 if (countTries < MAX_TRIES_COUNT) {
-                    setState(countTries, MAX_TRIES_COUNT);
+                    setStateTextView(countTries, MAX_TRIES_COUNT);
                     preShowAnimator.start();
                 } else {
                     showResultDialog();
@@ -211,8 +225,8 @@ public class MainActivity extends AppCompatActivity {
         columnCount = level.getColumnCount();
         boardView.createItems(rowCount, columnCount);
 
-        rules = level.getRules();
-        distributorView.createItems(rules);
+        levelItems = level.getItems();
+        levelType = level.getLevelType();
     }
 
     private void resetLevelProgress() {
@@ -221,10 +235,10 @@ public class MainActivity extends AppCompatActivity {
         trueAnswersCount = 0;
         countTries = 0;
 
-        setState(countTries, MAX_TRIES_COUNT);
+        setStateTextView(countTries, MAX_TRIES_COUNT);
     }
 
-    private void setState(int countTries, int maxCountTries) {
+    private void setStateTextView(int countTries, int maxCountTries) {
         stateTextView.setText((countTries + 1) + "/" + maxCountTries);
     }
 
@@ -288,6 +302,8 @@ public class MainActivity extends AppCompatActivity {
         showPauseDialog();
     }
 
+
+    //Result Dialog
     private AlertDialog resultDialog;
 
     private void showResultDialog() {
@@ -369,6 +385,8 @@ public class MainActivity extends AppCompatActivity {
         resultDialog.show();
     }
 
+
+    //Pause Dialog
     private AlertDialog pauseDialog;
 
     private boolean isContinuePressed;
@@ -399,6 +417,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isContinuePressed = false;
                 pauseDialog.dismiss();
+
+                setResult(RESULT_OK);
 
                 finish();
             }
@@ -477,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (boardItemView.hasImageView()) {
                     Log.d("Lel", "Удаление фигурки с поля");
-                    distributorView.addRecourse(boardItemView.getResourceType());
+                    distributorView.addResource(boardItemView.getResourceType());
                     distributorView.setVisibility(View.INVISIBLE);
 
                     boardItemView.removeImageView();
@@ -506,20 +526,15 @@ public class MainActivity extends AppCompatActivity {
                         }
                         selectedBoardItem = boardItemView;
 
-                        distributorView.setVisibility(View.VISIBLE);
-
                         LinearLayout row = (LinearLayout) boardItemView.getParent();
-
-                        distributorView.measure(View.MeasureSpec.makeMeasureSpec(boardView.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.AT_MOST));
 
                         float x = row.getX() + boardItemView.getX();
                         float y = row.getY() + boardItemView.getY();
 
-                        Log.d("Test", String.valueOf(distributorView.getMeasuredHeight()));
-
                         distributorView.setX(x);
-                        distributorView.setY(y - distributorView.getHeight());
+                        distributorView.setY(y - distributorViewHeight);
 
+                        distributorView.setVisibility(View.VISIBLE);
                     }
                 }
             }

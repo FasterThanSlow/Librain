@@ -2,8 +2,13 @@ package com.greenkey.librain.level;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
+import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
+
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Created by Alexander on 16.02.2017.
@@ -11,28 +16,37 @@ import com.greenkey.librain.entity.Rule;
 
 public class Level implements Parcelable {
 
+    public enum LevelType {
+
+        SPACE(new ResourceType[] {ResourceType.MARS, ResourceType.EARTH}),
+        FRUIT(new ResourceType[] {ResourceType.ORANGE, ResourceType.CHERRY, ResourceType.PUMPKIN, ResourceType.PEAS});
+
+        private ResourceType[] resources;
+        LevelType(ResourceType[] resources) {
+            this.resources = resources;
+        }
+
+        public ResourceType[] getResources() {
+            return resources;
+        }
+    }
+
     private final int levelId;
-
     private final int showingTime;
-
     private final int rowCount;
     private final int columnCount;
-
     private int record;
     private boolean isEnabled;
 
-    private LevelEnvironment levelEnvironment;
+    private LevelType levelType;
+    private int[] items;
 
-    public Rule[] getRules() {
-        return levelEnvironment.getRules();
+    public int getLevelId() {
+        return levelId;
     }
 
     public int getShowingTime() {
         return showingTime;
-    }
-
-    public int getLevelId() {
-        return levelId;
     }
 
     public int getRowCount() {
@@ -47,24 +61,34 @@ public class Level implements Parcelable {
         return record;
     }
 
-    public void setRecord(int record) {
-        this.record = record;
-    }
-
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    public LevelType getLevelType() {
+        return levelType;
+    }
+
+    public int[] getItems() {
+        return items;
     }
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
 
-    public Level(int levelId, int showingTime, int rowCount, int columnCount, LevelEnvironment levelEnvironment) {
+    public void setRecord(int record) {
+        this.record = record;
+    }
+
+    public Level(int levelId, int showingTime, int rowCount, int columnCount,
+                 @NonNull LevelType levelType, @NonNull int[] items) {
         this.levelId = levelId;
         this.showingTime = showingTime;
         this.rowCount = rowCount;
         this.columnCount = columnCount;
-        this.levelEnvironment = levelEnvironment;
+        this.levelType = levelType;
+        this.items = items;
     }
 
     public Level(Parcel in) {
@@ -72,7 +96,8 @@ public class Level implements Parcelable {
         this.showingTime = in.readInt();
         this.rowCount = in.readInt();
         this.columnCount = in.readInt();
-        this.levelEnvironment = in.readParcelable(LevelEnvironment.class.getClassLoader());
+        this.levelType = LevelType.valueOf(in.readString());
+        this.items = in.createIntArray();
 
         this.record = in.readInt();
         this.isEnabled = in.readInt() == 1;
@@ -84,7 +109,8 @@ public class Level implements Parcelable {
         dest.writeInt(showingTime);
         dest.writeInt(rowCount);
         dest.writeInt(columnCount);
-        dest.writeParcelable(levelEnvironment, flags);
+        dest.writeString(levelType.name());
+        dest.writeIntArray(items);
 
         dest.writeInt(record);
         dest.writeInt(isEnabled ? 1 : 0);
@@ -95,7 +121,7 @@ public class Level implements Parcelable {
         return 0;
     }
 
-    public static final Parcelable.Creator<Level> CREATOR = new Parcelable.Creator<Level>() {
+    public static final Creator<Level> CREATOR = new Creator<Level>() {
 
         @Override
         public Level createFromParcel(Parcel source) {

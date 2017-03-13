@@ -4,15 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.greenkey.librain.level.Level;
 import com.greenkey.librain.level.LevelEnvironment;
+import com.greenkey.librain.level.LevelsPage;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 
 /**
  * Created by Alexander on 02.03.2017.
@@ -32,36 +30,32 @@ public class LevelDao {
     private final SQLiteDatabase database;
 
     private final List<Level> levels;
+    private List<LevelsPage> levelsPages;
 
     private LevelDao(Context context) {
         this.database = new LevelDatabaseHelper(context).getWritableDatabase();
 
         this.levels = new ArrayList<>();
+        this.levelsPages = new ArrayList<>();
 
-        this.levels.add(new Level(1, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(2, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.FRUIT, new int[] {1, 2} )));
-        this.levels.add(new Level(3, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.FRUIT, new int[] {2, 2} )));
-        this.levels.add(new Level(4, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(5, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(6, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(7, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(8, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(9, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(10, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(11, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(12, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(13, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(14, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(15, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(16, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(17, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(18, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(19, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(20, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        //SPACE
+        ArrayList<Level> spaceLevels = new ArrayList<>();
+        spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1, 3} ));
+        spaceLevels.add(new Level(2, 1000, 3, 4, Level.LevelType.SPACE, new int[] {2, 3} ));
 
-        this.levels.add(new Level(21, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(22, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
-        this.levels.add(new Level(23, 1000, 3, 3, new LevelEnvironment(LevelEnvironment.LevelEnvironmentType.SPACE, new int[] {1, 3} )));
+        this.levelsPages.add(new LevelsPage(Level.LevelType.SPACE, spaceLevels));
+        this.levels.addAll(spaceLevels);
+        //FRUIT
+        ArrayList<Level> fruitLevels = new ArrayList<>();
+        fruitLevels.add(new Level(3, 1000, 3, 3, Level.LevelType.FRUIT, new int[] {2, 3} ));
+
+        this.levelsPages.add(new LevelsPage(Level.LevelType.FRUIT, fruitLevels));
+        this.levels.addAll(fruitLevels);
+
+
+
+
+
 
         /*
         this.levels.add(new Level(2, 1000, 4, 4, new Rule[] {new Rule(2, ResourceType.EARTH)}));
@@ -117,6 +111,10 @@ public class LevelDao {
         cursor.close();
     }
 
+    public List<LevelsPage> getLevelsPages() {
+        return levelsPages;
+    }
+
     public Level getLevel(int levelId) {
         if (levelId > levels.size())
             return null;
@@ -133,8 +131,7 @@ public class LevelDao {
             ContentValues contentValues = new ContentValues();
             contentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN, record);
 
-            int co = database.update(LevelDatabaseHelper.LevelEntry.TABLE_NAME, contentValues, LevelDatabaseHelper.LevelEntry._ID + " = ?", new String[] { String.valueOf(levelId) });
-            Log.d("DATABASE", "updated records count =  " +  String.valueOf(co));
+            database.update(LevelDatabaseHelper.LevelEntry.TABLE_NAME, contentValues, LevelDatabaseHelper.LevelEntry._ID + " = ?", new String[] { String.valueOf(levelId) });
         }
         cursor.close();
 
@@ -147,34 +144,11 @@ public class LevelDao {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(LevelDatabaseHelper.LevelEntry._ID, levelId);
-        //contentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN, 0);
         contentValues.put(LevelDatabaseHelper.LevelEntry.LEVEL_ENABLED_COLUMN, true);
 
-        long t = database.insert(LevelDatabaseHelper.LevelEntry.TABLE_NAME, null, contentValues);
-        Log.d("DATABASE", "Added new level, id =  " +  String.valueOf(t));
+        database.insert(LevelDatabaseHelper.LevelEntry.TABLE_NAME, null, contentValues);
 
         return updatingLevel;
-    }
-
-
-
-
-    //GOVNOKOD
-    private static final int LEVELS_PER_PAGE = 20;
-
-    public int getLevelsPagesCount() {
-        return levels.size() / LEVELS_PER_PAGE + 1;
-    }
-
-    public Level[] getLevelsPage(int pageIndex) {
-        int startIndex = pageIndex * LEVELS_PER_PAGE;
-        int endIndex = (pageIndex + 1) * LEVELS_PER_PAGE;
-
-        if (endIndex > levels.size()) {
-            endIndex = levels.size();
-        }
-
-        return levels.subList(startIndex, endIndex).toArray(new Level[endIndex - startIndex]);
     }
 
 

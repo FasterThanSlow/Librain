@@ -23,7 +23,11 @@ import com.greenkey.librain.MainActivity;
 import com.greenkey.librain.R;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.level.Level;
+import com.greenkey.librain.level.LevelsPage;
 import com.greenkey.librain.view.RatingBar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CampaignActivity extends AppCompatActivity {
 
@@ -43,7 +47,7 @@ public class CampaignActivity extends AppCompatActivity {
 
         levelDao = LevelDao.getInstance(CampaignActivity.this);
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao); //Спорно
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao.getLevelsPages());
 
         viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -60,12 +64,14 @@ public class CampaignActivity extends AppCompatActivity {
 
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-                sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao);
+                sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao.getLevelsPages());
 
                 viewPager.setAdapter(sectionsPagerAdapter);
             }
         }
     }
+
+
 
     public static class LevelsPageFragment extends Fragment {
 
@@ -75,10 +81,10 @@ public class CampaignActivity extends AppCompatActivity {
         public LevelsPageFragment() {
         }
 
-        public static LevelsPageFragment newInstance(Level[] levels) {
+        public static LevelsPageFragment newInstance(ArrayList<Level> levels) {
             LevelsPageFragment fragment = new LevelsPageFragment();
             Bundle args = new Bundle();
-            args.putParcelableArray(LEVELS_PARAM, levels);
+            args.putParcelableArrayList(LEVELS_PARAM, levels);
             fragment.setArguments(args);
             return fragment;
         }
@@ -90,7 +96,7 @@ public class CampaignActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.campaign_fragment, container, false);
 
-            final Level[] levels = (Level[]) getArguments().getParcelableArray(LEVELS_PARAM);
+            final ArrayList<Level> levels = getArguments().getParcelableArrayList(LEVELS_PARAM);
             if (levels != null) {
                 adapter = new LevelsRecycleViewAdapter(getContext(), levels);
 
@@ -106,22 +112,26 @@ public class CampaignActivity extends AppCompatActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private final LevelDao levelDao;
+        private final List<LevelsPage> levelsPages;
 
-        public SectionsPagerAdapter(FragmentManager fm, LevelDao levelDao) {
+        public SectionsPagerAdapter(FragmentManager fm, List<LevelsPage> levelsPages) {
             super(fm);
 
-            this.levelDao = levelDao;
+            this.levelsPages = levelsPages;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return LevelsPageFragment.newInstance(levelDao.getLevelsPage(position));
+            return LevelsPageFragment.newInstance(levelsPages.get(position).getLevels());
         }
 
         @Override
         public int getCount() {
-            return levelDao.getLevelsPagesCount();
+            if (levelsPages == null) {
+                return 0;
+            }
+
+            return levelsPages.size();
         }
 
     }
@@ -143,10 +153,10 @@ public class CampaignActivity extends AppCompatActivity {
             }
         }
 
-        private Context context;
-        private Level[] levels;
+        private final Context context;
+        private final ArrayList<Level> levels;
 
-        public LevelsRecycleViewAdapter(Context context, @NonNull Level[] levels) {
+        public LevelsRecycleViewAdapter(Context context, ArrayList<Level> levels) {
             this.context = context;
             this.levels = levels;
         }
@@ -158,7 +168,7 @@ public class CampaignActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(LevelViewHolder holder, int position) {
-            final Level currentLevel = levels[position];
+            final Level currentLevel = levels.get(position);
 
             if (currentLevel != null) {
                 holder.backgroundView.setBackgroundResource(R.drawable.campaign_card_view_background_selector);
@@ -193,7 +203,7 @@ public class CampaignActivity extends AppCompatActivity {
                 return 0;
             }
 
-            return levels.length;
+            return levels.size();
         }
     }
 
