@@ -17,10 +17,17 @@ public enum ResourceType {
 
     EARTH(R.drawable.ic_planet_earth, R.drawable.ic_planet_earth),
     MARS(R.drawable.ic_mars, R.drawable.ic_mars),
+    JUPITER(R.drawable.ic_jupiter, R.drawable.ic_jupiter),
+    MOON(R.drawable.ic_moon,R.drawable.ic_moon),
+    ASTEROID(R.drawable.ic_asteroid,R.drawable.ic_asteroid),
+    DESTRYED(R.drawable.ic_destroyed_planet,R.drawable.ic_destroyed_planet),
 
     ORANGE(R.drawable.ic_orange,R.drawable.ic_orange),
     CHERRY(R.drawable.ic_cherries,R.drawable.ic_cherries),
     FRUIT(R.drawable.ic_fruit,R.drawable.ic_fruit),
+    APRICOT(R.drawable.ic_apricot,R.drawable.ic_apricot),
+    BANANAS(R.drawable.ic_bananas,R.drawable.ic_bananas),
+    FIG(R.drawable.ic_fig,R.drawable.ic_fig),
 
     PEAS(R.drawable.ic_peas,R.drawable.ic_peas),
     PUMPKIN(R.drawable.ic_pumpkin,R.drawable.ic_pumpkin),

@@ -17,7 +17,7 @@ public class LevelEnvironment implements Parcelable {
 
     public enum LevelEnvironmentType {
 
-        SPACE(new ResourceType[] {ResourceType.MARS, ResourceType.EARTH}),
+        SPACE(new ResourceType[] {ResourceType.MARS, ResourceType.EARTH, ResourceType.ASTEROID, ResourceType.DESTRYED,ResourceType.JUPITER,ResourceType.MOON}),
         FRUIT(new ResourceType[] {ResourceType.ORANGE, ResourceType.CHERRY, ResourceType.PUMPKIN, ResourceType.PEAS});
 
         private ResourceType[] resources;
