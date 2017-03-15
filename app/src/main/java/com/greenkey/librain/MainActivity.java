@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
     private ShowBoardItemRunnable showBoardItemsRunnable;
 
     private int distributorViewHeight;
+    private int distributorViewWidth;
+
+    private int boardViewWidth;
+    private int boardItemViewWidth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +131,11 @@ public class MainActivity extends AppCompatActivity {
                 if ( ! isAlphaAnimationPaused) {
                     Log.d("Anim", "End");
 
-                    if (distributorViewHeight == 0) {
+                    if (distributorViewHeight == 0 || distributorViewWidth == 0 || boardViewWidth == 0) {
                         distributorViewHeight = distributorView.getHeight();
+                        distributorViewWidth = distributorView.getWidth();
+
+                        boardViewWidth = boardView.getWidth();
                     }
 
                     Rule[] rules = Generator.createRules(levelType, levelItems);
@@ -231,6 +239,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void resetLevelProgress() {
         ratingBar.setProgress(0);
+
+        distributorViewWidth = 0;
+        distributorViewHeight = 0;
 
         trueAnswersCount = 0;
         countTries = 0;
@@ -531,7 +542,21 @@ public class MainActivity extends AppCompatActivity {
                         float x = row.getX() + boardItemView.getX();
                         float y = row.getY() + boardItemView.getY();
 
-                        distributorView.setX(x);
+                        if (boardItemViewWidth == 0) {
+                            boardItemViewWidth = boardItemView.getWidth();
+                        }
+
+                        Log.d("Lel", "x " + x);
+                        Log.d("Lel", "distributorViewWidth " + distributorViewWidth);
+
+                        Log.d("Lel", "boardItemViewWidth " + boardItemViewWidth);
+
+
+                        if (x + distributorViewWidth > boardViewWidth) {
+                            distributorView.setX(x  + boardItemViewWidth - distributorViewWidth);
+                        } else {
+                            distributorView.setX(x);
+                        }
                         distributorView.setY(y - distributorViewHeight);
 
                         distributorView.setVisibility(View.VISIBLE);
