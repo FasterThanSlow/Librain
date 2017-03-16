@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.greenkey.librain.level.Level;
-import com.greenkey.librain.level.LevelEnvironment;
 import com.greenkey.librain.level.LevelsPage;
 
 import java.util.ArrayList;
@@ -39,16 +38,16 @@ public class LevelDao {
         this.levelsPages = new ArrayList<>();
 
         ArrayList<Level> spaceLevels = new ArrayList<>();
-        spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {0, 3} ));
-        spaceLevels.add(new Level(2, 1000, 3, 3, Level.LevelType.SPACE, new int[] {0, 4} ));
-        spaceLevels.add(new Level(3, 1000, 3, 3, Level.LevelType.SPACE, new int[] {0, 5} ));
+        spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3} ));
+        spaceLevels.add(new Level(2, 1000, 3, 3, Level.LevelType.SPACE, new int[] {4} ));
+        spaceLevels.add(new Level(3, 1000, 3, 3, Level.LevelType.SPACE, new int[] {5} ));
         spaceLevels.add(new Level(4, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1, 2} ));
         spaceLevels.add(new Level(5, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 2} ));
         spaceLevels.add(new Level(6, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 3} ));
         spaceLevels.add(new Level(7, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3, 3} ));
-        spaceLevels.add(new Level(8, 1000, 4, 4, Level.LevelType.SPACE, new int[] {0, 5} ));
-        spaceLevels.add(new Level(9, 1000, 4, 4, Level.LevelType.SPACE, new int[] {0, 6} ));
-        spaceLevels.add(new Level(10, 1000, 4, 4, Level.LevelType.SPACE, new int[] {0, 7} ));
+        spaceLevels.add(new Level(8, 1000, 4, 4, Level.LevelType.SPACE, new int[] {5} ));
+        spaceLevels.add(new Level(9, 1000, 4, 4, Level.LevelType.SPACE, new int[] {6} ));
+        spaceLevels.add(new Level(10, 1000, 4, 4, Level.LevelType.SPACE, new int[] {7} ));
         spaceLevels.add(new Level(11, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 3} ));
         spaceLevels.add(new Level(12, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 4} ));
         spaceLevels.add(new Level(13, 1000, 4, 4, Level.LevelType.SPACE, new int[] {4, 4} ));
@@ -64,9 +63,9 @@ public class LevelDao {
         this.levels.addAll(spaceLevels);
 
         ArrayList<Level> fruitLevels = new ArrayList<>();
-        fruitLevels.add(new Level(21, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {0, 10} ));
-        fruitLevels.add(new Level(22, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {0, 11} ));
-        fruitLevels.add(new Level(23, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {0, 12} ));
+        fruitLevels.add(new Level(21, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {10} ));
+        fruitLevels.add(new Level(22, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {11} ));
+        fruitLevels.add(new Level(23, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {12} ));
         fruitLevels.add(new Level(24, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {4, 4} ));
         fruitLevels.add(new Level(25, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {5, 5} ));
         fruitLevels.add(new Level(26, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {6, 6} ));

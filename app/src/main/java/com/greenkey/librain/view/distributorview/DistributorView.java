@@ -91,6 +91,8 @@ public class DistributorView extends LinearLayout {
         }
     }
 
+
+
     public void createItems(Rule[] rules) {
         this.removeItems();
 
@@ -122,9 +124,16 @@ public class DistributorView extends LinearLayout {
         final DistributorItemView itemView = findItem(resourceType);
         if (itemView != null) {
             itemView.addImageView();
-        }
-    }
+        } /*else {
+            DistributorItemView distributorItemView = new DistributorItemView(context);
+            distributorItemView.setRule(new Rule(1, resourceType));
+            distributorItemView.setOnTouchListener(itemsOnTouchListener);
 
+            //items[i] = distributorItemView;
+
+            this.addView(distributorItemView);
+        }*/
+    }
 
     private DistributorItemView findItem(ResourceType resourceType) {
         for (int i = 0; i < itemsCount; i++) {
@@ -133,6 +142,25 @@ public class DistributorView extends LinearLayout {
         }
 
         return null;
+    }
+
+
+
+
+    public int getItemsCount() {
+        return itemsCount;
+    }
+
+
+
+    public int getUnusedTypesCount() {
+        int unusedTypesCount = 0;
+        for (int i = 0; i < itemsCount; i++) {
+            if ( ! items[i].allResourcesUsed())
+                unusedTypesCount++;
+        }
+
+        return unusedTypesCount;
     }
 
     public boolean allItemsResourcesUsed() {

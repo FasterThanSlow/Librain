@@ -25,6 +25,7 @@ import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.view.distributorview.DistributorItemView;
 import com.greenkey.librain.view.distributorview.DistributorView;
+import com.greenkey.librain.view.distributorview.DistributorView2;
 
 import java.util.Arrays;
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView confirmButton;
 
     private BoardView boardView;
-    private DistributorView distributorView;
+    private DistributorView2 distributorView;
 
     private int rowCount;
     private int columnCount;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         levelDao = LevelDao.getInstance(MainActivity.this);
 
         boardView = (BoardView) findViewById(R.id.board_view);
-        distributorView = (DistributorView) findViewById(R.id.hidden_stuff);
+        distributorView = (DistributorView2) findViewById(R.id.hidden_stuff);
 
         ratingBar = (RatingBar) findViewById(R.id.stars);
         stateTextView = (TextView) findViewById(R.id.state_text_view);
@@ -131,19 +132,13 @@ public class MainActivity extends AppCompatActivity {
                 if ( ! isAlphaAnimationPaused) {
                     Log.d("Anim", "End");
 
-                    if (distributorViewHeight == 0 || distributorViewWidth == 0 || boardViewWidth == 0) {
-                        distributorViewHeight = distributorView.getHeight();
-                        distributorViewWidth = distributorView.getWidth();
-
-                        boardViewWidth = boardView.getWidth();
-                    }
-
                     Rule[] rules = Generator.createRules(levelType, levelItems);
 
-                    distributorView.createItems(rules);
+                    distributorView.setItems(rules);
 
                     resources = Generator.createBoardItemsResources(rules, rowCount * columnCount);
                     boardView.setItemsResources(resources);
+
 
                     showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);
 
@@ -508,59 +503,79 @@ public class MainActivity extends AppCompatActivity {
 
                 if (boardItemView.hasImageView()) {
                     Log.d("Lel", "Удаление фигурки с поля");
+
                     distributorView.addResource(boardItemView.getResourceType());
                     distributorView.setVisibility(View.INVISIBLE);
-
-                    boardItemView.removeImageView();
 
                     if (selectedBoardItem != null)
                         selectedBoardItem.depress();
 
+
+                    boardItemView.removeImageView();
+
                     confirmButton.setVisibility(View.GONE);
                 } else {
-                    if (boardItemView.isItemPressed()) { //Второй клик по пустой клетке
-                        Log.d("Lel", "Убрать инструменты");
+                        if (boardItemView.isItemPressed()) { //Повторный клик по пустой клетке
+                            Log.d("Lel", "Убрать инструменты");
 
-                        selectedBoardItem.depress();
-                        boardItemView.depress();
-
-                        selectedBoardItem = null;
-
-                        distributorView.setVisibility(View.INVISIBLE);
-                    } else { //Клик по пустой клетке
-                        Log.d("Lel", "Показать инструменты");
-
-                        boardItemView.press();
-
-                        if (selectedBoardItem != null) {
                             selectedBoardItem.depress();
+                            boardItemView.depress();
+
+                            selectedBoardItem = null;
+
+                            distributorView.setVisibility(View.INVISIBLE);
+                        } else { //Клик по пустой клетке
+
+                            //init all sizes
+                            if (distributorViewHeight == 0 || distributorViewWidth == 0
+                                    || boardViewWidth == 0 || boardItemViewWidth == 0)  {
+                                distributorViewHeight = distributorView.getHeight();
+                                distributorViewWidth = distributorView.getWidth();
+
+                                boardViewWidth = boardView.getWidth();
+                                boardItemViewWidth = boardItemView.getWidth();
+                            }
+
+                            if (distributorView.hasOnlyOneUnusedResourceType()) {
+                                Log.d("Lel", "Всего одна фигура");
+                                DistributorView2.DistributorItemView hiddenItem = distributorView.getItem(0);
+
+                                if ( ! hiddenItem.allResourcesUsed()) {
+                                    boardItemView.createImageView(hiddenItem.getResourceType());
+                                    hiddenItem.removeImageView();
+                                    //selectedBoardItem.depress();
+                                }
+
+                                if (distributorView.allItemsResourcesUsed()) {
+                                    confirmButton.setVisibility(View.VISIBLE);
+                                } else {
+                                    confirmButton.setVisibility(View.GONE);
+                                }
+
+                            } else {
+                                Log.d("Lel", "Показать инструменты");
+                                boardItemView.press();
+
+                                if (selectedBoardItem != null) {
+                                    selectedBoardItem.depress();
+                                }
+                                selectedBoardItem = boardItemView;
+
+                                LinearLayout row = (LinearLayout) boardItemView.getParent();
+
+                                float x = row.getX() + boardItemView.getX();
+                                float y = row.getY() + boardItemView.getY();
+
+                                if (x + distributorViewWidth > boardViewWidth) {
+                                    distributorView.setX(x - distributorViewWidth + boardItemViewWidth);
+                                } else {
+                                    distributorView.setX(x);
+                                }
+                                distributorView.setY(y - distributorViewHeight);
+
+                                distributorView.setVisibility(View.VISIBLE);
+                            }
                         }
-                        selectedBoardItem = boardItemView;
-
-                        LinearLayout row = (LinearLayout) boardItemView.getParent();
-
-                        float x = row.getX() + boardItemView.getX();
-                        float y = row.getY() + boardItemView.getY();
-
-                        if (boardItemViewWidth == 0) {
-                            boardItemViewWidth = boardItemView.getWidth();
-                        }
-
-                        Log.d("Lel", "x " + x);
-                        Log.d("Lel", "distributorViewWidth " + distributorViewWidth);
-
-                        Log.d("Lel", "boardItemViewWidth " + boardItemViewWidth);
-
-
-                        if (x + distributorViewWidth > boardViewWidth) {
-                            distributorView.setX(x  + boardItemViewWidth - distributorViewWidth);
-                        } else {
-                            distributorView.setX(x);
-                        }
-                        distributorView.setY(y - distributorViewHeight);
-
-                        distributorView.setVisibility(View.VISIBLE);
-                    }
                 }
             }
 
@@ -575,7 +590,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onTouch(View touchView, MotionEvent event) {
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                DistributorItemView distributorItemView = (DistributorItemView) touchView;
+                DistributorView2.DistributorItemView distributorItemView = (DistributorView2.DistributorItemView) touchView;
 
                 if ( ! distributorItemView.allResourcesUsed()) {
                     distributorItemView.removeImageView();

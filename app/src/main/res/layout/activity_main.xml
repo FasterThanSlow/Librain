@@ -133,7 +133,7 @@
             android:layout_height="match_parent">
         </com.greenkey.librain.view.boardview.BoardView>
 
-        <com.greenkey.librain.view.distributorview.DistributorView
+        <com.greenkey.librain.view.distributorview.DistributorView2
             android:id="@+id/hidden_stuff"
             android:background="@drawable/distributor_background"
             android:padding="5dp"
