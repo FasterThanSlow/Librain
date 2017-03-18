@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +37,9 @@ public class DistributorView2 extends LinearLayout {
     private final Context context;
     private List<DistributorItemView> items;
 
+    private LinearLayout itemsLayout;
+    private ImageView triangleImageView;
+
     public DistributorView2(Context context) {
         super(context);
         this.context = context;
@@ -55,9 +59,25 @@ public class DistributorView2 extends LinearLayout {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        this.setOrientation(HORIZONTAL);
+        this.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        this.setOrientation(VERTICAL);
+
+        itemsLayout = new LinearLayout(context);
+        itemsLayout.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        itemsLayout.setOrientation(HORIZONTAL);
+        itemsLayout.setBackgroundResource(R.drawable.distributor_background);
+        this.addView(itemsLayout);
+
+        triangleImageView = new ImageView(context);
+        triangleImageView.setLayoutParams(new FrameLayout.LayoutParams(40, 40));
+        triangleImageView.setImageResource(R.drawable.triangle);
+        this.addView(triangleImageView);
 
         items = new ArrayList<>();
+    }
+
+    public void setTriangleOffset(int offsetX) {
+        triangleImageView.setX(offsetX); //check
     }
 
     public void setItems(@NonNull Rule[] rules) {
@@ -69,13 +89,13 @@ public class DistributorView2 extends LinearLayout {
 
             items.add(distributorItemView);
 
-            this.addView(distributorItemView);
+            itemsLayout.addView(distributorItemView);
         }
     }
 
     public void removeItems() {
-        this.items.clear();
-        this.removeAllViews();
+        items.clear();
+        itemsLayout.removeAllViews();
     }
 
     public void addResource(ResourceType resourceType) {
@@ -88,7 +108,7 @@ public class DistributorView2 extends LinearLayout {
 
             items.add(distributorItemView);
 
-            this.addView(distributorItemView);
+            itemsLayout.addView(distributorItemView);
         }
     }
 
@@ -113,7 +133,7 @@ public class DistributorView2 extends LinearLayout {
         return items.size();
     }
 
-    private int getUnusedResourceTypesCount() {
+    public int getUnusedResourceTypesCount() {
         int unusedTypesCount = 0;
         for (DistributorItemView itemView : items) {
             if ( ! itemView.allResourcesUsed())
@@ -123,9 +143,11 @@ public class DistributorView2 extends LinearLayout {
         return unusedTypesCount;
     }
 
+    /*
     public boolean hasOnlyOneUnusedResourceType() {
         return getUnusedResourceTypesCount() == 1;
     }
+    */
 
     public boolean allItemsResourcesUsed() {
         for (DistributorItemView itemView : items) {

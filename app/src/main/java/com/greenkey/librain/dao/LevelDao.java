@@ -51,7 +51,7 @@ public class LevelDao {
         spaceLevels.add(new Level(11, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 3} ));
         spaceLevels.add(new Level(12, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 4} ));
         spaceLevels.add(new Level(13, 1000, 4, 4, Level.LevelType.SPACE, new int[] {4, 4} ));
-        spaceLevels.add(new Level(14, 1000, 4, 4, Level.LevelType.SPACE, new int[] {2, 1, 2} ));
+        spaceLevels.add(new Level(14, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 1, 2, 1, 2} ));
         spaceLevels.add(new Level(15, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 3,2} ));
         spaceLevels.add(new Level(16, 1000, 4, 4, Level.LevelType.SPACE, new int[] {2, 2,2} ));
         spaceLevels.add(new Level(17, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 4,3} ));

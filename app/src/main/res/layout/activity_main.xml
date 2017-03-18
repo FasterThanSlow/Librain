@@ -135,8 +135,6 @@
 
         <com.greenkey.librain.view.distributorview.DistributorView2
             android:id="@+id/hidden_stuff"
-            android:background="@drawable/distributor_background"
-            android:padding="5dp"
 
             android:layout_gravity="center"
 

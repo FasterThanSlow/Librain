@@ -23,8 +23,6 @@ import com.greenkey.librain.view.RatingBar;
 import com.greenkey.librain.view.boardview.BoardItemView;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.level.Generator;
-import com.greenkey.librain.view.distributorview.DistributorItemView;
-import com.greenkey.librain.view.distributorview.DistributorView;
 import com.greenkey.librain.view.distributorview.DistributorView2;
 
 import java.util.Arrays;
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int boardViewWidth;
     private int boardItemViewWidth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -501,6 +498,15 @@ public class MainActivity extends AppCompatActivity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 BoardItemView boardItemView = (BoardItemView) touchView;
 
+                //init all sizes
+                if (boardViewWidth == 0 || boardItemViewWidth == 0)  {
+                    boardViewWidth = boardView.getWidth();
+                    boardItemViewWidth = boardItemView.getWidth();
+                }
+
+                distributorViewHeight = distributorView.getHeight();
+                distributorViewWidth = distributorView.getWidth();
+
                 if (boardItemView.hasImageView()) {
                     Log.d("Lel", "Удаление фигурки с поля");
 
@@ -510,49 +516,43 @@ public class MainActivity extends AppCompatActivity {
                     if (selectedBoardItem != null)
                         selectedBoardItem.depress();
 
-
                     boardItemView.removeImageView();
 
                     confirmButton.setVisibility(View.GONE);
                 } else {
-                        if (boardItemView.isItemPressed()) { //Повторный клик по пустой клетке
-                            Log.d("Lel", "Убрать инструменты");
+                    if (boardItemView.isItemPressed()) { //Повторный клик по пустой клетке
+                        Log.d("Lel", "Убрать инструменты");
 
-                            selectedBoardItem.depress();
-                            boardItemView.depress();
+                        //selectedBoardItem.depress();
+                        boardItemView.depress();
 
-                            selectedBoardItem = null;
+                        selectedBoardItem = null;
 
-                            distributorView.setVisibility(View.INVISIBLE);
-                        } else { //Клик по пустой клетке
+                        distributorView.setVisibility(View.INVISIBLE);
+                    } else { //Клик по пустой клетке
+                        int unusedResourceTypesCount = distributorView.getUnusedResourceTypesCount();
 
-                            //init all sizes
-                            if (distributorViewHeight == 0 || distributorViewWidth == 0
-                                    || boardViewWidth == 0 || boardItemViewWidth == 0)  {
-                                distributorViewHeight = distributorView.getHeight();
-                                distributorViewWidth = distributorView.getWidth();
-
-                                boardViewWidth = boardView.getWidth();
-                                boardItemViewWidth = boardItemView.getWidth();
-                            }
-
-                            if (distributorView.hasOnlyOneUnusedResourceType()) {
+                        switch (unusedResourceTypesCount) {
+                            case 0:
+                                //do nothing
+                                break;
+                            case 1:
                                 Log.d("Lel", "Всего одна фигура");
                                 DistributorView2.DistributorItemView hiddenItem = distributorView.getItem(0);
 
-                                if ( ! hiddenItem.allResourcesUsed()) {
+                                //if ( ! hiddenItem.allResourcesUsed()) {
                                     boardItemView.createImageView(hiddenItem.getResourceType());
                                     hiddenItem.removeImageView();
                                     //selectedBoardItem.depress();
-                                }
+                                //}
 
                                 if (distributorView.allItemsResourcesUsed()) {
                                     confirmButton.setVisibility(View.VISIBLE);
                                 } else {
                                     confirmButton.setVisibility(View.GONE);
                                 }
-
-                            } else {
+                                break;
+                            default:
                                 Log.d("Lel", "Показать инструменты");
                                 boardItemView.press();
 
@@ -571,11 +571,13 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     distributorView.setX(x);
                                 }
-                                distributorView.setY(y - distributorViewHeight);
+                                distributorView.setY(y - distributorViewHeight - 10);
+                                distributorView.setTriangleOffset(boardItemViewWidth / 2);
 
                                 distributorView.setVisibility(View.VISIBLE);
-                            }
+                                break;
                         }
+                    }
                 }
             }
 
@@ -592,11 +594,12 @@ public class MainActivity extends AppCompatActivity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 DistributorView2.DistributorItemView distributorItemView = (DistributorView2.DistributorItemView) touchView;
 
-                if ( ! distributorItemView.allResourcesUsed()) {
-                    distributorItemView.removeImageView();
+                //if ( ! distributorItemView.allResourcesUsed()) {
                     selectedBoardItem.createImageView(distributorItemView.getResourceType());
                     selectedBoardItem.depress();
-                }
+
+                    distributorItemView.removeImageView();
+                //}
 
                 distributorView.setVisibility(View.INVISIBLE);
 
