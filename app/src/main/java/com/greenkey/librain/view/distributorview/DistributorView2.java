@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,11 +19,18 @@ import com.greenkey.librain.view.PixelConverter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.greenkey.librain.view.PixelConverter.dpToPx;
+
 /**
  * Created by Alexander on 10.02.2017.
  */
 
 public class DistributorView2 extends LinearLayout {
+
+    private static final int TRIANGLE_SIZE_DP = 20;
+    private int triangleViewSizePx;
+
+    private static final int ITEMS_LAYOUT_PADDING_DP = 5;
 
     private OnTouchListener itemsOnTouchListener;
     public void setItemsOnTouchListener(OnTouchListener listener) {
@@ -62,18 +68,27 @@ public class DistributorView2 extends LinearLayout {
         this.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         this.setOrientation(VERTICAL);
 
+        int itemsPadding =  PixelConverter.dpToPx(context, ITEMS_LAYOUT_PADDING_DP);
+
         itemsLayout = new LinearLayout(context);
         itemsLayout.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         itemsLayout.setOrientation(HORIZONTAL);
         itemsLayout.setBackgroundResource(R.drawable.distributor_background);
+        itemsLayout.setPadding(itemsPadding, itemsPadding, itemsPadding, itemsPadding);
         this.addView(itemsLayout);
 
+        triangleViewSizePx =  PixelConverter.dpToPx(context, TRIANGLE_SIZE_DP);
+
         triangleImageView = new ImageView(context);
-        triangleImageView.setLayoutParams(new FrameLayout.LayoutParams(40, 40));
+        triangleImageView.setLayoutParams(new FrameLayout.LayoutParams(triangleViewSizePx, triangleViewSizePx));
         triangleImageView.setImageResource(R.drawable.triangle);
         this.addView(triangleImageView);
 
         items = new ArrayList<>();
+    }
+
+    public int getTriangleViewSizePx() {
+        return triangleViewSizePx;
     }
 
     public void setTriangleOffset(int offsetX) {
@@ -181,9 +196,9 @@ public class DistributorView2 extends LinearLayout {
         }
 
         private void init(Rule rule) {
-            int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
-            int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
-            int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
+            int itemSizePx = dpToPx(context, ITEM_SIZE_DP);
+            int itemMarginPx = dpToPx(context, ITEM_MARGIN_DP);
+            int itemPaddingPx = dpToPx(context, ITEM_PADDING_DP);
 
             LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
             itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
@@ -237,7 +252,7 @@ public class DistributorView2 extends LinearLayout {
 
             if (itemsCount == 0) {
                 items.remove(this);
-                DistributorView2.this.removeView(this);
+                itemsLayout.removeView(this);
             }
         }
 
@@ -247,7 +262,7 @@ public class DistributorView2 extends LinearLayout {
         private final FrameLayout.LayoutParams itemsCountTextViewLayoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.END);
 
         private void createItemsCountTextView(Context context) {
-            int paddingPx = PixelConverter.dpToPx(context, TEXT_PADDING_DP);
+            int paddingPx = dpToPx(context, TEXT_PADDING_DP);
 
             itemsCountTextView = new TextView(context);
 

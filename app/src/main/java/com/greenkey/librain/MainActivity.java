@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.greenkey.librain.dao.LevelDao;
@@ -20,7 +19,6 @@ import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.level.Level;
 import com.greenkey.librain.view.RatingBar;
-import com.greenkey.librain.view.boardview.BoardItemView;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.view.distributorview.DistributorView2;
@@ -487,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private BoardItemView selectedBoardItem;
+    private BoardView.BoardItemView selectedBoardItem;
 
     private BoardTouchListenerWrapper boardTouchListener = new BoardTouchListenerWrapper();
     private class BoardTouchListenerWrapper implements View.OnTouchListener {
@@ -496,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onTouch(View touchView, MotionEvent event) {
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                BoardItemView boardItemView = (BoardItemView) touchView;
+                BoardView.BoardItemView boardItemView = (BoardView.BoardItemView) touchView;
 
                 //init all sizes
                 if (boardViewWidth == 0 || boardItemViewWidth == 0)  {
@@ -561,18 +559,17 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 selectedBoardItem = boardItemView;
 
-                                LinearLayout row = (LinearLayout) boardItemView.getParent();
-
-                                float x = row.getX() + boardItemView.getX();
-                                float y = row.getY() + boardItemView.getY();
+                                float x = boardItemView.getX();
+                                float y = boardItemView.getY();
 
                                 if (x + distributorViewWidth > boardViewWidth) {
                                     distributorView.setX(x - distributorViewWidth + boardItemViewWidth);
                                 } else {
                                     distributorView.setX(x);
                                 }
-                                distributorView.setY(y - distributorViewHeight - 10);
-                                distributorView.setTriangleOffset(boardItemViewWidth / 2);
+
+                                distributorView.setY(y - distributorViewHeight + distributorView.getTriangleViewSizePx() / 2);
+                                distributorView.setTriangleOffset(boardItemViewWidth / 2 - distributorView.getTriangleViewSizePx() / 2);
 
                                 distributorView.setVisibility(View.VISIBLE);
                                 break;

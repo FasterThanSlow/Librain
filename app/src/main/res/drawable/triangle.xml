@@ -9,9 +9,9 @@
             android:toDegrees="45">
 
             <shape android:shape="rectangle">
-                <solid android:color="#c3c3c3"/>
+                <solid android:color="#f3f3f3"/>
                 <stroke
-                    android:color="#f00"
+                    android:color="#c3c3c3"
                     android:width="1dp" />
             </shape>
 
