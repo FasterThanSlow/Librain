@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#2196f3</color>
+    <color name="colorAccent">#FFC400</color>
 
     <color name="campaign_card_view_color">#FAFAFA</color>
     <color name="campaign_card_view_pressed_color">#E0E0E0</color>

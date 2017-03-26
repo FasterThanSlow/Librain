@@ -8,7 +8,7 @@
 
     android:orientation="vertical"
 
-    tools:context="com.greenkey.librain.MainActivity">
+    tools:context="com.greenkey.librain.GameActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -41,20 +41,20 @@
             android:layout_height="match_parent"/>
 
         <ImageView
-            android:id="@+id/restartKnopka"
+            android:id="@+id/restart_image_view"
 
             android:padding="8dp"
 
-            android:src="@drawable/restart_selector"
+            android:src="@drawable/game_restart_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/pause"
+            android:id="@+id/pause_image_view"
 
             android:padding="8dp"
 
-            android:src="@drawable/pause"
+            android:src="@drawable/game_pause_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

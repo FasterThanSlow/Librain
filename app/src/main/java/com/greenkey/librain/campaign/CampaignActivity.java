@@ -3,7 +3,6 @@ package com.greenkey.librain.campaign;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -19,7 +18,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.greenkey.librain.MainActivity;
+import com.greenkey.librain.GameActivity;
 import com.greenkey.librain.R;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.level.Level;
@@ -35,6 +34,8 @@ public class CampaignActivity extends AppCompatActivity {
 
     private LevelDao levelDao;
 
+    private TextView startCountTextView;
+
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
 
@@ -47,23 +48,32 @@ public class CampaignActivity extends AppCompatActivity {
 
         levelDao = LevelDao.getInstance(CampaignActivity.this);
 
+        startCountTextView = (TextView) findViewById(R.id.campaign_stars_count_text_view);
+        setStarsCount(levelDao.getStarsCount());
+
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao.getLevelsPages());
 
-        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager = (ViewPager) findViewById(R.id.campaign_level_pages_container);
         viewPager.setAdapter(sectionsPagerAdapter);
 
-        viewPagerIndicator = (ViewPagerIndicator) findViewById(R.id.view_pager_indicator);
+        viewPagerIndicator = (ViewPagerIndicator) findViewById(R.id.campaign_view_pager_indicator);
         viewPagerIndicator.addViewPagerObserve(viewPager);
     }
 
-    private static final int UPDATE_REQUEST_CODE = 100;
+    private void setStarsCount(int starsCount) {
+        startCountTextView.setText(String.valueOf(starsCount));
+    }
 
+
+    private static final int UPDATE_REQUEST_CODE = 100;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
+                setStarsCount(levelDao.getStarsCount());
+
                 sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao.getLevelsPages());
 
                 viewPager.setAdapter(sectionsPagerAdapter);
@@ -72,6 +82,33 @@ public class CampaignActivity extends AppCompatActivity {
     }
 
 
+
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        private final List<LevelsPage> levelsPages;
+
+        public SectionsPagerAdapter(FragmentManager fm, List<LevelsPage> levelsPages) {
+            super(fm);
+
+            this.levelsPages = levelsPages;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return LevelsPageFragment.newInstance(levelsPages.get(position).getLevels());
+        }
+
+        @Override
+        public int getCount() {
+            if (levelsPages == null) {
+                return 0;
+            }
+
+            return levelsPages.size();
+        }
+
+    }
 
     public static class LevelsPageFragment extends Fragment {
 
@@ -105,35 +142,9 @@ public class CampaignActivity extends AppCompatActivity {
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), COLUMNS_COUNT));
                 recyclerView.setAdapter(adapter);
             }
-            
+
             return rootView;
         }
-    }
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        private final List<LevelsPage> levelsPages;
-
-        public SectionsPagerAdapter(FragmentManager fm, List<LevelsPage> levelsPages) {
-            super(fm);
-
-            this.levelsPages = levelsPages;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return LevelsPageFragment.newInstance(levelsPages.get(position).getLevels());
-        }
-
-        @Override
-        public int getCount() {
-            if (levelsPages == null) {
-                return 0;
-            }
-
-            return levelsPages.size();
-        }
-
     }
 
     private static class LevelsRecycleViewAdapter extends RecyclerView.Adapter<LevelsRecycleViewAdapter.LevelViewHolder> {
@@ -182,7 +193,7 @@ public class CampaignActivity extends AppCompatActivity {
                     holder.backgroundView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(context, MainActivity.class);
+                            Intent intent = new Intent(context, GameActivity.class);
                             intent.putExtra(LEVEL_PARAM, currentLevel);
 
                             ((Activity) context).startActivityForResult(intent, UPDATE_REQUEST_CODE);

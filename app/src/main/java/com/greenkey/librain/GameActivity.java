@@ -25,7 +25,7 @@ import com.greenkey.librain.view.distributorview.DistributorView2;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "level";
 
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private int rowCount;
     private int columnCount;
 
-    //private Rule[] rules;
     private int[] levelItems;
     private Level.LevelType levelType;
 
@@ -75,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.game_activity);
 
-        levelDao = LevelDao.getInstance(MainActivity.this);
+        levelDao = LevelDao.getInstance(GameActivity.this);
 
         boardView = (BoardView) findViewById(R.id.board_view);
         distributorView = (DistributorView2) findViewById(R.id.hidden_stuff);
@@ -94,6 +93,21 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return;
         }
+
+        boardView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (selectedBoardItem != null) {
+                    selectedBoardItem.depress();
+
+                    selectedBoardItem = null;
+                }
+
+                distributorView.setVisibility(View.INVISIBLE);
+
+                return false;
+            }
+        });
 
         preShowAnimator = ObjectAnimator.ofFloat(boardView, View.ALPHA, 0f, 1f);
         preShowAnimator.setDuration(1000);
@@ -164,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         trueAnswersCount++;
                         ratingBar.setProgress(trueAnswersCount);
                     } else {
-                        //Toast.makeText(MainActivity.this, "Не красавчик", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(GameActivity.this, "Не красавчик", Toast.LENGTH_SHORT).show();
                     }
 
                 countTries++;
@@ -178,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
+        final ImageView pauseButton = (ImageView) findViewById(R.id.pause_image_view);
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final ImageView restartButton = (ImageView) findViewById(R.id.restartKnopka);
+        final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
                     showBoardItemsRunnable.cancel();
                 }
 
+                resetLevelProgress();
+
                 preShowAnimator.start();
 
                 restartButton.postDelayed(new Runnable() {
@@ -208,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }, 1000);
+
             }
         });
     }
@@ -308,9 +325,9 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog resultDialog;
 
     private void showResultDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
 
-        final View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.result_dialog, null);
+        final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.result_dialog, null);
 
         final TextView levelTextView = (TextView) dialogView.findViewById(R.id.result_dialog_level_text_view);
         levelTextView.setText(String.valueOf(levelId));
@@ -409,9 +426,9 @@ public class MainActivity extends AppCompatActivity {
 
         isContinuePressed = true; // Эмулиция продолжение на нажатие мимо диалога
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
 
-        final View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.pause_dialog, null);
+        final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.pause_dialog, null);
         final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_levels_text_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override

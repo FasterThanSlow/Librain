@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -8,18 +9,31 @@
 
     tools:context="com.greenkey.librain.campaign.CampaignActivity">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/campaign_stars_count_text_view"
+
+            android:drawableStart="@drawable/star_completed"
+            android:drawableLeft="@drawable/star_completed"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <android.support.v4.view.ViewPager
-        android:id="@+id/container"
+        android:id="@+id/campaign_level_pages_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <com.greenkey.librain.campaign.ViewPagerIndicator
-        android:id="@+id/view_pager_indicator"
+        android:id="@+id/campaign_view_pager_indicator"
 
         android:layout_gravity="bottom|center_horizontal"
-
-        app:selectedIndicatorSrc="@drawable/ic_apple"
-        app:indicatorSrc="@drawable/view_pager_indicator_selected"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

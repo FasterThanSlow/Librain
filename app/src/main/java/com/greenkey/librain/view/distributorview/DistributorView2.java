@@ -72,6 +72,7 @@ public class DistributorView2 extends LinearLayout {
 
         itemsLayout = new LinearLayout(context);
         itemsLayout.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
         itemsLayout.setOrientation(HORIZONTAL);
         itemsLayout.setBackgroundResource(R.drawable.distributor_background);
         itemsLayout.setPadding(itemsPadding, itemsPadding, itemsPadding, itemsPadding);

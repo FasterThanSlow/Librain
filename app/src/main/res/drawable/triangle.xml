@@ -14,7 +14,6 @@
                     android:color="#c3c3c3"
                     android:width="1dp" />
             </shape>
-
         </rotate>
     </item>
 

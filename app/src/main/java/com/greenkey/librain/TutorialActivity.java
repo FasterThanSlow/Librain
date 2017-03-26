@@ -40,7 +40,7 @@ public class TutorialActivity extends AppCompatActivity {
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager = (ViewPager) findViewById(R.id.campaign_level_pages_container);
         viewPager.setAdapter(pagerAdapter);
     }
 

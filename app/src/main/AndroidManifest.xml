@@ -9,20 +9,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".GameActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainMenuActivity">
+
+        <activity
+            android:name=".MainMenuActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".TutorialActivity"
             android:label="@string/title_activity_tutorial"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".campaign.CampaignActivity"
             android:label="@string/title_activity_new_campaign"
@@ -32,6 +38,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.greenkey.librain.MainMenuActivity" />
         </activity>
+
     </application>
 
 </manifest>
