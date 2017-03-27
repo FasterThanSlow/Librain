@@ -30,7 +30,7 @@ public class DistributorView2 extends LinearLayout {
     private static final int TRIANGLE_SIZE_DP = 20;
     private int triangleViewSizePx;
 
-    private static final int ITEMS_LAYOUT_PADDING_DP = 5;
+    private static final int ITEMS_LAYOUT_PADDING_DP = 4;
 
     private OnTouchListener itemsOnTouchListener;
     public void setItemsOnTouchListener(OnTouchListener listener) {

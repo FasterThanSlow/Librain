@@ -128,6 +128,8 @@ public class ViewPagerIndicator extends LinearLayout {
 
         @Override
         public void onPageSelected(int position) {
+
+
             setSelectedIndicator(position);
         }
 

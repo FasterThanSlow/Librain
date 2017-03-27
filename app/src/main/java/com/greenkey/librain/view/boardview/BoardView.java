@@ -181,7 +181,7 @@ public class BoardView extends LinearLayout {
 
             this.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
             this.setLayoutParams(itemLayoutParams);
-            this.setBackgroundResource(R.drawable.normal_shape);
+            this.setBackgroundResource(R.drawable.game_board_item_background);
         }
 
         private final FrameLayout.LayoutParams imageViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -204,12 +204,12 @@ public class BoardView extends LinearLayout {
 
         public void press() {
             isItemPressed = true;
-            this.setBackgroundColor(Color.CYAN);
+            this.setBackgroundResource(R.drawable.game_board_item_selected_background);
         }
 
         public void depress() {
             isItemPressed = false;
-            this.setBackgroundResource(R.drawable.normal_shape);
+            this.setBackgroundResource(R.drawable.game_board_item_background);
         }
 
 

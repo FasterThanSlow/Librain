@@ -31,9 +31,8 @@
 
         <activity
             android:name=".campaign.CampaignActivity"
-            android:label="@string/title_activity_new_campaign"
-            android:parentActivityName=".MainMenuActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.greenkey.librain.MainMenuActivity" />

@@ -28,6 +28,9 @@
         <com.greenkey.librain.view.RatingBar
             android:id="@+id/stars"
 
+            app:starsSrc="@drawable/game_rating_bar_star"
+            app:starsCompletedSrc="@drawable/game_rating_bar_star_completed"
+
             android:layout_gravity="center_vertical"
 
             android:orientation="horizontal"
@@ -118,6 +121,8 @@
     </LinearLayout>
 
     <FrameLayout
+        android:background="#FFFFFF"
+
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
@@ -125,15 +130,14 @@
 
         <com.greenkey.librain.view.boardview.BoardView
             android:id="@+id/board_view"
-            android:background="#FFFFFF"
             android:gravity="center"
 
             app:columnCount="4"
             app:rowCount="5"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </com.greenkey.librain.view.boardview.BoardView>
-
 
         <com.greenkey.librain.view.distributorview.DistributorView2
             android:id="@+id/hidden_stuff"
@@ -151,8 +155,6 @@
             android:textSize="30sp"
 
             android:layout_gravity="center"
-
-            android:visibility="invisible"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

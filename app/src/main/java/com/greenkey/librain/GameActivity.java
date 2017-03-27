@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -94,13 +93,13 @@ public class GameActivity extends AppCompatActivity {
 
         roundTextView = (TextView) findViewById(R.id.game_round_text_view);
 
-        preShowAnimator = ObjectAnimator.ofFloat(roundTextView, View.TRANSLATION_X, 100, 350).setDuration(2000);
-        preShowAnimator.setInterpolator(new BounceInterpolator());
+        preShowAnimator = ObjectAnimator.ofFloat(roundTextView, View.ALPHA, 0.0f, 1.0f);
+        preShowAnimator.setDuration(1500);
         preShowAnimator.addListener(preAnimatorListener);
 
-        resultAnimator = ObjectAnimator.ofFloat(roundTextView, View.TRANSLATION_X, 100, 350);
-        resultAnimator.setDuration(2000);
-        resultAnimator.setInterpolator(new LinearInterpolator());
+        resultAnimator = ObjectAnimator.ofFloat(roundTextView, View.ALPHA, 0.0f, 1.0f);
+        resultAnimator.setDuration(1500);
+        ///resultAnimator.setInterpolator(new LinearInterpolator()); Для отскоков и прочего
         resultAnimator.addListener(resultAnimatorListener);
 
         currentLevel = getIntent().getParcelableExtra(LEVEL_PARAM);
@@ -185,19 +184,15 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void run() {
             if (isCancelled) {
-                Log.d("Anim", "showingPausing" + getTaskId());
                 isRunning = false;
             } else {
                 if (currentShowTime < showTime) {
-                    Log.d("Anim", "Showing " + getTaskId());
 
                     isRunning = true;
 
                     currentShowTime += DEFAULT_DELAY;
                     handler.postDelayed(this, DEFAULT_DELAY);
                 } else {
-                    Log.d("Anim", "ShowEnded " + getTaskId());
-
                     isRunning = false;
 
                     boardView.removeItemsResources();
@@ -210,17 +205,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private Animator.AnimatorListener preAnimatorListener = new Animator.AnimatorListener() {
-        private boolean isAlphaAnimationPaused;
+
+        private boolean isAnimationPaused;
 
         @Override
         public void onAnimationStart(Animator animation) {
 
-            isAlphaAnimationPaused = false;
+            isAnimationPaused = false;
 
             if (selectedBoardItem != null) {
                 selectedBoardItem.depress();
                 selectedBoardItem = null;
             }
+
+            roundTextView.setVisibility(View.VISIBLE);
+            boardView.setVisibility(View.INVISIBLE);
 
             switch (countTries) {
                 case 0:
@@ -234,25 +233,18 @@ public class GameActivity extends AppCompatActivity {
                     break;
             }
 
-            roundTextView.setVisibility(View.VISIBLE);
-            boardView.setVisibility(View.INVISIBLE);
-
-
             boardView.setItemsOnTouchListener(null);
             distributorView.setItemsOnTouchListener(null);
 
-            Log.d("Anim", "Start");
             boardView.removeItemsResources();
 
             distributorView.setVisibility(View.INVISIBLE);
-            confirmButton.setVisibility(View.GONE);
+            confirmButton.setVisibility(View.INVISIBLE);
         }
 
         @Override
         public void onAnimationEnd(Animator animation) {
-
-            if ( ! isAlphaAnimationPaused) {
-                Log.d("Anim", "End");
+            if ( ! isAnimationPaused) {
 
                 roundTextView.setVisibility(View.INVISIBLE);
                 boardView.setVisibility(View.VISIBLE);
@@ -264,7 +256,6 @@ public class GameActivity extends AppCompatActivity {
                 resources = Generator.createBoardItemsResources(rules, rowCount * columnCount);
                 boardView.setItemsResources(resources);
 
-
                 showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);
 
                 handler.post(showBoardItemsRunnable);
@@ -273,13 +264,11 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onAnimationCancel(Animator animation) {
-            Log.d("Anim", "Cancel");
-            isAlphaAnimationPaused = true;
+            isAnimationPaused = true;
         }
 
         @Override
         public void onAnimationRepeat(Animator animation) {
-
         }
     };
 
@@ -292,12 +281,12 @@ public class GameActivity extends AppCompatActivity {
 
             isAnimationPaused = false;
 
-
+            //roundTextView;
             roundTextView.setVisibility(View.VISIBLE);
             boardView.setVisibility(View.INVISIBLE);
 
-            distributorView.setVisibility(View.INVISIBLE);
-            confirmButton.setVisibility(View.GONE);
+            //distributorView.setVisibility(View.INVISIBLE);
+            confirmButton.setVisibility(View.INVISIBLE);
 
             ResourceType[] userAnswer = boardView.getItemsResources();
             if (Arrays.equals(userAnswer, resources)) {
@@ -316,7 +305,7 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void onAnimationEnd(Animator animation) {
 
-            if ( !isAnimationPaused) {
+            if ( ! isAnimationPaused) {
 
                 if (countTries < MAX_TRIES_COUNT) {
                     setStateTextView(countTries, MAX_TRIES_COUNT);
@@ -362,6 +351,8 @@ public class GameActivity extends AppCompatActivity {
             preShowAnimator.cancel();
         } else if (showBoardItemsRunnable != null && showBoardItemsRunnable.isRunning()) {
             showBoardItemsRunnable.cancel();
+        } else if (resultAnimator.isRunning()) {
+            resultAnimator.cancel();
         } else {
             if (pauseDialog != null && pauseDialog.isShowing()) {
                 pauseDialog.dismiss();
@@ -388,6 +379,8 @@ public class GameActivity extends AppCompatActivity {
                 preShowAnimator.cancel();
             } else if (showBoardItemsRunnable.isRunning()) {
                 showBoardItemsRunnable.cancel();
+            } else if (resultAnimator.isRunning()) {
+                resultAnimator.cancel();
             }
 
             resetLevelProgress();

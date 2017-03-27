@@ -4,6 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FFC400</color>
 
+    <color name="view_pager_indicator_color">#E0E0E0</color>
+    <color name="view_pager_indicator_selected_color">#FFC400</color>
+
+
+
     <color name="campaign_card_view_color">#FAFAFA</color>
     <color name="campaign_card_view_pressed_color">#E0E0E0</color>
 
