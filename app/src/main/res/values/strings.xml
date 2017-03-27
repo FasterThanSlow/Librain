@@ -6,13 +6,19 @@
 
     <string name="confirm">Confirm</string>
 
+    <!-- Pause Dialog -->
     <string name="pause_dialog_levels">Levels</string>
     <string name="pause_dialog_restart">Restart</string>
     <string name="pause_dialog_continue">Continue</string>
 
+    <!-- Result Dialog -->
     <string name="result_dialog_levels">Levels</string>
     <string name="result_dialog_restart">Restart</string>
     <string name="result_dialog_next">Next</string>
+
+    <string name="game_round_1">Round 1</string>
+    <string name="game_round_2">Round 2</string>
+    <string name="game_round_3">Round 3</string>
 
 
     <string name="title_activity_tutorial">TutorialActivity</string>

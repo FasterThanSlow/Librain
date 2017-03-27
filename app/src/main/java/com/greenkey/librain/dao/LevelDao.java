@@ -103,7 +103,7 @@ public class LevelDao {
 
         Cursor cursor = database.rawQuery("SELECT SUM(" + LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN + ") FROM " + LevelDatabaseHelper.LevelEntry.TABLE_NAME, null);
         if (cursor.moveToFirst()) {
-            starsCount = cursor.getInt(0);// get final total
+            starsCount = cursor.getInt(0);
         }
         cursor.close();
 

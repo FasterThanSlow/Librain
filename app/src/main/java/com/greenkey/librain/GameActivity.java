@@ -11,16 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
+import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.level.Level;
 import com.greenkey.librain.view.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
-import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.view.distributorview.DistributorView2;
 
 import java.util.Arrays;
@@ -47,6 +49,8 @@ public class GameActivity extends AppCompatActivity {
     private TextView levelNumberTextView;
     private TextView stateTextView;
 
+    private TextView roundTextView;
+
     private TextView confirmButton;
 
     private BoardView boardView;
@@ -63,6 +67,7 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
 
     private ObjectAnimator preShowAnimator;
+    private ObjectAnimator resultAnimator;
     private ShowBoardItemRunnable showBoardItemsRunnable;
 
     private int distributorViewHeight;
@@ -70,6 +75,7 @@ public class GameActivity extends AppCompatActivity {
 
     private int boardViewWidth;
     private int boardItemViewWidth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +92,17 @@ public class GameActivity extends AppCompatActivity {
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
         confirmButton = (TextView) findViewById(R.id.confirm_text_view);
 
+        roundTextView = (TextView) findViewById(R.id.game_round_text_view);
+
+        preShowAnimator = ObjectAnimator.ofFloat(roundTextView, View.TRANSLATION_X, 100, 350).setDuration(2000);
+        preShowAnimator.setInterpolator(new BounceInterpolator());
+        preShowAnimator.addListener(preAnimatorListener);
+
+        resultAnimator = ObjectAnimator.ofFloat(roundTextView, View.TRANSLATION_X, 100, 350);
+        resultAnimator.setDuration(2000);
+        resultAnimator.setInterpolator(new LinearInterpolator());
+        resultAnimator.addListener(resultAnimatorListener);
+
         currentLevel = getIntent().getParcelableExtra(LEVEL_PARAM);
         if (currentLevel != null) {
             resetLevelProgress();
@@ -94,139 +111,14 @@ public class GameActivity extends AppCompatActivity {
             return;
         }
 
-        boardView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (selectedBoardItem != null) {
-                    selectedBoardItem.depress();
-
-                    selectedBoardItem = null;
-                }
-
-                distributorView.setVisibility(View.INVISIBLE);
-
-                return false;
-            }
-        });
-
-        preShowAnimator = ObjectAnimator.ofFloat(boardView, View.ALPHA, 0f, 1f);
-        preShowAnimator.setDuration(1000);
-        preShowAnimator.addListener(new Animator.AnimatorListener() {
-
-            private boolean isAlphaAnimationPaused;
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-                isAlphaAnimationPaused = false;
-
-                if (selectedBoardItem != null) {
-                    selectedBoardItem.depress();
-                    selectedBoardItem = null;
-                }
-
-                boardView.setItemsOnTouchListener(null);
-                distributorView.setItemsOnTouchListener(null);
-
-                Log.d("Anim", "Start");
-                boardView.removeItemsResources();
-
-                distributorView.setVisibility(View.INVISIBLE);
-                confirmButton.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-                if ( ! isAlphaAnimationPaused) {
-                    Log.d("Anim", "End");
-
-                    Rule[] rules = Generator.createRules(levelType, levelItems);
-
-                    distributorView.setItems(rules);
-
-                    resources = Generator.createBoardItemsResources(rules, rowCount * columnCount);
-                    boardView.setItemsResources(resources);
-
-
-                    showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);
-
-                    handler.post(showBoardItemsRunnable);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                Log.d("Anim", "Cancel");
-                isAlphaAnimationPaused = true;
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                distributorView.setVisibility(View.INVISIBLE);
-                confirmButton.setVisibility(View.GONE);
-
-                ResourceType[] userAnswer = boardView.getItemsResources();
-                    if (Arrays.equals(userAnswer, resources)) {
-                        trueAnswersCount++;
-                        ratingBar.setProgress(trueAnswersCount);
-                    } else {
-                        //Toast.makeText(GameActivity.this, "Не красавчик", Toast.LENGTH_SHORT).show();
-                    }
-
-                countTries++;
-
-                if (countTries < MAX_TRIES_COUNT) {
-                    setStateTextView(countTries, MAX_TRIES_COUNT);
-                    preShowAnimator.start();
-                } else {
-                    showResultDialog();
-                }
-            }
-        });
+        boardView.setOnTouchListener(boardTouchListener); // Нажатие за пределами полей
+        confirmButton.setOnClickListener(confirmOnClickListener);
 
         final ImageView pauseButton = (ImageView) findViewById(R.id.pause_image_view);
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPauseDialog();
-            }
-        });
+        pauseButton.setOnClickListener(pauseOnClickListener);
 
         final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
-        restartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restartButton.setClickable(false);
-
-                if (preShowAnimator.isStarted()) {
-                    preShowAnimator.cancel();
-                } else if (showBoardItemsRunnable.isRunning()) {
-                    showBoardItemsRunnable.cancel();
-                }
-
-                resetLevelProgress();
-
-                preShowAnimator.start();
-
-                restartButton.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (restartButton != null) {
-                            restartButton.setClickable(true);
-                        }
-                    }
-                }, 1000);
-
-            }
-        });
+        restartButton.setOnClickListener(restartOnClickListener);
     }
 
     private void setCurrentLevel(Level level) {
@@ -260,6 +152,8 @@ public class GameActivity extends AppCompatActivity {
         stateTextView.setText((countTries + 1) + "/" + maxCountTries);
     }
 
+
+    //ПОказ фигур
     private class ShowBoardItemRunnable implements Runnable {
 
         private static final int DEFAULT_DELAY = 100;
@@ -308,16 +202,362 @@ public class GameActivity extends AppCompatActivity {
 
                     boardView.removeItemsResources();
 
-                    boardView.setItemsOnTouchListener(boardTouchListener);
-                    distributorView.setItemsOnTouchListener(distributorTouchListener);
+                    boardView.setItemsOnTouchListener(boardItemsTouchListener);
+                    distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
                 }
             }
         }
     }
 
+    private Animator.AnimatorListener preAnimatorListener = new Animator.AnimatorListener() {
+        private boolean isAlphaAnimationPaused;
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+            isAlphaAnimationPaused = false;
+
+            if (selectedBoardItem != null) {
+                selectedBoardItem.depress();
+                selectedBoardItem = null;
+            }
+
+            switch (countTries) {
+                case 0:
+                    roundTextView.setText(R.string.game_round_1);
+                    break;
+                case 1:
+                    roundTextView.setText(R.string.game_round_2);
+                    break;
+                case 2:
+                    roundTextView.setText(R.string.game_round_3);
+                    break;
+            }
+
+            roundTextView.setVisibility(View.VISIBLE);
+            boardView.setVisibility(View.INVISIBLE);
+
+
+            boardView.setItemsOnTouchListener(null);
+            distributorView.setItemsOnTouchListener(null);
+
+            Log.d("Anim", "Start");
+            boardView.removeItemsResources();
+
+            distributorView.setVisibility(View.INVISIBLE);
+            confirmButton.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+
+            if ( ! isAlphaAnimationPaused) {
+                Log.d("Anim", "End");
+
+                roundTextView.setVisibility(View.INVISIBLE);
+                boardView.setVisibility(View.VISIBLE);
+
+                Rule[] rules = Generator.createRules(levelType, levelItems);
+
+                distributorView.setItems(rules);
+
+                resources = Generator.createBoardItemsResources(rules, rowCount * columnCount);
+                boardView.setItemsResources(resources);
+
+
+                showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);
+
+                handler.post(showBoardItemsRunnable);
+            }
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            Log.d("Anim", "Cancel");
+            isAlphaAnimationPaused = true;
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
+
+    private Animator.AnimatorListener resultAnimatorListener = new Animator.AnimatorListener() {
+
+        private boolean isAnimationPaused;
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+            isAnimationPaused = false;
+
+
+            roundTextView.setVisibility(View.VISIBLE);
+            boardView.setVisibility(View.INVISIBLE);
+
+            distributorView.setVisibility(View.INVISIBLE);
+            confirmButton.setVisibility(View.GONE);
+
+            ResourceType[] userAnswer = boardView.getItemsResources();
+            if (Arrays.equals(userAnswer, resources)) {
+                trueAnswersCount++;
+                ratingBar.setProgress(trueAnswersCount);
+
+                roundTextView.setText("Pravilno");
+            } else {
+
+                roundTextView.setText("Ne Pravilno");
+            }
+
+            countTries++;
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+
+            if ( !isAnimationPaused) {
+
+                if (countTries < MAX_TRIES_COUNT) {
+                    setStateTextView(countTries, MAX_TRIES_COUNT);
+                    preShowAnimator.start();
+                } else {
+                    showResultDialog();
+                }
+            }
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            Log.d("Anim", "Cancel");
+            isAnimationPaused = true;
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
+
+
     @Override
     public void onBackPressed() {
         showPauseDialog();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (resultDialog == null || ! resultDialog.isShowing()) {
+            preShowAnimator.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+
+        if (preShowAnimator.isRunning()) {
+            preShowAnimator.cancel();
+        } else if (showBoardItemsRunnable != null && showBoardItemsRunnable.isRunning()) {
+            showBoardItemsRunnable.cancel();
+        } else {
+            if (pauseDialog != null && pauseDialog.isShowing()) {
+                pauseDialog.dismiss();
+            }
+        }
+
+        super.onPause();
+    }
+
+    //КНОПКИ УПРАВЛЕНИЯ
+    private View.OnClickListener pauseOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showPauseDialog();
+        }
+    };
+
+    private View.OnClickListener restartOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View restartButton) {
+            restartButton.setClickable(false);
+
+            if (preShowAnimator.isRunning()) {
+                preShowAnimator.cancel();
+            } else if (showBoardItemsRunnable.isRunning()) {
+                showBoardItemsRunnable.cancel();
+            }
+
+            resetLevelProgress();
+
+            preShowAnimator.start();
+
+            restartButton.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (restartButton != null) {
+                        restartButton.setClickable(true);
+                    }
+                }
+            }, 1000);
+        }
+    };
+
+    private View.OnClickListener confirmOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            resultAnimator.start();
+        }
+    };
+
+
+    //ВЗАИМОДЕЙСТВИЕ С ПРЕДМЕТАМИ (РАССТАНОВКА И УДАЛЕНИЕ КАРТОЧЕК)
+    private BoardView.BoardItemView selectedBoardItem;
+
+    private BoardTouchListenerWrapper boardTouchListener = new BoardTouchListenerWrapper();
+    private class BoardTouchListenerWrapper implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (selectedBoardItem != null) {
+                    selectedBoardItem.depress();
+
+                    selectedBoardItem = null;
+                }
+
+                distributorView.setVisibility(View.INVISIBLE);
+            }
+            return false;
+        }
+    }
+
+    private BoardItemsTouchListenerWrapper boardItemsTouchListener = new BoardItemsTouchListenerWrapper();
+    private class BoardItemsTouchListenerWrapper implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View touchView, MotionEvent event) {
+
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                BoardView.BoardItemView boardItemView = (BoardView.BoardItemView) touchView;
+
+                //init all sizes
+                if (boardViewWidth == 0 || boardItemViewWidth == 0)  {
+                    boardViewWidth = boardView.getWidth();
+                    boardItemViewWidth = boardItemView.getWidth();
+                }
+
+                distributorViewHeight = distributorView.getHeight();
+                distributorViewWidth = distributorView.getWidth();
+
+                if (boardItemView.hasImageView()) {
+                    Log.d("Lel", "Удаление фигурки с поля");
+
+                    distributorView.addResource(boardItemView.getResourceType());
+                    distributorView.setVisibility(View.INVISIBLE);
+
+                    if (selectedBoardItem != null)
+                        selectedBoardItem.depress();
+
+                    boardItemView.removeImageView();
+
+                    confirmButton.setVisibility(View.GONE);
+                } else {
+                    if (boardItemView.isItemPressed()) { //Повторный клик по пустой клетке
+                        Log.d("Lel", "Убрать инструменты");
+
+                        //selectedBoardItem.depress();
+                        boardItemView.depress();
+
+                        selectedBoardItem = null;
+
+                        distributorView.setVisibility(View.INVISIBLE);
+                    } else { //Клик по пустой клетке
+                        int unusedResourceTypesCount = distributorView.getUnusedResourceTypesCount();
+
+                        switch (unusedResourceTypesCount) {
+                            case 0:
+                                //do nothing
+                                break;
+                            case 1:
+                                Log.d("Lel", "Всего одна фигура");
+                                DistributorView2.DistributorItemView hiddenItem = distributorView.getItem(0);
+
+                                //if ( ! hiddenItem.allResourcesUsed()) {
+                                    boardItemView.createImageView(hiddenItem.getResourceType());
+                                    hiddenItem.removeImageView();
+                                    //selectedBoardItem.depress();
+                                //}
+
+                                if (distributorView.allItemsResourcesUsed()) {
+                                    confirmButton.setVisibility(View.VISIBLE);
+                                } else {
+                                    confirmButton.setVisibility(View.GONE);
+                                }
+                                break;
+                            default:
+                                Log.d("Lel", "Показать инструменты");
+                                boardItemView.press();
+
+                                if (selectedBoardItem != null) {
+                                    selectedBoardItem.depress();
+                                }
+                                selectedBoardItem = boardItemView;
+
+                                float x = boardItemView.getX();
+                                float y = boardItemView.getY();
+
+                                if (x + boardItemViewWidth / 2 + distributorViewWidth / 2 >= boardViewWidth) {
+                                    distributorView.setX(boardViewWidth - distributorViewWidth - 10);
+                                } else if(x + boardItemViewWidth / 2 - distributorViewWidth / 2 <= 0) {
+                                    distributorView.setX(10);
+                                }else{
+                                    distributorView.setX(x + boardItemViewWidth / 2 - distributorViewWidth / 2);
+
+                                }
+
+                                distributorView.setY(y - distributorViewHeight + distributorView.getTriangleViewSizePx() / 2);
+                                distributorView.setTriangleOffset((int)(boardItemView.getX() - distributorView.getX() + boardItemViewWidth / 2 - distributorView.getTriangleViewSizePx() / 2));
+
+                                distributorView.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+
+    private DistributorItemsTouchListenerWrapper distributorItemsTouchListener = new DistributorItemsTouchListenerWrapper();
+    private class DistributorItemsTouchListenerWrapper implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View touchView, MotionEvent event) {
+
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                DistributorView2.DistributorItemView distributorItemView = (DistributorView2.DistributorItemView) touchView;
+
+                //if ( ! distributorItemView.allResourcesUsed()) {
+                    selectedBoardItem.createImageView(distributorItemView.getResourceType());
+                    selectedBoardItem.depress();
+
+                    distributorItemView.removeImageView();
+                //}
+
+                distributorView.setVisibility(View.INVISIBLE);
+
+                if (distributorView.allItemsResourcesUsed()) {
+                    confirmButton.setVisibility(View.VISIBLE);
+                } else {
+                    confirmButton.setVisibility(View.GONE);
+                }
+            }
+
+            return true;
+        }
     }
 
 
@@ -411,10 +651,9 @@ public class GameActivity extends AppCompatActivity {
     private boolean isGame;
 
     private void showPauseDialog() {
-
         isGame = true;
 
-        if (preShowAnimator.isStarted()) {
+        if (preShowAnimator.isRunning()) {
             Log.d("Anim", "alphaAnimationIsStarted");
             isGame = false;
             preShowAnimator.cancel();
@@ -477,156 +716,4 @@ public class GameActivity extends AppCompatActivity {
         pauseDialog = builder.create();
         pauseDialog.show();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (resultDialog == null || ! resultDialog.isShowing()) {
-            preShowAnimator.start();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        if (preShowAnimator != null && preShowAnimator.isStarted()) {
-            preShowAnimator.cancel();
-        } else if (showBoardItemsRunnable != null && showBoardItemsRunnable.isRunning()) {
-            showBoardItemsRunnable.cancel();
-        } else {
-            if (pauseDialog != null && pauseDialog.isShowing()) {
-                pauseDialog.dismiss();
-            }
-        }
-
-        super.onPause();
-    }
-
-    private BoardView.BoardItemView selectedBoardItem;
-
-    private BoardTouchListenerWrapper boardTouchListener = new BoardTouchListenerWrapper();
-    private class BoardTouchListenerWrapper implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View touchView, MotionEvent event) {
-
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                BoardView.BoardItemView boardItemView = (BoardView.BoardItemView) touchView;
-
-                //init all sizes
-                if (boardViewWidth == 0 || boardItemViewWidth == 0)  {
-                    boardViewWidth = boardView.getWidth();
-                    boardItemViewWidth = boardItemView.getWidth();
-                }
-
-                distributorViewHeight = distributorView.getHeight();
-                distributorViewWidth = distributorView.getWidth();
-
-                if (boardItemView.hasImageView()) {
-                    Log.d("Lel", "Удаление фигурки с поля");
-
-                    distributorView.addResource(boardItemView.getResourceType());
-                    distributorView.setVisibility(View.INVISIBLE);
-
-                    if (selectedBoardItem != null)
-                        selectedBoardItem.depress();
-
-                    boardItemView.removeImageView();
-
-                    confirmButton.setVisibility(View.GONE);
-                } else {
-                    if (boardItemView.isItemPressed()) { //Повторный клик по пустой клетке
-                        Log.d("Lel", "Убрать инструменты");
-
-                        //selectedBoardItem.depress();
-                        boardItemView.depress();
-
-                        selectedBoardItem = null;
-
-                        distributorView.setVisibility(View.INVISIBLE);
-                    } else { //Клик по пустой клетке
-                        int unusedResourceTypesCount = distributorView.getUnusedResourceTypesCount();
-
-                        switch (unusedResourceTypesCount) {
-                            case 0:
-                                //do nothing
-                                break;
-                            case 1:
-                                Log.d("Lel", "Всего одна фигура");
-                                DistributorView2.DistributorItemView hiddenItem = distributorView.getItem(0);
-
-                                //if ( ! hiddenItem.allResourcesUsed()) {
-                                    boardItemView.createImageView(hiddenItem.getResourceType());
-                                    hiddenItem.removeImageView();
-                                    //selectedBoardItem.depress();
-                                //}
-
-                                if (distributorView.allItemsResourcesUsed()) {
-                                    confirmButton.setVisibility(View.VISIBLE);
-                                } else {
-                                    confirmButton.setVisibility(View.GONE);
-                                }
-                                break;
-                            default:
-                                Log.d("Lel", "Показать инструменты");
-                                boardItemView.press();
-
-                                if (selectedBoardItem != null) {
-                                    selectedBoardItem.depress();
-                                }
-                                selectedBoardItem = boardItemView;
-
-                                float x = boardItemView.getX();
-                                float y = boardItemView.getY();
-
-                                if (x + distributorViewWidth > boardViewWidth) {
-                                    distributorView.setX(x - distributorViewWidth + boardItemViewWidth);
-                                } else {
-                                    distributorView.setX(x);
-                                }
-
-                                distributorView.setY(y - distributorViewHeight + distributorView.getTriangleViewSizePx() / 2);
-                                distributorView.setTriangleOffset(boardItemViewWidth / 2 - distributorView.getTriangleViewSizePx() / 2);
-
-                                distributorView.setVisibility(View.VISIBLE);
-                                break;
-                        }
-                    }
-                }
-            }
-
-            return true;
-        }
-    }
-
-    private DistributorTouchListenerWrapper distributorTouchListener = new DistributorTouchListenerWrapper();
-    private class DistributorTouchListenerWrapper implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View touchView, MotionEvent event) {
-
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                DistributorView2.DistributorItemView distributorItemView = (DistributorView2.DistributorItemView) touchView;
-
-                //if ( ! distributorItemView.allResourcesUsed()) {
-                    selectedBoardItem.createImageView(distributorItemView.getResourceType());
-                    selectedBoardItem.depress();
-
-                    distributorItemView.removeImageView();
-                //}
-
-                distributorView.setVisibility(View.INVISIBLE);
-
-                if (distributorView.allItemsResourcesUsed()) {
-                    confirmButton.setVisibility(View.VISIBLE);
-                } else {
-                    confirmButton.setVisibility(View.GONE);
-                }
-            }
-
-            return true;
-        }
-    }
-
-
 }
