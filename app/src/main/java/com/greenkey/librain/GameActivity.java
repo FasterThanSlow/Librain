@@ -579,14 +579,17 @@ public class GameActivity extends AppCompatActivity {
                                 float x = boardItemView.getX();
                                 float y = boardItemView.getY();
 
-                                if (x + distributorViewWidth > boardViewWidth) {
-                                    distributorView.setX(x - distributorViewWidth + boardItemViewWidth);
-                                } else {
-                                    distributorView.setX(x);
+                                if (x + boardItemViewWidth / 2 + distributorViewWidth / 2 >= boardViewWidth) {
+                                    distributorView.setX(boardViewWidth - distributorViewWidth - 10);
+                                } else if(x + boardItemViewWidth / 2 - distributorViewWidth / 2 <= 0) {
+                                    distributorView.setX(10);
+                                }else{
+                                    distributorView.setX(x + boardItemViewWidth / 2 - distributorViewWidth / 2);
+
                                 }
 
                                 distributorView.setY(y - distributorViewHeight + distributorView.getTriangleViewSizePx() / 2);
-                                distributorView.setTriangleOffset(boardItemViewWidth / 2 - distributorView.getTriangleViewSizePx() / 2);
+                                distributorView.setTriangleOffset((int)(boardItemView.getX() - distributorView.getX() + boardItemViewWidth / 2 - distributorView.getTriangleViewSizePx() / 2));
 
                                 distributorView.setVisibility(View.VISIBLE);
                                 break;
