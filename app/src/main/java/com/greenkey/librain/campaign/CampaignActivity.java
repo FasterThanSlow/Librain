@@ -151,14 +151,14 @@ public class CampaignActivity extends AppCompatActivity {
 
         public static class LevelViewHolder extends RecyclerView.ViewHolder {
 
-            public View backgroundView;
+            //public View backgroundView;
             public TextView levelNumberTextView;
             public RatingBar ratingBar;
 
             public LevelViewHolder(View itemView) {
                 super(itemView);
 
-                backgroundView = itemView.findViewById(R.id.campaign_item_background_view);
+                //backgroundView = itemView.findViewById(R.id.campaign_item_background_view);
                 levelNumberTextView = (TextView) itemView.findViewById(R.id.campaign_item_level_number);
                 ratingBar = (RatingBar) itemView.findViewById(R.id.campaign_item_rating_bar);
             }
@@ -174,7 +174,7 @@ public class CampaignActivity extends AppCompatActivity {
 
         @Override
         public LevelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new LevelViewHolder(LayoutInflater.from(context).inflate(R.layout.campaign_level_item, parent, false));
+            return new LevelViewHolder(LayoutInflater.from(context).inflate(R.layout.campaign_level_item_new, parent, false));
         }
 
         @Override
@@ -182,15 +182,17 @@ public class CampaignActivity extends AppCompatActivity {
             final Level currentLevel = levels.get(position);
 
             if (currentLevel != null) {
-                holder.backgroundView.setBackgroundResource(R.drawable.campaign_card_view_background_selector);
 
                 holder.levelNumberTextView.setText(String.valueOf(currentLevel.getLevelId()));
 
-                holder.ratingBar.setVisibility(View.VISIBLE);
                 holder.ratingBar.setProgress(currentLevel.getRecord());
 
                 if (currentLevel.isEnabled()) {
-                    holder.backgroundView.setOnClickListener(new View.OnClickListener() {
+                    holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_circle);
+
+                    //holder.ratingBar.
+
+                    holder.levelNumberTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(context, GameActivity.class);
@@ -202,8 +204,8 @@ public class CampaignActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    holder.backgroundView.setBackgroundResource(R.drawable.campaign_disabled_card_view_background_selector);
-                    holder.ratingBar.setVisibility(View.GONE);
+                    holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_disabled_circle);
+                    //holder.ratingBar.setVisibility(View.GONE);
                 }
             }
         }

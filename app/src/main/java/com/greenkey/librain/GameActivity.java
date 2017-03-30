@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -253,7 +252,7 @@ public class GameActivity extends AppCompatActivity {
 
                 distributorView.setItems(rules);
 
-                resources = Generator.createBoardItemsResources(rules, rowCount * columnCount);
+                resources = Generator.createRound1Items(rules, rowCount * columnCount);
                 boardView.setItemsResources(resources);
 
                 showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);

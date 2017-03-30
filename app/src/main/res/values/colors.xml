@@ -7,11 +7,22 @@
     <color name="view_pager_indicator_color">#E0E0E0</color>
     <color name="view_pager_indicator_selected_color">#FFC400</color>
 
+    <!-- Кампания -->
+    <color name="campaign_background_color">#FFFDE7</color>
+    <!-- То, что сверху. Следующие 2 строки Вдим не любит -->
+    <color name="campaign_title_background_color">#607D8B</color>
+    <color name="campaign_title_stars_count_text_color">#FAFAFA</color>
 
+    <color name="campaign_item_level_number_text_color">#555555</color>
+    <color name="campaign_item_stroke_color">#00C853</color>  <!-- ВАДИМ РУГАЕТСЯ НА ЭТОТ ЦВЕТ! -->
+    <color name="campaign_item_background_color">#FFFFFF</color>
 
+    <color name="campaign_item_disabled_stroke_color">#AAAAAA</color>
+    <color name="campaign_item_disabled_background_color">#E2E2E2</color>
+
+    <!-- НЕ ИСПОЛЬЗУЕТСЯ -->
     <color name="campaign_card_view_color">#FAFAFA</color>
     <color name="campaign_card_view_pressed_color">#E0E0E0</color>
-
     <color name="campaign_disabled_card_view_color">#FAFAFA</color>
     <color name="campaign_disabled_card_view_pressed_color">#968a8a</color>
 

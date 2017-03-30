@@ -21,7 +21,7 @@ public class ExampleUnitTest {
         Rule rule1 = new Rule(2, ResourceType.EU);
         Rule rule2 = new Rule(3, ResourceType.GB);
 
-        ResourceType[] result = Generator.createBoardItemsResources(new Rule[] {rule1, rule2}, size);
+        ResourceType[] result = Generator.createRound1Items(new Rule[] {rule1, rule2}, size);
 
         int countNoneType = 0;
         for (ResourceType resourceType : result) {

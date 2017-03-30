@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@color/campaign_background_color"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,12 +11,26 @@
     tools:context="com.greenkey.librain.campaign.CampaignActivity">
 
     <LinearLayout
+        android:background="@color/campaign_title_background_color"
+
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp">
 
         <TextView
             android:id="@+id/campaign_stars_count_text_view"
+
+            tools:text="5"
+
+            android:layout_gravity="center_vertical"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+
+            android:textColor="@color/campaign_title_stars_count_text_color"
+            android:textSize="14sp"
+
+            android:drawablePadding="4dp"
 
             android:drawableStart="@drawable/star_completed"
             android:drawableLeft="@drawable/star_completed"
@@ -24,11 +39,6 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/campaign_level_pages_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
     <com.greenkey.librain.campaign.ViewPagerIndicator
         android:id="@+id/campaign_view_pager_indicator"
@@ -39,5 +49,10 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/campaign_level_pages_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </android.support.design.widget.CoordinatorLayout>

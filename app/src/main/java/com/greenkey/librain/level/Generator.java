@@ -15,7 +15,7 @@ public class Generator {
 
     private static Random random = new Random();
 
-    public static ResourceType[] createBoardItemsResources(Rule[] rules, int boardSize) {
+    public static ResourceType[] createRound1Items(Rule[] rules, int boardSize) {
         ResourceType[] result = new ResourceType[boardSize];
         Arrays.fill(result, ResourceType.NONE);
 
@@ -35,6 +35,21 @@ public class Generator {
         }
         return result;
     }
+
+    /*
+    public static ResourceType[][] createRound2Items(Rule[] rules, int boardSize) {
+        int rulesCount = rules.length;
+        int usedRulesCount = 0;
+
+        ResourceType[] boardResources =  createRound1Items(rules, boardSize);
+
+        for (ResourceType resourceType : boardResources) {
+            if (resourceType != ResourceType.NONE) {
+
+            }
+        }
+    }
+    */
 
 
     public static Rule[] createRules(Level.LevelType levelType, int[] items) {

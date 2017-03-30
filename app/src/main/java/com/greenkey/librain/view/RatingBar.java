@@ -118,4 +118,6 @@ public class RatingBar extends LinearLayout {
         createItems(this.progress, this.max, this.starsSrc, this.starsCompletedSrc);
     }
 
+
+
 }
