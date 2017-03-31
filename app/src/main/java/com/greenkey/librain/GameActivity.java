@@ -19,6 +19,8 @@ import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.level.Level;
+import com.greenkey.librain.level.gameround.GameRound;
+import com.greenkey.librain.level.gameround.SecondGameRound;
 import com.greenkey.librain.view.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.view.distributorview.DistributorView2;
@@ -29,17 +31,17 @@ public class GameActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "level";
 
-    private static final int MAX_TRIES_COUNT = 3;
+    private static final int ROUNDS_COUNT = 2;
+    private int currentRound;
 
     private LevelDao levelDao;
 
     private Level currentLevel;
 
-    private int trueAnswersCount;
-    private int countTries;
+    private int record;
+    private int currentScore;
 
     private int levelId;
-    private int record;
 
     private int levelShowingTime;
 
@@ -60,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
     private int[] levelItems;
     private Level.LevelType levelType;
 
-    private ResourceType[] resources;
+    private GameRound currentGameRound;
 
     private Handler handler = new Handler();
 
@@ -97,7 +99,7 @@ public class GameActivity extends AppCompatActivity {
         preShowAnimator.addListener(preAnimatorListener);
 
         resultAnimator = ObjectAnimator.ofFloat(roundTextView, View.ALPHA, 0.0f, 1.0f);
-        resultAnimator.setDuration(1500);
+        resultAnimator.setDuration(1000);
         ///resultAnimator.setInterpolator(new LinearInterpolator()); Для отскоков и прочего
         resultAnimator.addListener(resultAnimatorListener);
 
@@ -140,18 +142,18 @@ public class GameActivity extends AppCompatActivity {
         distributorViewWidth = 0;
         distributorViewHeight = 0;
 
-        trueAnswersCount = 0;
-        countTries = 0;
+        currentScore = 0;
+        currentRound = 1;
 
-        setStateTextView(countTries, MAX_TRIES_COUNT);
+        setStateTextView(currentRound, ROUNDS_COUNT);
     }
 
     private void setStateTextView(int countTries, int maxCountTries) {
-        stateTextView.setText((countTries + 1) + "/" + maxCountTries);
+        stateTextView.setText(currentRound+ "/" + maxCountTries);
     }
 
 
-    //ПОказ фигур
+    //Показ фигур на указанное время и дальнейшее их удаление
     private class ShowBoardItemRunnable implements Runnable {
 
         private static final int DEFAULT_DELAY = 100;
@@ -176,8 +178,30 @@ public class GameActivity extends AppCompatActivity {
         }
 
         private final int showTime;
-        public ShowBoardItemRunnable(int showTime) {
+
+        private final int roundNumber;
+        private boolean isSecondRoundFirstShowing;
+
+        public ShowBoardItemRunnable(int showTime, int roundNumber) {
             this.showTime = showTime;
+            this.roundNumber = roundNumber;
+
+            Rule[] rules = Generator.createRules(levelType, levelItems);
+            distributorView.setItems(rules);
+
+            switch (roundNumber) {
+                case 1:
+                    currentGameRound = Generator.createRound1Items(rules, rowCount * columnCount);
+                    boardView.setItemsResources(currentGameRound.getAnswer());
+
+                    break;
+                case 2:
+                    isSecondRoundFirstShowing = true;
+                    currentGameRound = Generator.createRound2Items(rules, rowCount * columnCount);
+                    boardView.setItemsResources(((SecondGameRound)currentGameRound).getFirstPart());
+
+                    break;
+            }
         }
 
         @Override
@@ -192,12 +216,20 @@ public class GameActivity extends AppCompatActivity {
                     currentShowTime += DEFAULT_DELAY;
                     handler.postDelayed(this, DEFAULT_DELAY);
                 } else {
-                    isRunning = false;
+                    if (roundNumber == 2 && isSecondRoundFirstShowing) {
+                        isSecondRoundFirstShowing = false;
+                        currentShowTime = 0;
+                        boardView.setItemsResources(((SecondGameRound)currentGameRound).getSecondPart());
 
-                    boardView.removeItemsResources();
+                        handler.post(this);
+                    } else {
+                        isRunning = false;
 
-                    boardView.setItemsOnTouchListener(boardItemsTouchListener);
-                    distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
+                        boardView.removeItemsResources();
+
+                        boardView.setItemsOnTouchListener(boardItemsTouchListener);
+                        distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
+                    }
                 }
             }
         }
@@ -220,14 +252,14 @@ public class GameActivity extends AppCompatActivity {
             roundTextView.setVisibility(View.VISIBLE);
             boardView.setVisibility(View.INVISIBLE);
 
-            switch (countTries) {
-                case 0:
+            switch (currentRound) {
+                case 1:
                     roundTextView.setText(R.string.game_round_1);
                     break;
-                case 1:
+                case 2:
                     roundTextView.setText(R.string.game_round_2);
                     break;
-                case 2:
+                case 3:
                     roundTextView.setText(R.string.game_round_3);
                     break;
             }
@@ -248,15 +280,7 @@ public class GameActivity extends AppCompatActivity {
                 roundTextView.setVisibility(View.INVISIBLE);
                 boardView.setVisibility(View.VISIBLE);
 
-                Rule[] rules = Generator.createRules(levelType, levelItems);
-
-                distributorView.setItems(rules);
-
-                resources = Generator.createRound1Items(rules, rowCount * columnCount);
-                boardView.setItemsResources(resources);
-
-                showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime);
-
+                showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime, currentRound);
                 handler.post(showBoardItemsRunnable);
             }
         }
@@ -288,9 +312,9 @@ public class GameActivity extends AppCompatActivity {
             confirmButton.setVisibility(View.INVISIBLE);
 
             ResourceType[] userAnswer = boardView.getItemsResources();
-            if (Arrays.equals(userAnswer, resources)) {
-                trueAnswersCount++;
-                ratingBar.setProgress(trueAnswersCount);
+            if (Arrays.equals(userAnswer, currentGameRound.getAnswer())) {
+                currentScore++;
+                ratingBar.setProgress(currentScore);
 
                 roundTextView.setText("Pravilno");
             } else {
@@ -298,7 +322,7 @@ public class GameActivity extends AppCompatActivity {
                 roundTextView.setText("Ne Pravilno");
             }
 
-            countTries++;
+            currentRound++;
         }
 
         @Override
@@ -306,8 +330,8 @@ public class GameActivity extends AppCompatActivity {
 
             if ( ! isAnimationPaused) {
 
-                if (countTries < MAX_TRIES_COUNT) {
-                    setStateTextView(countTries, MAX_TRIES_COUNT);
+                if (currentRound == ROUNDS_COUNT) {
+                    setStateTextView(currentRound, ROUNDS_COUNT);
                     preShowAnimator.start();
                 } else {
                     showResultDialog();
@@ -565,7 +589,7 @@ public class GameActivity extends AppCompatActivity {
         levelTextView.setText(String.valueOf(levelId));
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
-        ratingBar.setProgress(trueAnswersCount);
+        ratingBar.setProgress(currentScore);
 
         final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.result_dialog_levels_text_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
@@ -590,8 +614,8 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        if (trueAnswersCount > record) {
-            currentLevel = levelDao.updateRecord(levelId, trueAnswersCount);
+        if (currentScore > record) {
+            currentLevel = levelDao.updateRecord(levelId, currentScore);
         }
 
         final TextView nextTextView = (TextView) dialogView.findViewById(R.id.result_dialog_next_text_view);
@@ -609,7 +633,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
         } else {
-            if (trueAnswersCount > 0) {
+            if (currentScore > 0) {
                 final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
 
                 nextTextView.setOnClickListener(new View.OnClickListener() {

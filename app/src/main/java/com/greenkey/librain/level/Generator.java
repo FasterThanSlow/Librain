@@ -3,6 +3,9 @@ package com.greenkey.librain.level;
 import com.greenkey.librain.entity.ResourceType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.level.Level;
+import com.greenkey.librain.level.gameround.FirstGameRound;
+import com.greenkey.librain.level.gameround.GameRound;
+import com.greenkey.librain.level.gameround.SecondGameRound;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -15,9 +18,9 @@ public class Generator {
 
     private static Random random = new Random();
 
-    public static ResourceType[] createRound1Items(Rule[] rules, int boardSize) {
-        ResourceType[] result = new ResourceType[boardSize];
-        Arrays.fill(result, ResourceType.NONE);
+    private static ResourceType[] createItems(Rule[] rules, int boardSize) {
+        ResourceType[] items = new ResourceType[boardSize];
+        Arrays.fill(items, ResourceType.NONE);
 
         int rulesCount = rules.length;
         for (int i = 0; i < rulesCount; i++) {
@@ -28,28 +31,56 @@ public class Generator {
             for (int j = 0; j < itemsCount; j++) {
                 do {
                     index = random.nextInt(boardSize);
-                } while (result[index] != ResourceType.NONE);
+                } while (items[index] != ResourceType.NONE);
 
-                result[index] = itemsType;
+                items[index] = itemsType;
             }
         }
-        return result;
+
+        return items;
     }
 
-    /*
-    public static ResourceType[][] createRound2Items(Rule[] rules, int boardSize) {
-        int rulesCount = rules.length;
-        int usedRulesCount = 0;
+    public static GameRound createRound1Items(Rule[] rules, int boardSize) {
+        return new FirstGameRound(createItems(rules, boardSize));
+    }
 
-        ResourceType[] boardResources =  createRound1Items(rules, boardSize);
+    public static GameRound createRound2Items(Rule[] rules, int boardSize) {
+        ResourceType[] trueAnswer =  createItems(rules, boardSize);
 
-        for (ResourceType resourceType : boardResources) {
-            if (resourceType != ResourceType.NONE) {
+        ResourceType[] firstPartItems =  Arrays.copyOf(trueAnswer, boardSize);
 
+        ResourceType[] secondPartItems = new ResourceType[boardSize];
+        Arrays.fill(secondPartItems, ResourceType.NONE);
+
+        int itemsCount = 0;
+        for (Rule rule : rules) {
+            itemsCount += rule.getItemsCount();
+        }
+
+        int firstPartItemsCount =  itemsCount / 2;
+        int secondPartItemsCount =  itemsCount - firstPartItemsCount;
+
+        int usedItems = 0;
+        while (usedItems < secondPartItemsCount) {
+            for (int i = 0; i < boardSize; i++) {
+                if (firstPartItems[i] != ResourceType.NONE) {
+                    if (random.nextBoolean()) {
+                        secondPartItems[i] = firstPartItems[i];
+
+                        firstPartItems[i] = ResourceType.NONE;
+                        usedItems++;
+                    }
+
+                    if (usedItems == secondPartItemsCount) {
+                        break;
+                    }
+                }
             }
         }
+
+        return new SecondGameRound(trueAnswer, firstPartItems, secondPartItems);
     }
-    */
+
 
 
     public static Rule[] createRules(Level.LevelType levelType, int[] items) {
@@ -64,7 +95,7 @@ public class Generator {
         return rules;
     }
 
-    //Выборка X ресурсов из Y; 2 из 3 (Например)
+    //Выборка X ресурсов из Y; Например: 2 из 3
     private static ResourceType[] getUniqueResourceTypes(ResourceType[] source, int itemsCount) {
         int[] usedItemIndexes = new int[itemsCount];
         Arrays.fill(usedItemIndexes, -1);
