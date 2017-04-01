@@ -38,41 +38,41 @@ public class LevelDao {
         this.levelsPages = new ArrayList<>();
 
         ArrayList<Level> spaceLevels = new ArrayList<>();
-        spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3} ));
-        spaceLevels.add(new Level(2, 1000, 3, 3, Level.LevelType.SPACE, new int[] {4} ));
-        spaceLevels.add(new Level(3, 1000, 3, 3, Level.LevelType.SPACE, new int[] {5} ));
-        spaceLevels.add(new Level(4, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1, 2} ));
-        spaceLevels.add(new Level(5, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 2} ));
-        spaceLevels.add(new Level(6, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 3} ));
-        spaceLevels.add(new Level(7, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3, 3} ));
-        spaceLevels.add(new Level(8, 1000, 4, 4, Level.LevelType.SPACE, new int[] {5} ));
-        spaceLevels.add(new Level(9, 1000, 4, 4, Level.LevelType.SPACE, new int[] {6} ));
-        spaceLevels.add(new Level(10, 1000, 4, 4, Level.LevelType.SPACE, new int[] {7} ));
-        spaceLevels.add(new Level(11, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 3} ));
-        spaceLevels.add(new Level(12, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 4} ));
-        spaceLevels.add(new Level(13, 1000, 4, 4, Level.LevelType.SPACE, new int[] {4, 4} ));
-        spaceLevels.add(new Level(14, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 1, 2, 1, 2} ));
-        spaceLevels.add(new Level(15, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 3,2} ));
-        spaceLevels.add(new Level(16, 1000, 4, 4, Level.LevelType.SPACE, new int[] {2, 2,2} ));
-        spaceLevels.add(new Level(17, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 4,3} ));
-        spaceLevels.add(new Level(18, 1000, 4, 4, Level.LevelType.SPACE, new int[] {2, 3,3} ));
-        spaceLevels.add(new Level(19, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 3,3} ));
-        spaceLevels.add(new Level(20, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 4, 3} ));
+        spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(2, 1000, 3, 3, Level.LevelType.SPACE, new int[] {4}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(3, 1000, 3, 3, Level.LevelType.SPACE, new int[] {5}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(4, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1, 2}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(5, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 2}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(6, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 3}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(7, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3, 3}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(8, 1000, 4, 4, Level.LevelType.SPACE, new int[] {5}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(9, 1000, 4, 4, Level.LevelType.SPACE, new int[] {6}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(10, 1000, 4, 4, Level.LevelType.SPACE, new int[] {7}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(11, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 3}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(12, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 4}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(13, 1000, 4, 4, Level.LevelType.SPACE, new int[] {4, 4}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(14, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 1, 2, 1, 2}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(15, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 3,2}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(16, 1000, 4, 4, Level.LevelType.SPACE, new int[] {2, 2,2}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(17, 1000, 4, 4, Level.LevelType.SPACE, new int[] {1, 4,3}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(18, 1000, 4, 4, Level.LevelType.SPACE, new int[] {2, 3,3}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(19, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 3,3}, new int[] {3}, new int[] {3} ));
+        spaceLevels.add(new Level(20, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 4, 3}, new int[] {3}, new int[] {3} ));
 
         this.levelsPages.add(new LevelsPage(Level.LevelType.SPACE, spaceLevels));
         this.levels.addAll(spaceLevels);
 
         ArrayList<Level> fruitLevels = new ArrayList<>();
-        fruitLevels.add(new Level(21, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {10} ));
-        fruitLevels.add(new Level(22, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {11} ));
-        fruitLevels.add(new Level(23, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {12} ));
+        fruitLevels.add(new Level(21, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {10}, new int[] {3}, new int[] {3}));
+        fruitLevels.add(new Level(22, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {11}, new int[] {3}, new int[] {3} ));
+        /*fruitLevels.add(new Level(23, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {12} ));
         fruitLevels.add(new Level(24, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {4, 4} ));
         fruitLevels.add(new Level(25, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {5, 5} ));
         fruitLevels.add(new Level(26, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {6, 6} ));
         fruitLevels.add(new Level(27, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {3, 3, 3} ));
         fruitLevels.add(new Level(28, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {3, 4, 3} ));
         fruitLevels.add(new Level(29, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {4, 4, 4} ));
-        fruitLevels.add(new Level(30, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {4, 5, 4} ));
+        fruitLevels.add(new Level(30, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {4, 5, 4} ));*/
 
         this.levelsPages.add(new LevelsPage(Level.LevelType.FRUIT, fruitLevels));
         this.levels.addAll(fruitLevels);

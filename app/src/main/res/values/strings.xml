@@ -6,6 +6,11 @@
 
     <string name="confirm">Confirm</string>
 
+    <!-- Main Menu -->
+    <string name="main_menu_start_campaign_title">Campaign</string>
+    <string name="main_menu_start_campaign_description">Данный режим предназначен для Вадима, чтобы он научился запоминать где он забыл свои вещи</string>
+
+
     <!-- Pause Dialog -->
     <string name="pause_dialog_levels">Levels</string>
     <string name="pause_dialog_restart">Restart</string>
@@ -16,9 +21,14 @@
     <string name="result_dialog_restart">Restart</string>
     <string name="result_dialog_next">Next</string>
 
-    <string name="game_round_1">Round 1</string>
-    <string name="game_round_2">Round 2</string>
-    <string name="game_round_3">Round 3</string>
+    <string name="game_round_1_title">Round 1</string>
+    <string name="game_round_2_title">Round 2</string>
+    <string name="game_round_3_title">Round 3</string>
+
+    <string name="game_round_1_description">Запомните фигуры</string>
+    <string name="game_round_2_description">Запомните фигуры, а потом совместите</string>
+    <string name="game_round_3_description">Запомните фигуры, и вовспроизведите, что нужно</string>
+
 
     <string name="title_activity_tutorial">TutorialActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>

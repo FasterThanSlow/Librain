@@ -15,12 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.greenkey.librain.dao.LevelDao;
-import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.level.Level;
 import com.greenkey.librain.level.gameround.GameRound;
 import com.greenkey.librain.level.gameround.SecondGameRound;
+import com.greenkey.librain.level.gameround.ThirdGameRound;
 import com.greenkey.librain.view.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.view.distributorview.DistributorView2;
@@ -31,7 +32,7 @@ public class GameActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "level";
 
-    private static final int ROUNDS_COUNT = 2;
+    private static final int ROUNDS_COUNT = 3;
     private int currentRound;
 
     private LevelDao levelDao;
@@ -49,7 +50,9 @@ public class GameActivity extends AppCompatActivity {
     private TextView levelNumberTextView;
     private TextView stateTextView;
 
-    private TextView roundTextView;
+    private View roundView;
+    private TextView roundTitleTextView;
+    private TextView roundDescriptionTextView;
 
     private TextView confirmButton;
 
@@ -59,15 +62,20 @@ public class GameActivity extends AppCompatActivity {
     private int rowCount;
     private int columnCount;
 
-    private int[] levelItems;
+    private int[] firstRoundLevelItems;
+    private int[] secondRoundLevelItems;
+    private int[] thirdRoundLevelItems;
+
     private Level.LevelType levelType;
 
     private GameRound currentGameRound;
 
     private Handler handler = new Handler();
 
-    private ObjectAnimator preShowAnimator;
-    private ObjectAnimator resultAnimator;
+    private ObjectAnimator startRoundAnimator;
+    private ObjectAnimator endRoundAnimator;
+    private ObjectAnimator thirdRoundAnimator;
+
     private ShowBoardItemRunnable showBoardItemsRunnable;
 
     private int distributorViewHeight;
@@ -92,16 +100,21 @@ public class GameActivity extends AppCompatActivity {
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
         confirmButton = (TextView) findViewById(R.id.confirm_text_view);
 
-        roundTextView = (TextView) findViewById(R.id.game_round_text_view);
+        roundView = findViewById(R.id.game_round_banner);
+        roundTitleTextView = (TextView) roundView.findViewById(R.id.game_round_title_text_view);
+        roundDescriptionTextView = (TextView) roundView.findViewById(R.id.game_round_description_text_view);
 
-        preShowAnimator = ObjectAnimator.ofFloat(roundTextView, View.ALPHA, 0.0f, 1.0f);
-        preShowAnimator.setDuration(1500);
-        preShowAnimator.addListener(preAnimatorListener);
+        startRoundAnimator = ObjectAnimator.ofFloat(roundTitleTextView, View.ALPHA, 0.0f, 1.0f);
+        startRoundAnimator.setDuration(1500);
+        startRoundAnimator.addListener(startRoundAnimatorListener);
 
-        resultAnimator = ObjectAnimator.ofFloat(roundTextView, View.ALPHA, 0.0f, 1.0f);
-        resultAnimator.setDuration(1000);
-        ///resultAnimator.setInterpolator(new LinearInterpolator()); Для отскоков и прочего
-        resultAnimator.addListener(resultAnimatorListener);
+        endRoundAnimator = ObjectAnimator.ofFloat(roundTitleTextView, View.ALPHA, 0.0f, 1.0f);
+        endRoundAnimator.setDuration(1000);
+        endRoundAnimator.addListener(endRoundAnimatorListener);
+
+        thirdRoundAnimator = ObjectAnimator.ofFloat(roundTitleTextView, View.ALPHA, 0.0f, 1.0f);
+        thirdRoundAnimator.setDuration(1000);
+        thirdRoundAnimator.addListener(thirdRoundAnimatorListener);
 
         currentLevel = getIntent().getParcelableExtra(LEVEL_PARAM);
         if (currentLevel != null) {
@@ -112,7 +125,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         boardView.setOnTouchListener(boardTouchListener); // Нажатие за пределами полей
-        confirmButton.setOnClickListener(confirmOnClickListener);
+        confirmButton.setOnClickListener(confirmOnClickListener); //
 
         final ImageView pauseButton = (ImageView) findViewById(R.id.pause_image_view);
         pauseButton.setOnClickListener(pauseOnClickListener);
@@ -132,7 +145,10 @@ public class GameActivity extends AppCompatActivity {
         columnCount = level.getColumnCount();
         boardView.createItems(rowCount, columnCount);
 
-        levelItems = level.getItems();
+        firstRoundLevelItems = level.getFirstRoundItems();
+        secondRoundLevelItems = level.getSecondRoundItems();
+        thirdRoundLevelItems = level.getThirdRoundItems();
+
         levelType = level.getLevelType();
     }
 
@@ -153,7 +169,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    //Показ фигур на указанное время и дальнейшее их удаление
+    //Показ фигур на указанное время и дальнейшее их удаление c поля
     private class ShowBoardItemRunnable implements Runnable {
 
         private static final int DEFAULT_DELAY = 100;
@@ -180,27 +196,42 @@ public class GameActivity extends AppCompatActivity {
         private final int showTime;
 
         private final int roundNumber;
-        private boolean isSecondRoundFirstShowing;
+
+        private boolean isSecondRoundFirstPartShowing;
+        private boolean isThirdRoundFirstPartShowing;
 
         public ShowBoardItemRunnable(int showTime, int roundNumber) {
             this.showTime = showTime;
             this.roundNumber = roundNumber;
 
-            Rule[] rules = Generator.createRules(levelType, levelItems);
-            distributorView.setItems(rules);
+            Rule[] rules = null;
 
             switch (roundNumber) {
                 case 1:
+                    rules = Generator.createRules(levelType, firstRoundLevelItems);
+
                     currentGameRound = Generator.createRound1Items(rules, rowCount * columnCount);
                     boardView.setItemsResources(currentGameRound.getAnswer());
 
                     break;
                 case 2:
-                    isSecondRoundFirstShowing = true;
+                    rules = Generator.createRules(levelType, secondRoundLevelItems);
+
+                    isSecondRoundFirstPartShowing = true;
                     currentGameRound = Generator.createRound2Items(rules, rowCount * columnCount);
                     boardView.setItemsResources(((SecondGameRound)currentGameRound).getFirstPart());
 
                     break;
+                case 3:
+                    rules = Generator.createRules(levelType, thirdRoundLevelItems);
+
+                    isThirdRoundFirstPartShowing = true;
+                    currentGameRound = Generator.createRound3Items(rules, rowCount * columnCount);
+                    boardView.setItemsResources(((ThirdGameRound) currentGameRound).getFirstPart());
+                    break;
+            }
+            if (rules != null) {
+                distributorView.setItems(rules);
             }
         }
 
@@ -216,26 +247,90 @@ public class GameActivity extends AppCompatActivity {
                     currentShowTime += DEFAULT_DELAY;
                     handler.postDelayed(this, DEFAULT_DELAY);
                 } else {
-                    if (roundNumber == 2 && isSecondRoundFirstShowing) {
-                        isSecondRoundFirstShowing = false;
-                        currentShowTime = 0;
-                        boardView.setItemsResources(((SecondGameRound)currentGameRound).getSecondPart());
+                    switch (roundNumber) {
+                        case 1:
+                            isRunning = false;
 
-                        handler.post(this);
-                    } else {
-                        isRunning = false;
+                            boardView.removeItemsResources();
 
-                        boardView.removeItemsResources();
+                            boardView.setItemsOnTouchListener(boardItemsTouchListener);
+                            distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
+                            break;
 
-                        boardView.setItemsOnTouchListener(boardItemsTouchListener);
-                        distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
+                        case 2:
+                            if (isSecondRoundFirstPartShowing) {
+                                isSecondRoundFirstPartShowing = false;
+                                currentShowTime = 0;
+                                boardView.setItemsResources(((SecondGameRound)currentGameRound).getSecondPart());
+
+                                handler.post(this);
+                            } else {
+                                isRunning = false;
+
+                                boardView.removeItemsResources();
+
+                                boardView.setItemsOnTouchListener(boardItemsTouchListener);
+                                distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
+                            }
+                            break;
+                        case 3:
+                            if (isThirdRoundFirstPartShowing) {
+                                isThirdRoundFirstPartShowing = false;
+                                currentShowTime = 0;
+                                boardView.setItemsResources(((ThirdGameRound)currentGameRound).getSecondPart());
+
+                                handler.post(this);
+                            } else {
+                                isRunning = false;
+
+                                boardView.removeItemsResources();
+
+                                thirdRoundAnimator.start();
+                            }
+                            break;
                     }
                 }
             }
         }
     }
 
-    private Animator.AnimatorListener preAnimatorListener = new Animator.AnimatorListener() {
+    private Animator.AnimatorListener thirdRoundAnimatorListener = new Animator.AnimatorListener() {
+
+        private boolean isAnimationPaused;
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+            isAnimationPaused = false;
+
+            if (currentGameRound instanceof ThirdGameRound) {
+                roundView.setVisibility(View.VISIBLE);
+                roundTitleTextView.setText("Покажи мне");
+                roundDescriptionTextView.setText(String.valueOf(((ThirdGameRound)currentGameRound).getTrueAnswerPart()));
+            }
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            if ( ! isAnimationPaused) {
+                roundView.setVisibility(View.INVISIBLE);
+
+                boardView.setItemsOnTouchListener(boardItemsTouchListener);
+                distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
+            }
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            isAnimationPaused = true;
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
+
+    private Animator.AnimatorListener startRoundAnimatorListener = new Animator.AnimatorListener() {
 
         private boolean isAnimationPaused;
 
@@ -249,18 +344,21 @@ public class GameActivity extends AppCompatActivity {
                 selectedBoardItem = null;
             }
 
-            roundTextView.setVisibility(View.VISIBLE);
+            roundView.setVisibility(View.VISIBLE);
             boardView.setVisibility(View.INVISIBLE);
 
             switch (currentRound) {
                 case 1:
-                    roundTextView.setText(R.string.game_round_1);
+                    roundTitleTextView.setText(R.string.game_round_1_title);
+                    roundDescriptionTextView.setText(R.string.game_round_1_description);
                     break;
                 case 2:
-                    roundTextView.setText(R.string.game_round_2);
+                    roundTitleTextView.setText(R.string.game_round_2_title);
+                    roundDescriptionTextView.setText(R.string.game_round_2_description);
                     break;
                 case 3:
-                    roundTextView.setText(R.string.game_round_3);
+                    roundTitleTextView.setText(R.string.game_round_3_title);
+                    roundDescriptionTextView.setText(R.string.game_round_3_description);
                     break;
             }
 
@@ -277,7 +375,7 @@ public class GameActivity extends AppCompatActivity {
         public void onAnimationEnd(Animator animation) {
             if ( ! isAnimationPaused) {
 
-                roundTextView.setVisibility(View.INVISIBLE);
+                roundView.setVisibility(View.INVISIBLE);
                 boardView.setVisibility(View.VISIBLE);
 
                 showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime, currentRound);
@@ -295,7 +393,7 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-    private Animator.AnimatorListener resultAnimatorListener = new Animator.AnimatorListener() {
+    private Animator.AnimatorListener endRoundAnimatorListener = new Animator.AnimatorListener() {
 
         private boolean isAnimationPaused;
 
@@ -304,22 +402,22 @@ public class GameActivity extends AppCompatActivity {
 
             isAnimationPaused = false;
 
-            //roundTextView;
-            roundTextView.setVisibility(View.VISIBLE);
+            //roundTitleTextView;
+            roundView.setVisibility(View.VISIBLE);
             boardView.setVisibility(View.INVISIBLE);
 
-            //distributorView.setVisibility(View.INVISIBLE);
             confirmButton.setVisibility(View.INVISIBLE);
 
-            ResourceType[] userAnswer = boardView.getItemsResources();
+            ItemType[] userAnswer = boardView.getItemsResources();
             if (Arrays.equals(userAnswer, currentGameRound.getAnswer())) {
                 currentScore++;
                 ratingBar.setProgress(currentScore);
 
-                roundTextView.setText("Pravilno");
+                roundTitleTextView.setText("Pravilno");
+                roundDescriptionTextView.setText(null);
             } else {
-
-                roundTextView.setText("Ne Pravilno");
+                roundTitleTextView.setText("Ne Pravilno");
+                roundDescriptionTextView.setText(null);
             }
 
             currentRound++;
@@ -330,9 +428,9 @@ public class GameActivity extends AppCompatActivity {
 
             if ( ! isAnimationPaused) {
 
-                if (currentRound == ROUNDS_COUNT) {
+                if (currentRound <= ROUNDS_COUNT) {
                     setStateTextView(currentRound, ROUNDS_COUNT);
-                    preShowAnimator.start();
+                    startRoundAnimator.start();
                 } else {
                     showResultDialog();
                 }
@@ -363,20 +461,22 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
 
         if (resultDialog == null || ! resultDialog.isShowing()) {
-            preShowAnimator.start();
+            startRoundAnimator.start();
         }
     }
 
     @Override
     protected void onPause() {
 
-        if (preShowAnimator.isRunning()) {
-            preShowAnimator.cancel();
+        if (startRoundAnimator.isRunning()) {
+            startRoundAnimator.cancel();
         } else if (showBoardItemsRunnable != null && showBoardItemsRunnable.isRunning()) {
             showBoardItemsRunnable.cancel();
-        } else if (resultAnimator.isRunning()) {
-            resultAnimator.cancel();
-        } else {
+        } else if (endRoundAnimator.isRunning()) {
+            endRoundAnimator.cancel();
+        } else if (thirdRoundAnimator.isRunning()) {
+            thirdRoundAnimator.cancel();
+        } else  {
             if (pauseDialog != null && pauseDialog.isShowing()) {
                 pauseDialog.dismiss();
             }
@@ -398,17 +498,17 @@ public class GameActivity extends AppCompatActivity {
         public void onClick(final View restartButton) {
             restartButton.setClickable(false);
 
-            if (preShowAnimator.isRunning()) {
-                preShowAnimator.cancel();
+            if (startRoundAnimator.isRunning()) {
+                startRoundAnimator.cancel();
             } else if (showBoardItemsRunnable.isRunning()) {
                 showBoardItemsRunnable.cancel();
-            } else if (resultAnimator.isRunning()) {
-                resultAnimator.cancel();
+            } else if (endRoundAnimator.isRunning()) {
+                endRoundAnimator.cancel();
             }
 
             resetLevelProgress();
 
-            preShowAnimator.start();
+            startRoundAnimator.start();
 
             restartButton.postDelayed(new Runnable() {
                 @Override
@@ -424,7 +524,7 @@ public class GameActivity extends AppCompatActivity {
     private View.OnClickListener confirmOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            resultAnimator.start();
+            endRoundAnimator.start();
         }
     };
 
@@ -470,7 +570,7 @@ public class GameActivity extends AppCompatActivity {
                 if (boardItemView.hasImageView()) {
                     Log.d("Lel", "Удаление фигурки с поля");
 
-                    distributorView.addResource(boardItemView.getResourceType());
+                    distributorView.addResource(boardItemView.getItemType());
                     distributorView.setVisibility(View.INVISIBLE);
 
                     if (selectedBoardItem != null)
@@ -501,7 +601,7 @@ public class GameActivity extends AppCompatActivity {
                                 DistributorView2.DistributorItemView hiddenItem = distributorView.getItem(0);
 
                                 //if ( ! hiddenItem.allResourcesUsed()) {
-                                    boardItemView.createImageView(hiddenItem.getResourceType());
+                                    boardItemView.createImageView(hiddenItem.getItemType());
                                     hiddenItem.removeImageView();
                                     //selectedBoardItem.depress();
                                 //}
@@ -557,7 +657,7 @@ public class GameActivity extends AppCompatActivity {
                 DistributorView2.DistributorItemView distributorItemView = (DistributorView2.DistributorItemView) touchView;
 
                 //if ( ! distributorItemView.allResourcesUsed()) {
-                    selectedBoardItem.createImageView(distributorItemView.getResourceType());
+                    selectedBoardItem.createImageView(distributorItemView.getItemType());
                     selectedBoardItem.depress();
 
                     distributorItemView.removeImageView();
@@ -610,7 +710,7 @@ public class GameActivity extends AppCompatActivity {
                 resultDialog.dismiss();
 
                 resetLevelProgress();
-                preShowAnimator.start();
+                startRoundAnimator.start();
             }
         });
 
@@ -629,7 +729,7 @@ public class GameActivity extends AppCompatActivity {
                     setCurrentLevel(nextLevel);
                     resetLevelProgress();
 
-                    preShowAnimator.start();
+                    startRoundAnimator.start();
                 }
             });
         } else {
@@ -644,7 +744,7 @@ public class GameActivity extends AppCompatActivity {
                         setCurrentLevel(unlockedLevel);
                         resetLevelProgress();
 
-                        preShowAnimator.start();
+                        startRoundAnimator.start();
                     }
                 });
             } else {
@@ -669,10 +769,10 @@ public class GameActivity extends AppCompatActivity {
     private void showPauseDialog() {
         isGame = true;
 
-        if (preShowAnimator.isRunning()) {
+        if (startRoundAnimator.isRunning()) {
             Log.d("Anim", "alphaAnimationIsStarted");
             isGame = false;
-            preShowAnimator.cancel();
+            startRoundAnimator.cancel();
         } else if (showBoardItemsRunnable.isRunning()) {
             Log.d("Anim", "endRunnableIsRunning");
             isGame = false;
@@ -704,7 +804,7 @@ public class GameActivity extends AppCompatActivity {
                 isContinuePressed = false;
                 pauseDialog.dismiss();
 
-                preShowAnimator.start();
+                startRoundAnimator.start();
             }
         });
 
@@ -723,7 +823,7 @@ public class GameActivity extends AppCompatActivity {
             public void onDismiss(DialogInterface dialog) {
                 if (isContinuePressed) {
                     if ( ! isGame) {
-                        preShowAnimator.start();
+                        startRoundAnimator.start();
                     }
                 }
             }

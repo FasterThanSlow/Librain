@@ -2,7 +2,6 @@ package com.greenkey.librain.view.boardview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
@@ -10,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.greenkey.librain.R;
-import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.view.PixelConverter;
 
 /**
@@ -110,7 +109,7 @@ public class BoardView extends LinearLayout {
         }
     }
 
-    public void setItemsResources(@NonNull ResourceType[] resources) {
+    public void setItemsResources(@NonNull ItemType[] resources) {
         this.removeItemsResources();
 
         int itemsCount = rowCount * columnCount;
@@ -119,7 +118,7 @@ public class BoardView extends LinearLayout {
         }
 
         for (int i = 0; i < itemsCount; i++) {
-            if (resources[i] != ResourceType.NONE) {
+            if (resources[i] != ItemType.NONE) {
                 items[i].createImageView(resources[i]);
             }
         }
@@ -133,12 +132,12 @@ public class BoardView extends LinearLayout {
         }
     }
 
-    public ResourceType[] getItemsResources() {
+    public ItemType[] getItemsResources() {
         int itemsCount = rowCount * columnCount;
 
-        ResourceType[] result = new ResourceType[itemsCount];
+        ItemType[] result = new ItemType[itemsCount];
         for (int i = 0; i < itemsCount; i++) {
-            result[i] = items[i].getResourceType();
+            result[i] = items[i].getItemType();
         }
 
         return result;
@@ -151,18 +150,18 @@ public class BoardView extends LinearLayout {
         private final Context context;
 
         private ImageView imageView;
-        private ResourceType resourceType;
+        private ItemType itemType;
 
         private static final int ITEM_SIZE_DP = 60;
         private static final int ITEM_MARGIN_DP = 4;
         private static final int ITEM_PADDING_DP = 2;
 
-        public ResourceType getResourceType() {
-            if (resourceType == null) {
-                return ResourceType.NONE;
+        public ItemType getItemType() {
+            if (itemType == null) {
+                return ItemType.NONE;
             }
 
-            return resourceType;
+            return itemType;
         }
 
         BoardItemView(Context context) {
@@ -213,8 +212,8 @@ public class BoardView extends LinearLayout {
         }
 
 
-        public void createImageView(ResourceType resourceType) {
-            this.resourceType = resourceType;
+        public void createImageView(ItemType itemType) {
+            this.itemType = itemType;
 
             if (imageView == null){
                 imageView = new ImageView(context);
@@ -223,13 +222,13 @@ public class BoardView extends LinearLayout {
                 this.addView(imageView);
             }
 
-            imageView.setImageResource(resourceType.getEnabledItemResourceId());
+            imageView.setImageResource(itemType.getEnabledItemResourceId());
         }
 
         public void removeImageView() {
             if (imageView != null) {
                 this.removeView(imageView);
-                this.resourceType= null;
+                this.itemType = null;
                 this.imageView = null;
             }
         }

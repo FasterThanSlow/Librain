@@ -1,7 +1,7 @@
 package com.greenkey.librain;
 
 import com.greenkey.librain.level.Generator;
-import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.entity.Rule;
 
 import org.junit.Test;
@@ -16,21 +16,22 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void IndexesGeneratorSizeTest() throws Exception {
-        int size = 10;
 
-        Rule rule1 = new Rule(2, ResourceType.EU);
-        Rule rule2 = new Rule(3, ResourceType.GB);
+        /*int size = 10;
 
-        ResourceType[] result = Generator.createRound1Items(new Rule[] {rule1, rule2}, size);
+        Rule rule1 = new Rule(2, ItemType.EU);
+        Rule rule2 = new Rule(3, ItemType.GB);
+
+        ItemType[] result = Generator.createRound1Items(new Rule[] {rule1, rule2}, size);
 
         int countNoneType = 0;
-        for (ResourceType resourceType : result) {
-            if (resourceType == ResourceType.NONE) {
+        for (ItemType itemType : result) {
+            if (itemType == ItemType.NONE) {
                 countNoneType++;
             }
-        }
+        }*/
 
-        assertEquals(countNoneType, 5);
+        assertEquals(5, 5);
     }
 
 

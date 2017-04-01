@@ -127,7 +127,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-
         <com.greenkey.librain.view.boardview.BoardView
             android:id="@+id/board_view"
             android:gravity="center"
@@ -149,16 +148,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/game_round_text_view"
-            android:textColor="#000"
-            android:textSize="30sp"
+        <LinearLayout
+            android:id="@+id/game_round_banner"
+
+            android:orientation="vertical"
 
             android:layout_gravity="center"
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/game_round_title_text_view"
+                tools:text="Round 1"
+                android:textColor="#000"
+                android:textSize="30sp"
+
+                android:layout_gravity="center_horizontal"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/game_round_description_text_view"
+                tools:text="Round 1"
+                android:textColor="#000"
+                android:textSize="16sp"
+
+                android:layout_gravity="center_horizontal"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </FrameLayout>
 
     <LinearLayout

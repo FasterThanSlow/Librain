@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.greenkey.librain.R;
-import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.view.PixelConverter;
 
@@ -114,12 +114,12 @@ public class DistributorView2 extends LinearLayout {
         itemsLayout.removeAllViews();
     }
 
-    public void addResource(ResourceType resourceType) {
-        final DistributorItemView itemView = getItem(resourceType);
+    public void addResource(ItemType itemType) {
+        final DistributorItemView itemView = getItem(itemType);
         if (itemView != null) {
             itemView.addImageView();
         } else {
-            DistributorItemView distributorItemView = new DistributorItemView(new Rule(1, resourceType));
+            DistributorItemView distributorItemView = new DistributorItemView(new Rule(1, itemType));
             distributorItemView.setOnTouchListener(itemsOnTouchListener);
 
             items.add(distributorItemView);
@@ -136,9 +136,9 @@ public class DistributorView2 extends LinearLayout {
         return items.get(index);
     }
 
-    private DistributorItemView getItem(ResourceType resourceType) {
+    private DistributorItemView getItem(ItemType itemType) {
         for (DistributorItemView itemView : items) {
-            if (itemView.getResourceType() == resourceType)
+            if (itemView.getItemType() == itemType)
                 return itemView;
         }
 
@@ -180,7 +180,7 @@ public class DistributorView2 extends LinearLayout {
     public class DistributorItemView extends FrameLayout {
 
         private int itemsCount;
-        private ResourceType resourceType;
+        private ItemType itemType;
 
         private ImageView imageView;
         private TextView itemsCountTextView;
@@ -209,12 +209,12 @@ public class DistributorView2 extends LinearLayout {
             this.setBackgroundResource(R.drawable.destributer_item_background);
 
             this.itemsCount = rule.getItemsCount();
-            this.resourceType = rule.getResourceType();
+            this.itemType = rule.getItemType();
 
             createImageView(context);
 
-            if (resourceType != ResourceType.NONE)
-                imageView.setImageResource(resourceType.getEnabledItemResourceId());
+            if (itemType != ItemType.NONE)
+                imageView.setImageResource(itemType.getEnabledItemResourceId());
 
             createItemsCountTextView(context);
             updateCountItemsTextView(itemsCount);
@@ -224,8 +224,8 @@ public class DistributorView2 extends LinearLayout {
             return itemsCount == 0;
         }
 
-        public ResourceType getResourceType() {
-            return resourceType;
+        public ItemType getItemType() {
+            return itemType;
         }
 
         private final FrameLayout.LayoutParams imageViewLayoutParams = new FrameLayout.LayoutParams
@@ -243,7 +243,7 @@ public class DistributorView2 extends LinearLayout {
             updateCountItemsTextView(itemsCount);
 
             if (itemsCount == 1) {
-                imageView.setImageResource(resourceType.getEnabledItemResourceId());
+                imageView.setImageResource(itemType.getEnabledItemResourceId());
             }
         }
 

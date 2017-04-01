@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
 
     android:orientation="vertical"
 
@@ -11,37 +11,68 @@
 
     tools:context="com.greenkey.librain.MainMenuActivity">
 
-    <TextView
-        android:text="ЗдарАва, Тестер, а нука, протести!"
-        android:textSize="40sp"
+    <android.support.v7.widget.CardView
+        android:id="@+id/main_start_campaign"
 
-        android:padding="16dp"
+        card_view:cardElevation="4dp"
+        card_view:cardCornerRadius="2dp"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_margin="8dp"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/gogo"
+            <ImageView
+                android:background="@color/campaign_card_view_color"
 
-            android:layout_marginTop="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
 
-            android:text="Играть"
-            android:layout_gravity="center"
+                android:src="@drawable/ic_trophy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
 
-        <Button
-            android:id="@+id/startTutorialButton"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
 
-            android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            android:text="Обучение"
-            android:layout_gravity="center"
+                <TextView
+                    android:text="@string/main_menu_start_campaign_title"
+                    android:textSize="20sp"
+                    android:textColor="@color/campaign_disabled_card_view_pressed_color"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
 
-</LinearLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:paddingBottom="24dp"
+
+                    android:text="@string/main_menu_start_campaign_description"
+                    android:textSize="14sp"
+                    android:textColor="@color/campaign_disabled_card_view_pressed_color"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.design.widget.CoordinatorLayout>

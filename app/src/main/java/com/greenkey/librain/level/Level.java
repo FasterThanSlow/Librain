@@ -4,11 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import com.greenkey.librain.entity.ResourceType;
-import com.greenkey.librain.entity.Rule;
-
-import java.util.Arrays;
-import java.util.Random;
+import com.greenkey.librain.entity.ItemType;
 
 /**
  * Created by Alexander on 16.02.2017.
@@ -18,15 +14,15 @@ public class Level implements Parcelable {
 
     public enum LevelType {
 
-        SPACE(new ResourceType[] {ResourceType.MARS, ResourceType.EARTH, ResourceType.ASTEROID,ResourceType.JUPITER,ResourceType.MOON}),
-        FRUIT(new ResourceType[] {ResourceType.ORANGE, ResourceType.CHERRY, ResourceType.FRUIT, ResourceType.BANANAS, ResourceType.APRICOT,ResourceType.FIG});
+        SPACE(new ItemType[] {ItemType.MARS, ItemType.EARTH, ItemType.ASTEROID, ItemType.JUPITER, ItemType.MOON}),
+        FRUIT(new ItemType[] {ItemType.ORANGE, ItemType.CHERRY, ItemType.FRUIT, ItemType.BANANAS, ItemType.APRICOT, ItemType.FIG});
 
-        private ResourceType[] resources;
-        LevelType(ResourceType[] resources) {
+        private ItemType[] resources;
+        LevelType(ItemType[] resources) {
             this.resources = resources;
         }
 
-        public ResourceType[] getResources() {
+        public ItemType[] getResources() {
             return resources;
         }
     }
@@ -38,8 +34,11 @@ public class Level implements Parcelable {
     private int record;
     private boolean isEnabled;
 
-    private LevelType levelType;
-    private int[] items;
+    private final LevelType levelType;
+    private final int[] firstRoundItems;
+    private final int[] secondRoundItems;
+    private final int[] thirdRoundItems;
+
 
     public int getLevelId() {
         return levelId;
@@ -69,8 +68,16 @@ public class Level implements Parcelable {
         return levelType;
     }
 
-    public int[] getItems() {
-        return items;
+    public int[] getFirstRoundItems() {
+        return firstRoundItems;
+    }
+
+    public int[] getSecondRoundItems() {
+        return secondRoundItems;
+    }
+
+    public int[] getThirdRoundItems() {
+        return thirdRoundItems;
     }
 
     public void setEnabled(boolean enabled) {
@@ -82,13 +89,18 @@ public class Level implements Parcelable {
     }
 
     public Level(int levelId, int showingTime, int rowCount, int columnCount,
-                 @NonNull LevelType levelType, @NonNull int[] items) {
+                 @NonNull LevelType levelType,
+                 @NonNull int[] firstRoundItems,
+                 @NonNull int[] secondRoundItems,
+                 @NonNull int[] thirdRoundItems) {
         this.levelId = levelId;
         this.showingTime = showingTime;
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.levelType = levelType;
-        this.items = items;
+        this.firstRoundItems = firstRoundItems;
+        this.secondRoundItems = secondRoundItems;
+        this.thirdRoundItems = thirdRoundItems;
     }
 
     public Level(Parcel in) {
@@ -97,7 +109,9 @@ public class Level implements Parcelable {
         this.rowCount = in.readInt();
         this.columnCount = in.readInt();
         this.levelType = LevelType.valueOf(in.readString());
-        this.items = in.createIntArray();
+        this.firstRoundItems = in.createIntArray();
+        this.secondRoundItems = in.createIntArray();
+        this.thirdRoundItems = in.createIntArray();
 
         this.record = in.readInt();
         this.isEnabled = in.readInt() == 1;
@@ -110,7 +124,9 @@ public class Level implements Parcelable {
         dest.writeInt(rowCount);
         dest.writeInt(columnCount);
         dest.writeString(levelType.name());
-        dest.writeIntArray(items);
+        dest.writeIntArray(firstRoundItems);
+        dest.writeIntArray(secondRoundItems);
+        dest.writeIntArray(thirdRoundItems);
 
         dest.writeInt(record);
         dest.writeInt(isEnabled ? 1 : 0);

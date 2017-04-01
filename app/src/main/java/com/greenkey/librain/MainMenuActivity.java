@@ -15,19 +15,11 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        Button gogoButton = (Button) findViewById(R.id.gogo);
+        View gogoButton = findViewById(R.id.main_start_campaign);
         gogoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainMenuActivity.this, CampaignActivity.class));
-            }
-        });
-
-        final Button startTutorialButton = (Button) findViewById(R.id.startTutorialButton);
-        startTutorialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, TutorialActivity.class));
             }
         });
     }

@@ -1,6 +1,6 @@
 package com.greenkey.librain.level.gameround;
 
-import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.ItemType;
 
 /**
  * Created by Alexander on 31.03.2017.
@@ -8,18 +8,18 @@ import com.greenkey.librain.entity.ResourceType;
 
 public class SecondGameRound extends GameRound {
 
-    private final ResourceType[] firstPart;
-    private final ResourceType[] secondPart;
+    private final ItemType[] firstPart;
+    private final ItemType[] secondPart;
 
-    public ResourceType[] getFirstPart() {
+    public ItemType[] getFirstPart() {
         return firstPart;
     }
 
-    public ResourceType[] getSecondPart() {
+    public ItemType[] getSecondPart() {
         return secondPart;
     }
 
-    public SecondGameRound(ResourceType[] answer, ResourceType[] firstPart, ResourceType[] secondPart) {
+    public SecondGameRound(ItemType[] answer, ItemType[] firstPart, ItemType[] secondPart) {
         super(answer);
         this.firstPart = firstPart;
         this.secondPart = secondPart;

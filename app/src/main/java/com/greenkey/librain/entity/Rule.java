@@ -11,24 +11,24 @@ import android.support.annotation.NonNull;
 public class Rule implements Parcelable {
 
     private int itemsCount;
-    private ResourceType resourceType;
+    private ItemType itemType;
 
     public int getItemsCount() {
         return itemsCount;
     }
 
-    public ResourceType getResourceType() {
-        return resourceType;
+    public ItemType getItemType() {
+        return itemType;
     }
 
-    public Rule(int itemsCount, @NonNull ResourceType resourceType) {
+    public Rule(int itemsCount, @NonNull ItemType itemType) {
         this.itemsCount = itemsCount;
-        this.resourceType = resourceType;
+        this.itemType = itemType;
     }
 
     public Rule(Parcel in) {
         this.itemsCount = in.readInt();
-        this.resourceType = ResourceType.valueOf(in.readString());
+        this.itemType = ItemType.valueOf(in.readString());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Rule implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(itemsCount);
-        dest.writeString(resourceType.name());
+        dest.writeString(itemType.name());
     }
 
     public static final Parcelable.Creator<Rule> CREATOR = new Parcelable.Creator<Rule>() {

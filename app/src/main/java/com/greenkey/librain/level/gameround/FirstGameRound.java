@@ -1,6 +1,6 @@
 package com.greenkey.librain.level.gameround;
 
-import com.greenkey.librain.entity.ResourceType;
+import com.greenkey.librain.entity.ItemType;
 
 /**
  * Created by Alexander on 31.03.2017.
@@ -8,7 +8,7 @@ import com.greenkey.librain.entity.ResourceType;
 
 public class FirstGameRound extends GameRound {
 
-    public FirstGameRound(ResourceType[] items) {
+    public FirstGameRound(ItemType[] items) {
         super(items);
     }
 }
