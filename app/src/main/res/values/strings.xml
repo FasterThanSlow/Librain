@@ -4,11 +4,13 @@
     <string name="state">State</string>
     <string name="level">Level</string>
 
-    <string name="confirm">Confirm</string>
+    <string name="game_check_result">Check</string>
 
     <!-- Main Menu -->
     <string name="main_menu_start_campaign_title">Campaign</string>
     <string name="main_menu_start_campaign_description">Данный режим предназначен для Вадима, чтобы он научился запоминать где он забыл свои вещи</string>
+
+    <string name="main_menu_play">Play</string>
 
 
     <!-- Pause Dialog -->
@@ -30,6 +32,15 @@
     <string name="game_round_3_description">Запомните фигуры, и вовспроизведите, что нужно</string>
 
 
+    <!-- Rate app dialog -->
+    <string name="rate_app_dialog_title">Оцените приложение</string>
+    <string name="rate_app_dialog_message">Здравствуйте, если вам понравилось наше приложение и вы заинтересованы в его развитии, потратьте минуту своего времени, чтобы оставить свою оценку и отзыв.</string>
+    <string name="rate_app_dialog_dont_show_again">Нет, спасибо</string>
+    <string name="rate_app_dialog_remind_me_later">Напомнить позже</string>
+    <string name="rate_app_dialog_rate_now">Оценить сейчас</string>
+
+
+    <!-- FOR REMOVE -->
     <string name="title_activity_tutorial">TutorialActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>

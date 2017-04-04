@@ -48,13 +48,16 @@ public class GameActivity extends AppCompatActivity {
 
     private RatingBar ratingBar;
     private TextView levelNumberTextView;
-    private TextView stateTextView;
 
     private View roundView;
+    private ImageView roundImageView;
     private TextView roundTitleTextView;
     private TextView roundDescriptionTextView;
 
-    private TextView confirmButton;
+    private TextView checkResultButton;
+
+    private View blackoutView;
+    private View bottomBlackoutView;
 
     private BoardView boardView;
     private DistributorView2 distributorView;
@@ -95,24 +98,28 @@ public class GameActivity extends AppCompatActivity {
         boardView = (BoardView) findViewById(R.id.board_view);
         distributorView = (DistributorView2) findViewById(R.id.hidden_stuff);
 
+        blackoutView = findViewById(R.id.game_blackout_view);
+        bottomBlackoutView = findViewById(R.id.game_bottom_blackout_view);
+
         ratingBar = (RatingBar) findViewById(R.id.stars);
-        stateTextView = (TextView) findViewById(R.id.state_text_view);
+        //stateTextView = (TextView) findViewById(R.id.state_text_view);
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
-        confirmButton = (TextView) findViewById(R.id.confirm_text_view);
+        checkResultButton = (TextView) findViewById(R.id.check_result_button);
 
         roundView = findViewById(R.id.game_round_banner);
+        roundImageView = (ImageView) roundView.findViewById(R.id.game_round_image_view);
         roundTitleTextView = (TextView) roundView.findViewById(R.id.game_round_title_text_view);
         roundDescriptionTextView = (TextView) roundView.findViewById(R.id.game_round_description_text_view);
 
-        startRoundAnimator = ObjectAnimator.ofFloat(roundTitleTextView, View.ALPHA, 0.0f, 1.0f);
+        startRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
         startRoundAnimator.setDuration(1500);
         startRoundAnimator.addListener(startRoundAnimatorListener);
 
-        endRoundAnimator = ObjectAnimator.ofFloat(roundTitleTextView, View.ALPHA, 0.0f, 1.0f);
+        endRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
         endRoundAnimator.setDuration(1000);
         endRoundAnimator.addListener(endRoundAnimatorListener);
 
-        thirdRoundAnimator = ObjectAnimator.ofFloat(roundTitleTextView, View.ALPHA, 0.0f, 1.0f);
+        thirdRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
         thirdRoundAnimator.setDuration(1000);
         thirdRoundAnimator.addListener(thirdRoundAnimatorListener);
 
@@ -125,7 +132,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         boardView.setOnTouchListener(boardTouchListener); // Нажатие за пределами полей
-        confirmButton.setOnClickListener(confirmOnClickListener); //
+        checkResultButton.setOnClickListener(checkResultOnClickListener); //
 
         final ImageView pauseButton = (ImageView) findViewById(R.id.pause_image_view);
         pauseButton.setOnClickListener(pauseOnClickListener);
@@ -161,13 +168,14 @@ public class GameActivity extends AppCompatActivity {
         currentScore = 0;
         currentRound = 1;
 
-        setStateTextView(currentRound, ROUNDS_COUNT);
+        //setStateTextView(currentRound, ROUNDS_COUNT);
     }
 
+    /*
     private void setStateTextView(int countTries, int maxCountTries) {
         stateTextView.setText(currentRound+ "/" + maxCountTries);
     }
-
+*/
 
     //Показ фигур на указанное время и дальнейшее их удаление c поля
     private class ShowBoardItemRunnable implements Runnable {
@@ -304,6 +312,8 @@ public class GameActivity extends AppCompatActivity {
 
             if (currentGameRound instanceof ThirdGameRound) {
                 roundView.setVisibility(View.VISIBLE);
+                boardView.setVisibility(View.INVISIBLE);
+
                 roundTitleTextView.setText("Покажи мне");
                 roundDescriptionTextView.setText(String.valueOf(((ThirdGameRound)currentGameRound).getTrueAnswerPart()));
             }
@@ -313,6 +323,7 @@ public class GameActivity extends AppCompatActivity {
         public void onAnimationEnd(Animator animation) {
             if ( ! isAnimationPaused) {
                 roundView.setVisibility(View.INVISIBLE);
+                boardView.setVisibility(View.VISIBLE);
 
                 boardView.setItemsOnTouchListener(boardItemsTouchListener);
                 distributorView.setItemsOnTouchListener(distributorItemsTouchListener);
@@ -344,7 +355,14 @@ public class GameActivity extends AppCompatActivity {
                 selectedBoardItem = null;
             }
 
+            blackoutView.setVisibility(View.INVISIBLE);
+            bottomBlackoutView.setVisibility(View.INVISIBLE);
+
+            roundImageView.setVisibility(View.GONE);
+            roundTitleTextView.setVisibility(View.VISIBLE);
+            roundDescriptionTextView.setVisibility(View.VISIBLE);
             roundView.setVisibility(View.VISIBLE);
+
             boardView.setVisibility(View.INVISIBLE);
 
             switch (currentRound) {
@@ -368,7 +386,7 @@ public class GameActivity extends AppCompatActivity {
             boardView.removeItemsResources();
 
             distributorView.setVisibility(View.INVISIBLE);
-            confirmButton.setVisibility(View.INVISIBLE);
+            checkResultButton.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -396,28 +414,34 @@ public class GameActivity extends AppCompatActivity {
     private Animator.AnimatorListener endRoundAnimatorListener = new Animator.AnimatorListener() {
 
         private boolean isAnimationPaused;
+        private boolean isTrueAnswer;
 
         @Override
         public void onAnimationStart(Animator animation) {
 
             isAnimationPaused = false;
 
-            //roundTitleTextView;
+            roundTitleTextView.setVisibility(View.GONE);
+            roundDescriptionTextView.setVisibility(View.GONE);
+            roundImageView.setVisibility(View.VISIBLE);
             roundView.setVisibility(View.VISIBLE);
+
             boardView.setVisibility(View.INVISIBLE);
 
-            confirmButton.setVisibility(View.INVISIBLE);
+            checkResultButton.setVisibility(View.INVISIBLE);
 
             ItemType[] userAnswer = boardView.getItemsResources();
             if (Arrays.equals(userAnswer, currentGameRound.getAnswer())) {
                 currentScore++;
+                isTrueAnswer = true;
+
                 ratingBar.setProgress(currentScore);
 
-                roundTitleTextView.setText("Pravilno");
-                roundDescriptionTextView.setText(null);
+                roundImageView.setImageResource(R.drawable.game_round_right_answer);
             } else {
-                roundTitleTextView.setText("Ne Pravilno");
-                roundDescriptionTextView.setText(null);
+                isTrueAnswer = false;
+
+                roundImageView.setImageResource(R.drawable.game_round_wrong_answer);
             }
 
             currentRound++;
@@ -428,8 +452,8 @@ public class GameActivity extends AppCompatActivity {
 
             if ( ! isAnimationPaused) {
 
-                if (currentRound <= ROUNDS_COUNT) {
-                    setStateTextView(currentRound, ROUNDS_COUNT);
+                if (currentRound <= ROUNDS_COUNT && isTrueAnswer) {
+                    //setStateTextView(currentRound, ROUNDS_COUNT);
                     startRoundAnimator.start();
                 } else {
                     showResultDialog();
@@ -521,7 +545,7 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener confirmOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener checkResultOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             endRoundAnimator.start();
@@ -542,6 +566,9 @@ public class GameActivity extends AppCompatActivity {
 
                     selectedBoardItem = null;
                 }
+
+                blackoutView.setVisibility(View.INVISIBLE);
+                bottomBlackoutView.setVisibility(View.INVISIBLE);
 
                 distributorView.setVisibility(View.INVISIBLE);
             }
@@ -578,17 +605,21 @@ public class GameActivity extends AppCompatActivity {
 
                     boardItemView.removeImageView();
 
-                    confirmButton.setVisibility(View.GONE);
+                    checkResultButton.setVisibility(View.INVISIBLE);
                 } else {
                     if (boardItemView.isItemPressed()) { //Повторный клик по пустой клетке
+
                         Log.d("Lel", "Убрать инструменты");
+                        distributorView.setVisibility(View.INVISIBLE);
+
+                        blackoutView.setVisibility(View.INVISIBLE);
+                        bottomBlackoutView.setVisibility(View.INVISIBLE);
 
                         //selectedBoardItem.depress();
                         boardItemView.depress();
 
                         selectedBoardItem = null;
 
-                        distributorView.setVisibility(View.INVISIBLE);
                     } else { //Клик по пустой клетке
                         int unusedResourceTypesCount = distributorView.getUnusedResourceTypesCount();
 
@@ -600,21 +631,22 @@ public class GameActivity extends AppCompatActivity {
                                 Log.d("Lel", "Всего одна фигура");
                                 DistributorView2.DistributorItemView hiddenItem = distributorView.getItem(0);
 
-                                //if ( ! hiddenItem.allResourcesUsed()) {
-                                    boardItemView.createImageView(hiddenItem.getItemType());
-                                    hiddenItem.removeImageView();
-                                    //selectedBoardItem.depress();
-                                //}
+                                boardItemView.createImageView(hiddenItem.getItemType());
+                                hiddenItem.removeImageView();
 
                                 if (distributorView.allItemsResourcesUsed()) {
-                                    confirmButton.setVisibility(View.VISIBLE);
+                                    checkResultButton.setVisibility(View.VISIBLE);
                                 } else {
-                                    confirmButton.setVisibility(View.GONE);
+                                    checkResultButton.setVisibility(View.INVISIBLE);
                                 }
                                 break;
                             default:
                                 Log.d("Lel", "Показать инструменты");
                                 boardItemView.press();
+
+                                blackoutView.setVisibility(View.VISIBLE);
+                                bottomBlackoutView.setVisibility(View.VISIBLE);
+
 
                                 if (selectedBoardItem != null) {
                                     selectedBoardItem.depress();
@@ -656,19 +688,20 @@ public class GameActivity extends AppCompatActivity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 DistributorView2.DistributorItemView distributorItemView = (DistributorView2.DistributorItemView) touchView;
 
-                //if ( ! distributorItemView.allResourcesUsed()) {
-                    selectedBoardItem.createImageView(distributorItemView.getItemType());
-                    selectedBoardItem.depress();
+                selectedBoardItem.createImageView(distributorItemView.getItemType());
+                selectedBoardItem.depress();
 
-                    distributorItemView.removeImageView();
-                //}
+                distributorItemView.removeImageView();
 
                 distributorView.setVisibility(View.INVISIBLE);
 
+                blackoutView.setVisibility(View.INVISIBLE);
+                bottomBlackoutView.setVisibility(View.INVISIBLE);
+
                 if (distributorView.allItemsResourcesUsed()) {
-                    confirmButton.setVisibility(View.VISIBLE);
+                    checkResultButton.setVisibility(View.VISIBLE);
                 } else {
-                    confirmButton.setVisibility(View.GONE);
+                    checkResultButton.setVisibility(View.INVISIBLE);
                 }
             }
 

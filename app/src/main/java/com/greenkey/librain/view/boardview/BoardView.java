@@ -1,9 +1,15 @@
 package com.greenkey.librain.view.boardview;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -147,6 +153,8 @@ public class BoardView extends LinearLayout {
     //ItemView
     public class BoardItemView extends FrameLayout {
 
+        private final static int SCALE_ANIMATION_DURATION = 350;
+
         private final Context context;
 
         private ImageView imageView;
@@ -201,11 +209,12 @@ public class BoardView extends LinearLayout {
             return isItemPressed;
         }
 
+        //NEED TO REMOVE
         public void press() {
             isItemPressed = true;
-            this.setBackgroundResource(R.drawable.game_board_item_selected_background);
+            this.setBackgroundResource(R.drawable.game_board_item_background);
         }
-
+        //NEED TO REMOVE
         public void depress() {
             isItemPressed = false;
             this.setBackgroundResource(R.drawable.game_board_item_background);
@@ -223,6 +232,18 @@ public class BoardView extends LinearLayout {
             }
 
             imageView.setImageResource(itemType.getEnabledItemResourceId());
+
+            final ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(imageView, View.SCALE_X, 0.0f, 1.0f);
+            final ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(imageView, View.SCALE_Y, 0.0f, 1.0f);
+            scaleDownX.setInterpolator(new BounceInterpolator());
+            scaleDownY.setInterpolator(new BounceInterpolator());
+            scaleDownX.setDuration(SCALE_ANIMATION_DURATION);
+            scaleDownY.setDuration(SCALE_ANIMATION_DURATION);
+
+            AnimatorSet scaleDown = new AnimatorSet();
+            scaleDown.play(scaleDownX).with(scaleDownY);
+
+            scaleDown.start();
         }
 
         public void removeImageView() {

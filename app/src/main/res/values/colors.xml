@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#004D40</color>
     <color name="colorAccent">#FFC400</color>
 
+    <!-- View Pager Indicator -->
     <color name="view_pager_indicator_color">#E0E0E0</color>
-    <color name="view_pager_indicator_selected_color">#FFC400</color>
+    <color name="view_pager_indicator_selected_color">#00C853</color>
 
     <!-- Кампания -->
     <color name="campaign_background_color">#FFFDE7</color>
-    <!-- То, что сверху. Следующие 2 строки Вдим не любит -->
-    <color name="campaign_title_background_color">#607D8B</color>
+
+    <color name="campaign_title_background_color">#00695C</color>
     <color name="campaign_title_stars_count_text_color">#FAFAFA</color>
 
     <color name="campaign_item_level_number_text_color">#555555</color>
-    <color name="campaign_item_stroke_color">#00C853</color>  <!-- ВАДИМ РУГАЕТСЯ НА ЭТОТ ЦВЕТ! -->
+    <color name="campaign_item_stroke_color">#00C853</color>
     <color name="campaign_item_background_color">#FFFFFF</color>
 
     <color name="campaign_item_disabled_stroke_color">#AAAAAA</color>
     <color name="campaign_item_disabled_background_color">#E2E2E2</color>
 
-    <!-- НЕ ИСПОЛЬЗУЕТСЯ -->
-    <color name="campaign_card_view_color">#FAFAFA</color>
-    <color name="campaign_card_view_pressed_color">#E0E0E0</color>
-    <color name="campaign_disabled_card_view_color">#FAFAFA</color>
-    <color name="campaign_disabled_card_view_pressed_color">#968a8a</color>
+    <!-- Game -->
+    <color name="game_title_background_color">#00695C</color>
+    <color name="game_title_text_color">#ffffff</color>
+
+    <color name="game_background_color">#FFFDE7</color>
+    <color name="game_background_blackout_color">#20000000</color>
+
+    <!-- Меню -->
+    <color name="main_card_text_color">#383838</color>
+    <color name="main_card_line_color">#717171</color>
+    <color name="main_card_background_color">#FFFFFF</color>
+    
+
+
+    <!-- Зелёная кнопка -->
+    <color name="green_button_color">#7CD175</color>
+    <color name="green_button_highlight_color">#dcf903</color>
+    <color name="green_button_text_color">#FAFAFA</color>
 
 </resources>
