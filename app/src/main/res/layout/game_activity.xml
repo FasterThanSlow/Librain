@@ -65,6 +65,12 @@
 
                 app:starsSrc="@drawable/game_rating_bar_star"
                 app:starsCompletedSrc="@drawable/game_rating_bar_star_completed"
+                app:starsSelectedSrc="@drawable/game_rating_bar_star_selected"
+
+                app:progress="1"
+                app:selectedIndex="1"
+
+                android:gravity="center_vertical"
 
                 android:layout_gravity="center_vertical"
 
@@ -185,8 +191,11 @@
     </FrameLayout>
 
     <FrameLayout
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/check_result_button"

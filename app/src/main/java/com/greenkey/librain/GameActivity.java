@@ -161,21 +161,14 @@ public class GameActivity extends AppCompatActivity {
 
     private void resetLevelProgress() {
         ratingBar.setProgress(0);
+        ratingBar.setSelectedIndex(0);
 
         distributorViewWidth = 0;
         distributorViewHeight = 0;
 
         currentScore = 0;
         currentRound = 1;
-
-        //setStateTextView(currentRound, ROUNDS_COUNT);
     }
-
-    /*
-    private void setStateTextView(int countTries, int maxCountTries) {
-        stateTextView.setText(currentRound+ "/" + maxCountTries);
-    }
-*/
 
     //Показ фигур на указанное время и дальнейшее их удаление c поля
     private class ShowBoardItemRunnable implements Runnable {
@@ -449,11 +442,14 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onAnimationEnd(Animator animation) {
+            if (currentRound > ROUNDS_COUNT) {
+                ratingBar.setSelectedIndex(-1);
+            } else {
+                ratingBar.setSelectedIndex(currentRound - 1);
+            }
 
             if ( ! isAnimationPaused) {
-
                 if (currentRound <= ROUNDS_COUNT && isTrueAnswer) {
-                    //setStateTextView(currentRound, ROUNDS_COUNT);
                     startRoundAnimator.start();
                 } else {
                     showResultDialog();
@@ -647,7 +643,6 @@ public class GameActivity extends AppCompatActivity {
                                 blackoutView.setVisibility(View.VISIBLE);
                                 bottomBlackoutView.setVisibility(View.VISIBLE);
 
-
                                 if (selectedBoardItem != null) {
                                     selectedBoardItem.depress();
                                 }
@@ -662,7 +657,6 @@ public class GameActivity extends AppCompatActivity {
                                     distributorView.setX(10);
                                 }else{
                                     distributorView.setX(x + boardItemViewWidth / 2 - distributorViewWidth / 2);
-
                                 }
 
                                 distributorView.setY(y - distributorViewHeight + distributorView.getTriangleViewSizePx() / 2);
