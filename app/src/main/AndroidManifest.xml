@@ -25,11 +25,6 @@
         </activity>
 
         <activity
-            android:name=".TutorialActivity"
-            android:label="@string/title_activity_tutorial"
-            android:theme="@style/AppTheme" />
-
-        <activity
             android:name=".campaign.CampaignActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainMenuActivity">

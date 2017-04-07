@@ -11,68 +11,137 @@
 
     tools:context="com.greenkey.librain.MainMenuActivity">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/main_start_campaign"
-
-        card_view:cardElevation="4dp"
-        card_view:cardCornerRadius="2dp"
-
-        android:layout_margin="8dp"
-
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
+
+            android:gravity="center_vertical"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:background="@color/campaign_card_view_color"
+            <android.support.v7.widget.CardView
+                card_view:cardElevation="4dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardBackgroundColor="@color/main_card_background_color"
 
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
 
-                android:src="@drawable/ic_trophy"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
-                android:orientation="vertical"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="@string/main_menu_start_campaign_title"
-                    android:textSize="20sp"
-                    android:textColor="@color/campaign_disabled_card_view_pressed_color"
+                <LinearLayout
+                    android:orientation="horizontal"
 
-                    android:paddingTop="16dp"
-                    android:paddingBottom="8dp"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:paddingBottom="24dp"
-
-                    android:text="@string/main_menu_start_campaign_description"
-                    android:textSize="14sp"
-                    android:textColor="@color/campaign_disabled_card_view_pressed_color"
+                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
 
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_trophy"
+
+                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+
+                            android:layout_marginTop="4dp"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:text="@string/main_menu_start_campaign_title"
+                                android:textSize="20sp"
+                                android:textColor="@color/main_card_text_color"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView" />
+
+                            <Space
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:id="@+id/main_stars_count_text_view"
+
+                                tools:text="5"
+
+                                android:layout_gravity="center_vertical"
+
+                                android:textColor="@color/main_card_text_color"
+                                android:textSize="14sp"
+
+                                android:drawablePadding="4dp"
+
+                                android:drawableStart="@drawable/rating_bar_star_completed"
+                                android:drawableLeft="@drawable/rating_bar_star_completed"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <View
+                            android:background="@color/main_card_line_color"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
+
+                        <TextView
+                            android:layout_marginTop="4dp"
+
+                            android:text="@string/main_menu_start_campaign_description"
+                            android:textSize="14sp"
+                            android:textColor="@color/main_card_text_color"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <Button
+                            android:id="@+id/main_start_campaign_button"
+
+                            android:layout_marginTop="4dp"
+
+                            android:text="@string/main_menu_play"
+                            android:textColor="@color/green_button_text_color"
+
+                            android:theme="@style/GreenButton"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

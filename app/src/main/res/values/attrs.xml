@@ -1,10 +1,13 @@
 <resources>
+
     <declare-styleable name="RatingBar">
         <attr name="max" format="integer"/>
         <attr name="progress" format="integer"/>
+        <attr name="selectedIndex" format="integer"/>
 
         <attr name="starsSrc" format="reference"/>
         <attr name="starsCompletedSrc" format="reference"/>
+        <attr name="starsSelectedSrc" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="ViewPagerIndicator">
