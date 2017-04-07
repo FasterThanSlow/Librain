@@ -14,9 +14,9 @@ public class Level implements Parcelable {
 
     public enum LevelType {
 
-        SPACE(new ItemType[] {ItemType.MARS, ItemType.EARTH, ItemType.ASTEROID, ItemType.JUPITER, ItemType.MOON}),
-        FRUIT(new ItemType[] {ItemType.ORANGE, ItemType.CHERRY, ItemType.FRUIT, ItemType.BANANAS, ItemType.APRICOT, ItemType.FIG});
-
+        SPACE(new ItemType[] {ItemType.MARS, ItemType.EARTH, ItemType.JUPITER, ItemType.MOON}),
+        FRUIT(new ItemType[] {ItemType.ORANGE, ItemType.CHERRY, ItemType.FRUIT, ItemType.BANANAS, ItemType.APRICOT, ItemType.FIG}),
+        VEGETABLE(new ItemType[] {ItemType.PEAS, ItemType.PUMPKIN, ItemType.FOOD});
         private ItemType[] resources;
         LevelType(ItemType[] resources) {
             this.resources = resources;

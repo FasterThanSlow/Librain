@@ -17,8 +17,6 @@ public enum ItemType {
     MARS(R.drawable.ic_mars),
     JUPITER(R.drawable.ic_jupiter),
     MOON(R.drawable.ic_moon),
-    ASTEROID(R.drawable.ic_asteroid),
-    DESTRYED(R.drawable.ic_destroyed_planet),
 
     ORANGE(R.drawable.ic_orange),
     CHERRY(R.drawable.ic_cherries),
