@@ -1,11 +1,18 @@
 package com.greenkey.librain.view.distributorview;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +33,16 @@ import static com.greenkey.librain.view.PixelConverter.dpToPx;
  */
 
 public class DistributorView2 extends LinearLayout {
+
+    private AnimatorSet showAnimationSet;
+
+    private static final int SHOW_ANIMATION_DURATION = 100;
+
+    @Override
+    public void setX(float x) {
+        super.setX(x);
+        showAnimationSet.start();
+    }
 
     private static final int TRIANGLE_SIZE_DP = 20;
     private int triangleViewSizePx;
@@ -86,6 +103,16 @@ public class DistributorView2 extends LinearLayout {
         this.addView(triangleImageView);
 
         items = new ArrayList<>();
+
+        ObjectAnimator showAnimation1 = ObjectAnimator.ofFloat(this, View.SCALE_Y, 0f, 1f);
+        ObjectAnimator showAnimation2 = ObjectAnimator.ofFloat(this, View.SCALE_X, 0f, 1f);
+
+        showAnimation1.setInterpolator(new LinearInterpolator());
+        showAnimation2.setInterpolator(new LinearInterpolator());
+
+        showAnimationSet = new AnimatorSet();
+        showAnimationSet.setDuration(SHOW_ANIMATION_DURATION);
+        showAnimationSet.play(showAnimation1).with(showAnimation2);
     }
 
     public int getTriangleViewSizePx() {

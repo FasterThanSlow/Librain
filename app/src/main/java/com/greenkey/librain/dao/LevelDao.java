@@ -17,6 +17,8 @@ import java.util.List;
 
 public class LevelDao {
 
+    private static final int STARS_PER_LEVEL = 3;
+
     private static LevelDao levelDao;
     public static LevelDao getInstance(Context context) {
         if (levelDao == null) {
@@ -89,29 +91,30 @@ public class LevelDao {
         this.levels.addAll(fruitLevels);
 
         ArrayList<Level> vegetableLevels = new ArrayList<>();
-        vegetableLevels.add(new Level(41, 3000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3}));
-        vegetableLevels.add(new Level(42, 2000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(43, 1000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(44, 2000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(45, 1000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(46, 3000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(47, 2000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(48, 1000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(49, 2000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(50, 1000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(41, 3000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3}));
+        vegetableLevels.add(new Level(42, 2000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(43, 1000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(44, 2000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(45, 1000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(46, 3000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(47, 2000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(48, 1000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(49, 2000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(50, 1000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {3}, new int[] {3} ));
 
-        vegetableLevels.add(new Level(51, 3000, 4, 4, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3}));
-        vegetableLevels.add(new Level(52, 2000, 4, 4, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(53, 1000, 4, 4, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(54, 2000, 5, 5, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(55, 1000, 5, 5, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(56, 3000, 4, 4, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(57, 2000, 4, 4, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(58, 1000, 4, 4, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(59, 2000, 5, 5, Level.LevelType.VEGETABLE, new int[] {5,5,5}, new int[] {3}, new int[] {3} ));
-        vegetableLevels.add(new Level(60, 1000, 5, 5, Level.LevelType.VEGETABLE, new int[] {5,5,5}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(51, 3000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3}));
+        vegetableLevels.add(new Level(52, 2000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(53, 1000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(54, 2000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(55, 1000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(56, 3000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(57, 2000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(58, 1000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(59, 2000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,5,5}, new int[] {3}, new int[] {3} ));
+        vegetableLevels.add(new Level(60, 1000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,5,5}, new int[] {3}, new int[] {3} ));
         this.levelsPages.add(new LevelsPage(Level.LevelType.VEGETABLE, vegetableLevels));
         this.levels.addAll(vegetableLevels);
+
         initLevels(levels);
     }
 
@@ -133,16 +136,36 @@ public class LevelDao {
         cursor.close();
     }
 
-    public int getStarsCount() {
-        int starsCount = 0;
+    public int getCompletedStarCount() {
+        int starCount = 0;
 
         Cursor cursor = database.rawQuery("SELECT SUM(" + LevelDatabaseHelper.LevelEntry.LEVEL_STARS_COUNT_COLUMN + ") FROM " + LevelDatabaseHelper.LevelEntry.TABLE_NAME, null);
         if (cursor.moveToFirst()) {
-            starsCount = cursor.getInt(0);
+            starCount = cursor.getInt(0);
         }
         cursor.close();
 
-        return starsCount;
+        return starCount;
+    }
+
+    public int getStarCount() {
+        return levels.size() * STARS_PER_LEVEL;
+    }
+
+    public int getEnabledLevelCount() {
+        int enabledLevelCount = 0;
+
+        Cursor cursor = database.rawQuery("SELECT SUM(" + LevelDatabaseHelper.LevelEntry.LEVEL_ENABLED_COLUMN + ") FROM " + LevelDatabaseHelper.LevelEntry.TABLE_NAME, null);
+        if (cursor.moveToFirst()) {
+            enabledLevelCount = cursor.getInt(0);
+        }
+        cursor.close();
+
+        return enabledLevelCount;
+    }
+
+    public int getLevelCount() {
+        return levels.size();
     }
 
     public List<LevelsPage> getLevelsPages() {

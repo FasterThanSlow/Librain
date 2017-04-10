@@ -17,7 +17,9 @@ public class Level implements Parcelable {
         SPACE(new ItemType[] {ItemType.MARS, ItemType.EARTH, ItemType.JUPITER, ItemType.MOON}),
         FRUIT(new ItemType[] {ItemType.ORANGE, ItemType.CHERRY, ItemType.FRUIT, ItemType.BANANAS, ItemType.APRICOT, ItemType.FIG}),
         VEGETABLE(new ItemType[] {ItemType.PEAS, ItemType.PUMPKIN, ItemType.FOOD});
+
         private ItemType[] resources;
+
         LevelType(ItemType[] resources) {
             this.resources = resources;
         }
@@ -33,12 +35,12 @@ public class Level implements Parcelable {
     private final int columnCount;
     private int record;
     private boolean isEnabled;
+    private boolean isPremium;
 
     private final LevelType levelType;
     private final int[] firstRoundItems;
     private final int[] secondRoundItems;
     private final int[] thirdRoundItems;
-
 
     public int getLevelId() {
         return levelId;
@@ -66,6 +68,10 @@ public class Level implements Parcelable {
 
     public LevelType getLevelType() {
         return levelType;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
     }
 
     public int[] getFirstRoundItems() {
@@ -103,11 +109,29 @@ public class Level implements Parcelable {
         this.thirdRoundItems = thirdRoundItems;
     }
 
+    public Level(int levelId, int showingTime, int rowCount, int columnCount,
+                 boolean isPremium,
+                 @NonNull LevelType levelType,
+                 @NonNull int[] firstRoundItems,
+                 @NonNull int[] secondRoundItems,
+                 @NonNull int[] thirdRoundItems) {
+        this.levelId = levelId;
+        this.showingTime = showingTime;
+        this.rowCount = rowCount;
+        this.columnCount = columnCount;
+        this.isPremium = isPremium;
+        this.levelType = levelType;
+        this.firstRoundItems = firstRoundItems;
+        this.secondRoundItems = secondRoundItems;
+        this.thirdRoundItems = thirdRoundItems;
+    }
+
     public Level(Parcel in) {
         this.levelId = in.readInt();
         this.showingTime = in.readInt();
         this.rowCount = in.readInt();
         this.columnCount = in.readInt();
+        this.isPremium = in.readInt() == 1;
         this.levelType = LevelType.valueOf(in.readString());
         this.firstRoundItems = in.createIntArray();
         this.secondRoundItems = in.createIntArray();
@@ -123,6 +147,7 @@ public class Level implements Parcelable {
         dest.writeInt(showingTime);
         dest.writeInt(rowCount);
         dest.writeInt(columnCount);
+        dest.writeInt(isPremium ? 1 : 0);
         dest.writeString(levelType.name());
         dest.writeIntArray(firstRoundItems);
         dest.writeIntArray(secondRoundItems);

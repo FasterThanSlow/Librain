@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.greenkey.librain.campaign.CampaignActivity;
 import com.greenkey.librain.dao.LevelDao;
-import com.greenkey.librain.level.Level;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -29,7 +28,7 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
         final TextView campaignStarsCountTextView = (TextView) findViewById(R.id.main_stars_count_text_view);
-        campaignStarsCountTextView.setText(String.valueOf(levelDao.getStarsCount()));
+        campaignStarsCountTextView.setText(String.valueOf(levelDao.getCompletedStarCount()));
 
 
 

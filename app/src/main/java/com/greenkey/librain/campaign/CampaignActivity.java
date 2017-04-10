@@ -35,6 +35,7 @@ public class CampaignActivity extends AppCompatActivity {
     private LevelDao levelDao;
 
     private TextView startCountTextView;
+    private TextView enabledLevelCountTextView;
 
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
@@ -48,8 +49,11 @@ public class CampaignActivity extends AppCompatActivity {
 
         levelDao = LevelDao.getInstance(CampaignActivity.this);
 
-        startCountTextView = (TextView) findViewById(R.id.campaign_stars_count_text_view);
-        setStarsCount(levelDao.getStarsCount());
+        startCountTextView = (TextView) findViewById(R.id.campaign_star_count_text_view);
+        setStarsCount(levelDao.getCompletedStarCount(), levelDao.getStarCount());
+
+        enabledLevelCountTextView = (TextView) findViewById(R.id.campaign_enabled_level_count_text_view);
+        setEnabledLevelCount(levelDao.getEnabledLevelCount(), levelDao.getLevelCount());
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao.getLevelsPages());
 
@@ -60,10 +64,13 @@ public class CampaignActivity extends AppCompatActivity {
         viewPagerIndicator.addViewPagerObserve(viewPager);
     }
 
-    private void setStarsCount(int starsCount) {
-        startCountTextView.setText(String.valueOf(starsCount));
+    private void setStarsCount(int completedStarsCount, int starsCount) {
+        startCountTextView.setText(completedStarsCount + " / " + starsCount);
     }
 
+    private void setEnabledLevelCount(int enabledLevelCount, int levelCount) {
+        enabledLevelCountTextView.setText(String.valueOf(enabledLevelCount + " / " + levelCount));
+    }
 
     private static final int UPDATE_REQUEST_CODE = 100;
     @Override
@@ -72,7 +79,8 @@ public class CampaignActivity extends AppCompatActivity {
 
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-                setStarsCount(levelDao.getStarsCount());
+                setStarsCount(levelDao.getCompletedStarCount(), levelDao.getStarCount());
+                setEnabledLevelCount(levelDao.getEnabledLevelCount(), levelDao.getLevelCount());
 
                 sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), levelDao.getLevelsPages());
 
@@ -80,9 +88,6 @@ public class CampaignActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -137,7 +142,7 @@ public class CampaignActivity extends AppCompatActivity {
             if (levels != null) {
                 adapter = new LevelsRecycleViewAdapter(getContext(), levels);
 
-                recyclerView = (RecyclerView) rootView.findViewById(R.id.campaign_fragment_recyclerview);
+                recyclerView = (RecyclerView) rootView.findViewById(R.id.campaign_fragment_recycler_view);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), COLUMNS_COUNT));
                 recyclerView.setAdapter(adapter);
@@ -151,7 +156,6 @@ public class CampaignActivity extends AppCompatActivity {
 
         public static class LevelViewHolder extends RecyclerView.ViewHolder {
 
-            //public View backgroundView;
             public TextView levelNumberTextView;
             public RatingBar ratingBar;
 
@@ -174,7 +178,7 @@ public class CampaignActivity extends AppCompatActivity {
 
         @Override
         public LevelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new LevelViewHolder(LayoutInflater.from(context).inflate(R.layout.campaign_level_item_new, parent, false));
+            return new LevelViewHolder(LayoutInflater.from(context).inflate(R.layout.campaign_level_item, parent, false));
         }
 
         @Override
@@ -187,25 +191,36 @@ public class CampaignActivity extends AppCompatActivity {
 
                 holder.ratingBar.setProgress(currentLevel.getRecord());
 
-                if (currentLevel.isEnabled()) {
-                    holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_circle);
+                if (currentLevel.isPremium()) {
+                    if (currentLevel.isEnabled()) {
+                        holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_premium_circle);
+                        holder.levelNumberTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, GameActivity.class);
+                                intent.putExtra(LEVEL_PARAM, currentLevel);
 
-                    //holder.ratingBar.
-
-                    holder.levelNumberTextView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, GameActivity.class);
-                            intent.putExtra(LEVEL_PARAM, currentLevel);
-
-                            ((Activity) context).startActivityForResult(intent, UPDATE_REQUEST_CODE);
-
-                            //context(intent);
-                        }
-                    });
+                                ((Activity) context).startActivityForResult(intent, UPDATE_REQUEST_CODE);
+                            }
+                        });
+                    } else {
+                        holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_premium_disabled_circle);
+                    }
                 } else {
-                    holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_disabled_circle);
-                    //holder.ratingBar.setVisibility(View.GONE);
+                    if (currentLevel.isEnabled()) {
+                        holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_circle);
+                        holder.levelNumberTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, GameActivity.class);
+                                intent.putExtra(LEVEL_PARAM, currentLevel);
+
+                                ((Activity) context).startActivityForResult(intent, UPDATE_REQUEST_CODE);
+                            }
+                        });
+                    } else {
+                        holder.levelNumberTextView.setBackgroundResource(R.drawable.campaign_item_disabled_circle);
+                    }
                 }
             }
         }

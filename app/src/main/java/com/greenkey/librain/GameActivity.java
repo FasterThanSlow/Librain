@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -102,7 +103,6 @@ public class GameActivity extends AppCompatActivity {
         bottomBlackoutView = findViewById(R.id.game_bottom_blackout_view);
 
         ratingBar = (RatingBar) findViewById(R.id.stars);
-        //stateTextView = (TextView) findViewById(R.id.state_text_view);
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
         checkResultButton = (TextView) findViewById(R.id.check_result_button);
 
@@ -181,17 +181,19 @@ public class GameActivity extends AppCompatActivity {
         }
 
         private boolean isCancelled;
-        public boolean isCancelled() {
-            return isCancelled;
+
+        private int currentPlayTime;
+        public int getCurrentPlayTime() {
+            return currentPlayTime;
         }
 
-        private int currentShowTime;
-        public int getCurrentShowTime() {
-            return currentShowTime;
+        public void setCurrentPlayTime(int currentPlayTime) {
+            this.currentPlayTime = currentPlayTime;
         }
 
         public void cancel() {
             isCancelled = true;
+            currentPlayTime = 0;
         }
 
         private final int showTime;
@@ -240,12 +242,18 @@ public class GameActivity extends AppCompatActivity {
         public void run() {
             if (isCancelled) {
                 isRunning = false;
+                isCancelled = false;
             } else {
-                if (currentShowTime < showTime) {
+                if (currentPlayTime < showTime) {
 
-                    isRunning = true;
+                    //if ( ! isPaused) {
+                        currentPlayTime += DEFAULT_DELAY;
 
-                    currentShowTime += DEFAULT_DELAY;
+                        isRunning = true;
+                    //} else {
+                    //    isRunning = false;
+                    //}
+
                     handler.postDelayed(this, DEFAULT_DELAY);
                 } else {
                     switch (roundNumber) {
@@ -261,7 +269,7 @@ public class GameActivity extends AppCompatActivity {
                         case 2:
                             if (isSecondRoundFirstPartShowing) {
                                 isSecondRoundFirstPartShowing = false;
-                                currentShowTime = 0;
+                                currentPlayTime = 0;
                                 boardView.setItemsResources(((SecondGameRound)currentGameRound).getSecondPart());
 
                                 handler.post(this);
@@ -277,7 +285,7 @@ public class GameActivity extends AppCompatActivity {
                         case 3:
                             if (isThirdRoundFirstPartShowing) {
                                 isThirdRoundFirstPartShowing = false;
-                                currentShowTime = 0;
+                                currentPlayTime = 0;
                                 boardView.setItemsResources(((ThirdGameRound)currentGameRound).getSecondPart());
 
                                 handler.post(this);
@@ -305,10 +313,18 @@ public class GameActivity extends AppCompatActivity {
 
             if (currentGameRound instanceof ThirdGameRound) {
                 roundView.setVisibility(View.VISIBLE);
-                boardView.setVisibility(View.INVISIBLE);
+                //boardView.setVisibility(View.INVISIBLE);
+                roundImageView.setVisibility(View.VISIBLE);
 
-                roundTitleTextView.setText("Покажи мне");
-                roundDescriptionTextView.setText(String.valueOf(((ThirdGameRound)currentGameRound).getTrueAnswerPart()));
+                if (((ThirdGameRound)currentGameRound).getTrueAnswerPart() == 1) {
+                    roundImageView.setImageResource(R.drawable.game_round_three_show_first);
+                } else {
+                    roundImageView.setImageResource(R.drawable.game_round_three_show_second);
+                }
+
+                roundTitleTextView.setVisibility(View.GONE);
+                roundDescriptionTextView.setVisibility(View.GONE);
+                //roundTitleTextView.setText("Покажи мне");
             }
         }
 
@@ -425,10 +441,7 @@ public class GameActivity extends AppCompatActivity {
 
             ItemType[] userAnswer = boardView.getItemsResources();
             if (Arrays.equals(userAnswer, currentGameRound.getAnswer())) {
-                currentScore++;
                 isTrueAnswer = true;
-
-                ratingBar.setProgress(currentScore);
 
                 roundImageView.setImageResource(R.drawable.game_round_right_answer);
             } else {
@@ -436,22 +449,29 @@ public class GameActivity extends AppCompatActivity {
 
                 roundImageView.setImageResource(R.drawable.game_round_wrong_answer);
             }
-
-            currentRound++;
         }
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            if (currentRound > ROUNDS_COUNT) {
-                ratingBar.setSelectedIndex(-1);
-            } else {
-                ratingBar.setSelectedIndex(currentRound - 1);
-            }
-
             if ( ! isAnimationPaused) {
+                currentRound++;
+
+                if (isTrueAnswer) {
+                    currentScore++;
+                    ratingBar.setProgress(currentScore);
+                }
+
+                if (currentRound > ROUNDS_COUNT) {
+                    ratingBar.setSelectedIndex(-1);
+                } else {
+                    ratingBar.setSelectedIndex(currentRound - 1);
+                }
+
                 if (currentRound <= ROUNDS_COUNT && isTrueAnswer) {
                     startRoundAnimator.start();
                 } else {
+                    roundImageView.setVisibility(View.INVISIBLE);
+
                     showResultDialog();
                 }
             }
@@ -480,25 +500,32 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (resultDialog == null || ! resultDialog.isShowing()) {
+        if ((resultDialog == null || ! resultDialog.isShowing()) && (pauseDialog == null || ! pauseDialog.isShowing())) {
             startRoundAnimator.start();
         }
     }
 
     @Override
     protected void onPause() {
+        if ((resultDialog == null || ! resultDialog.isShowing())) {
+            if (pauseDialog == null || ! pauseDialog.isShowing()) {
+                startRoundAnimator.cancel();
+                endRoundAnimator.cancel();
+                thirdRoundAnimator.cancel();
+                showBoardItemsRunnable.cancel();
 
-        if (startRoundAnimator.isRunning()) {
-            startRoundAnimator.cancel();
-        } else if (showBoardItemsRunnable != null && showBoardItemsRunnable.isRunning()) {
-            showBoardItemsRunnable.cancel();
-        } else if (endRoundAnimator.isRunning()) {
-            endRoundAnimator.cancel();
-        } else if (thirdRoundAnimator.isRunning()) {
-            thirdRoundAnimator.cancel();
-        } else  {
-            if (pauseDialog != null && pauseDialog.isShowing()) {
-                pauseDialog.dismiss();
+                resetLevelProgress();
+            }
+
+            if (currentScore > record) {
+                currentLevel = levelDao.updateRecord(levelId, currentScore);
+            }
+
+            final Level nextLevel = levelDao.getLevel(levelId + 1);
+            if (nextLevel != null && ! nextLevel.isEnabled()) {
+                if (currentScore > 0) {
+                    levelDao.unlockLevel(levelId + 1);
+                }
             }
         }
 
@@ -712,14 +739,18 @@ public class GameActivity extends AppCompatActivity {
 
         final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.result_dialog, null);
 
-        final TextView levelTextView = (TextView) dialogView.findViewById(R.id.result_dialog_level_text_view);
-        levelTextView.setText(String.valueOf(levelId));
+        final View headerView = dialogView.findViewById(R.id.result_dialog_header);
+        if (currentScore == 0) {
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.result_dialog_title_unsuccessful_background_color));
+        } else {
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.result_dialog_title_successful_background_color));
+        }
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
         ratingBar.setProgress(currentScore);
 
-        final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.result_dialog_levels_text_view);
-        levelsTextView.setOnClickListener(new View.OnClickListener() {
+        final ImageView levelsImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_levels_image_view);
+        levelsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resultDialog.dismiss();
@@ -730,8 +761,8 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        final TextView restartTextView = (TextView) dialogView.findViewById(R.id.result_dialog_restart_text_view);
-        restartTextView.setOnClickListener(new View.OnClickListener() {
+        final ImageView restartImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_restart_image_view);
+        restartImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resultDialog.dismiss();
@@ -745,10 +776,10 @@ public class GameActivity extends AppCompatActivity {
             currentLevel = levelDao.updateRecord(levelId, currentScore);
         }
 
-        final TextView nextTextView = (TextView) dialogView.findViewById(R.id.result_dialog_next_text_view);
+        final ImageView nextImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_next_image_view);
         final Level nextLevel = levelDao.getLevel(levelId + 1);
         if (nextLevel.isEnabled()) {
-            nextTextView.setOnClickListener(new View.OnClickListener() {
+            nextImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     resultDialog.dismiss();
@@ -763,7 +794,7 @@ public class GameActivity extends AppCompatActivity {
             if (currentScore > 0) {
                 final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
 
-                nextTextView.setOnClickListener(new View.OnClickListener() {
+                nextImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         resultDialog.dismiss();
@@ -774,8 +805,10 @@ public class GameActivity extends AppCompatActivity {
                         startRoundAnimator.start();
                     }
                 });
+
             } else {
-                nextTextView.setVisibility(View.GONE);
+                // TUT
+                nextImageView.setVisibility(View.GONE);
             }
         }
 
@@ -791,19 +824,40 @@ public class GameActivity extends AppCompatActivity {
     private AlertDialog pauseDialog;
 
     private boolean isContinuePressed;
-    private boolean isGame;
+    private enum GameState {START_ROUND_ANIMATION, SHOW_BOARD_ITEMS_ANIMATION,
+        SHOW_THIRD_ROUND_CONDITION_ANIMATION, END_ROUND_ANIMATION, GAME};
+
+    private GameState gameState;
+    private int playTime = 0;
 
     private void showPauseDialog() {
-        isGame = true;
+
+        gameState = GameState.GAME;
 
         if (startRoundAnimator.isRunning()) {
             Log.d("Anim", "alphaAnimationIsStarted");
-            isGame = false;
+
+            gameState = GameState.START_ROUND_ANIMATION;
             startRoundAnimator.cancel();
         } else if (showBoardItemsRunnable.isRunning()) {
-            Log.d("Anim", "endRunnableIsRunning");
-            isGame = false;
+            Log.d("Anim", "showBoardItemsRunnable paused");
+
+            gameState = GameState.SHOW_BOARD_ITEMS_ANIMATION;
+
+            playTime = showBoardItemsRunnable.getCurrentPlayTime();
             showBoardItemsRunnable.cancel();
+
+            boardView.setVisibility(View.INVISIBLE);
+        } else if (thirdRoundAnimator.isRunning()) {
+            Log.d("Anim", "thirdRoundAnimator");
+
+            gameState = GameState.SHOW_THIRD_ROUND_CONDITION_ANIMATION;
+            thirdRoundAnimator.cancel();
+        } else if (endRoundAnimator.isRunning()) {
+            Log.d("Anim", "endRoundAnimator");
+
+            gameState = GameState.END_ROUND_ANIMATION;
+            endRoundAnimator.cancel();
         }
 
         isContinuePressed = true; // Эмулиция продолжение на нажатие мимо диалога
@@ -811,7 +865,7 @@ public class GameActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
 
         final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.pause_dialog, null);
-        final TextView levelsTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_levels_text_view);
+        final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_levels_image_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -824,18 +878,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        final TextView restartTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_restart_text_view);
-        restartTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isContinuePressed = false;
-                pauseDialog.dismiss();
-
-                startRoundAnimator.start();
-            }
-        });
-
-        final TextView continueTextView = (TextView) dialogView.findViewById(R.id.pause_dialog_continue_text_view);
+        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_continue_text_view);
         continueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -849,8 +892,21 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if (isContinuePressed) {
-                    if ( ! isGame) {
+                    if (gameState == GameState.START_ROUND_ANIMATION) {
                         startRoundAnimator.start();
+                    } else if (gameState == GameState.SHOW_BOARD_ITEMS_ANIMATION) {
+
+                        Log.d("Anim", "showBoardItemsRunnable " + playTime);
+
+                        showBoardItemsRunnable.setCurrentPlayTime(playTime);
+                        handler.post(showBoardItemsRunnable);
+                        Log.d("Anim", "showBoardItemsRunnable resumed");
+
+                        boardView.setVisibility(View.VISIBLE);
+                    }  else if (gameState == GameState.SHOW_THIRD_ROUND_CONDITION_ANIMATION) {
+                        thirdRoundAnimator.start();
+                    } else if (gameState == GameState.END_ROUND_ANIMATION) {
+                        endRoundAnimator.start();
                     }
                 }
             }

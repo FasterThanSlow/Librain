@@ -1,72 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:background="@color/campaign_background_color"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
     tools:context="com.greenkey.librain.campaign.CampaignActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:background="@color/campaign_title_background_color"
+
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="50dp">
 
-        <LinearLayout
-            android:background="@color/campaign_title_background_color"
+        <TextView
+            android:id="@+id/campaign_star_count_text_view"
 
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            tools:text="5 / 20"
 
-            <TextView
-                android:id="@+id/campaign_stars_count_text_view"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
 
-                tools:text="5"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
 
-                android:layout_gravity="center_vertical"
+            android:textColor="@color/campaign_title_stars_count_text_color"
+            android:textSize="14sp"
 
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
+            android:drawablePadding="4dp"
 
-                android:textColor="@color/campaign_title_stars_count_text_color"
-                android:textSize="14sp"
+            android:drawableStart="@drawable/campaign_header_completed_star_count_icon"
+            android:drawableLeft="@drawable/campaign_header_completed_star_count_icon"
 
-                android:drawablePadding="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-                android:drawableStart="@drawable/rating_bar_star_completed"
-                android:drawableLeft="@drawable/rating_bar_star_completed"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <FrameLayout
+        <Space
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
 
-            <com.greenkey.librain.campaign.ViewPagerIndicator
-                android:id="@+id/campaign_view_pager_indicator"
+        <TextView
+            android:id="@+id/campaign_enabled_level_count_text_view"
 
-                android:layout_marginBottom="20dp"
+            tools:text="3 / 15"
 
-                android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:textColor="@color/campaign_title_stars_count_text_color"
+            android:textSize="14sp"
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/campaign_level_pages_container"
+            android:drawablePadding="4dp"
 
+            android:drawableStart="@drawable/campaign_header_enabled_level_count_icon"
+            android:drawableLeft="@drawable/campaign_header_enabled_level_count_icon"
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </FrameLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:src="@drawable/campaign_header_premium_selector"
+
+            android:clickable="true"
+
+            android:layout_gravity="center_vertical"
+
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/campaign_level_pages_container"
+
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <com.greenkey.librain.campaign.ViewPagerIndicator
+        android:id="@+id/campaign_view_pager_indicator"
+
+        android:layout_marginBottom="20dp"
+
+        android:layout_gravity="center_horizontal"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+

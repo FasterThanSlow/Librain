@@ -15,11 +15,20 @@
     <color name="campaign_title_stars_count_text_color">#FAFAFA</color>
 
     <color name="campaign_item_level_number_text_color">#555555</color>
+
     <color name="campaign_item_stroke_color">#00C853</color>
     <color name="campaign_item_background_color">#FFFFFF</color>
 
     <color name="campaign_item_disabled_stroke_color">#AAAAAA</color>
     <color name="campaign_item_disabled_background_color">#E2E2E2</color>
+
+    <color name="campaign_item_premium_stroke_color">#FFC400</color>
+    <color name="campaign_item_premium_background_color">#FFFFFF</color>
+
+    <color name="campaign_item_premium_disabled_stroke_color">#FFC400</color>
+    <color name="campaign_item_premium_disabled_background_color">#E2E2E2</color>
+
+
 
     <!-- Game -->
     <color name="game_title_background_color">#00695C</color>
@@ -27,6 +36,26 @@
 
     <color name="game_background_color">#FFFDE7</color>
     <color name="game_background_blackout_color">#20000000</color>
+
+    <!-- Result Dialog  -->
+    <color name="result_dialog_title_text_color">#FFFFFF</color>
+
+    <color name="result_dialog_levels_background_color">#F5A44D</color>
+    <color name="result_dialog_restart_background_color">#65B4CE</color>
+    <color name="result_dialog_next_background_color">#7CD175</color>
+
+    <color name="result_dialog_title_successful_background_color">#7CD175</color>
+    <color name="result_dialog_title_unsuccessful_background_color">#F5A44D</color>
+
+    <!-- Pause Dialog  -->
+    <color name="pause_dialog_title_text_color">#FFFFFF</color>
+    <color name="pause_dialog_title_background_color">#F5A44D</color>
+
+    <color name="pause_dialog_message_text_color">#555555</color>
+
+    <color name="pause_dialog_levels_background_color">#F5A44D</color>
+    <color name="pause_dialog_continue_background_color">#7CD175</color>
+
 
     <!-- Меню -->
     <color name="main_card_text_color">#383838</color>
