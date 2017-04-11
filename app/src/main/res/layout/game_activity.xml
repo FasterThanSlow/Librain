@@ -152,10 +152,10 @@
 
             android:layout_gravity="center"
 
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
-            android:paddingRight="16dp"
-            android:paddingEnd="16dp"
+            android:paddingLeft="48dp"
+            android:paddingStart="48dp"
+            android:paddingRight="48dp"
+            android:paddingEnd="48dp"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -171,22 +171,29 @@
             <TextView
                 android:id="@+id/game_round_title_text_view"
                 tools:text="Round 1"
-                android:textColor="#000"
+                android:textColor="@color/main_card_text_color"
                 android:textSize="30sp"
-
+                android:layout_marginBottom="4dp"
                 android:layout_gravity="center_horizontal"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <View
+                android:id="@+id/game_round_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                ></View>
 
             <TextView
                 android:id="@+id/game_round_description_text_view"
                 tools:text="Round 1"
                 android:textColor="#000"
                 android:textSize="16sp"
-
+                android:layout_marginTop="8dp"
                 android:layout_gravity="center_horizontal"
-
+                android:textStyle="italic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

@@ -66,7 +66,7 @@
 
     <!-- Зелёная кнопка -->
     <color name="green_button_color">#7CD175</color>
-    <color name="green_button_highlight_color">#dcf903</color>
+    <color name="green_button_highlight_color">#40f903</color>
     <color name="green_button_text_color">#FAFAFA</color>
 
 </resources>

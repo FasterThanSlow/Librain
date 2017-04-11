@@ -11,12 +11,12 @@
     <LinearLayout
         android:orientation="horizontal"
 
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
 
         android:layout_marginBottom="16dp"
 
-        android:background="@color/pause_dialog_title_background_color"
+        android:background="@color/campaign_title_background_color"
 
         android:gravity="center_horizontal"
 
@@ -41,17 +41,18 @@
         android:textSize="14sp"
         android:textColor="@color/pause_dialog_message_text_color"
         android:text="@string/pause_dialog_message"
-
+        android:textStyle="italic"
         android:gravity="center_horizontal"
-
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:orientation="horizontal"
 
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
 
         android:gravity="center_horizontal"
 
@@ -60,11 +61,14 @@
 
         <ImageView
             android:id="@+id/pause_dialog_levels_image_view"
-
+            android:layout_width="0dp"
             android:clickable="true"
 
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
 
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
@@ -73,12 +77,12 @@
             android:background="@drawable/pause_dialog_levels_shape"
             android:src="@drawable/pause_dialog_levels_icon"
 
-            android:layout_width="70dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/pause_dialog_continue_text_view"
-
+            android:layout_width="0dp"
             android:clickable="true"
 
             android:paddingTop="8dp"
@@ -86,13 +90,14 @@
 
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:gravity="center"
 
-            android:background="@drawable/pause_dialog_continue_shape"
+            android:background="@drawable/pause_dialog_levels_shape"
             android:src="@drawable/pause_dialog_continue_icon"
 
-            android:layout_width="70dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

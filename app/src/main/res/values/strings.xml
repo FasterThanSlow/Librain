@@ -15,7 +15,7 @@
 
     <!-- Pause Dialog -->
     <string name="pause_dialog_title">Pause</string>
-    <string name="pause_dialog_message">Level progress has been saved</string>
+    <string name="pause_dialog_message">Your current progress has been saved. Please choose the next action&#8230;</string>
 
     <!-- Result Dialog -->
     <string name="result_dialog_title">Your result</string>
@@ -27,9 +27,9 @@
     <string name="game_round_2_title">Round 2</string>
     <string name="game_round_3_title">Round 3</string>
 
-    <string name="game_round_1_description">Запомните фигуры</string>
-    <string name="game_round_2_description">Запомните две части</string>
-    <string name="game_round_3_description">Запомните фигуры два раза</string>
+    <string name="game_round_1_description">Отобразите расположение фигур</string>
+    <string name="game_round_2_description">Совместите оба расположения</string>
+    <string name="game_round_3_description">Отобразите одно расположение</string>
 
     <!-- Rate app dialog -->
     <string name="rate_app_dialog_title">Оцените приложение</string>

@@ -13,12 +13,12 @@
 
         android:orientation="horizontal"
 
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
 
         android:layout_marginBottom="24dp"
 
-        android:background="@color/result_dialog_title_successful_background_color"
+        android:background="@color/campaign_title_background_color"
 
         android:gravity="center_horizontal"
 
@@ -29,7 +29,7 @@
             android:textStyle="bold"
 
             android:text="@string/result_dialog_title"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:textColor="@color/result_dialog_title_text_color"
 
             android:layout_marginRight="4dp"
@@ -52,7 +52,8 @@
 
     <LinearLayout
         android:orientation="horizontal"
-
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="12dp"
 
@@ -73,10 +74,8 @@
             android:background="@drawable/result_dialog_levels_shape"
             android:src="@drawable/result_dialog_levels_icon"
 
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-
-            android:layout_width="70dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageView
@@ -87,11 +86,17 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
 
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+
             android:gravity="center"
-            android:background="@drawable/result_dialog_restart_shape"
+            android:background="@drawable/result_dialog_levels_shape"
             android:src="@drawable/result_dialog_restart_icon"
 
-            android:layout_width="70dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageView
@@ -102,15 +107,13 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
 
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-
             android:gravity="center"
 
-            android:background="@drawable/result_dialog_next_shape"
+            android:background="@drawable/result_dialog_levels_shape"
             android:src="@drawable/result_dialog_next_icon"
 
-            android:layout_width="70dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

@@ -59,6 +59,7 @@ public class GameActivity extends AppCompatActivity {
     private ImageView roundImageView;
     private TextView roundTitleTextView;
     private TextView roundDescriptionTextView;
+    private View roundLineView;
 
     private TextView checkResultButton;
 
@@ -115,6 +116,7 @@ public class GameActivity extends AppCompatActivity {
         roundImageView = (ImageView) roundView.findViewById(R.id.game_round_image_view);
         roundTitleTextView = (TextView) roundView.findViewById(R.id.game_round_title_text_view);
         roundDescriptionTextView = (TextView) roundView.findViewById(R.id.game_round_description_text_view);
+        roundLineView = (View) roundView.findViewById(R.id.game_round_line);
 
         startRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
         startRoundAnimator.setDuration(START_ROUND_ANIMATION_DURATION);
@@ -320,6 +322,7 @@ public class GameActivity extends AppCompatActivity {
                 roundView.setVisibility(View.VISIBLE);
                 //boardView.setVisibility(View.INVISIBLE);
                 roundImageView.setVisibility(View.VISIBLE);
+                roundLineView.setVisibility(View.INVISIBLE);
 
                 if (((ThirdGameRound)currentGameRound).getTrueAnswerPart() == 1) {
                     roundImageView.setImageResource(R.drawable.game_round_three_show_first);
@@ -374,6 +377,7 @@ public class GameActivity extends AppCompatActivity {
 
             roundImageView.setVisibility(View.GONE);
             roundTitleTextView.setVisibility(View.VISIBLE);
+            roundLineView.setVisibility(View.VISIBLE);
             roundDescriptionTextView.setVisibility(View.VISIBLE);
             roundView.setVisibility(View.VISIBLE);
 
@@ -439,7 +443,7 @@ public class GameActivity extends AppCompatActivity {
             roundDescriptionTextView.setVisibility(View.GONE);
             roundImageView.setVisibility(View.VISIBLE);
             roundView.setVisibility(View.VISIBLE);
-
+            roundLineView.setVisibility(View.INVISIBLE);
             boardView.setVisibility(View.INVISIBLE);
 
             checkResultButton.setVisibility(View.INVISIBLE);
@@ -756,9 +760,9 @@ public class GameActivity extends AppCompatActivity {
 
         final View headerView = dialogView.findViewById(R.id.result_dialog_header);
         if (currentScore == 0) {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.result_dialog_title_unsuccessful_background_color));
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.campaign_title_background_color));
         } else {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.result_dialog_title_successful_background_color));
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.campaign_title_background_color));
         }
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
