@@ -117,7 +117,8 @@
             android:gravity="center"
 
             app:columnCount="4"
-            app:rowCount="5"
+            app:rowCount="6"
+            app:item_size="@dimen/game_tem_size"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -132,12 +133,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.greenkey.librain.view.distributorview.DistributorView2
+        <com.greenkey.librain.view.distributorview.DistributorView
             android:id="@+id/hidden_stuff"
+
+            android:visibility="invisible"
 
             android:layout_gravity="center"
 
-            android:visibility="invisible"
+            app:item_size="@dimen/game_tem_size"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

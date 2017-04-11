@@ -3,16 +3,14 @@ package com.greenkey.librain.view.distributorview;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,7 +30,7 @@ import static com.greenkey.librain.view.PixelConverter.dpToPx;
  * Created by Alexander on 10.02.2017.
  */
 
-public class DistributorView2 extends LinearLayout {
+public class DistributorView extends LinearLayout {
 
     private AnimatorSet showAnimationSet;
 
@@ -63,19 +61,21 @@ public class DistributorView2 extends LinearLayout {
     private LinearLayout itemsLayout;
     private ImageView triangleImageView;
 
-    public DistributorView2(Context context) {
+    private float itemSize = 60;
+
+    public DistributorView(Context context) {
         super(context);
         this.context = context;
         init(null, 0);
     }
 
-    public DistributorView2(Context context, AttributeSet attrs) {
+    public DistributorView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init(attrs, 0);
     }
 
-    public DistributorView2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DistributorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         init(attrs, defStyleAttr);
@@ -85,24 +85,32 @@ public class DistributorView2 extends LinearLayout {
         this.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         this.setOrientation(VERTICAL);
 
+        final TypedArray typedArray = context.obtainStyledAttributes(
+                attrs, R.styleable.DistributorView, defStyle, 0);
+
+        itemSize = typedArray.getDimension(R.styleable.DistributorView_item_size, itemSize);
+
+        typedArray.recycle();
+
         int itemsPadding =  PixelConverter.dpToPx(context, ITEMS_LAYOUT_PADDING_DP);
 
         itemsLayout = new LinearLayout(context);
         itemsLayout.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
         itemsLayout.setOrientation(HORIZONTAL);
         itemsLayout.setBackgroundResource(R.drawable.distributor_background);
         itemsLayout.setPadding(itemsPadding, itemsPadding, itemsPadding, itemsPadding);
         this.addView(itemsLayout);
 
         triangleViewSizePx =  PixelConverter.dpToPx(context, TRIANGLE_SIZE_DP);
-
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(triangleViewSizePx, triangleViewSizePx);
+        layoutParams.setMargins(0, PixelConverter.dpToPx(context, -1), 0, 0);
         triangleImageView = new ImageView(context);
-        triangleImageView.setLayoutParams(new FrameLayout.LayoutParams(triangleViewSizePx, triangleViewSizePx));
-        triangleImageView.setImageResource(R.drawable.triangle);
+        triangleImageView.setLayoutParams(layoutParams);
+        triangleImageView.setImageResource(R.drawable.distributor_view_traingle);
         this.addView(triangleImageView);
 
         items = new ArrayList<>();
+
 
         ObjectAnimator showAnimation1 = ObjectAnimator.ofFloat(this, View.SCALE_Y, 0f, 1f);
         ObjectAnimator showAnimation2 = ObjectAnimator.ofFloat(this, View.SCALE_X, 0f, 1f);
@@ -127,7 +135,7 @@ public class DistributorView2 extends LinearLayout {
         this.removeItems();
 
         for (Rule rule : rules) {
-            DistributorItemView distributorItemView = new DistributorItemView(rule);
+            DistributorItemView distributorItemView = new DistributorItemView(rule, itemSize);
             distributorItemView.setOnTouchListener(itemsOnTouchListener);
 
             items.add(distributorItemView);
@@ -146,7 +154,7 @@ public class DistributorView2 extends LinearLayout {
         if (itemView != null) {
             itemView.addImageView();
         } else {
-            DistributorItemView distributorItemView = new DistributorItemView(new Rule(1, itemType));
+            DistributorItemView distributorItemView = new DistributorItemView(new Rule(1, itemType), itemSize);
             distributorItemView.setOnTouchListener(itemsOnTouchListener);
 
             items.add(distributorItemView);
@@ -212,28 +220,24 @@ public class DistributorView2 extends LinearLayout {
         private ImageView imageView;
         private TextView itemsCountTextView;
 
-        private static final int ITEM_SIZE_DP = 60;
         private static final int ITEM_MARGIN_DP = 4;
         private static final int ITEM_PADDING_DP = 2;
 
-        //private final Context context;
-
-        DistributorItemView(Rule rule) {
+        DistributorItemView(Rule rule, float size) {
             super(context);
-            init(rule);
+            init(rule, (int) (size + 0.5f));
         }
 
-        private void init(Rule rule) {
-            int itemSizePx = dpToPx(context, ITEM_SIZE_DP);
+        private void init(Rule rule, int size) {
             int itemMarginPx = dpToPx(context, ITEM_MARGIN_DP);
             int itemPaddingPx = dpToPx(context, ITEM_PADDING_DP);
 
-            LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
+            LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(size, size);
             itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
 
             this.setLayoutParams(itemLayoutParams);
             this.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
-            this.setBackgroundResource(R.drawable.destributer_item_background);
+            //this.setBackgroundResource(R.drawable.destributer_item_background);
 
             this.itemsCount = rule.getItemsCount();
             this.itemType = rule.getItemType();
@@ -299,7 +303,7 @@ public class DistributorView2 extends LinearLayout {
             itemsCountTextView.setTextColor(Color.WHITE);
 
             itemsCountTextView.setPadding(paddingPx, 0, paddingPx, 0);
-            itemsCountTextView.setBackgroundResource(R.drawable.distributor_items_count_background);
+            itemsCountTextView.setBackgroundResource(R.drawable.distributor_item_count_shape);
 
             this.addView(itemsCountTextView);
         }

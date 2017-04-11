@@ -25,13 +25,18 @@ import com.greenkey.librain.level.gameround.SecondGameRound;
 import com.greenkey.librain.level.gameround.ThirdGameRound;
 import com.greenkey.librain.view.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
-import com.greenkey.librain.view.distributorview.DistributorView2;
+import com.greenkey.librain.view.distributorview.DistributorView;
 
 import java.util.Arrays;
 
 public class GameActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "level";
+
+    private static final int START_ROUND_ANIMATION_DURATION = 1500;
+    private static final int END_ROUND_ANIMATION_DURATION = 1000;
+
+    private static final int THIRD_ROUND_ANIMATION_DURATION = 800;
 
     private static final int ROUNDS_COUNT = 3;
     private int currentRound;
@@ -61,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
     private View bottomBlackoutView;
 
     private BoardView boardView;
-    private DistributorView2 distributorView;
+    private DistributorView distributorView;
 
     private int rowCount;
     private int columnCount;
@@ -97,7 +102,7 @@ public class GameActivity extends AppCompatActivity {
         levelDao = LevelDao.getInstance(GameActivity.this);
 
         boardView = (BoardView) findViewById(R.id.board_view);
-        distributorView = (DistributorView2) findViewById(R.id.hidden_stuff);
+        distributorView = (DistributorView) findViewById(R.id.hidden_stuff);
 
         blackoutView = findViewById(R.id.game_blackout_view);
         bottomBlackoutView = findViewById(R.id.game_bottom_blackout_view);
@@ -112,15 +117,15 @@ public class GameActivity extends AppCompatActivity {
         roundDescriptionTextView = (TextView) roundView.findViewById(R.id.game_round_description_text_view);
 
         startRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
-        startRoundAnimator.setDuration(1500);
+        startRoundAnimator.setDuration(START_ROUND_ANIMATION_DURATION);
         startRoundAnimator.addListener(startRoundAnimatorListener);
 
         endRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
-        endRoundAnimator.setDuration(1000);
+        endRoundAnimator.setDuration(END_ROUND_ANIMATION_DURATION);
         endRoundAnimator.addListener(endRoundAnimatorListener);
 
         thirdRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
-        thirdRoundAnimator.setDuration(1000);
+        thirdRoundAnimator.setDuration(THIRD_ROUND_ANIMATION_DURATION);
         thirdRoundAnimator.addListener(thirdRoundAnimatorListener);
 
         currentLevel = getIntent().getParcelableExtra(LEVEL_PARAM);
@@ -464,7 +469,9 @@ public class GameActivity extends AppCompatActivity {
                 if (currentRound > ROUNDS_COUNT) {
                     ratingBar.setSelectedIndex(-1);
                 } else {
-                    ratingBar.setSelectedIndex(currentRound - 1);
+                    if (isTrueAnswer) {
+                        ratingBar.setSelectedIndex(currentRound - 1);
+                    }
                 }
 
                 if (currentRound <= ROUNDS_COUNT && isTrueAnswer) {
@@ -509,10 +516,18 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         if ((resultDialog == null || ! resultDialog.isShowing())) {
             if (pauseDialog == null || ! pauseDialog.isShowing()) {
-                startRoundAnimator.cancel();
-                endRoundAnimator.cancel();
-                thirdRoundAnimator.cancel();
-                showBoardItemsRunnable.cancel();
+                if (startRoundAnimator != null && startRoundAnimator.isRunning()) {
+                    startRoundAnimator.cancel();
+                }
+                if (endRoundAnimator != null && endRoundAnimator.isRunning()) {
+                    endRoundAnimator.cancel();
+                }
+                if (thirdRoundAnimator != null && thirdRoundAnimator.isRunning()) {
+                    thirdRoundAnimator.cancel();
+                }
+                if (showBoardItemsRunnable != null && showBoardItemsRunnable.isRunning()) {
+                    showBoardItemsRunnable.cancel();
+                }
 
                 resetLevelProgress();
             }
@@ -652,7 +667,7 @@ public class GameActivity extends AppCompatActivity {
                                 break;
                             case 1:
                                 Log.d("Lel", "Всего одна фигура");
-                                DistributorView2.DistributorItemView hiddenItem = distributorView.getItem(0);
+                                DistributorView.DistributorItemView hiddenItem = distributorView.getItem(0);
 
                                 boardItemView.createImageView(hiddenItem.getItemType());
                                 hiddenItem.removeImageView();
@@ -707,7 +722,7 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View touchView, MotionEvent event) {
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                DistributorView2.DistributorItemView distributorItemView = (DistributorView2.DistributorItemView) touchView;
+                DistributorView.DistributorItemView distributorItemView = (DistributorView.DistributorItemView) touchView;
 
                 selectedBoardItem.createImageView(distributorItemView.getItemType());
                 selectedBoardItem.depress();
@@ -807,7 +822,6 @@ public class GameActivity extends AppCompatActivity {
                 });
 
             } else {
-                // TUT
                 nextImageView.setVisibility(View.GONE);
             }
         }

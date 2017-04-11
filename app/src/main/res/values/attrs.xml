@@ -15,13 +15,22 @@
         <attr name="selectedIndicatorSrc" format="reference"/>
     </declare-styleable>
 
+
+
+
+    <attr name="item_size" format="dimension" />
+
     <declare-styleable name="BoardView">
         <attr name="rowCount" format="integer"/>
         <attr name="columnCount" format="integer"/>
+
+        <attr name="item_size"/>
     </declare-styleable>
 
     <declare-styleable name="DistributorView">
         <attr name="itemsCount" format="integer"/>
+
+        <attr name="item_size"/>
     </declare-styleable>
 
 

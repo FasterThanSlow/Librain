@@ -16,6 +16,9 @@
         android:background="@color/campaign_title_background_color"
 
         android:orientation="horizontal"
+
+        android:layout_marginBottom="10dp"
+
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
@@ -94,6 +97,7 @@
     <com.greenkey.librain.campaign.ViewPagerIndicator
         android:id="@+id/campaign_view_pager_indicator"
 
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
 
         android:layout_gravity="center_horizontal"

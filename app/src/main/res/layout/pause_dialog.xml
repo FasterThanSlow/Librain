@@ -73,7 +73,7 @@
             android:background="@drawable/pause_dialog_levels_shape"
             android:src="@drawable/pause_dialog_levels_icon"
 
-            android:layout_width="80dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content" />
 
         <ImageView
@@ -92,7 +92,7 @@
             android:background="@drawable/pause_dialog_continue_shape"
             android:src="@drawable/pause_dialog_continue_icon"
 
-            android:layout_width="80dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

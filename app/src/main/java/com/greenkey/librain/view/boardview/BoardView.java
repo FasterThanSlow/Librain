@@ -24,11 +24,10 @@ import com.greenkey.librain.view.PixelConverter;
 
 public class BoardView extends LinearLayout {
 
-    private static final int ROW_COUNT_DEFAULT_VALUE = 3;
-    private static final int COLUMN_COUNT_DEFAULT_VALUE = 3;
+    private int rowCount = 3;
+    private int columnCount = 3;
 
-    private int rowCount;
-    private int columnCount;
+    private float itemSize = 60;
 
     private OnTouchListener itemsOnTouchListener;
     public void setItemsOnTouchListener(OnTouchListener listener) {
@@ -68,8 +67,10 @@ public class BoardView extends LinearLayout {
         final TypedArray typedArray = context.obtainStyledAttributes(
                 attrs, R.styleable.BoardView, defStyle, 0);
 
-        rowCount = typedArray.getInteger(R.styleable.BoardView_rowCount, ROW_COUNT_DEFAULT_VALUE);
-        columnCount = typedArray.getInteger(R.styleable.BoardView_columnCount, COLUMN_COUNT_DEFAULT_VALUE);
+        rowCount = typedArray.getInteger(R.styleable.BoardView_rowCount, rowCount);
+        columnCount = typedArray.getInteger(R.styleable.BoardView_columnCount, columnCount);
+
+        itemSize = typedArray.getDimension(R.styleable.BoardView_item_size, itemSize);
 
         typedArray.recycle();
 
@@ -100,7 +101,7 @@ public class BoardView extends LinearLayout {
             lineLinearLayout.setLayoutParams(boardRowParams);
 
             for (int j = 0; j < columnCount; j++) {
-                final BoardItemView boardItemView = new BoardItemView(context);
+                final BoardItemView boardItemView = new BoardItemView(context, itemSize);
 
                 boardItemView.setOnTouchListener(itemsOnTouchListener);
 
@@ -160,7 +161,9 @@ public class BoardView extends LinearLayout {
         private ImageView imageView;
         private ItemType itemType;
 
-        private static final int ITEM_SIZE_DP = 60;
+        private final int itemSize;
+
+        //private static final int ITEM_SIZE_DP = 60;
         private static final int ITEM_MARGIN_DP = 4;
         private static final int ITEM_PADDING_DP = 2;
 
@@ -172,18 +175,19 @@ public class BoardView extends LinearLayout {
             return itemType;
         }
 
-        BoardItemView(Context context) {
+        BoardItemView(Context context, float size) {
             super(context);
             this.context = context;
+            this.itemSize = (int) (size + 0.5f);
             init();
         }
 
         private void init() {
-            int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
+            //int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
             int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
             int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
 
-            LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSizePx, itemSizePx);
+            LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSize, itemSize);
             itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);
 
             this.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);

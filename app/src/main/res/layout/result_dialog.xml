@@ -73,7 +73,10 @@
             android:background="@drawable/result_dialog_levels_shape"
             android:src="@drawable/result_dialog_levels_icon"
 
-            android:layout_width="80dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+
+            android:layout_width="70dp"
             android:layout_height="wrap_content" />
 
         <ImageView
@@ -84,16 +87,11 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
 
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-
             android:gravity="center"
             android:background="@drawable/result_dialog_restart_shape"
             android:src="@drawable/result_dialog_restart_icon"
 
-            android:layout_width="80dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content" />
 
         <ImageView
@@ -104,12 +102,15 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
 
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+
             android:gravity="center"
 
             android:background="@drawable/result_dialog_next_shape"
             android:src="@drawable/result_dialog_next_icon"
 
-            android:layout_width="80dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
