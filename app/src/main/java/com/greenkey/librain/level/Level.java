@@ -30,32 +30,19 @@ public class Level implements Parcelable {
     }
 
     private final int levelId;
-    private final int showingTime;
-    private final int rowCount;
-    private final int columnCount;
+
     private int record;
     private boolean isEnabled;
     private boolean isPremium;
 
     private final LevelType levelType;
-    private final int[] firstRoundItems;
-    private final int[] secondRoundItems;
-    private final int[] thirdRoundItems;
+
+    private final Round firstRound;
+    private final Round secondRound;
+    private final Round thirdRound;
 
     public int getLevelId() {
         return levelId;
-    }
-
-    public int getShowingTime() {
-        return showingTime;
-    }
-
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    public int getColumnCount() {
-        return columnCount;
     }
 
     public int getRecord() {
@@ -70,20 +57,20 @@ public class Level implements Parcelable {
         return levelType;
     }
 
+    public Round getFirstRound() {
+        return firstRound;
+    }
+
+    public Round getSecondRound() {
+        return secondRound;
+    }
+
+    public Round getThirdRound() {
+        return thirdRound;
+    }
+
     public boolean isPremium() {
         return isPremium;
-    }
-
-    public int[] getFirstRoundItems() {
-        return firstRoundItems;
-    }
-
-    public int[] getSecondRoundItems() {
-        return secondRoundItems;
-    }
-
-    public int[] getThirdRoundItems() {
-        return thirdRoundItems;
     }
 
     public void setEnabled(boolean enabled) {
@@ -94,48 +81,45 @@ public class Level implements Parcelable {
         this.record = record;
     }
 
-    public Level(int levelId, int showingTime, int rowCount, int columnCount,
+    public Level(int levelId,
                  @NonNull LevelType levelType,
-                 @NonNull int[] firstRoundItems,
-                 @NonNull int[] secondRoundItems,
-                 @NonNull int[] thirdRoundItems) {
+                 @NonNull Round firstRound,
+                 @NonNull Round secondRound,
+                 @NonNull Round thirdRound) {
+
         this.levelId = levelId;
-        this.showingTime = showingTime;
-        this.rowCount = rowCount;
-        this.columnCount = columnCount;
         this.levelType = levelType;
-        this.firstRoundItems = firstRoundItems;
-        this.secondRoundItems = secondRoundItems;
-        this.thirdRoundItems = thirdRoundItems;
+
+        this.firstRound = firstRound;
+        this.secondRound = secondRound;
+        this.thirdRound = thirdRound;
     }
 
-    public Level(int levelId, int showingTime, int rowCount, int columnCount,
+    public Level(int levelId,
                  boolean isPremium,
                  @NonNull LevelType levelType,
-                 @NonNull int[] firstRoundItems,
-                 @NonNull int[] secondRoundItems,
-                 @NonNull int[] thirdRoundItems) {
+                 @NonNull Round firstRound,
+                 @NonNull Round secondRound,
+                 @NonNull Round thirdRound) {
+
         this.levelId = levelId;
-        this.showingTime = showingTime;
-        this.rowCount = rowCount;
-        this.columnCount = columnCount;
         this.isPremium = isPremium;
         this.levelType = levelType;
-        this.firstRoundItems = firstRoundItems;
-        this.secondRoundItems = secondRoundItems;
-        this.thirdRoundItems = thirdRoundItems;
+
+        this.firstRound = firstRound;
+        this.secondRound = secondRound;
+        this.thirdRound = thirdRound;
     }
 
     public Level(Parcel in) {
         this.levelId = in.readInt();
-        this.showingTime = in.readInt();
-        this.rowCount = in.readInt();
-        this.columnCount = in.readInt();
+
         this.isPremium = in.readInt() == 1;
         this.levelType = LevelType.valueOf(in.readString());
-        this.firstRoundItems = in.createIntArray();
-        this.secondRoundItems = in.createIntArray();
-        this.thirdRoundItems = in.createIntArray();
+
+        this.firstRound = in.readParcelable(Round.class.getClassLoader());
+        this.secondRound = in.readParcelable(Round.class.getClassLoader());
+        this.thirdRound = in.readParcelable(Round.class.getClassLoader());
 
         this.record = in.readInt();
         this.isEnabled = in.readInt() == 1;
@@ -144,14 +128,13 @@ public class Level implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(levelId);
-        dest.writeInt(showingTime);
-        dest.writeInt(rowCount);
-        dest.writeInt(columnCount);
+
         dest.writeInt(isPremium ? 1 : 0);
         dest.writeString(levelType.name());
-        dest.writeIntArray(firstRoundItems);
-        dest.writeIntArray(secondRoundItems);
-        dest.writeIntArray(thirdRoundItems);
+
+        dest.writeParcelable(firstRound, flags);
+        dest.writeParcelable(secondRound, flags);
+        dest.writeParcelable(thirdRound, flags);
 
         dest.writeInt(record);
         dest.writeInt(isEnabled ? 1 : 0);

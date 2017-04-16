@@ -12,6 +12,12 @@
 
     <string name="main_menu_play">Play</string>
 
+    <!-- Tutorial -->
+    <string name="tutorial">Tutorial</string>
+
+    <string name="tutorial_first_message">Привет! Это обучение!</string>
+    <string name="tutorial_second_message">Это первый раунд. Тебе покажут фигуры на поле. Тебе нужно их запомнить.</string>
+
 
     <!-- Pause Dialog -->
     <string name="pause_dialog_title">Pause</string>
@@ -19,9 +25,6 @@
 
     <!-- Result Dialog -->
     <string name="result_dialog_title">Your result</string>
-
-
-
 
     <string name="game_round_1_title">Round 1</string>
     <string name="game_round_2_title">Round 2</string>

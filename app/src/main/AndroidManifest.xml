@@ -26,11 +26,18 @@
 
         <activity
             android:name=".campaign.CampaignActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainMenuActivity">
+            android:parentActivityName=".MainMenuActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.greenkey.librain.MainMenuActivity" />
+        </activity>
+
+        <activity
+            android:name=".TutorialActivity"
+            android:screenOrientation="portrait">
+
+
         </activity>
 
     </application>

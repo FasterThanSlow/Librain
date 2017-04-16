@@ -4,16 +4,16 @@
     <color name="colorPrimaryDark">#004D40</color>
     <color name="colorAccent">#FFC400</color>
 
+    <color name="background_color">#FFFDE7</color>
+
+    <color name="header_background_color">#00695C</color>
+    <color name="header_text_color">#FAFAFA</color>
+
     <!-- View Pager Indicator -->
     <color name="view_pager_indicator_color">#E0E0E0</color>
     <color name="view_pager_indicator_selected_color">#00C853</color>
 
     <!-- Кампания -->
-    <color name="campaign_background_color">#FFFDE7</color>
-
-    <color name="campaign_title_background_color">#00695C</color>
-    <color name="campaign_title_stars_count_text_color">#FAFAFA</color>
-
     <color name="campaign_item_level_number_text_color">#555555</color>
 
     <color name="campaign_item_stroke_color">#00C853</color>
@@ -29,13 +29,12 @@
     <color name="campaign_item_premium_disabled_background_color">#E2E2E2</color>
 
 
-
     <!-- Game -->
-    <color name="game_title_background_color">#00695C</color>
-    <color name="game_title_text_color">#ffffff</color>
-
-    <color name="game_background_color">#FFFDE7</color>
     <color name="game_background_blackout_color">#20000000</color>
+
+    <!-- Tutorial -->
+    <color name="tutorial_background_blackout_color">#3c000000</color>
+
 
     <!-- Result Dialog  -->
     <color name="result_dialog_title_text_color">#FFFFFF</color>
@@ -61,7 +60,6 @@
     <color name="main_card_text_color">#383838</color>
     <color name="main_card_line_color">#717171</color>
     <color name="main_card_background_color">#FFFFFF</color>
-    
 
 
     <!-- Зелёная кнопка -->

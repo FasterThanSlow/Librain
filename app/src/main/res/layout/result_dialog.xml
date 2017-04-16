@@ -18,7 +18,7 @@
 
         android:layout_marginBottom="24dp"
 
-        android:background="@color/campaign_title_background_color"
+        android:background="@color/header_background_color"
 
         android:gravity="center_horizontal"
 
@@ -52,8 +52,10 @@
 
     <LinearLayout
         android:orientation="horizontal"
+
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+
         android:layout_marginTop="32dp"
         android:layout_marginBottom="12dp"
 
@@ -69,6 +71,9 @@
 
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
 
             android:gravity="center"
             android:background="@drawable/result_dialog_levels_shape"
@@ -86,11 +91,6 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
 
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-
             android:gravity="center"
             android:background="@drawable/result_dialog_levels_shape"
             android:src="@drawable/result_dialog_restart_icon"
@@ -106,6 +106,9 @@
 
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
 
             android:gravity="center"
 

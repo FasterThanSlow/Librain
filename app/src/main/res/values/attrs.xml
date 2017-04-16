@@ -1,36 +1,43 @@
 <resources>
 
     <declare-styleable name="RatingBar">
-        <attr name="max" format="integer"/>
-        <attr name="progress" format="integer"/>
-        <attr name="selectedIndex" format="integer"/>
+        <attr name="max" format="integer" />
+        <attr name="progress" format="integer" />
+        <attr name="selectedIndex" format="integer" />
 
-        <attr name="starsSrc" format="reference"/>
-        <attr name="starsCompletedSrc" format="reference"/>
-        <attr name="starsSelectedSrc" format="reference"/>
+        <attr name="starsSrc" format="reference" />
+        <attr name="starsCompletedSrc" format="reference" />
+        <attr name="starsSelectedSrc" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ViewPagerIndicator">
-        <attr name="indicatorSrc" format="reference"/>
-        <attr name="selectedIndicatorSrc" format="reference"/>
+        <attr name="indicatorSrc" format="reference" />
+        <attr name="selectedIndicatorSrc" format="reference" />
     </declare-styleable>
-
-
 
 
     <attr name="item_size" format="dimension" />
 
     <declare-styleable name="BoardView">
-        <attr name="rowCount" format="integer"/>
-        <attr name="columnCount" format="integer"/>
+        <attr name="rowCount" format="integer" />
+        <attr name="columnCount" format="integer" />
 
-        <attr name="item_size"/>
+        <attr name="item_size" />
     </declare-styleable>
 
     <declare-styleable name="DistributorView">
-        <attr name="itemsCount" format="integer"/>
+        <attr name="itemsCount" format="integer" />
 
-        <attr name="item_size"/>
+        <attr name="item_size" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
 

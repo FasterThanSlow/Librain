@@ -152,7 +152,7 @@ public class BoardView extends LinearLayout {
 
 
     //ItemView
-    public class BoardItemView extends FrameLayout {
+    public static class BoardItemView extends FrameLayout {
 
         private final static int SCALE_ANIMATION_DURATION = 350;
 
@@ -163,7 +163,6 @@ public class BoardView extends LinearLayout {
 
         private final int itemSize;
 
-        //private static final int ITEM_SIZE_DP = 60;
         private static final int ITEM_MARGIN_DP = 4;
         private static final int ITEM_PADDING_DP = 2;
 
@@ -175,7 +174,7 @@ public class BoardView extends LinearLayout {
             return itemType;
         }
 
-        BoardItemView(Context context, float size) {
+        public BoardItemView(Context context, float size) {
             super(context);
             this.context = context;
             this.itemSize = (int) (size + 0.5f);
@@ -183,7 +182,6 @@ public class BoardView extends LinearLayout {
         }
 
         private void init() {
-            //int itemSizePx = PixelConverter.dpToPx(context, ITEM_SIZE_DP);
             int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
             int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
 

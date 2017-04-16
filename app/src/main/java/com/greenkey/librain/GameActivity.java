@@ -20,6 +20,7 @@ import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.level.Level;
+import com.greenkey.librain.level.Round;
 import com.greenkey.librain.level.gameround.GameRound;
 import com.greenkey.librain.level.gameround.SecondGameRound;
 import com.greenkey.librain.level.gameround.ThirdGameRound;
@@ -50,8 +51,6 @@ public class GameActivity extends AppCompatActivity {
 
     private int levelId;
 
-    private int levelShowingTime;
-
     private RatingBar ratingBar;
     private TextView levelNumberTextView;
 
@@ -69,12 +68,9 @@ public class GameActivity extends AppCompatActivity {
     private BoardView boardView;
     private DistributorView distributorView;
 
-    private int rowCount;
-    private int columnCount;
-
-    private int[] firstRoundLevelItems;
-    private int[] secondRoundLevelItems;
-    private int[] thirdRoundLevelItems;
+    private Round firstRound;
+    private Round secondRound;
+    private Round thirdRoundLevelDescription;
 
     private Level.LevelType levelType;
 
@@ -105,8 +101,8 @@ public class GameActivity extends AppCompatActivity {
         boardView = (BoardView) findViewById(R.id.board_view);
         distributorView = (DistributorView) findViewById(R.id.hidden_stuff);
 
-        blackoutView = findViewById(R.id.game_blackout_view);
-        bottomBlackoutView = findViewById(R.id.game_bottom_blackout_view);
+        blackoutView = findViewById(R.id.tutorial_blackout_view);
+        bottomBlackoutView = findViewById(R.id.tutorial_bottom_blackout_view);
 
         ratingBar = (RatingBar) findViewById(R.id.stars);
         levelNumberTextView = (TextView) findViewById(R.id.level_number_text_view);
@@ -116,7 +112,7 @@ public class GameActivity extends AppCompatActivity {
         roundImageView = (ImageView) roundView.findViewById(R.id.game_round_image_view);
         roundTitleTextView = (TextView) roundView.findViewById(R.id.game_round_title_text_view);
         roundDescriptionTextView = (TextView) roundView.findViewById(R.id.game_round_description_text_view);
-        roundLineView = (View) roundView.findViewById(R.id.game_round_line);
+        roundLineView = roundView.findViewById(R.id.game_round_line);
 
         startRoundAnimator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0.0f, 1.0f);
         startRoundAnimator.setDuration(START_ROUND_ANIMATION_DURATION);
@@ -139,10 +135,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         boardView.setOnTouchListener(boardTouchListener); // Нажатие за пределами полей
-        checkResultButton.setOnClickListener(checkResultOnClickListener); //
-
-        final ImageView pauseButton = (ImageView) findViewById(R.id.pause_image_view);
-        pauseButton.setOnClickListener(pauseOnClickListener);
+        checkResultButton.setOnClickListener(checkResultOnClickListener);
 
         final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
         restartButton.setOnClickListener(restartOnClickListener);
@@ -153,15 +146,10 @@ public class GameActivity extends AppCompatActivity {
         levelNumberTextView.setText(String.valueOf(levelId));
 
         record = level.getRecord();
-        levelShowingTime = level.getShowingTime();
 
-        rowCount = level.getRowCount();
-        columnCount = level.getColumnCount();
-        boardView.createItems(rowCount, columnCount);
-
-        firstRoundLevelItems = level.getFirstRoundItems();
-        secondRoundLevelItems = level.getSecondRoundItems();
-        thirdRoundLevelItems = level.getThirdRoundItems();
+        firstRound = level.getFirstRound();
+        secondRound = level.getSecondRound();
+        thirdRoundLevelDescription = level.getThirdRound();
 
         levelType = level.getLevelType();
     }
@@ -218,25 +206,25 @@ public class GameActivity extends AppCompatActivity {
 
             switch (roundNumber) {
                 case 1:
-                    rules = Generator.createRules(levelType, firstRoundLevelItems);
+                    rules = Generator.createRules(levelType, firstRound.getRoundItems());
 
-                    currentGameRound = Generator.createRound1Items(rules, rowCount * columnCount);
+                    currentGameRound = Generator.createRound1Items(rules, firstRound.getRowCount() * firstRound.getColumnCount());
                     boardView.setItemsResources(currentGameRound.getAnswer());
 
                     break;
                 case 2:
-                    rules = Generator.createRules(levelType, secondRoundLevelItems);
+                    rules = Generator.createRules(levelType, secondRound.getRoundItems());
 
                     isSecondRoundFirstPartShowing = true;
-                    currentGameRound = Generator.createRound2Items(rules, rowCount * columnCount);
+                    currentGameRound = Generator.createRound2Items(rules, secondRound.getRowCount() * secondRound.getColumnCount());
                     boardView.setItemsResources(((SecondGameRound)currentGameRound).getFirstPart());
 
                     break;
                 case 3:
-                    rules = Generator.createRules(levelType, thirdRoundLevelItems);
+                    rules = Generator.createRules(levelType, thirdRoundLevelDescription.getRoundItems());
 
                     isThirdRoundFirstPartShowing = true;
-                    currentGameRound = Generator.createRound3Items(rules, rowCount * columnCount);
+                    currentGameRound = Generator.createRound3Items(rules, thirdRoundLevelDescription.getRowCount() * thirdRoundLevelDescription.getColumnCount());
                     boardView.setItemsResources(((ThirdGameRound) currentGameRound).getFirstPart());
                     break;
             }
@@ -372,6 +360,8 @@ public class GameActivity extends AppCompatActivity {
                 selectedBoardItem = null;
             }
 
+
+
             blackoutView.setVisibility(View.INVISIBLE);
             bottomBlackoutView.setVisibility(View.INVISIBLE);
 
@@ -387,14 +377,20 @@ public class GameActivity extends AppCompatActivity {
                 case 1:
                     roundTitleTextView.setText(R.string.game_round_1_title);
                     roundDescriptionTextView.setText(R.string.game_round_1_description);
+
+                    boardView.createItems(firstRound.getRowCount(), firstRound.getColumnCount());
                     break;
                 case 2:
                     roundTitleTextView.setText(R.string.game_round_2_title);
                     roundDescriptionTextView.setText(R.string.game_round_2_description);
+
+                    boardView.createItems(secondRound.getRowCount(), secondRound.getColumnCount());
                     break;
                 case 3:
                     roundTitleTextView.setText(R.string.game_round_3_title);
                     roundDescriptionTextView.setText(R.string.game_round_3_description);
+
+                    boardView.createItems(thirdRoundLevelDescription.getRowCount(), thirdRoundLevelDescription.getColumnCount());
                     break;
             }
 
@@ -414,7 +410,18 @@ public class GameActivity extends AppCompatActivity {
                 roundView.setVisibility(View.INVISIBLE);
                 boardView.setVisibility(View.VISIBLE);
 
-                showBoardItemsRunnable = new ShowBoardItemRunnable(levelShowingTime, currentRound);
+                switch (currentRound) {
+                    case 1:
+                        showBoardItemsRunnable = new ShowBoardItemRunnable(firstRound.getShowingTime(), currentRound);
+                        break;
+                    case 2:
+                        showBoardItemsRunnable = new ShowBoardItemRunnable(secondRound.getShowingTime(), currentRound);
+                        break;
+                    case 3:
+                        showBoardItemsRunnable = new ShowBoardItemRunnable(thirdRoundLevelDescription.getShowingTime(), currentRound);
+                        break;
+                }
+
                 handler.post(showBoardItemsRunnable);
             }
         }
@@ -550,14 +557,6 @@ public class GameActivity extends AppCompatActivity {
 
         super.onPause();
     }
-
-    //КНОПКИ УПРАВЛЕНИЯ
-    private View.OnClickListener pauseOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            showPauseDialog();
-        }
-    };
 
     private View.OnClickListener restartOnClickListener = new View.OnClickListener() {
         @Override
@@ -760,9 +759,9 @@ public class GameActivity extends AppCompatActivity {
 
         final View headerView = dialogView.findViewById(R.id.result_dialog_header);
         if (currentScore == 0) {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.campaign_title_background_color));
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.header_background_color));
         } else {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.campaign_title_background_color));
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.header_background_color));
         }
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.greenkey.librain.level.Level;
+import com.greenkey.librain.level.Round;
 import com.greenkey.librain.level.LevelsPage;
 
 import java.util.ArrayList;
@@ -40,7 +41,13 @@ public class LevelDao {
         this.levelsPages = new ArrayList<>();
 
         ArrayList<Level> spaceLevels = new ArrayList<>();
-        spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1}, new int[] {2}, new int[] {1} ));
+
+        spaceLevels.add(new Level(1, Level.LevelType.SPACE, new Round(2000, 2, 2, new int[]{1, 2}), new Round(4000, 3, 3, new int[]{2, 1}), new Round(10_000, 2, 2, new int[]{2, 2})));
+        spaceLevels.add(new Level(2, Level.LevelType.SPACE, new Round(12000, 2, 2, new int[]{1, 2}), new Round(4000, 3, 3, new int[]{2, 1}), new Round(20_000, 2, 2, new int[]{1, 1, 1})));
+        this.levelsPages.add(new LevelsPage(Level.LevelType.SPACE, spaceLevels));
+        this.levels.addAll(spaceLevels);
+
+        /*spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1}, new int[] {2}, new int[] {1} ));
         spaceLevels.add(new Level(2, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2}, new int[] {3}, new int[] {2} ));
         spaceLevels.add(new Level(3, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3}, new int[] {4}, new int[] {3} ));
         spaceLevels.add(new Level(4, 1000, 3, 3, Level.LevelType.SPACE, new int[] {4}, new int[] {5}, new int[] {4} ));
@@ -114,6 +121,7 @@ public class LevelDao {
         vegetableLevels.add(new Level(60, 1000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,5,5}, new int[] {5,5,5}, new int[] {5,5,5} ));
         this.levelsPages.add(new LevelsPage(Level.LevelType.VEGETABLE, vegetableLevels));
         this.levels.addAll(vegetableLevels);
+        */
         initLevels(levels);
     }
 

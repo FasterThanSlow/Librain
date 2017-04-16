@@ -16,7 +16,7 @@
 
         android:layout_marginBottom="16dp"
 
-        android:background="@color/campaign_title_background_color"
+        android:background="@color/header_background_color"
 
         android:gravity="center_horizontal"
 
