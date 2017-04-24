@@ -15,8 +15,15 @@
     <!-- Tutorial -->
     <string name="tutorial">Tutorial</string>
 
-    <string name="tutorial_first_message">Привет! Это обучение!</string>
-    <string name="tutorial_second_message">Это первый раунд. Тебе покажут фигуры на поле. Тебе нужно их запомнить.</string>
+    <string name="tutorial_start_message">Здравствуйте, это обучение.\n\nНажмите на экран, чтобы перейтик к следующему сообщению.</string>
+
+    <string name="tutorial_first_round_message">Это первый раунд. Вам покажут фигуры на поле, вам нужно их запомнить.</string>
+    <string name="tutorial_first_round_description_message">Укажите то место, где была показана фигура.</string>
+
+    <string name="tutorial_pre_second_round_message">Это второй раунд. Вам нужно запонить фигуры за два показа, а потом совместить.</string>
+    <string name="tutorial_second_round_description_message">Укажите места где находились фигуры</string>
+
+    <string name="tutorial_third_round_message">Это третий раунд. Вам два раза покажут фигуры на поле, вам нужно запомнить оба расположения.</string>
 
 
     <!-- Pause Dialog -->
@@ -32,7 +39,7 @@
 
     <string name="game_round_1_description">Отобразите расположение фигур</string>
     <string name="game_round_2_description">Совместите оба расположения</string>
-    <string name="game_round_3_description">Отобразите одно расположение</string>
+    <string name="game_round_3_description">Отобразите указанное расположение</string>
 
     <!-- Rate app dialog -->
     <string name="rate_app_dialog_title">Оцените приложение</string>

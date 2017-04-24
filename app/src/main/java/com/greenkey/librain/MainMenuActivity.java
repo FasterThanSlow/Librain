@@ -19,7 +19,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         LevelDao levelDao = LevelDao.getInstance(MainMenuActivity.this);
 
-        Button startCampaignButton = (Button) findViewById(R.id.main_start_campaign_button);
+        final Button startCampaignButton = (Button) findViewById(R.id.main_start_campaign_button);
         startCampaignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,7 +30,13 @@ public class MainMenuActivity extends AppCompatActivity {
         final TextView campaignStarsCountTextView = (TextView) findViewById(R.id.main_stars_count_text_view);
         campaignStarsCountTextView.setText(String.valueOf(levelDao.getCompletedStarCount()));
 
-
+        final Button startTutorialButton = (Button) findViewById(R.id.main_start_tutorial_button);
+        startTutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenuActivity.this, TutorialActivity.class));
+            }
+        });
 
         RateDialog rateDialog = new RateDialog(MainMenuActivity.this);
         if (rateDialog.isShouldShow()) {
