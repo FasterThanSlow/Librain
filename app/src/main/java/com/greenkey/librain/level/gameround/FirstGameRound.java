@@ -7,7 +7,6 @@ import com.greenkey.librain.entity.ItemType;
  */
 
 public class FirstGameRound extends GameRound {
-
     public FirstGameRound(ItemType[] items) {
         super(items);
     }
