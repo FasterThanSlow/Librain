@@ -42,88 +42,85 @@ public class LevelDao {
 
         ArrayList<Level> spaceLevels = new ArrayList<>();
 
-        spaceLevels.add(new Level(1, Level.LevelType.SPACE, new Round(1000, 2, 4, new int[]{1, 2}), new Round(1000, 3, 5, new int[]{2, 1}), new Round(1_000, 2, 2, new int[]{2, 2})));
-        spaceLevels.add(new Level(2, Level.LevelType.SPACE, new Round(1000, 2, 2, new int[]{1, 2}), new Round(1000, 3, 3, new int[]{2, 1}), new Round(1_000, 2, 2, new int[]{1, 1, 1})));
-        spaceLevels.add(new Level(3, Level.LevelType.SPACE, new Round(1000, 2, 2, new int[]{1, 2}), new Round(1000, 3, 3, new int[]{2, 1}), new Round(1_000, 2, 2, new int[]{1, 1, 1})));
+        spaceLevels.add(new Level(1, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{1}), new Round(1000, 3, 3, new int[]{2}), new Round(1000, 3, 3, new int[]{1})));
+        spaceLevels.add(new Level(2, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{2}), new Round(1000, 3, 4, new int[]{2}), new Round(1000, 3, 3, new int[]{2})));
+        spaceLevels.add(new Level(3, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{3}), new Round(1000, 3, 3, new int[]{3}), new Round(1000, 3, 3, new int[]{3})));
+        spaceLevels.add(new Level(4, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{4}), new Round(1000, 3, 3, new int[]{4}), new Round(1000, 3, 3, new int[]{4})));
+        spaceLevels.add(new Level(5, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{5}), new Round(1000, 3, 3, new int[]{5}), new Round(1000, 3, 3, new int[]{5})));
+        spaceLevels.add(new Level(6, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{6}), new Round(1000, 3, 3, new int[]{6}), new Round(1000, 3, 4, new int[]{5})));
+        spaceLevels.add(new Level(7, Level.LevelType.SPACE, new Round(1000, 4, 4, new int[]{6}), new Round(1000, 4, 4, new int[]{6}), new Round(1000, 4, 4, new int[]{5})));
+        spaceLevels.add(new Level(8, Level.LevelType.SPACE, new Round(1000, 4, 5, new int[]{6}), new Round(1000, 4, 5, new int[]{6}), new Round(1000, 4, 5, new int[]{5})));
+        spaceLevels.add(new Level(9, Level.LevelType.SPACE, new Round(1000, 5, 5, new int[]{6}), new Round(1000, 5, 5, new int[]{6}), new Round(1000, 5, 5, new int[]{5})));
+        spaceLevels.add(new Level(10, Level.LevelType.SPACE, new Round(1000, 4, 3, new int[]{7}), new Round(1000, 4, 3, new int[]{7}), new Round(1000, 3, 3, new int[]{6})));
 
-        this.levelsPages.add(new LevelsPage(Level.LevelType.SPACE, spaceLevels));
-        this.levels.addAll(spaceLevels);
-
-        /*spaceLevels.add(new Level(1, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1}, new int[] {2}, new int[] {1} ));
-        spaceLevels.add(new Level(2, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2}, new int[] {3}, new int[] {2} ));
-        spaceLevels.add(new Level(3, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3}, new int[] {4}, new int[] {3} ));
-        spaceLevels.add(new Level(4, 1000, 3, 3, Level.LevelType.SPACE, new int[] {4}, new int[] {5}, new int[] {4} ));
-        spaceLevels.add(new Level(5, 1000, 3, 3, Level.LevelType.SPACE, new int[] {5}, new int[] {6}, new int[] {5} ));
-        spaceLevels.add(new Level(6, 1000, 3, 3, Level.LevelType.SPACE, new int[] {6}, new int[] {7}, new int[] {6} ));
-        spaceLevels.add(new Level(7, 1000, 4, 4, Level.LevelType.SPACE, new int[] {6}, new int[] {7}, new int[] {6} ));
-        spaceLevels.add(new Level(8, 1000, 4, 4, Level.LevelType.SPACE, new int[] {7}, new int[] {7}, new int[] {7} ));
-        spaceLevels.add(new Level(9, 1000, 5, 5, Level.LevelType.SPACE, new int[] {7}, new int[] {7}, new int[] {7} ));
-        spaceLevels.add(new Level(10, 1000, 5, 5, Level.LevelType.SPACE, new int[] {8}, new int[] {8}, new int[] {8} ));
-
-        spaceLevels.add(new Level(11, 1000, 3, 3, Level.LevelType.SPACE, new int[] {1, 1}, new int[] {1, 1}, new int[] {1,1} ));
-        spaceLevels.add(new Level(12, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 1}, new int[] {2, 1}, new int[] {2,1} ));
-        spaceLevels.add(new Level(13, 1000, 3, 3, Level.LevelType.SPACE, new int[] {2, 2}, new int[] {2, 2}, new int[] {2,2} ));
-        spaceLevels.add(new Level(14, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3, 2}, new int[] {3, 2}, new int[] {3,2} ));
-        spaceLevels.add(new Level(15, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3, 3}, new int[] {3, 3}, new int[] {3,3} ));
-        spaceLevels.add(new Level(16, 1000, 3, 4, Level.LevelType.SPACE, new int[] {3, 3}, new int[] {3, 3}, new int[] {3,3} ));
-        spaceLevels.add(new Level(17, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 3}, new int[] {3, 3}, new int[] {3,3} ));
-        spaceLevels.add(new Level(18, 1000, 5, 5, Level.LevelType.SPACE, new int[] {3, 3}, new int[] {3, 3}, new int[] {3,3} ));
-        spaceLevels.add(new Level(19, 1000, 3, 3, Level.LevelType.SPACE, new int[] {3, 4}, new int[] {3, 4}, new int[] {3,4} ));
-        spaceLevels.add(new Level(20, 1000, 4, 4, Level.LevelType.SPACE, new int[] {3, 4}, new int[] {3, 4}, new int[] {3,4} ));
+        spaceLevels.add(new Level(11, Level.LevelType.SPACE, new Round(1000, 4, 4, new int[]{7}), new Round(1000, 4, 4, new int[]{7}), new Round(1000, 3, 4, new int[]{6})));
+        spaceLevels.add(new Level(12, Level.LevelType.SPACE, new Round(1000, 4, 5, new int[]{7}), new Round(1000, 4, 5, new int[]{7}), new Round(1000, 4, 4, new int[]{6})));
+        spaceLevels.add(new Level(13, Level.LevelType.SPACE, new Round(1000, 5, 5, new int[]{7}), new Round(1000, 5, 5, new int[]{7}), new Round(1000, 4, 5, new int[]{6})));
+        spaceLevels.add(new Level(14, Level.LevelType.SPACE, new Round(1000, 4, 4, new int[]{8}), new Round(1000, 4, 4, new int[]{8}), new Round(1000, 5, 5, new int[]{6})));
+        spaceLevels.add(new Level(15, Level.LevelType.SPACE, new Round(1000, 5, 4, new int[]{8}), new Round(1000, 5, 4, new int[]{8}), new Round(1000, 3, 4, new int[]{7})));
+        spaceLevels.add(new Level(16, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{1, 1}), new Round(1000, 3, 3, new int[]{1, 1}), new Round(1000, 3, 3, new int[]{1, 1})));
+        spaceLevels.add(new Level(17, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{2, 1}), new Round(1000, 3, 3, new int[]{2, 1}), new Round(1000, 3, 3, new int[]{2, 1})));
+        spaceLevels.add(new Level(18, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{2, 2}), new Round(1000, 3, 3, new int[]{2, 2}), new Round(1000, 3, 3, new int[]{2, 2})));
+        spaceLevels.add(new Level(19, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{3, 2}), new Round(1000, 3, 3, new int[]{3, 2}), new Round(1000, 3, 3, new int[]{3, 2})));
+        spaceLevels.add(new Level(20, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{3, 3}), new Round(1000, 3, 3, new int[]{3, 3}), new Round(1000, 3, 4, new int[]{3, 2})));
 
         this.levelsPages.add(new LevelsPage(Level.LevelType.SPACE, spaceLevels));
         this.levels.addAll(spaceLevels);
 
         ArrayList<Level> fruitLevels = new ArrayList<>();
-        fruitLevels.add(new Level(21, 1000, 3, 3, Level.LevelType.FRUIT, new int[] {1,1,1}, new int[] {1,1,1}, new int[] {1,1,1}));
-        fruitLevels.add(new Level(22, 1000, 3, 3, Level.LevelType.FRUIT, new int[] {2,1,1}, new int[] {2,1,1}, new int[] {2,1,1} ));
-        fruitLevels.add(new Level(23, 1000, 4, 4, Level.LevelType.FRUIT, new int[] {2,1,1}, new int[] {2,1,1}, new int[] {2,1,1} ));
-        fruitLevels.add(new Level(24, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {2,1,1}, new int[] {2,1,1}, new int[] {2,1,1} ));
-        fruitLevels.add(new Level(25, 1000, 3, 3, Level.LevelType.FRUIT, new int[] {2,2,1}, new int[] {2,2,1}, new int[] {2,2,1} ));
-        fruitLevels.add(new Level(26, 1000, 4, 4, Level.LevelType.FRUIT, new int[] {2,2,1}, new int[] {2,2,1}, new int[] {2,2,1} ));
-        fruitLevels.add(new Level(27, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {2,2,1}, new int[] {2,2,1}, new int[] {2,2,1} ));
-        fruitLevels.add(new Level(28, 1000, 3, 3, Level.LevelType.FRUIT, new int[] {2,2,2}, new int[] {2,2,2}, new int[] {2,2,2} ));
-        fruitLevels.add(new Level(29, 1000, 4, 4, Level.LevelType.FRUIT, new int[] {2,2,2}, new int[] {2,2,2}, new int[] {2,2,2} ));
-        fruitLevels.add(new Level(30, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {2,2,2}, new int[] {2,2,2}, new int[] {2,2,2} ));
 
-        fruitLevels.add(new Level(31, 1000, 4, 4, Level.LevelType.FRUIT, new int[] {3,2,2}, new int[] {3,2,2}, new int[] {3,2,2}));
-        fruitLevels.add(new Level(32, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {3,2,2}, new int[] {3,2,2}, new int[] {3,2,2} ));
-        fruitLevels.add(new Level(33, 1000, 4, 4, Level.LevelType.FRUIT, new int[] {3,3,2}, new int[] {3,3,2}, new int[] {3,3,2} ));
-        fruitLevels.add(new Level(34, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {3,3,2}, new int[] {3,3,2}, new int[] {3,3,2} ));
-        fruitLevels.add(new Level(35, 1000, 4, 4, Level.LevelType.FRUIT, new int[] {3,3,3}, new int[] {3,3,3}, new int[] {3,3,3} ));
-        fruitLevels.add(new Level(36, 1000, 5, 4, Level.LevelType.FRUIT, new int[] {3,3,3}, new int[] {3,3,3}, new int[] {3,3,3} ));
-        fruitLevels.add(new Level(37, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {3,3,3}, new int[] {3,3,3}, new int[] {3,3,3} ));
-        fruitLevels.add(new Level(38, 1000, 4, 4, Level.LevelType.FRUIT, new int[] {4,3,3}, new int[] {4,3,3}, new int[] {4,3,3} ));
-        fruitLevels.add(new Level(39, 1000, 5, 4, Level.LevelType.FRUIT, new int[] {4,3,3}, new int[] {4,3,3}, new int[] {4,3,3} ));
-        fruitLevels.add(new Level(40, 1000, 5, 5, Level.LevelType.FRUIT, new int[] {4,3,3}, new int[] {4,3,3}, new int[] {4,3,3} ));
+        fruitLevels.add(new Level(21, Level.LevelType.FRUIT, new Round(1000, 3, 4, new int[]{3, 3}), new Round(1000, 3, 4, new int[]{3, 3}), new Round(1000, 4, 4, new int[]{3, 2})));
+        fruitLevels.add(new Level(22, Level.LevelType.FRUIT, new Round(1000, 4, 4, new int[]{3, 3}), new Round(1000, 4, 4, new int[]{3, 3}), new Round(1000, 5, 4, new int[]{3, 2})));
+        fruitLevels.add(new Level(23, Level.LevelType.FRUIT, new Round(1000, 5, 4, new int[]{3, 3}), new Round(1000, 5, 4, new int[]{3, 3}), new Round(1000, 5, 5, new int[]{3, 2})));
+        fruitLevels.add(new Level(24, Level.LevelType.FRUIT, new Round(1000, 5, 5, new int[]{3, 3}), new Round(1000, 5, 5, new int[]{3, 3}), new Round(1000, 3, 3, new int[]{3, 3})));
+        fruitLevels.add(new Level(25, Level.LevelType.FRUIT, new Round(1000, 3, 4, new int[]{4, 3}), new Round(1000, 3, 4, new int[]{4, 3}), new Round(1000, 3, 4, new int[]{3, 3})));
+        fruitLevels.add(new Level(26, Level.LevelType.FRUIT, new Round(1000, 4, 4, new int[]{4, 3}), new Round(1000, 4, 4, new int[]{4, 3}), new Round(1000, 4, 4, new int[]{3, 3})));
+        fruitLevels.add(new Level(27, Level.LevelType.FRUIT, new Round(1000, 5, 4, new int[]{4, 3}), new Round(1000, 5, 4, new int[]{4, 3}), new Round(1000, 4, 5, new int[]{3, 3})));
+        fruitLevels.add(new Level(28, Level.LevelType.FRUIT, new Round(1000, 5, 5, new int[]{4, 3}), new Round(1000, 5, 5, new int[]{4, 3}), new Round(1000, 5, 5, new int[]{3, 3})));
+        fruitLevels.add(new Level(29, Level.LevelType.FRUIT, new Round(1000, 4, 4, new int[]{4, 4}), new Round(1000, 4, 4, new int[]{4, 4}), new Round(1000, 3, 4, new int[]{4, 3})));
+        fruitLevels.add(new Level(30, Level.LevelType.FRUIT, new Round(1000, 5, 4, new int[]{4, 4}), new Round(1000, 5, 4, new int[]{4, 4}), new Round(1000, 4, 4, new int[]{4, 3})));
+
+        fruitLevels.add(new Level(31, Level.LevelType.FRUIT, new Round(1000, 3, 3, new int[]{1, 1, 1}), new Round(1000, 3, 3, new int[]{1, 1, 1}), new Round(1000, 3, 3, new int[]{1, 1, 1})));
+        fruitLevels.add(new Level(32, Level.LevelType.FRUIT, new Round(1000, 3, 3, new int[]{2, 1, 1}), new Round(1000, 3, 3, new int[]{2, 1, 1}), new Round(1000, 3, 3, new int[]{2, 1, 1})));
+        fruitLevels.add(new Level(33, Level.LevelType.FRUIT, new Round(1000, 3, 3, new int[]{2, 2, 1}), new Round(1000, 3, 3, new int[]{2, 2, 1}), new Round(1000, 3, 4, new int[]{2, 1, 1})));
+        fruitLevels.add(new Level(34, Level.LevelType.FRUIT, new Round(1000, 3, 4, new int[]{2, 2, 1}), new Round(1000, 3, 4, new int[]{2, 2, 1}), new Round(1000, 4, 4, new int[]{2, 1, 1})));
+        fruitLevels.add(new Level(35, Level.LevelType.FRUIT, new Round(1000, 4, 4, new int[]{2, 2, 1}), new Round(1000, 4, 4, new int[]{2, 2, 1}), new Round(1000, 4, 5, new int[]{2, 1, 1})));
+        fruitLevels.add(new Level(36, Level.LevelType.FRUIT, new Round(1000, 4, 5, new int[]{2, 2, 1}), new Round(1000, 4, 5, new int[]{2, 2, 1}), new Round(1000, 5, 5, new int[]{2, 1, 1})));
+        fruitLevels.add(new Level(37, Level.LevelType.FRUIT, new Round(1000, 5, 5, new int[]{2, 2, 1}), new Round(1000, 5, 5, new int[]{2, 2, 1}), new Round(1000, 3, 3, new int[]{2, 2, 1})));
+        fruitLevels.add(new Level(38, Level.LevelType.FRUIT, new Round(1000, 3, 3, new int[]{2, 2, 2}), new Round(1000, 3, 3, new int[]{2, 2, 2}), new Round(1000, 3, 4, new int[]{2, 2, 1})));
+        fruitLevels.add(new Level(39, Level.LevelType.FRUIT, new Round(1000, 3, 4, new int[]{2, 2, 2}), new Round(1000, 3, 4, new int[]{2, 2, 2}), new Round(1000, 4, 4, new int[]{2, 2, 1})));
+        fruitLevels.add(new Level(40, Level.LevelType.FRUIT, new Round(1000, 4, 4, new int[]{2, 2, 2}), new Round(1000, 4, 4, new int[]{2, 2, 2}), new Round(1000, 4, 5, new int[]{2, 2, 1})));
+
         this.levelsPages.add(new LevelsPage(Level.LevelType.FRUIT, fruitLevels));
         this.levels.addAll(fruitLevels);
 
         ArrayList<Level> vegetableLevels = new ArrayList<>();
-        vegetableLevels.add(new Level(41, 3000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {4,4,3}, new int[] {4,4,3}));
-        vegetableLevels.add(new Level(42, 2000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {4,4,3}, new int[] {4,4,3} ));
-        vegetableLevels.add(new Level(43, 1000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {4,4,3}, new int[] {4,4,3} ));
-        vegetableLevels.add(new Level(44, 2000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {4,4,3}, new int[] {4,4,3} ));
-        vegetableLevels.add(new Level(45, 1000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,3}, new int[] {4,4,3}, new int[] {4,4,3} ));
-        vegetableLevels.add(new Level(46, 3000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {4,4,4}, new int[] {4,4,4} ));
-        vegetableLevels.add(new Level(47, 2000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {4,4,4}, new int[] {4,4,4} ));
-        vegetableLevels.add(new Level(48, 1000, 4, 4, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {4,4,4}, new int[] {4,4,4} ));
-        vegetableLevels.add(new Level(49, 2000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {4,4,4}, new int[] {4,4,4} ));
-        vegetableLevels.add(new Level(50, 1000, 5, 5, Level.LevelType.VEGETABLE, new int[] {4,4,4}, new int[] {4,4,4}, new int[] {4,4,4} ));
+        vegetableLevels.add(new Level(41, Level.LevelType.VEGETABLE, new Round(1000, 4, 5, new int[]{2, 2, 2}), new Round(1000, 4, 5, new int[]{2, 2, 2}), new Round(1000, 5, 5, new int[]{2, 2, 1})));
+        vegetableLevels.add(new Level(42, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{2, 2, 2}), new Round(1000, 5, 5, new int[]{2, 2, 2}), new Round(1000, 3, 3, new int[]{2, 2, 2})));
+        vegetableLevels.add(new Level(43, Level.LevelType.VEGETABLE, new Round(1000, 3, 4, new int[]{3, 2, 2}), new Round(1000, 3, 4, new int[]{3, 2, 2}), new Round(1000, 3, 4, new int[]{2, 2, 2})));
+        vegetableLevels.add(new Level(44, Level.LevelType.VEGETABLE, new Round(1000, 4, 4, new int[]{3, 2, 2}), new Round(1000, 4, 4, new int[]{3, 2, 2}), new Round(1000, 4, 4, new int[]{2, 2, 2})));
+        vegetableLevels.add(new Level(45, Level.LevelType.VEGETABLE, new Round(1000, 4, 5, new int[]{3, 2, 2}), new Round(1000, 4, 5, new int[]{3, 2, 2}), new Round(1000, 4, 5, new int[]{2, 2, 2})));
+        vegetableLevels.add(new Level(46, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{3, 2, 2}), new Round(1000, 5, 5, new int[]{3, 2, 2}), new Round(1000, 5, 5, new int[]{2, 2, 2})));
+        vegetableLevels.add(new Level(47, Level.LevelType.VEGETABLE, new Round(1000, 3, 4, new int[]{3, 3, 2}), new Round(1000, 3, 4, new int[]{3, 3, 2}), new Round(1000, 3, 3, new int[]{3, 2, 2})));
+        vegetableLevels.add(new Level(48, Level.LevelType.VEGETABLE, new Round(1000, 4, 4, new int[]{3, 3, 2}), new Round(1000, 4, 4, new int[]{3, 3, 2}), new Round(1000, 3, 4, new int[]{3, 2, 2})));
+        vegetableLevels.add(new Level(49, Level.LevelType.VEGETABLE, new Round(1000, 4, 5, new int[]{3, 3, 2}), new Round(1000, 4, 5, new int[]{3, 3, 2}), new Round(1000, 4, 4, new int[]{3, 2, 2})));
+        vegetableLevels.add(new Level(50, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{3, 3, 2}), new Round(1000, 5, 5, new int[]{3, 3, 2}), new Round(1000, 4, 5, new int[]{3, 2, 2})));
 
-        vegetableLevels.add(new Level(51, 3000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {5,4,4}, new int[] {5,4,4}));
-        vegetableLevels.add(new Level(52, 2000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {5,4,4}, new int[] {5,4,4} ));
-        vegetableLevels.add(new Level(53, 1000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {5,4,4}, new int[] {5,4,4} ));
-        vegetableLevels.add(new Level(54, 2000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {5,4,4}, new int[] {5,4,4} ));
-        vegetableLevels.add(new Level(55, 1000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,4,4}, new int[] {5,4,4}, new int[] {5,4,4} ));
-        vegetableLevels.add(new Level(56, 3000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {5,5,4}, new int[] {5,5,4} ));
-        vegetableLevels.add(new Level(57, 2000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {5,5,4}, new int[] {5,5,4} ));
-        vegetableLevels.add(new Level(58, 1000, 4, 4, true, Level.LevelType.VEGETABLE, new int[] {5,5,4}, new int[] {5,5,4}, new int[] {5,5,4} ));
-        vegetableLevels.add(new Level(59, 2000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,5,5}, new int[] {5,5,5}, new int[] {5,5,5} ));
-        vegetableLevels.add(new Level(60, 1000, 5, 5, true, Level.LevelType.VEGETABLE, new int[] {5,5,5}, new int[] {5,5,5}, new int[] {5,5,5} ));
-        this.levelsPages.add(new LevelsPage(Level.LevelType.VEGETABLE, vegetableLevels));
+        vegetableLevels.add(new Level(51, Level.LevelType.VEGETABLE, new Round(1000, 4, 4, new int[]{3, 3, 3}), new Round(1000, 4, 4, new int[]{3, 3, 3}), new Round(1000, 5, 5, new int[]{3, 2, 2})));
+        vegetableLevels.add(new Level(52, Level.LevelType.VEGETABLE, new Round(1000, 4, 5, new int[]{3, 3, 3}), new Round(1000, 4, 5, new int[]{3, 3, 3}), new Round(1000, 3, 4, new int[]{3, 3, 2})));
+        vegetableLevels.add(new Level(53, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{3, 3, 3}), new Round(1000, 5, 5, new int[]{3, 3, 3}), new Round(1000, 4, 4, new int[]{3, 3, 2})));
+        vegetableLevels.add(new Level(54, Level.LevelType.VEGETABLE, new Round(1000, 4, 4, new int[]{4, 3, 3}), new Round(1000, 4, 4, new int[]{4, 3, 3}), new Round(1000, 4, 5, new int[]{3, 3, 2})));
+        vegetableLevels.add(new Level(55, Level.LevelType.VEGETABLE, new Round(1000, 4, 5, new int[]{4, 3, 3}), new Round(1000, 4, 5, new int[]{4, 3, 3}), new Round(1000, 5, 5, new int[]{3, 3, 2})));
+        vegetableLevels.add(new Level(56, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{4, 3, 3}), new Round(1000, 5, 5, new int[]{4, 3, 3}), new Round(1000, 3, 4, new int[]{3, 3, 3})));
+        vegetableLevels.add(new Level(57, Level.LevelType.VEGETABLE, new Round(1000, 4, 4, new int[]{4, 4, 3}), new Round(1000, 4, 4, new int[]{4, 4, 3}), new Round(1000, 4, 4, new int[]{3, 3, 3})));
+        vegetableLevels.add(new Level(58, Level.LevelType.VEGETABLE, new Round(1000, 4, 5, new int[]{4, 4, 3}), new Round(1000, 4, 5, new int[]{4, 4, 3}), new Round(1000, 4, 5, new int[]{3, 3, 3})));
+        vegetableLevels.add(new Level(59, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{4, 4, 3}), new Round(1000, 5, 5, new int[]{4, 4, 3}), new Round(1000, 5, 5, new int[]{3, 3, 3})));
+        vegetableLevels.add(new Level(60, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{4, 4, 4}), new Round(1000, 5, 5, new int[]{4, 4, 4}), new Round(1000, 5, 5, new int[]{4, 3, 3})));
+
+        
+      this.levelsPages.add(new LevelsPage(Level.LevelType.VEGETABLE, vegetableLevels));
         this.levels.addAll(vegetableLevels);
-        */
+
         initLevels(levels);
     }
 
