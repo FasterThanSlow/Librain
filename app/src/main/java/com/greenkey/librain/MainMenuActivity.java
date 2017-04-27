@@ -38,6 +38,14 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+        final Button startRatingGameButton = (Button) findViewById(R.id.main_start_rating_game_button);
+        startRatingGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenuActivity.this, RatingGameActivity.class));
+            }
+        });
+
         RateDialog rateDialog = new RateDialog(MainMenuActivity.this);
         if (rateDialog.isShouldShow()) {
             rateDialog.show();

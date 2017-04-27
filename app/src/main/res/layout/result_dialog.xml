@@ -30,7 +30,7 @@
 
             android:text="@string/result_dialog_title"
             android:textSize="28sp"
-            android:textColor="@color/result_dialog_title_text_color"
+            android:textColor="@color/header_text_color"
 
             android:layout_marginRight="4dp"
             android:layout_marginEnd="4dp"
@@ -76,7 +76,7 @@
             android:layout_marginEnd="16dp"
 
             android:gravity="center"
-            android:background="@drawable/result_dialog_levels_shape"
+            android:background="@drawable/dialog_background_shape"
             android:src="@drawable/result_dialog_levels_icon"
 
             android:layout_width="0dp"
@@ -92,7 +92,7 @@
             android:paddingBottom="8dp"
 
             android:gravity="center"
-            android:background="@drawable/result_dialog_levels_shape"
+            android:background="@drawable/dialog_background_shape"
             android:src="@drawable/result_dialog_restart_icon"
 
             android:layout_width="0dp"
@@ -112,7 +112,7 @@
 
             android:gravity="center"
 
-            android:background="@drawable/result_dialog_levels_shape"
+            android:background="@drawable/dialog_background_shape"
             android:src="@drawable/result_dialog_next_icon"
 
             android:layout_width="0dp"

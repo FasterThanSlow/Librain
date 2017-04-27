@@ -16,9 +16,10 @@ import java.util.Random;
 
 public class Generator {
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
+    private static final Level.LevelType[] levelTypes = Level.LevelType.values();
 
-    private static ItemType[] createItems(Rule[] rules, int boardSize) {
+    public static ItemType[] createFullBoardItems(Rule[] rules, int boardSize) {
         ItemType[] items = new ItemType[boardSize];
         Arrays.fill(items, ItemType.NONE);
 
@@ -41,11 +42,11 @@ public class Generator {
     }
 
     public static GameRound createRound1Items(Rule[] rules, int boardSize) {
-        return new FirstGameRound(createItems(rules, boardSize));
+        return new FirstGameRound(createFullBoardItems(rules, boardSize));
     }
 
     public static GameRound createRound2Items(Rule[] rules, int boardSize) {
-        ItemType[] trueAnswer =  createItems(rules, boardSize);
+        ItemType[] trueAnswer =  createFullBoardItems(rules, boardSize);
 
         ItemType[] firstPartItems =  Arrays.copyOf(trueAnswer, boardSize);
 
@@ -82,8 +83,8 @@ public class Generator {
     }
 
     public static GameRound createRound3Items(Rule[] rules, int boardSize) {
-        ItemType[] firstPart = createItems(rules, boardSize);
-        ItemType[] secondPart = createItems(rules, boardSize);
+        ItemType[] firstPart = createFullBoardItems(rules, boardSize);
+        ItemType[] secondPart = createFullBoardItems(rules, boardSize);
 
         if (random.nextBoolean()) {
             return new ThirdGameRound(firstPart, 1, firstPart, secondPart);
@@ -91,6 +92,47 @@ public class Generator {
             return new ThirdGameRound(secondPart, 2, firstPart, secondPart);
         }
     }
+
+    public static RatingGameStage createRatingStage(int stageNumber) {
+        int rowCount;
+        int columnCount;
+
+        int[] items;
+
+        int showingTime = 1000;
+
+        if (stageNumber < 3) {
+            columnCount = 3;
+            rowCount = 3;
+
+            items = new int[]{2, 2};
+        } else if (stageNumber < 5) {
+            columnCount = 3 + 1;
+            rowCount = 3;
+
+            items = new int[]{1, 2, 1};
+        }else if (stageNumber < 7) {
+            columnCount = 3 + 1;
+            rowCount = 3 + 1;
+
+            items = new int[]{1, 2, 1};
+        }else if (stageNumber < 9) {
+            columnCount = 3 + 1;
+            rowCount = 3 + 2;
+
+            items = new int[]{1, 2, 1};
+        } else {
+            columnCount = 3 + 2;
+            rowCount = 3 + 2;
+
+            items = new int[]{1, 2, 1};
+        }
+
+        Rule[] rules = createRules(levelTypes[random.nextInt(levelTypes.length)], items);
+
+        return new RatingGameStage(showingTime, rowCount, columnCount, items, rules);
+    }
+
 
 
     public static Rule[] createRules(Level.LevelType levelType, int[] items) {

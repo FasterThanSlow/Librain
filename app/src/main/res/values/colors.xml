@@ -6,12 +6,12 @@
 
     <color name="background_color">#FFFDE7</color>
 
-    <color name="header_background_color">#00695C</color>
-    <color name="header_text_color">#FAFAFA</color>
+    <color name="blackout_color">#20000000</color>
+    <color name="tutorial_blackout_color">#3c000000</color>
 
-    <!-- View Pager Indicator -->
-    <color name="view_pager_indicator_color">#E0E0E0</color>
-    <color name="view_pager_indicator_selected_color">#00C853</color>
+    <color name="header_text_color">#FAFAFA</color>
+    <color name="header_background_color">#00695C</color>
+
 
     <!-- Кампания -->
     <color name="campaign_item_level_number_text_color">#555555</color>
@@ -28,33 +28,11 @@
     <color name="campaign_item_premium_disabled_stroke_color">#FFC400</color>
     <color name="campaign_item_premium_disabled_background_color">#E2E2E2</color>
 
+    <color name="dialog_orange">#F5A44D</color>
+    <color name="dialog_blue">#65B4CE</color>
+    <color name="dialog_green">#7CD175</color>
 
-    <!-- Game -->
-    <color name="game_background_blackout_color">#20000000</color>
-
-    <!-- Tutorial -->
-    <color name="tutorial_background_blackout_color">#3c000000</color>
-
-
-    <!-- Result Dialog  -->
-    <color name="result_dialog_title_text_color">#FFFFFF</color>
-
-    <color name="result_dialog_levels_background_color">#F5A44D</color>
-    <color name="result_dialog_restart_background_color">#65B4CE</color>
-    <color name="result_dialog_next_background_color">#7CD175</color>
-
-    <color name="result_dialog_title_successful_background_color">#7CD175</color>
-    <color name="result_dialog_title_unsuccessful_background_color">#F5A44D</color>
-
-    <!-- Pause Dialog  -->
-    <color name="pause_dialog_title_text_color">#FFFFFF</color>
-    <color name="pause_dialog_title_background_color">#F5A44D</color>
-
-    <color name="pause_dialog_message_text_color">#555555</color>
-
-    <color name="pause_dialog_levels_background_color">#F5A44D</color>
-    <color name="pause_dialog_continue_background_color">#7CD175</color>
-
+    <color name="dialog_message_text_color">#555555</color>
 
     <!-- Меню -->
     <color name="main_card_text_color">#383838</color>
@@ -66,5 +44,10 @@
     <color name="green_button_color">#7CD175</color>
     <color name="green_button_highlight_color">#40f903</color>
     <color name="green_button_text_color">#FAFAFA</color>
+
+
+    <!-- View Pager Indicator -->
+    <color name="view_pager_indicator_color">#E0E0E0</color>
+    <color name="view_pager_indicator_selected_color">#00C853</color>
 
 </resources>

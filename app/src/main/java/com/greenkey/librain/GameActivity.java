@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -109,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
         checkResultButton = (TextView) findViewById(R.id.check_result_button);
 
         roundView = findViewById(R.id.game_round_banner);
-        roundImageView = (ImageView) roundView.findViewById(R.id.game_round_image_view);
+        roundImageView = (ImageView) roundView.findViewById(R.id.tutorial_third_round_image_view);
         roundTitleTextView = (TextView) roundView.findViewById(R.id.game_round_title_text_view);
         roundDescriptionTextView = (TextView) roundView.findViewById(R.id.game_round_description_text_view);
         roundLineView = roundView.findViewById(R.id.game_round_line);
@@ -757,12 +756,14 @@ public class GameActivity extends AppCompatActivity {
 
         final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.result_dialog, null);
 
+        /*
         final View headerView = dialogView.findViewById(R.id.result_dialog_header);
         if (currentScore == 0) {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.header_background_color));
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.dialog_orange));
         } else {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.header_background_color));
+            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.dialog_green));
         }
+        */
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
         ratingBar.setProgress(currentScore);

@@ -1,21 +1,21 @@
 package com.greenkey.librain;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.greenkey.librain.campaign.CampaignActivity;
 import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.view.boardview.BoardView;
@@ -26,18 +26,11 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     private BoardView boardView;
     private DistributorView distributorView;
 
-    private Button checkResultButton;
+    private View tutorialDescriptionView;
+    private TextView tutorialDescriptionTitleTextView;
+    private TextView tutorialDescriptionMessageTextView;
 
-    //private RatingBar ratingBar;
-    //private TextView levelNumberTextView;
-
-    private TextView tutorialMessageTextView;
-
-    private View roundView;
     private ImageView roundImageView;
-    private View roundLineView;
-    private TextView roundTitleTextView;
-    private TextView roundDescriptionTextView;
 
     private FrameLayout blackoutView;
     private View bottomBlackoutView;
@@ -50,73 +43,90 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         boardView = (BoardView) findViewById(R.id.tutorial_board_view);
         distributorView = (DistributorView) findViewById(R.id.tutorial_distributor_view);
 
-        checkResultButton = (Button) findViewById(R.id.tutorial_check_result_button);
-
         blackoutView = (FrameLayout) findViewById(R.id.tutorial_blackout_view);
         bottomBlackoutView = findViewById(R.id.tutorial_bottom_blackout_view);
 
-        tutorialMessageTextView = (TextView) findViewById(R.id.tutorial_panel_text_text_view);
+        tutorialDescriptionView = findViewById(R.id.tutorial_description_view);
+        tutorialDescriptionTitleTextView = (TextView) tutorialDescriptionView.findViewById(R.id.tutorial_description_title_text_view);
+        tutorialDescriptionMessageTextView = (TextView) tutorialDescriptionView.findViewById(R.id.tutorial_description_message_text_view);
 
-        roundView = findViewById(R.id.tutorial_round_banner);
-        roundImageView = (ImageView) roundView.findViewById(R.id.game_round_image_view);
-        roundLineView = roundView.findViewById(R.id.game_round_line);
-        roundTitleTextView = (TextView) roundView.findViewById(R.id.game_round_title_text_view);
-        roundDescriptionTextView = (TextView) roundView.findViewById(R.id.game_round_description_text_view);
+        roundImageView = (ImageView) findViewById(R.id.tutorial_third_round_image_view);
 
-        currentStep = 1;
-
-        roundView.setOnClickListener(this);
-        tutorialMessageTextView.setOnClickListener(this);
-
-        /*
-        ratingBar = (RatingBar) findViewById(R.id.stars);
-        checkResultButton = (TextView) findViewById(R.id.check_result_button);
-*/
+        tutorialDescriptionView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (currentStep) {
-            case 1:
-                firstStep.cancel();
-                secondStep.start();
-
-                currentStep++;
+        switch (currentStage) {
+            case TUTORIAL_DESCRIPTION:
+                helloAction.cancel();
+                firstRoundDescriptionAction.start();
                 break;
-            case 2:
-                secondStep.cancel();
-                thirdStep.start();
-
-                currentStep++;
+            case FIRST_ROUND_DESCRIPTION:
+                firstRoundDescriptionAction.cancel();
+                firstRoundShowingAction.start();
                 break;
-            case 3:
-                thirdStep.cancel();
-                fourthStep.start();
-
-                currentStep++;
+            case SECOND_ROUND_DESCRIPTION:
+                secondRoundDescription.cancel();
+                secondRoundShowing.start();
                 break;
-            case 6:
-                seventhStep.cancel();
-                eighthStep.start();
-
-                currentStep++;
-                break;
-            case 11:
-                twelfthStep.cancel();
-                thirteenthStep.start();
-
-                currentStep++;
+            case THIRD_ROUND_DESCRIPTION:
+                thirdRoundDescription.cancel();
+                thirdRound.start();
                 break;
         }
     }
 
-    private int currentStep;
+    private enum TutorialStage {
+        TUTORIAL_DESCRIPTION,
+        FIRST_ROUND_DESCRIPTION, FIRST_ROUND_SHOWING, FIRST_ROUND_GUESSING,
+        SECOND_ROUND_DESCRIPTION, SECOND_ROUND_SHOWING, SECOND_ROUND_GUESSING,
+        THIRD_ROUND_DESCRIPTION, THIRD_ROUND
+    }
+
+    private TutorialStage currentStage;
 
     @Override
     protected void onResume() {
         super.onResume();
+        helloAction.start();
+    }
 
-        firstStep.start();
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (tutorialCompletedDialog == null || ! tutorialCompletedDialog.isShowing()) {
+            switch (currentStage) {
+                case TUTORIAL_DESCRIPTION:
+                    helloAction.cancel();
+                    break;
+                case FIRST_ROUND_DESCRIPTION:
+                    firstRoundDescriptionAction.cancel();
+                    break;
+                case FIRST_ROUND_SHOWING:
+                    firstRoundShowingAction.cancel();
+                    break;
+                case FIRST_ROUND_GUESSING:
+                    firstRoundGuessAction.cancel();
+                    break;
+                case SECOND_ROUND_DESCRIPTION:
+                    secondRoundDescription.cancel();
+                    break;
+                case SECOND_ROUND_SHOWING:
+                    secondRoundShowing.cancel();
+                    break;
+                case SECOND_ROUND_GUESSING:
+                    secondRoundGuessing.cancel();
+                    break;
+                case THIRD_ROUND_DESCRIPTION:
+                    thirdRoundDescription.cancel();
+                    break;
+                case THIRD_ROUND:
+                    thirdRound.cancel();
+                    break;
+            }
+        }
     }
 
     private abstract class Action {
@@ -125,115 +135,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     }
 
     //Привет, это обучение
-    private Action firstStep = new Action() {
-
-        private static final int DURATION = 2000;
-
-        private ObjectAnimator firstMessageAnimator;
-
-        @Override
-        void start() {
-            boardView.setVisibility(View.INVISIBLE);
-            distributorView.setVisibility(View.INVISIBLE);
-
-            roundView.setVisibility(View.INVISIBLE);
-            checkResultButton.setVisibility(View.INVISIBLE);
-
-            blackoutView.setVisibility(View.INVISIBLE);
-            bottomBlackoutView.setVisibility(View.INVISIBLE);
-
-            tutorialMessageTextView.setVisibility(View.VISIBLE);
-
-            firstMessageAnimator = ObjectAnimator.ofFloat(tutorialMessageTextView, View.ALPHA, 0f, 1f);
-            firstMessageAnimator.setDuration(DURATION);
-            firstMessageAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setText(R.string.tutorial_start_message);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            firstMessageAnimator.start();
-        }
-
-        @Override
-        void cancel() {
-            if (firstMessageAnimator != null) {
-                firstMessageAnimator.cancel();
-            }
-        }
-    };
-
-    //Запомни фигуры
-    private Action secondStep = new Action() {
-
-        private static final int DURATION = 2000;
-
-        private ObjectAnimator secondMessageAnimator;
-
-        @Override
-        void start() {
-            boardView.setVisibility(View.INVISIBLE);
-            distributorView.setVisibility(View.INVISIBLE);
-
-            roundView.setVisibility(View.INVISIBLE);
-            checkResultButton.setVisibility(View.INVISIBLE);
-
-            blackoutView.setVisibility(View.INVISIBLE);
-            bottomBlackoutView.setVisibility(View.INVISIBLE);
-
-            tutorialMessageTextView.setVisibility(View.VISIBLE);
-
-            secondMessageAnimator = ObjectAnimator.ofFloat(tutorialMessageTextView, View.ALPHA, 0f, 1f);
-            secondMessageAnimator.setDuration(DURATION);
-            secondMessageAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setText(R.string.tutorial_first_round_message);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            secondMessageAnimator.start();
-        }
-
-        @Override
-        void cancel() {
-            if (secondMessageAnimator != null) {
-                secondMessageAnimator.cancel();
-            }
-        }
-    };
-
-    //Надпись Раунд 1
-    private Action thirdStep = new Action() {
+    private Action helloAction = new Action() {
 
         private static final int DURATION = 2000;
 
@@ -241,55 +143,75 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         void start() {
-            animator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0f, 1f);
+            currentStage = TutorialStage.TUTORIAL_DESCRIPTION;
+
+            boardView.setVisibility(View.INVISIBLE);
+            distributorView.setVisibility(View.INVISIBLE);
+
+            blackoutView.setVisibility(View.INVISIBLE);
+            bottomBlackoutView.setVisibility(View.INVISIBLE);
+
+            tutorialDescriptionTitleTextView.setText(R.string.tutorial_start_title);
+            tutorialDescriptionMessageTextView.setText(R.string.tutorial_start_message);
+            tutorialDescriptionView.setVisibility(View.VISIBLE);
+
+            animator = ObjectAnimator.ofFloat(tutorialDescriptionView, View.ALPHA, 0f, 1f);
             animator.setDuration(DURATION);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setVisibility(View.INVISIBLE);
-
-                    roundView.setVisibility(View.VISIBLE);
-                    roundImageView.setVisibility(View.GONE);
-                    roundLineView.setVisibility(View.VISIBLE);
-                    roundTitleTextView.setVisibility(View.VISIBLE);
-                    roundDescriptionTextView.setVisibility(View.VISIBLE);
-
-                    roundTitleTextView.setText(R.string.game_round_1_title);
-                    roundDescriptionTextView.setText(R.string.game_round_1_description);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    currentStep++;
-                    fourthStep.start();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
             animator.start();
         }
 
         @Override
         void cancel() {
             if (animator != null) {
-                animator.removeAllListeners();
                 animator.cancel();
             }
+
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
         }
     };
 
-    //Показ фигур РАунда 1
-    private Action fourthStep = new Action() {
 
-        private static final int DURATION = 1000;
+    //Описание Раунда 1
+    private Action firstRoundDescriptionAction = new Action() {
+
+        private static final int DURATION = 2000;
+
+        private ObjectAnimator animator;
+
+        @Override
+        void start() {
+            currentStage = TutorialStage.FIRST_ROUND_DESCRIPTION;
+
+            boardView.setVisibility(View.INVISIBLE);
+            distributorView.setVisibility(View.INVISIBLE);
+
+            blackoutView.setVisibility(View.INVISIBLE);
+            bottomBlackoutView.setVisibility(View.INVISIBLE);
+
+
+            tutorialDescriptionTitleTextView.setText(R.string.tutorial_first_round_title);
+            tutorialDescriptionMessageTextView.setText(R.string.tutorial_first_round_message);
+            tutorialDescriptionView.setVisibility(View.VISIBLE);
+
+            animator = ObjectAnimator.ofFloat(tutorialDescriptionView, View.ALPHA, 0f, 1f);
+            animator.setDuration(DURATION);
+            animator.start();
+        }
+
+        @Override
+        void cancel() {
+            if (animator != null) {
+                animator.cancel();
+            }
+
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
+        }
+    };
+
+    //Показ фигур Раунда 1
+    private Action firstRoundShowingAction = new Action() {
+
+        private static final int SHOW_ITEM_DURATION = 1000;
 
         private BoardView.BoardItemView shownBoardItemView;
 
@@ -297,91 +219,40 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         void start() {
-            roundView.setVisibility(View.INVISIBLE);
-            tutorialMessageTextView.setVisibility(View.INVISIBLE);
+            currentStage = TutorialStage.FIRST_ROUND_SHOWING;
+
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
 
             boardView.setVisibility(View.VISIBLE);
 
             shownBoardItemView = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(0)).getChildAt(1);
-            shownBoardItemView.createImageView(ItemType.APRICOT);
+            shownBoardItemView.createImageView(ItemType.BANANAS);
 
             showItemRunnable = new Runnable() {
                 @Override
                 public void run() {
                     shownBoardItemView.removeImageView();
 
-                    fifthStep.start();
+                    firstRoundGuessAction.start();
                 }
             };
 
-            shownBoardItemView.postDelayed(showItemRunnable, DURATION);
+            shownBoardItemView.postDelayed(showItemRunnable, SHOW_ITEM_DURATION);
         }
 
         @Override
         void cancel() {
             if (shownBoardItemView != null) {
+                shownBoardItemView.removeImageView();
                 shownBoardItemView.removeCallbacks(showItemRunnable);
             }
-        }
-    };
 
-    //Текст - Покажи фигруы
-    private Action fifthStep = new Action() {
-        private static final int DURATION = 2000;
-
-        private ObjectAnimator animator;
-
-        @Override
-        void start() {
             boardView.setVisibility(View.INVISIBLE);
-            distributorView.setVisibility(View.INVISIBLE);
-
-            roundView.setVisibility(View.INVISIBLE);
-            checkResultButton.setVisibility(View.INVISIBLE);
-
-            blackoutView.setVisibility(View.INVISIBLE);
-            bottomBlackoutView.setVisibility(View.INVISIBLE);
-
-            tutorialMessageTextView.setVisibility(View.VISIBLE);
-
-            animator = ObjectAnimator.ofFloat(tutorialMessageTextView, View.ALPHA, 0f, 1f);
-            animator.setDuration(DURATION);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setText(R.string.tutorial_first_round_description_message);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    currentStep++;
-                    sixthStep.start();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            animator.start();
-        }
-
-        @Override
-        void cancel() {
-            if (animator != null) {
-                animator.removeAllListeners();
-                animator.cancel();
-            }
         }
     };
 
-    //Картинка - Тыкни по ним    /////////////КНОПКА!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    private Action sixthStep = new Action() {
+    //Раунд 1 - Пользователь отгадывает
+    private Action firstRoundGuessAction = new Action() {
 
         private ObjectAnimator handAnimator;
 
@@ -389,6 +260,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         void start() {
+            currentStage = TutorialStage.FIRST_ROUND_GUESSING;
+
             BoardView.BoardItemView boardItemView = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(0)).getChildAt(1);
 
             float x = boardItemView.getX();
@@ -402,16 +275,14 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        tutorialBoardItem.createImageView(ItemType.APRICOT);
+                        tutorialBoardItem.createImageView(ItemType.BANANAS);
 
                         tutorialBoardItem.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 blackoutView.removeAllViews();
 
-                                currentStep++;
-
-                                seventhStep.start();
+                                secondRoundDescription.start();
                             }
                         }, START_NEXT_STEP_DELAY);
                     }
@@ -429,8 +300,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             blackoutView.addView(tutorialBoardItem);
             blackoutView.addView(handImageView);
 
-            roundView.setVisibility(View.INVISIBLE);
-            tutorialMessageTextView.setVisibility(View.INVISIBLE);
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
 
             boardView.setVisibility(View.VISIBLE);
             blackoutView.setVisibility(View.VISIBLE);
@@ -453,8 +323,9 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    //ОПИСАНИЕ РАУНДА 2
-    private Action seventhStep = new Action() {
+
+    //Описание Раунда 2
+    private Action secondRoundDescription = new Action() {
 
         private static final int DURATION = 2000;
 
@@ -462,40 +333,20 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         void start() {
+            currentStage = TutorialStage.SECOND_ROUND_DESCRIPTION;
+
             boardView.setVisibility(View.INVISIBLE);
             distributorView.setVisibility(View.INVISIBLE);
-
-            roundView.setVisibility(View.INVISIBLE);
-            checkResultButton.setVisibility(View.INVISIBLE);
 
             blackoutView.setVisibility(View.INVISIBLE);
             bottomBlackoutView.setVisibility(View.INVISIBLE);
 
-            tutorialMessageTextView.setVisibility(View.VISIBLE);
+            tutorialDescriptionTitleTextView.setText(R.string.tutorial_second_round_title);
+            tutorialDescriptionMessageTextView.setText(R.string.tutorial_second_round_message);
+            tutorialDescriptionView.setVisibility(View.VISIBLE);
 
-            animator = ObjectAnimator.ofFloat(tutorialMessageTextView, View.ALPHA, 0f, 1f);
+            animator = ObjectAnimator.ofFloat(tutorialDescriptionView, View.ALPHA, 0f, 1f);
             animator.setDuration(DURATION);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setText(R.string.tutorial_pre_second_round_message);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
             animator.start();
         }
 
@@ -504,65 +355,13 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             if (animator != null) {
                 animator.cancel();
             }
+
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
         }
     };
 
-    //Надпись Раунд 2
-    private Action eighthStep = new Action() {
-
-        private static final int DURATION = 2000;
-
-        private ObjectAnimator animator;
-
-        @Override
-        void start() {
-            animator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0f, 1f);
-            animator.setDuration(DURATION);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setVisibility(View.INVISIBLE);
-
-                    roundView.setVisibility(View.VISIBLE);
-                    roundImageView.setVisibility(View.GONE);
-                    roundLineView.setVisibility(View.VISIBLE);
-                    roundTitleTextView.setVisibility(View.VISIBLE);
-                    roundDescriptionTextView.setVisibility(View.VISIBLE);
-
-                    roundTitleTextView.setText(R.string.game_round_2_title);
-                    roundDescriptionTextView.setText(R.string.game_round_2_description);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    currentStep++;
-                    ninthStep.start();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            animator.start();
-        }
-
-        @Override
-        void cancel() {
-            if (animator != null) {
-                animator.removeAllListeners();
-                animator.cancel();
-            }
-        }
-    };
-
-    //ПОКАЗ ФИГУР РАУНДА 2
-    private Action ninthStep = new Action() {
+    //Показ фигур Раунда 2
+    private Action secondRoundShowing = new Action() {
 
         private BoardView.BoardItemView firstBoardItem;
         private BoardView.BoardItemView secondBoardItem;
@@ -575,11 +374,12 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         void start() {
+            currentStage = TutorialStage.SECOND_ROUND_SHOWING;
+
             boardView.setVisibility(View.VISIBLE);
             distributorView.setVisibility(View.INVISIBLE);
 
-            roundView.setVisibility(View.INVISIBLE);
-            tutorialMessageTextView.setVisibility(View.INVISIBLE);
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
 
             isFirstShowing = true;
 
@@ -601,8 +401,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     } else {
                         secondBoardItem.removeImageView();
 
-                        currentStep++;
-                        tenthSteep.start();
+                        secondRoundGuessing.start();
                     }
                 }
             };
@@ -613,66 +412,22 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         @Override
         void cancel() {
             boardView.removeCallbacks(showItemsRunnable);
-        }
-    };
 
-    //Описание что сделать Раунда 2  - НУЖНО ЛИ?
-    private Action tenthSteep = new Action() {
-        private static final int DURATION = 2000;
-
-        private ObjectAnimator animator;
-
-        @Override
-        void start() {
             boardView.setVisibility(View.INVISIBLE);
             distributorView.setVisibility(View.INVISIBLE);
 
-            roundView.setVisibility(View.INVISIBLE);
-            checkResultButton.setVisibility(View.INVISIBLE);
+            if (firstBoardItem != null) {
+                firstBoardItem.removeImageView();
+            }
 
-            blackoutView.setVisibility(View.INVISIBLE);
-            bottomBlackoutView.setVisibility(View.INVISIBLE);
-
-            tutorialMessageTextView.setVisibility(View.VISIBLE);
-
-            animator = ObjectAnimator.ofFloat(tutorialMessageTextView, View.ALPHA, 0f, 1f);
-            animator.setDuration(DURATION);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setText(R.string.tutorial_second_round_description_message);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    currentStep++;
-                    eleventhStep.start();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            animator.start();
-        }
-
-        @Override
-        void cancel() {
-            if (animator != null) {
-                animator.removeAllListeners();
-                animator.cancel();
+            if (secondBoardItem != null) {
+                secondBoardItem.removeImageView();
             }
         }
     };
 
-    //РАУНД 2
-    private Action eleventhStep = new Action() {
+    //Раунд 2 - Пользователь отгадывает
+    private Action secondRoundGuessing = new Action() {
 
         private ImageView handImageView;
 
@@ -689,6 +444,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         void start() {
+            currentStage = TutorialStage.SECOND_ROUND_GUESSING;
+
             isFirstShowing = true;
 
             firstBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(0)).getChildAt(0);
@@ -736,15 +493,13 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                             blackoutView.setVisibility(View.INVISIBLE);
                             bottomBlackoutView.setVisibility(View.INVISIBLE);
 
-                            currentStep++;
-
                             tutorialBoardItem.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     firstBoardItem.removeImageView();
                                     secondBoardItem.removeImageView();
 
-                                    twelfthStep.start();
+                                    thirdRoundDescription.start();
                                 }
                             }, START_NEXT_STEP_DELAY);
                         }
@@ -757,7 +512,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                             @Override
                             public void onClick(View v) {
                                     firstBoardItem.createImageView(item.getItemType());
-                                    //item.removeImageView();
 
                                     distributorView.setVisibility(View.INVISIBLE);
 
@@ -776,7 +530,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                         });
 
                         if (isFirstShowing) {
-                            item.setBackgroundColor(Color.GRAY);
+                            item.setBackgroundResource(R.drawable.tutorial_distributor_selected_item_background);
                         }
                     }
 
@@ -793,8 +547,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             blackoutView.addView(tutorialBoardItem);
             blackoutView.addView(handImageView);
 
-            roundView.setVisibility(View.INVISIBLE);
-            tutorialMessageTextView.setVisibility(View.INVISIBLE);
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
 
             boardView.setVisibility(View.VISIBLE);
             blackoutView.setVisibility(View.VISIBLE);
@@ -812,65 +565,22 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             if (handAnimator != null) {
                 handAnimator.cancel();
             }
+
+            if (firstBoardItem != null) {
+                firstBoardItem.removeImageView();
+            }
+
+            if (secondBoardItem != null) {
+                secondBoardItem.removeImageView();
+            }
+
+            blackoutView.removeAllViews();
         }
     };
+
 
     //Раунд 3, описание
-    private Action twelfthStep = new Action() {
-
-        private static final int DURATION = 2000;
-
-        private ObjectAnimator secondMessageAnimator;
-
-        @Override
-        void start() {
-            boardView.setVisibility(View.INVISIBLE);
-            distributorView.setVisibility(View.INVISIBLE);
-
-            roundView.setVisibility(View.INVISIBLE);
-            checkResultButton.setVisibility(View.INVISIBLE);
-
-            blackoutView.setVisibility(View.INVISIBLE);
-            bottomBlackoutView.setVisibility(View.INVISIBLE);
-
-            tutorialMessageTextView.setVisibility(View.VISIBLE);
-
-            secondMessageAnimator = ObjectAnimator.ofFloat(tutorialMessageTextView, View.ALPHA, 0f, 1f);
-            secondMessageAnimator.setDuration(DURATION);
-            secondMessageAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setText(R.string.tutorial_third_round_message);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            secondMessageAnimator.start();
-        }
-
-        @Override
-        void cancel() {
-            if (secondMessageAnimator != null) {
-                secondMessageAnimator.cancel();
-            }
-        }
-    };
-
-    //Надпись Раунд 3
-    private Action thirteenthStep = new Action() {
+    private Action thirdRoundDescription = new Action() {
 
         private static final int DURATION = 2000;
 
@@ -878,79 +588,60 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         void start() {
-            animator = ObjectAnimator.ofFloat(roundView, View.ALPHA, 0f, 1f);
+            currentStage = TutorialStage.THIRD_ROUND_DESCRIPTION;
+
+            boardView.setVisibility(View.INVISIBLE);
+            distributorView.setVisibility(View.INVISIBLE);
+
+            blackoutView.setVisibility(View.INVISIBLE);
+            bottomBlackoutView.setVisibility(View.INVISIBLE);
+
+            tutorialDescriptionTitleTextView.setText(R.string.tutorial_second_round_title);
+            tutorialDescriptionMessageTextView.setText(R.string.tutorial_second_round_message);
+            tutorialDescriptionView.setVisibility(View.VISIBLE);
+
+            animator = ObjectAnimator.ofFloat(tutorialDescriptionView, View.ALPHA, 0f, 1f);
             animator.setDuration(DURATION);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    tutorialMessageTextView.setVisibility(View.INVISIBLE);
-
-                    roundView.setVisibility(View.VISIBLE);
-                    roundImageView.setVisibility(View.GONE);
-                    roundLineView.setVisibility(View.VISIBLE);
-                    roundTitleTextView.setVisibility(View.VISIBLE);
-                    roundDescriptionTextView.setVisibility(View.VISIBLE);
-
-                    roundTitleTextView.setText(R.string.game_round_3_title);
-                    roundDescriptionTextView.setText(R.string.game_round_3_description);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    currentStep++;
-                    fourteenthStep.start();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
             animator.start();
         }
 
         @Override
         void cancel() {
             if (animator != null) {
-                animator.removeAllListeners();
                 animator.cancel();
             }
+
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
         }
     };
 
-    //Раун 3
-    private Action fourteenthStep = new Action() {
+    //Раун 3 - Показ + Пользователь отгадывает
+    private Action thirdRound = new Action() {
 
         private ImageView handImageView;
 
         private ObjectAnimator handAnimator;
-
-        private boolean isFirstShowing;
 
         private BoardView.BoardItemView firstBoardItem;
         private BoardView.BoardItemView secondBoardItem;
 
         private BoardView.BoardItemView tutorialBoardItem;
 
-        private static final int SHOW_DELAY = 1500;
+        private static final int SHOW_ITEMS_DELAY = 1500;
 
-        private static final int START_NEXT_STEP_DELAY = 500;
+        private static final int SHOW_IMAGE_DELAY = 1000;
+
+        private static final int START_END_DIALOG_DELAY = 500;
 
         private boolean allItemAreSet;
 
         @Override
         void start() {
-            isFirstShowing = true;
+            currentStage = TutorialStage.THIRD_ROUND;
 
             boardView.setVisibility(View.VISIBLE);
 
-            roundView.setVisibility(View.INVISIBLE);
-            tutorialMessageTextView.setVisibility(View.INVISIBLE);
+            tutorialDescriptionView.setVisibility(View.INVISIBLE);
 
             firstBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(0)).getChildAt(1);
             secondBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(2)).getChildAt(2);
@@ -979,21 +670,13 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                             boardView.post(new Runnable() {
                                 @Override
                                 public void run() {
-
                                     roundImageView.setVisibility(View.VISIBLE);
-
-                                    roundLineView.setVisibility(View.GONE);
-                                    roundTitleTextView.setVisibility(View.GONE);
-                                    roundDescriptionTextView.setVisibility(View.GONE);
-
-                                    roundImageView.setImageResource(R.drawable.game_round_three_show_second);
-
-                                    roundView.setVisibility(View.VISIBLE);
+                                    //roundImageView.setImageResource(R.drawable.game_round_three_show_second);
 
                                     boardView.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            roundView.setVisibility(View.INVISIBLE);
+                                            roundImageView.setVisibility(View.INVISIBLE);
 
                                             tutorialBoardItem = new BoardView.BoardItemView(TutorialActivity.this, firstBoardItem.getHeight());
                                             tutorialBoardItem.setX(firstBoardItem.getX());
@@ -1033,7 +716,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                                                             public void run() {
                                                                 allItemAreSet = true;
 
-
                                                                 tutorialBoardItem.setX(secondBoardItem.getX());
                                                                 tutorialBoardItem.setY(secondBoardItem.getY());
 
@@ -1048,27 +730,29 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                                                             }
                                                         });
                                                     } else {
+                                                        secondBoardItem.createImageView(ItemType.CHERRY);
+                                                        blackoutView.removeAllViews();
+
+                                                        blackoutView.setVisibility(View.INVISIBLE);
+                                                        bottomBlackoutView.setVisibility(View.INVISIBLE);
+
                                                         boardView.postDelayed(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                secondBoardItem.createImageView(ItemType.CHERRY);
-
-                                                                blackoutView.removeAllViews();
-
-                                                                Toast.makeText(TutorialActivity.this, "PROSHEL!", Toast.LENGTH_LONG).show();
+                                                                showCompletedDialog();
                                                             }
-                                                        }, START_NEXT_STEP_DELAY);
+                                                        }, START_END_DIALOG_DELAY);
                                                    }
                                                 }
                                             });
                                         }
-                                    }, 1000);
+                                    }, SHOW_IMAGE_DELAY);
                                 }
                             });
                         }
-                    }, SHOW_DELAY);
+                    }, SHOW_ITEMS_DELAY);
                 }
-            }, SHOW_DELAY);
+            }, SHOW_ITEMS_DELAY);
         }
 
         @Override
@@ -1076,8 +760,44 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             if (handAnimator != null) {
                 handAnimator.cancel();
             }
+
+            if (firstBoardItem != null) {
+                firstBoardItem.removeImageView();
+            }
+
+            if (secondBoardItem != null) {
+                secondBoardItem.removeImageView();
+            }
+
+            blackoutView.removeAllViews();
+            //boardView.setVisibility(View.INVISIBLE);
         }
     };
 
+    private AlertDialog tutorialCompletedDialog;
+    private void showCompletedDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(TutorialActivity.this);
 
+        final View dialogView = LayoutInflater.from(TutorialActivity.this).inflate(R.layout.tutorial_dialog, null);
+
+        final ImageView checkView = (ImageView) dialogView.findViewById(R.id.tutorial_dialog_check_button);
+        checkView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tutorialCompletedDialog != null) {
+                    tutorialCompletedDialog.dismiss();
+                }
+
+                startActivity(new Intent(TutorialActivity.this, CampaignActivity.class));
+
+                finish();
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.setView(dialogView);
+
+        tutorialCompletedDialog = builder.create();
+        tutorialCompletedDialog.show();
+    }
 }

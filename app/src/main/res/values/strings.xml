@@ -6,29 +6,54 @@
 
     <string name="game_check_result">Check</string>
 
+
+
     <!-- Main Menu -->
     <string name="main_menu_start_campaign_title">Campaign</string>
     <string name="main_menu_start_campaign_description">Данный режим предназначен для Вадима, чтобы он научился запоминать где он забыл свои вещи</string>
 
     <string name="main_menu_play">Play</string>
 
+
     <!-- Tutorial -->
     <string name="tutorial">Tutorial</string>
 
-    <string name="tutorial_start_message">Здравствуйте, это обучение.\n\nНажмите на экран, чтобы перейтик к следующему сообщению.</string>
+    <string name="tutorial_start_title">Обучние</string>
+    <string name="tutorial_start_message">
+        "Добро пожаловать в обучение."\n\n
 
-    <string name="tutorial_first_round_message">Это первый раунд. Вам покажут фигуры на поле, вам нужно их запомнить.</string>
-    <string name="tutorial_first_round_description_message">Укажите то место, где была показана фигура.</string>
+        "Нажмите на экран для того, чтобы перейти к выполнению заданий."</string>
 
-    <string name="tutorial_pre_second_round_message">Это второй раунд. Вам нужно запонить фигуры за два показа, а потом совместить.</string>
-    <string name="tutorial_second_round_description_message">Укажите места где находились фигуры</string>
+    <string name="tutorial_first_round_title">Задание 1</string>
+    <string name="tutorial_first_round_message">
+        "Запомните расположение фигур на поле."\n
+        "Когда фигуры исчезнут, расставьте их в соответствии  с этим расположением."</string>
 
-    <string name="tutorial_third_round_message">Это третий раунд. Вам два раза покажут фигуры на поле, вам нужно запомнить оба расположения.</string>
+    <string name="tutorial_second_round_title">Задание 2</string>
+    <string name="tutorial_second_round_message">
+        "Фигуры появляются на поле последовательно два раза."\n
+        "Когда фигуры исчезнут, расставьте их совместив оба расположения."</string>
+
+    <string name="tutorial_third_round_title">Задание 3</string>
+    <string name="tutorial_third_round_message">
+        "Фигуры появляются на поле последовательно два раза."\n
+        "Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения."</string>
+
+
+
+    <!-- Tutorial Dialog -->
+    <string name="tutorial_dialog_title">Tutorial</string>
+    <string name="tutorial_dialog_message">
+        "Tutorial is completed."
+    </string>
+
 
 
     <!-- Pause Dialog -->
     <string name="pause_dialog_title">Pause</string>
     <string name="pause_dialog_message">Your current progress has been saved. Please choose the next action&#8230;</string>
+
+
 
     <!-- Result Dialog -->
     <string name="result_dialog_title">Your result</string>
@@ -40,6 +65,8 @@
     <string name="game_round_1_description">Отобразите расположение фигур</string>
     <string name="game_round_2_description">Совместите оба расположения</string>
     <string name="game_round_3_description">Отобразите указанное расположение</string>
+
+
 
     <!-- Rate app dialog -->
     <string name="rate_app_dialog_title">Оцените приложение</string>

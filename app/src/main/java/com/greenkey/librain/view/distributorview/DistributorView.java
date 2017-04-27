@@ -43,6 +43,8 @@ public class DistributorView extends LinearLayout {
     }
 
     private static final int TRIANGLE_SIZE_DP = 20;
+    private static final int TRIANGLE_MARGIN_TOP_DP = -2;
+
     private int triangleViewSizePx;
 
     private static final int ITEMS_LAYOUT_PADDING_DP = 4;
@@ -103,7 +105,7 @@ public class DistributorView extends LinearLayout {
 
         triangleViewSizePx =  PixelConverter.dpToPx(context, TRIANGLE_SIZE_DP);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(triangleViewSizePx, triangleViewSizePx);
-        layoutParams.setMargins(0, PixelConverter.dpToPx(context, -1), 0, 0);
+        layoutParams.setMargins(0, PixelConverter.dpToPx(context, TRIANGLE_MARGIN_TOP_DP), 0, 0);
         triangleImageView = new ImageView(context);
         triangleImageView.setLayoutParams(layoutParams);
         triangleImageView.setImageResource(R.drawable.distributor_view_traingle);
