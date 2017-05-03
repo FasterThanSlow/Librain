@@ -7,9 +7,7 @@ import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
-import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +25,14 @@ public class BoardView extends LinearLayout {
     private int rowCount = 3;
     private int columnCount = 3;
 
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public int getColumnCount() {
+        return columnCount;
+    }
+
     private float itemSize = 60;
 
     private OnTouchListener itemsOnTouchListener;
@@ -40,6 +46,9 @@ public class BoardView extends LinearLayout {
     }
 
     private BoardItemView[] items;
+    public BoardItemView[] getItems() {
+        return items;
+    }
 
     private final Context context;
 
@@ -121,7 +130,7 @@ public class BoardView extends LinearLayout {
 
         int itemsCount = rowCount * columnCount;
         if (resources.length < itemsCount) {
-            throw new IllegalArgumentException("Wrong array length. Items count must be " + itemsCount);
+            throw new IllegalArgumentException("Wrong array length. Item count must be " + itemsCount);
         }
 
         for (int i = 0; i < itemsCount; i++) {
@@ -190,7 +199,7 @@ public class BoardView extends LinearLayout {
 
             this.setPadding(itemPaddingPx, itemPaddingPx, itemPaddingPx, itemPaddingPx);
             this.setLayoutParams(itemLayoutParams);
-            this.setBackgroundResource(R.drawable.game_board_item_background);
+            this.setBackgroundResource(R.drawable.board_item_background);
         }
 
         private final FrameLayout.LayoutParams imageViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -210,18 +219,6 @@ public class BoardView extends LinearLayout {
         public boolean isItemPressed() {
             return isItemPressed;
         }
-
-        //NEED TO REMOVE
-        public void press() {
-            isItemPressed = true;
-            this.setBackgroundResource(R.drawable.game_board_item_background);
-        }
-        //NEED TO REMOVE
-        public void depress() {
-            isItemPressed = false;
-            this.setBackgroundResource(R.drawable.game_board_item_background);
-        }
-
 
         public void createImageView(ItemType itemType) {
             this.itemType = itemType;

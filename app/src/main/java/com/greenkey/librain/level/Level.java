@@ -16,7 +16,7 @@ public class Level implements Parcelable {
 
         SPACE(new ItemType[] {ItemType.MARS, ItemType.EARTH, ItemType.JUPITER, ItemType.MOON}),
         FRUIT(new ItemType[] {ItemType.ORANGE, ItemType.CHERRY, ItemType.FRUIT, ItemType.BANANAS, ItemType.APRICOT, ItemType.FIG}),
-        VEGETABLE(new ItemType[] {ItemType.PEAS, ItemType.PUMPKIN, ItemType.FOOD, ItemType.EN});
+        VEGETABLE(new ItemType[] {ItemType.PEAS, ItemType.PUMPKIN, ItemType.FOOD});
 
         private ItemType[] resources;
 

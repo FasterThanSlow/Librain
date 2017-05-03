@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.greenkey.librain">
 
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -29,10 +32,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.greenkey.librain.MainMenuActivity" />
         </activity>
+
         <activity
             android:name=".TutorialActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".RatingGameActivity"></activity>
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".RatingGameActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".training.TrainingMenuActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

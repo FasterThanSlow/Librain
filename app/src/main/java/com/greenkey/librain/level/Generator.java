@@ -93,6 +93,9 @@ public class Generator {
         }
     }
 
+
+
+
     public static RatingGameStage createRatingStage(int stageNumber) {
         int rowCount;
         int columnCount;
@@ -180,5 +183,4 @@ public class Generator {
 
         return false;
     }
-
 }

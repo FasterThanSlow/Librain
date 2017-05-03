@@ -13,20 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.greenkey.librain.entity.ItemType;
-import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.level.Generator;
-import com.greenkey.librain.level.Level;
 import com.greenkey.librain.level.RatingGameStage;
-import com.greenkey.librain.level.Round;
-import com.greenkey.librain.level.gameround.GameRound;
-import com.greenkey.librain.level.gameround.SecondGameRound;
-import com.greenkey.librain.level.gameround.ThirdGameRound;
 import com.greenkey.librain.view.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.view.distributorview.DistributorView;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class RatingGameActivity extends AppCompatActivity {
 

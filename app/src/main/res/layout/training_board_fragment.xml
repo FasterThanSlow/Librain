@@ -1,0 +1,41 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.greenkey.librain.view.boardview.BoardView
+        android:id="@+id/training_menu_board_view"
+
+        app:rowCount="5"
+        app:columnCount="5"
+
+        app:item_size="@dimen/game_tem_size"
+
+        android:gravity="center"
+
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <Button
+            android:id="@+id/training_menu_next_button"
+
+            android:layout_gravity="center"
+
+            android:text="@string/next"
+            android:textColor="@color/green_button_text_color"
+
+            android:theme="@style/GreenButton"
+
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+</LinearLayout>

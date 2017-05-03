@@ -4,8 +4,10 @@
     <string name="state">State</string>
     <string name="level">Level</string>
 
-    <string name="game_check_result">Check</string>
+    <string name="start">Start</string>
+    <string name="next">Next</string>
 
+    <string name="game_check_result">Check</string>
 
 
     <!-- Main Menu -->
@@ -40,7 +42,6 @@
         "Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения."</string>
 
 
-
     <!-- Tutorial Dialog -->
     <string name="tutorial_dialog_title">Tutorial</string>
     <string name="tutorial_dialog_message">
@@ -48,11 +49,9 @@
     </string>
 
 
-
     <!-- Pause Dialog -->
     <string name="pause_dialog_title">Pause</string>
     <string name="pause_dialog_message">Your current progress has been saved. Please choose the next action&#8230;</string>
-
 
 
     <!-- Result Dialog -->
@@ -67,12 +66,17 @@
     <string name="game_round_3_description">Отобразите указанное расположение</string>
 
 
-
     <!-- Rate app dialog -->
     <string name="rate_app_dialog_title">Оцените приложение</string>
     <string name="rate_app_dialog_message">Здравствуйте, если вам понравилось наше приложение и вы заинтересованы в его развитии, потратьте минуту своего времени, чтобы оставить свою оценку и отзыв.</string>
     <string name="rate_app_dialog_dont_show_again">Нет, спасибо</string>
     <string name="rate_app_dialog_remind_me_later">Напомнить позже</string>
     <string name="rate_app_dialog_rate_now">Оценить сейчас</string>
+
+    <string-array name="level_types">
+        <item>Space</item>
+        <item>Fruit</item>
+        <item>Vegetables</item>
+    </string-array>
 
 </resources>

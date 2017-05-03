@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.greenkey.librain.campaign.CampaignActivity;
 import com.greenkey.librain.dao.LevelDao;
+import com.greenkey.librain.training.TrainingMenuActivity;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -43,6 +44,14 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainMenuActivity.this, RatingGameActivity.class));
+            }
+        });
+
+        final Button startTrainingButton = (Button) findViewById(R.id.main_start_training_button);
+        startTrainingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenuActivity.this, TrainingMenuActivity.class));
             }
         });
 

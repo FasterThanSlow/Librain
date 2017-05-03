@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+
+    android:background="@color/background_color"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.greenkey.librain.training.TrainingMenuActivity">
+
+    <LinearLayout
+        android:background="@color/header_background_color"
+
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="16dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/campaign_star_count_text_view"
+
+            tools:text="5 / 20"
+
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+
+            android:textColor="@color/header_text_color"
+            android:textSize="14sp"
+
+            android:drawablePadding="4dp"
+
+            android:drawableStart="@drawable/campaign_header_completed_star_count_icon"
+            android:drawableLeft="@drawable/campaign_header_completed_star_count_icon"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/campaign_enabled_level_count_text_view"
+
+            tools:text="3 / 15"
+
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+
+            android:textColor="@color/header_text_color"
+            android:textSize="14sp"
+
+            android:drawablePadding="4dp"
+
+            android:drawableStart="@drawable/campaign_header_enabled_level_count_icon"
+            android:drawableLeft="@drawable/campaign_header_enabled_level_count_icon"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:src="@drawable/campaign_header_premium_selector"
+
+            android:clickable="true"
+
+            android:layout_gravity="center_vertical"
+
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+</LinearLayout>

@@ -354,13 +354,6 @@ public class GameActivity extends AppCompatActivity {
 
             isAnimationPaused = false;
 
-            if (selectedBoardItem != null) {
-                selectedBoardItem.depress();
-                selectedBoardItem = null;
-            }
-
-
-
             blackoutView.setVisibility(View.INVISIBLE);
             bottomBlackoutView.setVisibility(View.INVISIBLE);
 
@@ -601,11 +594,8 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                if (selectedBoardItem != null) {
-                    selectedBoardItem.depress();
 
-                    selectedBoardItem = null;
-                }
+                selectedBoardItem = null;
 
                 blackoutView.setVisibility(View.INVISIBLE);
                 bottomBlackoutView.setVisibility(View.INVISIBLE);
@@ -640,9 +630,6 @@ public class GameActivity extends AppCompatActivity {
                     distributorView.addResource(boardItemView.getItemType());
                     distributorView.setVisibility(View.INVISIBLE);
 
-                    if (selectedBoardItem != null)
-                        selectedBoardItem.depress();
-
                     boardItemView.removeImageView();
 
                     checkResultButton.setVisibility(View.INVISIBLE);
@@ -654,9 +641,6 @@ public class GameActivity extends AppCompatActivity {
 
                         blackoutView.setVisibility(View.INVISIBLE);
                         bottomBlackoutView.setVisibility(View.INVISIBLE);
-
-                        //selectedBoardItem.depress();
-                        boardItemView.depress();
 
                         selectedBoardItem = null;
 
@@ -682,14 +666,10 @@ public class GameActivity extends AppCompatActivity {
                                 break;
                             default:
                                 Log.d("Lel", "Показать инструменты");
-                                boardItemView.press();
 
                                 blackoutView.setVisibility(View.VISIBLE);
                                 bottomBlackoutView.setVisibility(View.VISIBLE);
 
-                                if (selectedBoardItem != null) {
-                                    selectedBoardItem.depress();
-                                }
                                 selectedBoardItem = boardItemView;
 
                                 float x = boardItemView.getX();
@@ -727,7 +707,6 @@ public class GameActivity extends AppCompatActivity {
                 DistributorView.DistributorItemView distributorItemView = (DistributorView.DistributorItemView) touchView;
 
                 selectedBoardItem.createImageView(distributorItemView.getItemType());
-                selectedBoardItem.depress();
 
                 distributorItemView.removeImageView();
 
@@ -755,15 +734,6 @@ public class GameActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
 
         final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.result_dialog, null);
-
-        /*
-        final View headerView = dialogView.findViewById(R.id.result_dialog_header);
-        if (currentScore == 0) {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.dialog_orange));
-        } else {
-            headerView.setBackgroundColor(ContextCompat.getColor(GameActivity.this, R.color.dialog_green));
-        }
-        */
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
         ratingBar.setProgress(currentScore);
@@ -797,38 +767,42 @@ public class GameActivity extends AppCompatActivity {
 
         final ImageView nextImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_next_image_view);
         final Level nextLevel = levelDao.getLevel(levelId + 1);
-        if (nextLevel.isEnabled()) {
-            nextImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    resultDialog.dismiss();
-
-                    setCurrentLevel(nextLevel);
-                    resetLevelProgress();
-
-                    startRoundAnimator.start();
-                }
-            });
+        if (nextLevel == null) {
+            nextImageView.setVisibility(View.GONE);
         } else {
-            if (currentScore > 0) {
-                final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
-
+            if (nextLevel.isEnabled()) {
                 nextImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         resultDialog.dismiss();
 
-                        setCurrentLevel(unlockedLevel);
+                        setCurrentLevel(nextLevel);
                         resetLevelProgress();
 
                         startRoundAnimator.start();
                     }
                 });
-
             } else {
-                nextImageView.setVisibility(View.GONE);
+                if (currentScore > 0) {
+                    final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
+
+                    nextImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            resultDialog.dismiss();
+
+                            setCurrentLevel(unlockedLevel);
+                            resetLevelProgress();
+
+                            startRoundAnimator.start();
+                        }
+                    });
+                } else {
+                    nextImageView.setVisibility(View.GONE);
+                }
             }
         }
+
 
         builder.setCancelable(false);
         builder.setView(dialogView);
