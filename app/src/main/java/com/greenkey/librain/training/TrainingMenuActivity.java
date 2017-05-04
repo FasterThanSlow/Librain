@@ -1,5 +1,6 @@
 package com.greenkey.librain.training;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -62,28 +63,6 @@ public class TrainingMenuActivity extends AppCompatActivity implements
         }
     }
 
-    /*
-    private void setItemCount(int count) {
-        itemCount = count;
-        itemCountTextView.setText(String.valueOf(itemCount));
-    }*/
-
-    /*
-    private void setItemTypeCount(int count) {
-        int maxTypeCount = ITEM_TYPE_COUNT_MAX_VALUE - 1;
-        if (maxTypeCount > itemCount - 1) {
-            maxTypeCount = itemCount;
-        }
-        itemTypeCountSeekBar.setMax(maxTypeCount);
-
-        itemTypeCount = count;
-        if (itemTypeCount > maxTypeCount) {
-            itemTypeCount = maxTypeCount;
-        }
-        itemTypeCountTextView.setText(String.valueOf(itemTypeCount));
-        itemTypeCountSeekBar.setProgress(itemTypeCount - 1);
-    }
-    */
 /*
     @Override
     protected void onPause() {
@@ -118,12 +97,22 @@ public class TrainingMenuActivity extends AppCompatActivity implements
                 .commit();
     }
 
+    private static final String LEVEL_PARAM = "training_level";
+
     @Override
     public void onItemsFragmentNext(int itemTypeCount, int itemCount, int[] items) {
         sharedPreferences.edit()
                 .putInt(ITEM_TYPE_COUNT_KEY, itemTypeCount)
                 .putInt(ITEM_COUNT_KEY, itemCount)
                 .apply();
+
+        Intent intent = new Intent(TrainingMenuActivity.this, TrainingActivity.class);
+        TrainingLevel trainingLevel = new TrainingLevel(enabledColumnCount,enabledRowCount, items);
+        trainingLevel.setFirstRound(true);
+        trainingLevel.setThirdRound(true);
+        intent.putExtra(LEVEL_PARAM, trainingLevel);
+
+        startActivity(intent);
     }
 
     @Override

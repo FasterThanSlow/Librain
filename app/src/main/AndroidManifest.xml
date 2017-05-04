@@ -32,19 +32,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.greenkey.librain.MainMenuActivity" />
         </activity>
-
         <activity
             android:name=".TutorialActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".RatingGameActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".training.TrainingMenuActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
+        <activity android:name=".training.TrainingActivity"></activity>
     </application>
 
 </manifest>
