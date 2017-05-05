@@ -226,7 +226,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             boardView.setVisibility(View.VISIBLE);
 
             shownBoardItemView = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(0)).getChildAt(1);
-            shownBoardItemView.createImageView(ItemType.BANANAS);
+            shownBoardItemView.createImageView(ItemType.EARTH);
 
             showItemRunnable = new Runnable() {
                 @Override
@@ -275,7 +275,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        tutorialBoardItem.createImageView(ItemType.BANANAS);
+                        tutorialBoardItem.createImageView(ItemType.EARTH);
 
                         tutorialBoardItem.postDelayed(new Runnable() {
                             @Override
@@ -386,14 +386,14 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             firstBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(0)).getChildAt(0);
             secondBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(1)).getChildAt(2);
 
-            firstBoardItem.createImageView(ItemType.BANANAS);
+            firstBoardItem.createImageView(ItemType.EARTH);
 
             showItemsRunnable =  new Runnable() {
                 @Override
                 public void run() {
                     if (isFirstShowing) {
                         firstBoardItem.removeImageView();
-                        secondBoardItem.createImageView(ItemType.ORANGE);
+                        secondBoardItem.createImageView(ItemType.MARS);
 
                         isFirstShowing = false;
 
@@ -458,7 +458,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             tutorialBoardItem.setX(firstItemX);
             tutorialBoardItem.setY(firstItemY);
 
-            distributorView.setItems(new Rule[]{new Rule(1, ItemType.BANANAS), new Rule(1, ItemType.ORANGE)});
+            distributorView.setItems(new Rule[]{new Rule(1, ItemType.EARTH), new Rule(1, ItemType.MARS)});
             distributorView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -485,7 +485,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                         } else {
                             distributorView.setVisibility(View.INVISIBLE);
 
-                            secondBoardItem.createImageView(ItemType.ORANGE);
+                            secondBoardItem.createImageView(ItemType.MARS);
 
                             handAnimator.cancel();
 
@@ -646,8 +646,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             firstBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(0)).getChildAt(1);
             secondBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(2)).getChildAt(2);
 
-            firstBoardItem.createImageView(ItemType.CHERRY);
-            secondBoardItem.createImageView(ItemType.CHERRY);
+            firstBoardItem.createImageView(ItemType.EARTH);
+            secondBoardItem.createImageView(ItemType.EARTH);
 
             boardView.postDelayed(new Runnable() {
                 @Override
@@ -658,8 +658,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     firstBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(1)).getChildAt(1);
                     secondBoardItem = (BoardView.BoardItemView)((ViewGroup) boardView.getChildAt(2)).getChildAt(0);
 
-                    firstBoardItem.createImageView(ItemType.CHERRY);
-                    secondBoardItem.createImageView(ItemType.CHERRY);
+                    firstBoardItem.createImageView(ItemType.EARTH);
+                    secondBoardItem.createImageView(ItemType.EARTH);
 
                     boardView.postDelayed(new Runnable() {
                         @Override
@@ -704,7 +704,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                                                 @Override
                                                 public void onClick(View v) {
                                                     if ( ! allItemAreSet) {
-                                                        firstBoardItem.createImageView(ItemType.CHERRY);
+                                                        firstBoardItem.createImageView(ItemType.EARTH);
 
                                                         handImageView.setVisibility(View.INVISIBLE);
                                                         tutorialBoardItem.setVisibility(View.INVISIBLE);
@@ -730,7 +730,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                                                             }
                                                         });
                                                     } else {
-                                                        secondBoardItem.createImageView(ItemType.CHERRY);
+                                                        secondBoardItem.createImageView(ItemType.EARTH);
                                                         blackoutView.removeAllViews();
 
                                                         blackoutView.setVisibility(View.INVISIBLE);
@@ -780,7 +780,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         final View dialogView = LayoutInflater.from(TutorialActivity.this).inflate(R.layout.tutorial_dialog, null);
 
-        final ImageView checkView = (ImageView) dialogView.findViewById(R.id.tutorial_dialog_check_button);
+        final TextView checkView = (TextView) dialogView.findViewById(R.id.tutorial_dialog_check_button);
         checkView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
