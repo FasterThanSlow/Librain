@@ -117,7 +117,7 @@ public class LevelDao {
         vegetableLevels.add(new Level(59, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{4, 4, 3}), new Round(1000, 5, 5, new int[]{4, 4, 3}), new Round(1000, 5, 5, new int[]{3, 3, 3})));
         vegetableLevels.add(new Level(60, Level.LevelType.VEGETABLE, new Round(1000, 5, 5, new int[]{4, 4, 4}), new Round(1000, 5, 5, new int[]{4, 4, 4}), new Round(1000, 5, 5, new int[]{4, 3, 3})));
 
-        
+
       this.levelsPages.add(new LevelsPage(Level.LevelType.VEGETABLE, vegetableLevels));
         this.levels.addAll(vegetableLevels);
 

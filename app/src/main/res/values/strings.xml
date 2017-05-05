@@ -20,32 +20,26 @@
     <!-- Tutorial -->
     <string name="tutorial">Tutorial</string>
 
-    <string name="tutorial_start_title">Обучние</string>
-    <string name="tutorial_start_message">
-        "Добро пожаловать в обучение."\n\n
-
-        "Нажмите на экран для того, чтобы перейти к выполнению заданий."</string>
+    <string name="tutorial_start_title">Добро пожаловать в обучение.</string>
+    <string name="tutorial_start_message">"Нажмите на экран для того, чтобы перейти к выполнению заданий."</string>
 
     <string name="tutorial_first_round_title">Задание 1</string>
     <string name="tutorial_first_round_message">
-        "Запомните расположение фигур на поле."\n
-        "Когда фигуры исчезнут, расставьте их в соответствии  с этим расположением."</string>
+        "Запомните расположение фигур на поле. Когда фигуры исчезнут, расставьте их в соответствии  с этим расположением."</string>
 
     <string name="tutorial_second_round_title">Задание 2</string>
     <string name="tutorial_second_round_message">
-        "Фигуры появляются на поле последовательно два раза."\n
-        "Когда фигуры исчезнут, расставьте их совместив оба расположения."</string>
+        "Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их совместив оба расположения."</string>
 
     <string name="tutorial_third_round_title">Задание 3</string>
     <string name="tutorial_third_round_message">
-        "Фигуры появляются на поле последовательно два раза."\n
-        "Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения."</string>
+        "Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения."</string>
 
 
     <!-- Tutorial Dialog -->
     <string name="tutorial_dialog_title">Tutorial</string>
     <string name="tutorial_dialog_message">
-        "Tutorial is completed."
+        "Поздравляем. Вы прошли обучение. В случае возникновения трудностей с прохождением какого-либо уровня или задания воспользуйтесь режимом тренировка."
     </string>
 
 
@@ -72,6 +66,7 @@
     <string name="rate_app_dialog_dont_show_again">Нет, спасибо</string>
     <string name="rate_app_dialog_remind_me_later">Напомнить позже</string>
     <string name="rate_app_dialog_rate_now">Оценить сейчас</string>
+    <string name="tutorial_dialog_button_text">Перейти к уровням</string>
 
     <string-array name="level_types">
         <item>Space</item>
