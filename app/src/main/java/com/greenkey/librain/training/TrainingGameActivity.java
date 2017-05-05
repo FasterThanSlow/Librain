@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TrainingActivity extends AppCompatActivity {
+public class TrainingGameActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "training_level";
 
@@ -39,7 +39,7 @@ public class TrainingActivity extends AppCompatActivity {
 
     private static final int THIRD_ROUND_ANIMATION_DURATION = 800;
 
-    private int roundsCount;
+    private int roundCount;
     private int currentRoundIndex;
 
     private int currentScore;
@@ -137,9 +137,9 @@ public class TrainingActivity extends AppCompatActivity {
             if (currentLevel.isThirdRound())
                 trainingRoundNumbers.add(RoundNumber.THIRD);
 
-            roundsCount = trainingRoundNumbers.size();
+            roundCount = trainingRoundNumbers.size();
 
-            ratingBar.setMax(roundsCount);
+            ratingBar.setMax(roundCount);
 
             levelType = Level.LevelType.FRUIT;
 
@@ -460,7 +460,7 @@ public class TrainingActivity extends AppCompatActivity {
                     ratingBar.setProgress(currentScore);
                 }
 
-                if (currentRoundIndex > roundsCount - 1) {
+                if (currentRoundIndex > roundCount - 1) {
                     ratingBar.setSelectedIndex(-1);
                 } else {
                     if (isTrueAnswer) {
@@ -468,7 +468,7 @@ public class TrainingActivity extends AppCompatActivity {
                     }
                 }
 
-                if (currentRoundIndex < roundsCount && isTrueAnswer) {
+                if (currentRoundIndex < roundCount && isTrueAnswer) {
                     startRoundAnimator.start();
                 } else {
                     roundImageView.setVisibility(View.INVISIBLE);
@@ -711,11 +711,12 @@ public class TrainingActivity extends AppCompatActivity {
     private AlertDialog resultDialog;
 
     private void showResultDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingGameActivity.this);
 
-        final View dialogView = LayoutInflater.from(TrainingActivity.this).inflate(R.layout.result_dialog, null);
+        final View dialogView = LayoutInflater.from(TrainingGameActivity.this).inflate(R.layout.result_dialog, null);
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
+        ratingBar.setMax(roundCount);
         ratingBar.setProgress(currentScore);
 
         final ImageView levelsImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_levels_image_view);
@@ -792,17 +793,15 @@ public class TrainingActivity extends AppCompatActivity {
 
         isContinuePressed = true; // Эмулиция продолжение на нажатие мимо диалога
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingGameActivity.this);
 
-        final View dialogView = LayoutInflater.from(TrainingActivity.this).inflate(R.layout.pause_dialog, null);
+        final View dialogView = LayoutInflater.from(TrainingGameActivity.this).inflate(R.layout.pause_dialog, null);
         final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_levels_image_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isContinuePressed = false;
                 pauseDialog.dismiss();
-
-                setResult(RESULT_OK);
 
                 finish();
             }
