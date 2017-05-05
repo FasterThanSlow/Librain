@@ -28,10 +28,10 @@ public class TrainingBoardFragment extends Fragment {
 
     private BoardView boardView;
 
-    private TrainingBoardFragmentListener listener;
+    private BoardFragmentListener listener;
 
-    public interface TrainingBoardFragmentListener {
-        void onNext(int columnCount, int rowCount);
+    public interface BoardFragmentListener {
+        void onBoardFragmentNext(int columnCount, int rowCount);
     }
 
     public TrainingBoardFragment() {
@@ -65,7 +65,7 @@ public class TrainingBoardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onNext(enabledColumnCount, enabledRowCount);
+                    listener.onBoardFragmentNext(enabledColumnCount, enabledRowCount);
                 }
             }
         });
@@ -144,11 +144,11 @@ public class TrainingBoardFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TrainingBoardFragmentListener) {
-            listener = (TrainingBoardFragmentListener) context;
+        if (context instanceof BoardFragmentListener) {
+            listener = (BoardFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement TrainingBoardFragmentListener");
+                    + " must implement BoardFragmentListener");
         }
     }
 

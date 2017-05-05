@@ -41,7 +41,7 @@
         <activity
             android:name=".training.TrainingMenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".training.TrainingActivity"></activity>
+        <activity android:name=".training.TrainingGameActivity"></activity>
     </application>
 
 </manifest>

@@ -3,7 +3,6 @@ package com.greenkey.librain.training;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +41,9 @@ public class TrainingItemsFragment extends Fragment {
     private List<TextView> typeCountTextViewList;
 
     private BoardView boardView;
-    private TrainingItemsFragmentListener listener;
+    private ItemsFragmentListener listener;
 
-    public interface TrainingItemsFragmentListener {
+    public interface ItemsFragmentListener {
         void onItemsFragmentNext(int itemTypeCount, int itemCount, int[] items);
         void onItemsFragmentPrevious();
     }
@@ -320,11 +319,11 @@ public class TrainingItemsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TrainingItemsFragmentListener) {
-            listener = (TrainingItemsFragmentListener) context;
+        if (context instanceof ItemsFragmentListener) {
+            listener = (ItemsFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement TrainingBoardFragmentListener");
+                    + " must implement BoardFragmentListener");
         }
 
     }
