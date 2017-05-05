@@ -75,8 +75,8 @@
             android:layout_marginRight="36dp"
             android:layout_marginEnd="36dp"
 
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
 
             android:text = "@string/tutorial_dialog_button_text"
             android:textColor="@android:color/white"

@@ -20,7 +20,7 @@
     <!-- Tutorial -->
     <string name="tutorial">Tutorial</string>
 
-    <string name="tutorial_start_title">Добро пожаловать в обучение.</string>
+    <string name="tutorial_start_title">Приветствуем в обучении</string>
     <string name="tutorial_start_message">"Нажмите на экран для того, чтобы перейти к выполнению заданий."</string>
 
     <string name="tutorial_first_round_title">Задание 1</string>

@@ -596,7 +596,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             blackoutView.setVisibility(View.INVISIBLE);
             bottomBlackoutView.setVisibility(View.INVISIBLE);
 
-            tutorialDescriptionTitleTextView.setText(R.string.tutorial_second_round_title);
+            tutorialDescriptionTitleTextView.setText(R.string.tutorial_third_round_title);
             tutorialDescriptionMessageTextView.setText(R.string.tutorial_second_round_message);
             tutorialDescriptionView.setVisibility(View.VISIBLE);
 
