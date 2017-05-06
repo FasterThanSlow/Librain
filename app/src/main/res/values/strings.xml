@@ -11,9 +11,17 @@
 
 
     <!-- Main Menu -->
-    <string name="main_menu_start_campaign_title">Campaign</string>
-    <string name="main_menu_start_campaign_description">Данный режим предназначен для Вадима, чтобы он научился запоминать где он забыл свои вещи</string>
+    <string name="main_menu_start_campaign_title">Кампания</string>
+    <string name="main_menu_start_raiting_title">Рейтинговая игра</string>
+    <string name="main_menu_start_sprint_title">Спринт</string>
+    <string name="main_menu_start_advice_title">Советы</string>
+    <string name="main_menu_start_training_title">Тренировка</string>
 
+    <string name="main_menu_start_campaign_description">Данный режим игры предназначен для начинающих. Развивайте свою память, выполняя интерактивные задания. В качестве вознаграждения за пройденный уровень получайте звезды.</string>
+    <string name="main_menu_start_raiting_description">Данный режим игры предназначен для начинающих. Проверьте свою память и сравните показатели с другими игроками. Станьте самым внимательным.</string>
+    <string name="main_menu_start_sprint_description">Данный режим игры предназначен для продвинутых. Развивайте свою скоростную память используя ограничения во времени.</string>
+    <string name="main_menu_start_advice_description">Читайте информацию, позволяющую вам выработать навыки, которые помогут быстрее и эффективнее развивать память.</string>
+    <string name="main_menu_start_training_description">Данный режим предназначен для начинающих. Закрепляйте полученные навыки, корректируя правила игры под себя.</string>
     <string name="main_menu_play">Play</string>
 
 

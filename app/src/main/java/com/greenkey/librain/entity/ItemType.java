@@ -9,25 +9,22 @@ import com.greenkey.librain.R;
 public enum ItemType {
     NONE(0),
 
-    GB(R.drawable.ic_united_kingdom),
-    EU(R.drawable.ic_european_union),
-    EN(R.drawable.ic_england),
-
     EARTH(R.drawable.ic_planet_earth),
     MARS(R.drawable.ic_mars),
     JUPITER(R.drawable.ic_jupiter),
     MOON(R.drawable.ic_moon),
+    GLOBAL(R.drawable.planet_global),
 
-    ORANGE(R.drawable.ic_orange),
-    CHERRY(R.drawable.ic_cherries),
+    CHERRY(R.drawable.fruit_cherry),
     FRUIT(R.drawable.ic_fruit),
-    APRICOT(R.drawable.ic_apricot),
     BANANAS(R.drawable.ic_bananas),
-    FIG(R.drawable.ic_fig),
+    PEAR(R.drawable.fruit_pear),
+    APPLE(R.drawable.fruit_apple),
 
     PEAS(R.drawable.ic_peas),
     PUMPKIN(R.drawable.ic_pumpkin),
-    FOOD(R.drawable.ic_food);
+    FOOD(R.drawable.ic_food),
+    CHEESE(R.drawable.vegatable_cheese);
 
     private final int enabledItemResourceId;
 
