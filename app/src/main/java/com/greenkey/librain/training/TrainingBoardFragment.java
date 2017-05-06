@@ -17,9 +17,6 @@ public class TrainingBoardFragment extends Fragment {
     private static final int MINIMUM_ROW_COUNT = 2;
     private static final int MINIMUM_COLUMN_COUNT = 2;
 
-    private static final int ENABLED_ROW_COUNT_DEFAULT_VALUE = 3;
-    private static final int ENABLED_COLUMN_COUNT_DEFAULT_VALUE = 3;
-
     private static final String ENABLED_ROW_COUNT_KEY = "enabled_row_count";
     private static final String ENABLED_COLUMN_COUNT_KEY = "enabled_column_count";
 
@@ -31,7 +28,8 @@ public class TrainingBoardFragment extends Fragment {
     private BoardFragmentListener listener;
 
     public interface BoardFragmentListener {
-        void onBoardFragmentNext(int columnCount, int rowCount);
+        void onBoardFragmentNextButtonPressed(int columnCount, int rowCount);
+        void onBoardCancelButtonPressed();
     }
 
     public TrainingBoardFragment() {
@@ -60,12 +58,22 @@ public class TrainingBoardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.training_board_fragment, container, false);
 
-        final Button nextButton = (Button) view.findViewById(R.id.training_menu_next_button);
+        final Button nextButton = (Button) view.findViewById(R.id.training_next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onBoardFragmentNext(enabledColumnCount, enabledRowCount);
+                    listener.onBoardFragmentNextButtonPressed(enabledColumnCount, enabledRowCount);
+                }
+            }
+        });
+
+        final Button exitButton = (Button) view.findViewById(R.id.training_previous_button);
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onBoardCancelButtonPressed();
                 }
             }
         });

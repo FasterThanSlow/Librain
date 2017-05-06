@@ -3,12 +3,16 @@ package com.greenkey.librain.training;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.greenkey.librain.R;
 
 public class TrainingMenuActivity extends AppCompatActivity implements
+        TrainingMainFragment.MainFragmentListener,
         TrainingBoardFragment.BoardFragmentListener,
         TrainingItemsFragment.ItemsFragmentListener,
         TrainingRoundFragment.RoundFragmentListener {
@@ -47,6 +51,8 @@ public class TrainingMenuActivity extends AppCompatActivity implements
 
     private SharedPreferences sharedPreferences;
 
+    private ImageView settingsImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +70,23 @@ public class TrainingMenuActivity extends AppCompatActivity implements
         isSecondRoundSelected = sharedPreferences.getBoolean(SECOND_ROUND_SELECTED_KEY, ROUND_SELECTED_DEFAULT_VALUE);
         isThirdRoundSelected = sharedPreferences.getBoolean(THIRD_ROUND_SELECTED_KEY, ROUND_SELECTED_DEFAULT_VALUE);
 
+        settingsImageView = (ImageView) findViewById(R.id.settings_icon_image_view);
+        settingsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, TrainingBoardFragment.newInstance(enabledColumnCount, enabledRowCount))
+                        .addToBackStack(null)
+                        .commit();
+
+                settingsImageView.setVisibility(View.INVISIBLE);
+            }
+        });
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, TrainingBoardFragment.newInstance(enabledColumnCount, enabledRowCount))
+                .replace(R.id.container, TrainingMainFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount))
                 .addToBackStack(null)
                 .commit();
     }
@@ -81,7 +101,28 @@ public class TrainingMenuActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onBoardFragmentNext(int columnCount, int rowCount) {
+    public void onMainFragmentCreated() {
+        settingsImageView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onMainFragmentStartPressed(int[] items) {
+        this.items = items;
+
+        Intent intent = new Intent(TrainingMenuActivity.this, TrainingGameActivity.class);
+
+        TrainingLevel trainingLevel = new TrainingLevel(
+                enabledRowCount, enabledColumnCount,
+                isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected,
+                items);
+
+        intent.putExtra(LEVEL_PARAM, trainingLevel);
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBoardFragmentNextButtonPressed(int columnCount, int rowCount) {
         this.enabledColumnCount = columnCount;
         this.enabledRowCount = rowCount;
 
@@ -93,6 +134,17 @@ public class TrainingMenuActivity extends AppCompatActivity implements
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, TrainingItemsFragment.newInstance(columnCount, rowCount, itemTypeCount, itemCount))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onBoardCancelButtonPressed() {
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, TrainingMainFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount))
                 .addToBackStack(null)
                 .commit();
     }
@@ -132,11 +184,8 @@ public class TrainingMenuActivity extends AppCompatActivity implements
 
         Intent intent = new Intent(TrainingMenuActivity.this, TrainingGameActivity.class);
 
-        TrainingLevel trainingLevel = new TrainingLevel(enabledColumnCount, enabledRowCount, items);
-
-        trainingLevel.setFirstRound(isFirstRoundSelected);
-        trainingLevel.setSecondRound(isSecondRoundSelected);
-        trainingLevel.setThirdRound(isThirdRoundSelected);
+        TrainingLevel trainingLevel = new TrainingLevel(enabledColumnCount, enabledRowCount,
+                isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected ,items);
 
         intent.putExtra(LEVEL_PARAM, trainingLevel);
 

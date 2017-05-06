@@ -74,7 +74,7 @@
             android:layout_height="match_parent" />
 
         <ImageView
-            android:src="@drawable/campaign_header_premium_selector"
+            android:src="@drawable/premium_icon_selector"
 
             android:clickable="true"
 

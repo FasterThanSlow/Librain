@@ -88,7 +88,7 @@
 
                 android:layout_gravity="center_vertical"
 
-                android:src="@drawable/game_restart_selector"
+                android:src="@drawable/restart_icon_selector"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

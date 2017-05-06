@@ -1,6 +1,8 @@
 package com.greenkey.librain;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,31 +15,33 @@ import com.greenkey.librain.training.TrainingMenuActivity;
 
 public class MainMenuActivity extends AppCompatActivity {
 
+    private static final String TUTORIAL_COMPLETED_KEY = "tutorial_completed_key";
+    private static final boolean TUTORIAL_COMPLETED_DEFAULT_VALUE = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        LevelDao levelDao = LevelDao.getInstance(MainMenuActivity.this);
+        final LevelDao levelDao = LevelDao.getInstance(MainMenuActivity.this);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainMenuActivity.this);
 
         final Button startCampaignButton = (Button) findViewById(R.id.main_start_campaign_button);
         startCampaignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, CampaignActivity.class));
+                final boolean isTutorialCompleted = sharedPreferences.getBoolean(TUTORIAL_COMPLETED_KEY, TUTORIAL_COMPLETED_DEFAULT_VALUE);
+
+                if (isTutorialCompleted) {
+                    startActivity(new Intent(MainMenuActivity.this, CampaignActivity.class));
+                } else {
+                    startActivity(new Intent(MainMenuActivity.this, TutorialActivity.class));
+                }
             }
         });
 
         final TextView campaignStarsCountTextView = (TextView) findViewById(R.id.main_stars_count_text_view);
         campaignStarsCountTextView.setText(String.valueOf(levelDao.getCompletedStarCount()));
-
-        final Button startTutorialButton = (Button) findViewById(R.id.main_start_tutorial_button);
-        startTutorialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, TutorialActivity.class));
-            }
-        });
 
         final Button startRatingGameButton = (Button) findViewById(R.id.main_start_rating_game_button);
         startRatingGameButton.setOnClickListener(new View.OnClickListener() {

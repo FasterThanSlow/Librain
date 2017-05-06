@@ -3,6 +3,7 @@ package com.greenkey.librain;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -774,6 +775,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
+    private static final String TUTORIAL_COMPLETED_KEY = "tutorial_completed_key";
+
     private AlertDialog tutorialCompletedDialog;
     private void showCompletedDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(TutorialActivity.this);
@@ -787,6 +790,11 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 if (tutorialCompletedDialog != null) {
                     tutorialCompletedDialog.dismiss();
                 }
+
+                PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this)
+                        .edit()
+                        .putBoolean(TUTORIAL_COMPLETED_KEY, true)
+                        .apply();
 
                 startActivity(new Intent(TutorialActivity.this, CampaignActivity.class));
 

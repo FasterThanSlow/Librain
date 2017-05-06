@@ -21,21 +21,40 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="horizontal"
+
+        android:gravity="center"
+
         android:layout_width="match_parent"
         android:layout_height="80dp">
 
         <Button
-            android:id="@+id/training_menu_next_button"
+            android:id="@+id/training_previous_button"
 
-            android:layout_gravity="center"
+            android:text="cancel"
+            android:textColor="@color/green_button_text_color"
+
+            android:theme="@style/GreenButton"
+
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/training_next_button"
 
             android:text="@string/next"
             android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
 
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+
             android:layout_width="150dp"
             android:layout_height="wrap_content" />
-    </FrameLayout>
+    </LinearLayout>
 </LinearLayout>
