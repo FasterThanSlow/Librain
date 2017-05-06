@@ -60,7 +60,7 @@
 
             app:columnCount="3"
             app:rowCount="3"
-            app:item_size="@dimen/game_tem_size"
+            app:item_size="@dimen/game_item_size"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -83,7 +83,7 @@
 
             android:layout_gravity="center"
 
-            app:item_size="@dimen/game_tem_size"
+            app:item_size="@dimen/game_item_size"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
