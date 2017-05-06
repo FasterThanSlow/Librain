@@ -173,7 +173,7 @@ public class BoardView extends LinearLayout {
         private final int itemSize;
 
         private static final int ITEM_MARGIN_DP = 4;
-        private static final int ITEM_PADDING_DP = 2;
+        private static final int ITEM_PADDING_DP = 4;
 
         public ItemType getItemType() {
             if (itemType == null) {

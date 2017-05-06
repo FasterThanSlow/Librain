@@ -223,7 +223,7 @@ public class DistributorView extends LinearLayout {
         private TextView itemsCountTextView;
 
         private static final int ITEM_MARGIN_DP = 4;
-        private static final int ITEM_PADDING_DP = 2;
+        private static final int ITEM_PADDING_DP = 4;
 
         DistributorItemView(Rule rule, float size) {
             super(context);

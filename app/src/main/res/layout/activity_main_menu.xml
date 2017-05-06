@@ -29,14 +29,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-
                 android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
 
+                android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
 
                 card_view:cardBackgroundColor="@color/main_card_background_color"
                 card_view:cardCornerRadius="2dp"
@@ -54,13 +54,13 @@
                     android:paddingStart="16dp">
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
 
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
 
                         android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_trophy" />
+                        android:src="@drawable/main_menu_cup" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -127,7 +127,7 @@
 
                             android:textColor="@color/main_card_text_color"
                             android:textSize="11sp" />
-
+                        
                         <Button
                             android:id="@+id/main_start_campaign_button"
 
@@ -173,13 +173,13 @@
                     android:paddingStart="16dp">
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
 
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
 
                         android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_trophy" />
+                        android:src="@drawable/main_menu_racing" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -201,7 +201,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:text="Обучение"
+                                android:text="@string/main_menu_start_raiting_title"
 
                                 android:textColor="@color/main_card_text_color"
                                 android:textSize="20sp" />
@@ -218,7 +218,7 @@
 
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="@string/main_menu_start_campaign_description"
+                            android:text="@string/main_menu_start_raiting_description"
 
                             android:textColor="@color/main_card_text_color"
                             android:textSize="11sp" />
@@ -268,13 +268,13 @@
                     android:paddingStart="16dp">
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
 
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
 
                         android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_trophy" />
+                        android:src="@drawable/main_menu_hourglass" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -296,7 +296,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:text="Рейтинговая игра"
+                                android:text="@string/main_menu_start_sprint_title"
 
                                 android:textColor="@color/main_card_text_color"
                                 android:textSize="20sp" />
@@ -313,7 +313,7 @@
 
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="@string/main_menu_start_campaign_description"
+                            android:text="@string/main_menu_start_sprint_description"
 
                             android:textColor="@color/main_card_text_color"
                             android:textSize="11sp" />
@@ -363,13 +363,13 @@
                     android:paddingStart="16dp">
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
 
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
 
                         android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_trophy" />
+                        android:src="@drawable/main_menu_target" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -391,7 +391,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:text="Тренировка"
+                                android:text="@string/main_menu_start_training_title"
 
                                 android:textColor="@color/main_card_text_color"
                                 android:textSize="20sp" />
@@ -408,7 +408,7 @@
 
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="@string/main_menu_start_campaign_description"
+                            android:text="@string/main_menu_start_training_description"
 
                             android:textColor="@color/main_card_text_color"
                             android:textSize="11sp" />
@@ -429,6 +429,100 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="8dp"
+
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+
+                card_view:cardBackgroundColor="@color/main_card_background_color"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal"
+
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
+
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp">
+
+                    <ImageView
+                        android:layout_width="60dp"
+
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/main_menu_agenda" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginTop="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/main_menu_start_advice_title"
+
+                                android:textColor="@color/main_card_text_color"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+
+                            android:layout_height="1dp"
+                            android:background="@color/main_card_line_color" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/main_menu_start_advice_description"
+
+                            android:textColor="@color/main_card_text_color"
+                            android:textSize="11sp" />
+
+                        <Button
+                            android:id="@+id/main_menu_advice_button"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+
+                            android:text="@string/main_menu_play"
+
+                            android:textColor="@color/green_button_text_color"
+                            android:theme="@style/GreenButton" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 
