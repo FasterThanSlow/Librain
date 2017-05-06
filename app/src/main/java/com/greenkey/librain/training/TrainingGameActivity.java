@@ -97,6 +97,9 @@ public class TrainingGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
 
+        final TextView headerTextView = (TextView) findViewById(R.id.header_title_text_view);
+        headerTextView.setText(R.string.training);
+
         boardView = (BoardView) findViewById(R.id.board_view);
 
         distributorView = (DistributorView) findViewById(R.id.hidden_stuff);

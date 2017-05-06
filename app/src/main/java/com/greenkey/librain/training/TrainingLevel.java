@@ -20,11 +20,14 @@ public class TrainingLevel implements Parcelable {
 
     private final int[] roundItems;
 
-    public TrainingLevel(int columnCount, int rowCount, int[] roundItems) {
+    public TrainingLevel(int rowCount, int columnCount, boolean isFirstRound, boolean isSecondRound, boolean isThirdRound, int[] roundItems) {
         this.showingTime = 1000;
 
-        this.columnCount = columnCount;
         this.rowCount = rowCount;
+        this.columnCount = columnCount;
+        this.isFirstRound = isFirstRound;
+        this.isSecondRound = isSecondRound;
+        this.isThirdRound = isThirdRound;
         this.roundItems = roundItems;
     }
 

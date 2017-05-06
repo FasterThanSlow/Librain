@@ -88,7 +88,7 @@
 
                 android:layout_gravity="center_vertical"
 
-                android:src="@drawable/game_restart_selector"
+                android:src="@drawable/restart_icon_selector"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -106,7 +106,7 @@
 
             app:columnCount="4"
             app:rowCount="6"
-            app:item_size="@dimen/game_tem_size"
+            app:item_size="@dimen/game_item_size"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -128,7 +128,7 @@
 
             android:layout_gravity="center"
 
-            app:item_size="@dimen/game_tem_size"
+            app:item_size="@dimen/game_item_size"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

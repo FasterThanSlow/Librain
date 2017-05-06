@@ -12,32 +12,62 @@
 
     tools:context="com.greenkey.librain.training.TrainingMenuActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:background="@color/header_background_color"
 
-        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
 
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
-        <Space
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+        <LinearLayout
+            android:orientation="horizontal"
 
-        <ImageView
-            android:src="@drawable/campaign_header_premium_selector"
+            android:gravity="center"
 
-            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            android:layout_gravity="center_vertical"
+            <TextView
+                android:id="@+id/header_title_text_view"
 
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
+                android:text="@string/training"
+                android:textColor="@color/header_text_color"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+
+                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/settings_icon_image_view"
+
+                android:layout_gravity="center_vertical"
+
+                android:src="@drawable/settings_icon_selector"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/container"
