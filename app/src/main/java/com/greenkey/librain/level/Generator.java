@@ -104,31 +104,63 @@ public class Generator {
 
         int showingTime = 1000;
 
-        if (stageNumber < 3) {
+        if(stageNumber < 7){
+            rowCount = 3;
             columnCount = 3;
-            rowCount = 3;
+        }
+        else if(stageNumber < 12){
+            rowCount = 4;
+            columnCount = 4;
+        }
+        else{
+            rowCount = 5;
+            columnCount = 5;
+        }
 
-            items = new int[]{2, 2};
-        } else if (stageNumber < 5) {
-            columnCount = 3 + 1;
-            rowCount = 3;
+        int itemsCount = stageNumber + 3;
 
-            items = new int[]{1, 2, 1};
-        }else if (stageNumber < 7) {
-            columnCount = 3 + 1;
-            rowCount = 3 + 1;
+        if(stageNumber < 7){
+            items = new int[] {itemsCount};
+        }
+        else if(stageNumber < 12){
+            int firstTypeCount;
+            int secondTypeCount;
 
-            items = new int[]{1, 2, 1};
-        }else if (stageNumber < 9) {
-            columnCount = 3 + 1;
-            rowCount = 3 + 2;
+            if(itemsCount % 2 == 0){
+                firstTypeCount = itemsCount / 2;
+            }
+            else
+            {
+                firstTypeCount = itemsCount / 2 + 1;
+            }
 
-            items = new int[]{1, 2, 1};
-        } else {
-            columnCount = 3 + 2;
-            rowCount = 3 + 2;
+            secondTypeCount = itemsCount / 2;
+            items = new int[] {firstTypeCount, secondTypeCount};
+        }
+        else{
+            int firstTypeCount;
+            int secondTypeCount;
+            int thirdTypeCount;
 
-            items = new int[]{1, 2, 1};
+            switch (itemsCount % 3){
+                case 2:
+                    firstTypeCount = itemsCount / 3 + 1;
+                    secondTypeCount = itemsCount / 3 + 1;
+                    thirdTypeCount = itemsCount / 3;
+                    break;
+                case 1:
+                    firstTypeCount = itemsCount / 3 + 1;
+                    secondTypeCount = itemsCount / 3;
+                    thirdTypeCount = itemsCount / 3;
+                    break;
+                default:
+                    firstTypeCount = itemsCount / 3;
+                    secondTypeCount = itemsCount / 3;
+                    thirdTypeCount = itemsCount / 3;
+                    break;
+            }
+
+            items = new int[] {firstTypeCount, secondTypeCount, thirdTypeCount};
         }
 
         Rule[] rules = createRules(levelTypes[random.nextInt(levelTypes.length)], items);

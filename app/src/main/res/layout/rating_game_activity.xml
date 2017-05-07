@@ -163,24 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"/>
 
-            <TextView
-                android:id="@+id/rating_game_stage_description_text_View"
-
-                tools:text="Round 1"
-
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="italic"
-
-                android:layout_marginTop="8dp"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <ImageView
