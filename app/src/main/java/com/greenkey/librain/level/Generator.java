@@ -96,7 +96,7 @@ public class Generator {
     public static RatingGameStage createRatingStage(int stageNumber) {
         int rowCount;
         int columnCount;
-        int itemsCount = stageNumber + 3;
+        int itemsCount = stageNumber + 2;
         int[] items;
 
         int showingTime = 1000;
@@ -108,18 +108,19 @@ public class Generator {
         else if(itemsCount < 12){
             rowCount = 4;
             columnCount = 4;
+            itemsCount-=1;
         }
         else{
             rowCount = 5;
             columnCount = 5;
+            itemsCount-=2;
         }
 
 
-
-        if(stageNumber < 7){
+        if(itemsCount < 7){
             items = new int[] {itemsCount};
         }
-        else if(stageNumber < 12){
+        else if(itemsCount < 12){
             int firstTypeCount;
             int secondTypeCount;
 
