@@ -10,7 +10,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.greenkey.librain.training.TrainingRoundFragment">
+    tools:context="com.greenkey.librain.training.fragment.TrainingRoundFragment">
+
+    <FrameLayout
+        android:background="@color/header_background_color"
+
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+
+            android:gravity="center"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/header_title_text_view"
+
+                android:text="@string/training"
+                android:textColor="@color/header_text_color"
+
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+
+                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:text="@string/training_round_settings_description"
+        android:textColor="@color/main_card_text_color"
+        android:textSize="16sp"
+
+        android:paddingTop="24dp"
+        android:paddingBottom="8dp"
+
+        android:gravity="center_horizontal"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -286,7 +346,7 @@
             android:id="@+id/training_previous_button"
 
 
-            android:text="previous"
+            android:text="@string/training_previous"
             android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
@@ -294,13 +354,13 @@
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
 
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/training_next_button"
 
-            android:text="@string/next"
+            android:text="@string/training_save"
             android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
@@ -308,7 +368,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
 
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

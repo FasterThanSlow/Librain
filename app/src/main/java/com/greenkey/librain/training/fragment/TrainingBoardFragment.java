@@ -1,4 +1,4 @@
-package com.greenkey.librain.training;
+package com.greenkey.librain.training.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -133,12 +133,12 @@ public class TrainingBoardFragment extends Fragment {
         for (int i = 0; i < boardItemCount; i++) {
             if (i <= selectedItemIndex) {
                 if (i % columnCount <= superCoefficient) {
-                    items[i].setBackgroundResource(R.drawable.tutorial_board_item_selected_background);
+                    items[i].setBackgroundResource(R.drawable.training_board_item_selected_background);
                 } else {
-                    items[i].setBackgroundResource(R.drawable.tutorial_board_item_background);
+                    items[i].setBackgroundResource(R.drawable.training_board_item_background);
                 }
             } else {
-                items[i].setBackgroundResource(R.drawable.tutorial_board_item_background);
+                items[i].setBackgroundResource(R.drawable.training_board_item_background);
             }
         }
     }

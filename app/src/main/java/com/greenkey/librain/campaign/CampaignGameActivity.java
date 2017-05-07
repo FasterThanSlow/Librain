@@ -1,4 +1,4 @@
-package com.greenkey.librain;
+package com.greenkey.librain.campaign;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.greenkey.librain.R;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.entity.Rule;
@@ -23,13 +24,13 @@ import com.greenkey.librain.level.Round;
 import com.greenkey.librain.level.gameround.GameRound;
 import com.greenkey.librain.level.gameround.SecondGameRound;
 import com.greenkey.librain.level.gameround.ThirdGameRound;
-import com.greenkey.librain.view.RatingBar;
+import com.greenkey.librain.view.ratingbar.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.view.distributorview.DistributorView;
 
 import java.util.Arrays;
 
-public class GameActivity extends AppCompatActivity {
+public class CampaignGameActivity extends AppCompatActivity {
 
     private static final String LEVEL_PARAM = "level";
 
@@ -95,7 +96,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
 
-        levelDao = LevelDao.getInstance(GameActivity.this);
+        levelDao = LevelDao.getInstance(CampaignGameActivity.this);
 
         boardView = (BoardView) findViewById(R.id.board_view);
         distributorView = (DistributorView) findViewById(R.id.hidden_stuff);
@@ -731,9 +732,9 @@ public class GameActivity extends AppCompatActivity {
     private AlertDialog resultDialog;
 
     private void showResultDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(CampaignGameActivity.this);
 
-        final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.result_dialog, null);
+        final View dialogView = LayoutInflater.from(CampaignGameActivity.this).inflate(R.layout.result_dialog, null);
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
         ratingBar.setProgress(currentScore);
@@ -854,9 +855,9 @@ public class GameActivity extends AppCompatActivity {
 
         isContinuePressed = true; // Эмулиция продолжение на нажатие мимо диалога
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(CampaignGameActivity.this);
 
-        final View dialogView = LayoutInflater.from(GameActivity.this).inflate(R.layout.pause_dialog, null);
+        final View dialogView = LayoutInflater.from(CampaignGameActivity.this).inflate(R.layout.pause_dialog, null);
         final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_levels_image_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override

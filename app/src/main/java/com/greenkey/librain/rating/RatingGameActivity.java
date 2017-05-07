@@ -1,4 +1,4 @@
-package com.greenkey.librain;
+package com.greenkey.librain.rating;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -12,10 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.greenkey.librain.R;
 import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.level.Generator;
 import com.greenkey.librain.level.RatingGameStage;
-import com.greenkey.librain.view.RatingBar;
+import com.greenkey.librain.view.ratingbar.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.view.distributorview.DistributorView;
 

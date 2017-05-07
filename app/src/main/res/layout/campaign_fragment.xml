@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.greenkey.librain.campaign.CampaignActivity$LevelsPageFragment">
+    tools:context="com.greenkey.librain.campaign.CampaignMenuActivity$LevelsPageFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/campaign_fragment_recycler_view"

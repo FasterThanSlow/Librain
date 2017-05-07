@@ -1,4 +1,4 @@
-package com.greenkey.librain;
+package com.greenkey.librain.tutorial;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -16,7 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.greenkey.librain.campaign.CampaignActivity;
+import com.greenkey.librain.R;
+import com.greenkey.librain.campaign.CampaignMenuActivity;
 import com.greenkey.librain.entity.ItemType;
 import com.greenkey.librain.entity.Rule;
 import com.greenkey.librain.view.boardview.BoardView;
@@ -796,7 +797,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                         .putBoolean(TUTORIAL_COMPLETED_KEY, true)
                         .apply();
 
-                startActivity(new Intent(TutorialActivity.this, CampaignActivity.class));
+                startActivity(new Intent(TutorialActivity.this, CampaignMenuActivity.class));
 
                 finish();
             }

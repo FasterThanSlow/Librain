@@ -18,17 +18,17 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.greenkey.librain.GameActivity;
 import com.greenkey.librain.R;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.level.Level;
 import com.greenkey.librain.level.LevelsPage;
-import com.greenkey.librain.view.RatingBar;
+import com.greenkey.librain.view.ratingbar.RatingBar;
+import com.greenkey.librain.view.viewpagerindicator.ViewPagerIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CampaignActivity extends AppCompatActivity {
+public class CampaignMenuActivity extends AppCompatActivity {
 
     public static final String LEVEL_PARAM = "level";
 
@@ -47,7 +47,7 @@ public class CampaignActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campaign_activity);
 
-        levelDao = LevelDao.getInstance(CampaignActivity.this);
+        levelDao = LevelDao.getInstance(CampaignMenuActivity.this);
 
         startCountTextView = (TextView) findViewById(R.id.campaign_star_count_text_view);
         setStarsCount(levelDao.getCompletedStarCount(), levelDao.getStarCount());
@@ -197,7 +197,7 @@ public class CampaignActivity extends AppCompatActivity {
                         holder.levelNumberTextView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(context, GameActivity.class);
+                                Intent intent = new Intent(context, CampaignGameActivity.class);
                                 intent.putExtra(LEVEL_PARAM, currentLevel);
 
                                 ((Activity) context).startActivityForResult(intent, UPDATE_REQUEST_CODE);
@@ -212,7 +212,7 @@ public class CampaignActivity extends AppCompatActivity {
                         holder.levelNumberTextView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(context, GameActivity.class);
+                                Intent intent = new Intent(context, CampaignGameActivity.class);
                                 intent.putExtra(LEVEL_PARAM, currentLevel);
 
                                 ((Activity) context).startActivityForResult(intent, UPDATE_REQUEST_CODE);

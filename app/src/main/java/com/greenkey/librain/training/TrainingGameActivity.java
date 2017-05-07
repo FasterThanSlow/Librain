@@ -22,7 +22,8 @@ import com.greenkey.librain.level.Level;
 import com.greenkey.librain.level.gameround.GameRound;
 import com.greenkey.librain.level.gameround.SecondGameRound;
 import com.greenkey.librain.level.gameround.ThirdGameRound;
-import com.greenkey.librain.view.RatingBar;
+import com.greenkey.librain.training.entity.TrainingLevel;
+import com.greenkey.librain.view.ratingbar.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.view.distributorview.DistributorView;
 

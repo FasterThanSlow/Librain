@@ -10,7 +10,7 @@
 
     android:orientation="vertical"
 
-    tools:context="com.greenkey.librain.TutorialActivity">
+    tools:context="com.greenkey.librain.tutorial.TutorialActivity">
 
     <FrameLayout
         android:background="@color/header_background_color"

@@ -10,7 +10,7 @@
 
     android:background="@color/background_color"
 
-    tools:context="com.greenkey.librain.campaign.CampaignActivity">
+    tools:context="com.greenkey.librain.campaign.CampaignMenuActivity">
 
     <LinearLayout
         android:background="@color/header_background_color"
@@ -94,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
 
-    <com.greenkey.librain.campaign.ViewPagerIndicator
+    <com.greenkey.librain.view.viewpagerindicator.ViewPagerIndicator
         android:id="@+id/campaign_view_pager_indicator"
 
         android:layout_marginTop="10dp"

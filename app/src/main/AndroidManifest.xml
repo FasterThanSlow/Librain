@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GameActivity"
+            android:name=".campaign.CampaignGameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainMenuActivity"
+            android:name=".mainmenu.MainMenuActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,18 +25,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".campaign.CampaignActivity"
-            android:parentActivityName=".MainMenuActivity"
+            android:name=".campaign.CampaignMenuActivity"
+            android:parentActivityName=".mainmenu.MainMenuActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.greenkey.librain.MainMenuActivity" />
+                android:value="com.greenkey.librain.mainmenu.MainMenuActivity" />
         </activity>
         <activity
-            android:name=".TutorialActivity"
+            android:name=".tutorial.TutorialActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RatingGameActivity"
+            android:name=".rating.RatingGameActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".training.TrainingMenuActivity"
