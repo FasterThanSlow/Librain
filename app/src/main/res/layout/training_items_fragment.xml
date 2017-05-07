@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.greenkey.librain.training.TrainingItemsFragment">
+    tools:context="com.greenkey.librain.training.fragment.TrainingItemsFragment">
 
     <FrameLayout
         android:background="@color/header_background_color"
@@ -80,7 +80,10 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Количество типов"
+            android:text="@string/training_items_settings_item_types_count"
+
+            android:textColor="@color/main_card_text_color"
+            android:textSize="12sp"
 
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -90,6 +93,7 @@
             android:id="@+id/training_item_types_count_1"
 
             android:text="1"
+            android:textColor="@color/main_card_text_color"
 
             android:clickable="true"
             android:background="@drawable/training_item_type_count_background"
@@ -106,6 +110,7 @@
             android:id="@+id/training_item_types_count_2"
 
             android:text="2"
+            android:textColor="@color/main_card_text_color"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -121,6 +126,7 @@
             android:id="@+id/training_item_types_count_3"
 
             android:text="3"
+            android:textColor="@color/main_card_text_color"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -136,6 +142,7 @@
             android:id="@+id/training_item_types_count_4"
 
             android:text="4"
+            android:textColor="@color/main_card_text_color"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -160,7 +167,10 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Количетсво элементов"
+            android:text="@string/training_items_settings_items_count"
+
+            android:textColor="@color/main_card_text_color"
+            android:textSize="12sp"
 
             android:layout_marginRight="4dp"
             android:layout_marginEnd="4dp"
@@ -180,7 +190,10 @@
 
             tools:text="12"
 
-            android:layout_width="wrap_content"
+            android:textColor="@color/main_card_text_color"
+            android:textSize="12sp"
+
+            android:layout_width="20dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -195,7 +208,6 @@
 
         <Button
             android:id="@+id/training_previous_button"
-
 
             android:text="@string/training_previous"
             android:textColor="@color/green_button_text_color"

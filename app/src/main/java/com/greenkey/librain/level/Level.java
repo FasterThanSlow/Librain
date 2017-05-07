@@ -13,7 +13,6 @@ import com.greenkey.librain.entity.ItemType;
 public class Level implements Parcelable {
 
     public enum LevelType {
-
         SPACE(new ItemType[] {ItemType.MARS, ItemType.EARTH, ItemType.JUPITER, ItemType.MOON, ItemType.GLOBAL}),
         FRUIT(new ItemType[] { ItemType.CHERRY, ItemType.FRUIT, ItemType.BANANAS, ItemType.APPLE, ItemType.PEAR}),
         VEGETABLE(new ItemType[] {ItemType.PEAS, ItemType.PUMPKIN, ItemType.FOOD, ItemType.CHEESE});

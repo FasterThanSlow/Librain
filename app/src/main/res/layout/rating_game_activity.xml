@@ -10,7 +10,7 @@
 
     android:background="@color/background_color"
 
-    tools:context="com.greenkey.librain.GameActivity">
+    tools:context="com.greenkey.librain.campaign.CampaignGameActivity">
 
     <FrameLayout
         android:background="@color/header_background_color"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.greenkey.librain.view.RatingBar
+            <com.greenkey.librain.view.ratingbar.RatingBar
                 android:id="@+id/rating_game_lives_rating_bar"
 
                 app:starsSrc="@drawable/rating_game_life_completed"

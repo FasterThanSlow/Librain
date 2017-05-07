@@ -1,4 +1,4 @@
-package com.greenkey.librain.training;
+package com.greenkey.librain.training.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrainingItemsFragment extends Fragment {
+
+    private static final int MINIMUM_ITEM_COUNt = 2;
 
     private static final String COLUMN_COUNT_KEY = "column_count";
     private static final String ROW_COUNT_KEY = "row_count";
@@ -115,20 +117,14 @@ public class TrainingItemsFragment extends Fragment {
         selectedTypeCountTextView = typeCountTextViewList.get(typeCount - 1);
         selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
 
-        /*
-        List<String> levelTypeCountValues = getLevelTypeCountValues(selectedLevelType);
-
-        levelTypeCountSpinner = (Spinner) parentView.findViewById(R.id.training_level_type_count_spinner);
-        levelTypeCountSpinner.setAdapter(new LevelTypeCountAdapter(getActivity(), levelTypeCountValues));
-        */
+        itemCountTextView = (TextView) parentView.findViewById(R.id.training_level_item_count_text_view);
 
         itemCountSeekBar = (SeekBar) parentView.findViewById(R.id.training_level_item_count_seek_bar);
-        itemCountSeekBar.setMax(rowCount * columnCount - 1);
-        itemCountSeekBar.setProgress(itemCount - 1);
+        itemCountSeekBar.setMax(rowCount * columnCount - MINIMUM_ITEM_COUNt);
         itemCountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                setItemCount(progress + 1);
+                setItemCount(progress + MINIMUM_ITEM_COUNt);
             }
 
             @Override
@@ -138,14 +134,12 @@ public class TrainingItemsFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                resetBoardItems();
+                resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
             }
         });
+        itemCountSeekBar.setProgress(itemCount - MINIMUM_ITEM_COUNt);
 
-        itemCountTextView = (TextView) parentView.findViewById(R.id.training_level_item_count_text_view);
-        itemCountTextView.setText(String.valueOf(itemCount));
-
-        resetBoardItems();
+        resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
 
         return parentView;
     }
@@ -153,47 +147,52 @@ public class TrainingItemsFragment extends Fragment {
     private View.OnClickListener itemTypesCountOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View item) {
-            if (itemCount >= Integer.valueOf(((TextView) item).getText().toString())) {
-                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
-                item.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
+            //if (itemCount >= Integer.valueOf(((TextView) item).getText().toString())) {
+            selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
 
-                selectedTypeCountTextView = (TextView) item;
-                typeCount = Integer.valueOf(selectedTypeCountTextView.getText().toString());
+            selectedTypeCountTextView = (TextView) item;
+            selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
 
-                resetBoardItems();
-            }
+            typeCount = Integer.valueOf(selectedTypeCountTextView.getText().toString());
+
+            resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
+            //}
         }
     };
 
-    private static final int FOURTH_VALUE = 4;
-    private static final int THIRD_VALUE = 3;
-    private static final int SECOND_VALUE = 2;
-    private static final int FIRST_VALUE = 1;
-
     private void setItemCount(int itemCount) {
         this.itemCount = itemCount;
-
         itemCountTextView.setText(String.valueOf(itemCount));
 
         switch (itemCount) {
-            case FOURTH_VALUE:
-                typeCountTextViewList.get(FOURTH_VALUE - 1).setVisibility(View.INVISIBLE);
-            case THIRD_VALUE:
-                typeCountTextViewList.get(THIRD_VALUE - 1).setVisibility(View.INVISIBLE);
-            case SECOND_VALUE:
-                typeCountTextViewList.get(SECOND_VALUE - 1).setVisibility(View.INVISIBLE);
-            case FIRST_VALUE:
-                typeCountTextViewList.get(FIRST_VALUE - 1).setVisibility(View.INVISIBLE);
+            case 2:
+                typeCountTextViewList.get(2).setVisibility(View.INVISIBLE);
+                typeCountTextViewList.get(3).setVisibility(View.INVISIBLE);
+
+                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
+
+                typeCount = 1;
+                selectedTypeCountTextView = typeCountTextViewList.get(0);
+                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
+                break;
+            case 3:
+                typeCountTextViewList.get(2).setVisibility(View.VISIBLE);
+                typeCountTextViewList.get(3).setVisibility(View.INVISIBLE);
+
+                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
+
+                typeCount = 1;
+                selectedTypeCountTextView = typeCountTextViewList.get(0);
+                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
                 break;
             default:
-                for (TextView item : typeCountTextViewList) {
-                    item.setVisibility(View.VISIBLE);
-                }
+                typeCountTextViewList.get(2).setVisibility(View.VISIBLE);
+                typeCountTextViewList.get(3).setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-    private void resetBoardItems() {
+    private void resetBoardItems(int itemCount, int typeCount, Level.LevelType levelType) {
         items = new int[typeCount];
 
         if (typeCount == 1) {
@@ -208,120 +207,11 @@ public class TrainingItemsFragment extends Fragment {
             items[typeCount - 1] += lastValueBuf;
         }
 
-        Rule[] rules = Generator.createRules(Level.LevelType.FRUIT, items);
+        Rule[] rules = Generator.createRules(levelType, items);
         ItemType[] boardResources = Generator.createFullBoardItems(rules, columnCount * rowCount);
 
         boardView.setItemsResources(boardResources);
     }
-
-
-
-/*
-    private List<String> getLevelTypeCountValues(Level.LevelType selectedLevelType) {
-        int levelTypeCount = selectedLevelType.getResources().length;
-        List<String> levelTypeCountValues= new ArrayList<>();
-        for (int i = 0; i < levelTypeCount; i++) {
-            levelTypeCountValues.add(String.valueOf(i + 1));
-        }
-
-        return levelTypeCountValues;
-    }
-
-    private class NamedLevelType {
-
-        private final Level.LevelType levelType;
-        private final String name;
-
-        public NamedLevelType(Level.LevelType levelType, String name) {
-            this.levelType = levelType;
-            this.name = name;
-        }
-
-        public Level.LevelType getLevelType() {
-            return levelType;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
-    private class LevelTypeAdapter extends ArrayAdapter<NamedLevelType> {
-
-        class ViewHolder {
-            public TextView name;
-        }
-
-        public LevelTypeAdapter(Context context, List<NamedLevelType> items) {
-            super(context, R.layout.training_item_type_list_item, items);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            ViewHolder viewHolder;
-
-            if (convertView == null) {
-                viewHolder = new ViewHolder();
-
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.training_item_type_list_item, null);
-                convertView.setTag(viewHolder);
-
-                viewHolder.name = (TextView) convertView; //ВОТ ТУТ find view by id
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            NamedLevelType item = getItem(position);
-            if (item != null) {
-                viewHolder.name.setText(item.getName());
-            }
-
-            return convertView;
-        }
-    }
-
-    private class LevelTypeCountAdapter extends ArrayAdapter<String> {
-
-        class ViewHolder {
-            public TextView countTextView;
-        }
-
-        public LevelTypeCountAdapter(Context context, List<String> items) {
-            super(context, R.layout.training_item_type_count_list_item, items);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            ViewHolder viewHolder;
-
-            if (convertView == null) {
-                viewHolder = new ViewHolder();
-
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.training_item_type_count_list_item, null);
-                convertView.setTag(viewHolder);
-
-                viewHolder.countTextView = (TextView) convertView; //ВОТ ТУТ find view by id
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            String item = getItem(position);
-            if (item != null) {
-                viewHolder.countTextView.setText(item);
-            }
-
-            return convertView;
-        }
-    }
-*/
-
 
     @Override
     public void onAttach(Context context) {

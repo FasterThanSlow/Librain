@@ -9,6 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.greenkey.librain.R;
+import com.greenkey.librain.training.entity.TrainingLevel;
+import com.greenkey.librain.training.fragment.TrainingBoardFragment;
+import com.greenkey.librain.training.fragment.TrainingItemsFragment;
+import com.greenkey.librain.training.fragment.TrainingMainFragment;
+import com.greenkey.librain.training.fragment.TrainingRoundFragment;
 
 public class TrainingMenuActivity extends AppCompatActivity implements
         TrainingMainFragment.MainFragmentListener,
@@ -113,7 +118,10 @@ public class TrainingMenuActivity extends AppCompatActivity implements
 
         switch (fragmentType) {
             case MAIN:
-                fragment = TrainingMainFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount);
+                fragment = TrainingMainFragment.newInstance(
+                        enabledColumnCount, enabledRowCount,
+                        itemTypeCount, itemCount,
+                        isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected);
             break;
             case BOARD:
                 fragment = TrainingBoardFragment.newInstance(enabledColumnCount, enabledRowCount);
@@ -131,6 +139,7 @@ public class TrainingMenuActivity extends AppCompatActivity implements
                 .replace(R.id.container, fragment)
                 .commit();
     }
+
 
     @Override
     public void onMainFragmentSettingsPressed() {

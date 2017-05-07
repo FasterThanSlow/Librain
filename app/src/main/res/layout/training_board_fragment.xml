@@ -92,7 +92,7 @@
         <Button
             android:id="@+id/training_previous_button"
 
-            android:text="cancel"
+            android:text="@string/training_cancel"
             android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"

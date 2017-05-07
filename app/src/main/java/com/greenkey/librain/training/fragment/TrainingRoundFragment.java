@@ -1,4 +1,4 @@
-package com.greenkey.librain.training;
+package com.greenkey.librain.training.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

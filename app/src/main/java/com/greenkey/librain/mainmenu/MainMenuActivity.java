@@ -1,4 +1,4 @@
-package com.greenkey.librain;
+package com.greenkey.librain.mainmenu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,10 +6,13 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.greenkey.librain.campaign.CampaignActivity;
+import com.greenkey.librain.R;
+import com.greenkey.librain.RateDialog;
+import com.greenkey.librain.rating.RatingGameActivity;
+import com.greenkey.librain.tutorial.TutorialActivity;
+import com.greenkey.librain.campaign.CampaignMenuActivity;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.training.TrainingMenuActivity;
 
@@ -33,7 +36,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 final boolean isTutorialCompleted = sharedPreferences.getBoolean(TUTORIAL_COMPLETED_KEY, TUTORIAL_COMPLETED_DEFAULT_VALUE);
 
                 if (isTutorialCompleted) {
-                    startActivity(new Intent(MainMenuActivity.this, CampaignActivity.class));
+                    startActivity(new Intent(MainMenuActivity.this, CampaignMenuActivity.class));
                 } else {
                     startActivity(new Intent(MainMenuActivity.this, TutorialActivity.class));
                 }

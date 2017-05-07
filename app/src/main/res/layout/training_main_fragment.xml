@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.greenkey.librain.training.TrainingItemsFragment">
+    tools:context="com.greenkey.librain.training.fragment.TrainingItemsFragment">
 
     <FrameLayout
         android:background="@color/header_background_color"
@@ -65,7 +65,7 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </FrameLayout>
-
+    
     <com.greenkey.librain.view.boardview.BoardView
         android:id="@+id/board_view"
 
@@ -78,6 +78,66 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+
+        android:layout_gravity="center_horizontal"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/training_main_round_description"
+            android:textColor="@color/main_card_text_color"
+            android:textSize="16sp"
+
+            android:layout_marginBottom="8dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+
+            android:layout_gravity="center_horizontal"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/training_main_first_round_indicator_view"
+
+                tools:background="@drawable/training_main_round_selected_background"
+
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+
+            <View
+                android:id="@+id/training_main_second_round_indicator_view"
+
+                tools:background="@drawable/training_main_round_background"
+
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+
+            <View
+                android:id="@+id/training_main_third_round_indicator_view"
+
+                tools:background="@drawable/training_main_round_selected_background"
+
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:orientation="horizontal"

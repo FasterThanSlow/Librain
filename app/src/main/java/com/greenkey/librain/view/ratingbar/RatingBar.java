@@ -1,4 +1,4 @@
-package com.greenkey.librain.view;
+package com.greenkey.librain.view.ratingbar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
