@@ -3,11 +3,10 @@ package com.greenkey.librain.training;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.greenkey.librain.R;
 
@@ -37,6 +36,9 @@ public class TrainingMenuActivity extends AppCompatActivity implements
 
     private static final boolean ROUND_SELECTED_DEFAULT_VALUE = true;
 
+    private static final String FIRST_TRAINING_LAUNCHING_KEY = "training_first_launching";
+    private static final boolean FIRST_TRAINING_LAUNCHING_DEFAULT_VALUE = true;
+
     private int enabledColumnCount;
     private int enabledRowCount;
 
@@ -50,8 +52,7 @@ public class TrainingMenuActivity extends AppCompatActivity implements
     private boolean isThirdRoundSelected;
 
     private SharedPreferences sharedPreferences;
-
-    private ImageView settingsImageView;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class TrainingMenuActivity extends AppCompatActivity implements
         setContentView(R.layout.training_menu_activity);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        fragmentManager = getSupportFragmentManager();
 
         enabledColumnCount = sharedPreferences.getInt(ENABLED_COLUMN_COUNT_KEY, COLUMN_COUNT_DEFAULT_VALUE);
         enabledRowCount = sharedPreferences.getInt(ENABLED_ROW_COUNT_KEY, ROW_COUNT_DEFAULT_VALUE);
@@ -70,39 +73,68 @@ public class TrainingMenuActivity extends AppCompatActivity implements
         isSecondRoundSelected = sharedPreferences.getBoolean(SECOND_ROUND_SELECTED_KEY, ROUND_SELECTED_DEFAULT_VALUE);
         isThirdRoundSelected = sharedPreferences.getBoolean(THIRD_ROUND_SELECTED_KEY, ROUND_SELECTED_DEFAULT_VALUE);
 
-        settingsImageView = (ImageView) findViewById(R.id.settings_icon_image_view);
-        settingsImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, TrainingBoardFragment.newInstance(enabledColumnCount, enabledRowCount))
-                        .addToBackStack(null)
-                        .commit();
+        final boolean isFirstLaunching = sharedPreferences.getBoolean(FIRST_TRAINING_LAUNCHING_KEY, FIRST_TRAINING_LAUNCHING_DEFAULT_VALUE);
+        if (isFirstLaunching) {
+            currentFragmentType = FragmentType.BOARD;
 
-                settingsImageView.setVisibility(View.INVISIBLE);
-            }
-        });
+            sharedPreferences.edit().putBoolean(FIRST_TRAINING_LAUNCHING_KEY, false).apply();
+        } else {
+            currentFragmentType = FragmentType.MAIN;
+        }
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, TrainingMainFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount))
-                .addToBackStack(null)
-                .commit();
+        setCurrentFragment(currentFragmentType);
     }
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finish();
-        } else {
-            super.onBackPressed();
+        switch (currentFragmentType) {
+            case MAIN:
+                finish();
+                break;
+            case BOARD:
+                setCurrentFragment(FragmentType.MAIN);
+                break;
+            case ITEMS:
+                setCurrentFragment(FragmentType.BOARD);
+                break;
+            case ROUNDS:
+                setCurrentFragment(FragmentType.ITEMS);
+                break;
         }
     }
 
+    private enum FragmentType {MAIN, BOARD, ITEMS, ROUNDS};
+    private FragmentType currentFragmentType;
+
+    private void setCurrentFragment(FragmentType fragmentType) {
+        currentFragmentType = fragmentType;
+
+        Fragment fragment = null;
+
+        switch (fragmentType) {
+            case MAIN:
+                fragment = TrainingMainFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount);
+            break;
+            case BOARD:
+                fragment = TrainingBoardFragment.newInstance(enabledColumnCount, enabledRowCount);
+                break;
+            case ITEMS:
+                fragment = TrainingItemsFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount);
+            break;
+            case ROUNDS:
+                fragment = TrainingRoundFragment.newInstance(isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected);
+                break;
+        }
+
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+    }
+
     @Override
-    public void onMainFragmentCreated() {
-        settingsImageView.setVisibility(View.VISIBLE);
+    public void onMainFragmentSettingsPressed() {
+        setCurrentFragment(FragmentType.BOARD);
     }
 
     @Override
@@ -121,6 +153,7 @@ public class TrainingMenuActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+
     @Override
     public void onBoardFragmentNextButtonPressed(int columnCount, int rowCount) {
         this.enabledColumnCount = columnCount;
@@ -131,22 +164,12 @@ public class TrainingMenuActivity extends AppCompatActivity implements
                 .putInt(ENABLED_ROW_COUNT_KEY, rowCount)
                 .apply();
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, TrainingItemsFragment.newInstance(columnCount, rowCount, itemTypeCount, itemCount))
-                .addToBackStack(null)
-                .commit();
+        setCurrentFragment(FragmentType.ITEMS);
     }
 
     @Override
     public void onBoardCancelButtonPressed() {
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, TrainingMainFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount))
-                .addToBackStack(null)
-                .commit();
+        setCurrentFragment(FragmentType.MAIN);
     }
 
     @Override
@@ -158,20 +181,20 @@ public class TrainingMenuActivity extends AppCompatActivity implements
                 .putInt(ITEM_COUNT_KEY, itemCount)
                 .apply();
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, TrainingRoundFragment.newInstance(isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected))
-                .addToBackStack(null)
-                .commit();
+        setCurrentFragment(FragmentType.ROUNDS);
     }
 
     @Override
     public void onItemsFragmentPrevious() {
-        onBackPressed();
+        setCurrentFragment(FragmentType.BOARD);
     }
 
+
     @Override
-    public void onRoundFragmentNext(boolean isFirstRoundSelected, boolean isSecondRoundSelected, boolean isThirdRoundSelected) {
+    public void onRoundFragmentNext(boolean isFirstRoundSelected,
+                                    boolean isSecondRoundSelected,
+                                    boolean isThirdRoundSelected) {
+
         this.isFirstRoundSelected = isFirstRoundSelected;
         this.isSecondRoundSelected = isSecondRoundSelected;
         this.isThirdRoundSelected = isThirdRoundSelected;
@@ -182,18 +205,11 @@ public class TrainingMenuActivity extends AppCompatActivity implements
                 .putBoolean(THIRD_ROUND_SELECTED_KEY, isThirdRoundSelected)
                 .apply();
 
-        Intent intent = new Intent(TrainingMenuActivity.this, TrainingGameActivity.class);
-
-        TrainingLevel trainingLevel = new TrainingLevel(enabledColumnCount, enabledRowCount,
-                isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected ,items);
-
-        intent.putExtra(LEVEL_PARAM, trainingLevel);
-
-        startActivity(intent);
+        setCurrentFragment(FragmentType.MAIN);
     }
 
     @Override
     public void onRoundFragmentPrevious() {
-        onBackPressed();
+        setCurrentFragment(FragmentType.ITEMS);
     }
 }

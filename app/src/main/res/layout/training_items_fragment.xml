@@ -9,32 +9,52 @@
 
     tools:context="com.greenkey.librain.training.TrainingItemsFragment">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <FrameLayout
+        android:background="@color/header_background_color"
 
-        android:visibility="gone"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp">
 
-        <TextView
-            android:text="Item Types Count"
+        <LinearLayout
+            android:orientation="horizontal"
 
             android:gravity="center"
 
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            android:layout_width="200dp"
-            android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/header_title_text_view"
 
-        <Spinner
-            android:id="@+id/training_level_type_count_spinner"
+                android:text="@string/training"
+                android:textColor="@color/header_text_color"
+
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+
+                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </Spinner>
-    </LinearLayout>
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </FrameLayout>
 
     <com.greenkey.librain.view.boardview.BoardView
         android:id="@+id/board_view"
@@ -177,7 +197,7 @@
             android:id="@+id/training_previous_button"
 
 
-            android:text="previous"
+            android:text="@string/training_previous"
             android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
@@ -185,13 +205,13 @@
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
 
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/training_next_button"
 
-            android:text="@string/next"
+            android:text="@string/training_next"
             android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
@@ -199,7 +219,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
 
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

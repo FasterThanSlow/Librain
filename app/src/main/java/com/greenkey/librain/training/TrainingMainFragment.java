@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.greenkey.librain.R;
 import com.greenkey.librain.entity.ItemType;
@@ -38,7 +39,7 @@ public class TrainingMainFragment extends Fragment {
 
     public interface MainFragmentListener {
         void onMainFragmentStartPressed(int[] items);
-        void onMainFragmentCreated();
+        void onMainFragmentSettingsPressed();
     }
 
     public TrainingMainFragment() {
@@ -81,6 +82,14 @@ public class TrainingMainFragment extends Fragment {
             }
         });
 
+        final ImageView settingsImageView = (ImageView) parentView.findViewById(R.id.settings_icon_image_view);
+        settingsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onMainFragmentSettingsPressed();
+            }
+        });
+
         boardView = (BoardView) parentView.findViewById(R.id.board_view);
         boardView.createItems(rowCount, columnCount);
 
@@ -93,10 +102,6 @@ public class TrainingMainFragment extends Fragment {
                 resetBoardItems(itemCount, typeCount, levelType);
             }
         });
-
-        if (listener != null) {
-            listener.onMainFragmentCreated();
-        }
 
         return parentView;
     }

@@ -4,26 +4,22 @@
     <string name="state">State</string>
     <string name="level">Level</string>
 
-    <string name="start">Start</string>
-    <string name="next">Next</string>
-
-    <string name="training">Training</string>
 
     <string name="game_check_result">Check</string>
 
-
     <!-- Main Menu -->
     <string name="main_menu_start_campaign_title">Кампания</string>
-    <string name="main_menu_start_raiting_title">Рейтинговая игра</string>
+    <string name="main_menu_start_rating_title">Рейтинговая игра</string>
     <string name="main_menu_start_sprint_title">Спринт</string>
     <string name="main_menu_start_advice_title">Советы</string>
     <string name="main_menu_start_training_title">Тренировка</string>
 
     <string name="main_menu_start_campaign_description">Развивайте свою память, проходя разнообразные уровни. В качестве вознаграждения за пройденный уровень получайте звезды.</string>
-    <string name="main_menu_start_raiting_description">Проверьте себя и свою память в сравнении с другими пользователями приложения.</string>
+    <string name="main_menu_start_rating_description">Проверьте себя и свою память в сравнении с другими пользователями приложения.</string>
     <string name="main_menu_start_sprint_description">Развивайте скоростную память благодаря ограничению во времени. Сравивайте свои показатели с другими пользователями.</string>
     <string name="main_menu_start_advice_description">Читайте информацию, позволяющую вам выработать навыки, которые помогут быстрее и эффективнее развивать память.</string>
     <string name="main_menu_start_training_description">Выработайте свой личный тренинг и развивайте свою память еще быстрее.</string>
+
     <string name="main_menu_play">Играть</string>
     <string name="main_menu_activate">Активировать</string>
 
@@ -45,6 +41,19 @@
     <string name="tutorial_third_round_title">Задание 3</string>
     <string name="tutorial_third_round_message">
         "Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения."</string>
+
+    <!-- Training -->
+    <string name="training">Training</string>
+
+    <string name="training_board_settings_description">Set the board size</string>
+    <string name="training_round_settings_description">Select the desired rounds</string>
+
+    <string name="training_start">Start</string>
+    <string name="training_save">Save</string>
+
+    <string name="training_next">Next</string>
+    <string name="training_previous">Previous</string>
+
 
 
     <!-- Tutorial Dialog -->
@@ -78,14 +87,5 @@
     <string name="rate_app_dialog_remind_me_later">Напомнить позже</string>
     <string name="rate_app_dialog_rate_now">Оценить сейчас</string>
     <string name="tutorial_dialog_button_text">Перейти к уровням</string>
-
-    <string-array name="level_types">
-        <item>Space</item>
-        <item>Fruit</item>
-        <item>Vegetables</item>
-    </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

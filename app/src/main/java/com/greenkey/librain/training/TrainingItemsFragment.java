@@ -28,7 +28,6 @@ public class TrainingItemsFragment extends Fragment {
     private static final String TYPE_COUNT = "type_count";
     private static final String ITEM_COUNT = "item_count";
 
-
     private int columnCount;
     private int rowCount;
 
@@ -71,22 +70,7 @@ public class TrainingItemsFragment extends Fragment {
             typeCount = getArguments().getInt(TYPE_COUNT);
             itemCount = getArguments().getInt(ITEM_COUNT);
         }
-
-        /*
-        namedLevelTypes = new ArrayList<>();
-
-        levelTypes = Level.LevelType.values();
-        String[] names = getResources().getStringArray(R.array.level_types);
-
-        for (int i = 0; i < levelTypes.length; i++) {
-            namedLevelTypes.add(new NamedLevelType(levelTypes[i], names[i]));
-        }
-
-        selectedLevelType = levelTypes[levelTypeIndex];
-        */
     }
-
-    //private Spinner levelTypeCountSpinner;
 
     private SeekBar itemCountSeekBar;
     private TextView itemCountTextView;
@@ -181,9 +165,32 @@ public class TrainingItemsFragment extends Fragment {
         }
     };
 
+    private static final int FOURTH_VALUE = 4;
+    private static final int THIRD_VALUE = 3;
+    private static final int SECOND_VALUE = 2;
+    private static final int FIRST_VALUE = 1;
+
     private void setItemCount(int itemCount) {
         this.itemCount = itemCount;
+
         itemCountTextView.setText(String.valueOf(itemCount));
+
+        switch (itemCount) {
+            case FOURTH_VALUE:
+                typeCountTextViewList.get(FOURTH_VALUE - 1).setVisibility(View.INVISIBLE);
+            case THIRD_VALUE:
+                typeCountTextViewList.get(THIRD_VALUE - 1).setVisibility(View.INVISIBLE);
+            case SECOND_VALUE:
+                typeCountTextViewList.get(SECOND_VALUE - 1).setVisibility(View.INVISIBLE);
+            case FIRST_VALUE:
+                typeCountTextViewList.get(FIRST_VALUE - 1).setVisibility(View.INVISIBLE);
+                break;
+            default:
+                for (TextView item : typeCountTextViewList) {
+                    item.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
     }
 
     private void resetBoardItems() {

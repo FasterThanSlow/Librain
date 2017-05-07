@@ -47,19 +47,19 @@
 
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingEnd="12dp"
-                    android:paddingLeft="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
 
-                    android:paddingRight="12dp"
-                    android:paddingStart="12dp">
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp">
 
                     <ImageView
                         android:layout_width="60dp"
 
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="16dp"
 
-                        android:layout_marginRight="12dp"
+                        android:layout_marginRight="16dp"
                         android:src="@drawable/main_menu_cup" />
 
                     <LinearLayout
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
 
-                        android:paddingBottom="12dp"
+                        android:paddingBottom="8dp"
                         android:paddingTop="8dp">
 
                         <LinearLayout
@@ -76,7 +76,7 @@
 
                             android:layout_height="wrap_content"
 
-                            android:layout_marginTop="2dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -84,7 +84,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:textStyle="bold"
                                 android:text="@string/main_menu_start_campaign_title"
                                 android:textColor="@color/main_card_text_color"
                                 android:textSize="20sp" />
@@ -104,7 +103,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:drawableLeft="@drawable/rating_bar_star_completed"
 
-                                android:drawablePadding="1dp"
+                                android:drawablePadding="4dp"
 
                                 android:drawableStart="@drawable/rating_bar_star_completed"
                                 android:textColor="@color/main_card_text_color"
@@ -123,31 +122,24 @@
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/main_menu_start_campaign_description"
 
                             android:textColor="@color/main_card_text_color"
-                            android:textSize="11sp" />
-
-                        <TextView
+                            android:textSize="12sp" />
+                        
+                        <Button
                             android:id="@+id/main_start_campaign_button"
+
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
 
-                            android:background="@color/green_button_color"
-
-                            android:clickable="true"
-                            android:gravity="center"
-
-                            android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
                             android:text="@string/main_menu_play"
 
-                            android:textAllCaps="true"
-                            android:textColor="@color/green_button_text_color" />
-
-
+                            android:textColor="@color/green_button_text_color"
+                            android:theme="@style/GreenButton" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -174,19 +166,19 @@
 
                     android:orientation="horizontal"
 
-                    android:paddingEnd="12dp"
-                    android:paddingLeft="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
 
-                    android:paddingRight="12dp"
-                    android:paddingStart="12dp">
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp">
 
                     <ImageView
                         android:layout_width="60dp"
 
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="16dp"
 
-                        android:layout_marginRight="12dp"
+                        android:layout_marginRight="16dp"
                         android:src="@drawable/main_menu_racing" />
 
                     <LinearLayout
@@ -195,21 +187,21 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
 
-                        android:paddingBottom="12dp"
+                        android:paddingBottom="8dp"
                         android:paddingTop="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:layout_marginTop="2dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textStyle="bold"
-                                android:text="@string/main_menu_start_raiting_title"
+
+                                android:text="@string/main_menu_start_rating_title"
 
                                 android:textColor="@color/main_card_text_color"
                                 android:textSize="20sp" />
@@ -225,29 +217,24 @@
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="@string/main_menu_start_raiting_description"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/main_menu_start_rating_description"
 
                             android:textColor="@color/main_card_text_color"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
-                        <TextView
+                        <Button
                             android:id="@+id/main_start_rating_game_button"
+
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
 
-                            android:background="@color/green_button_color"
-
-                            android:clickable="true"
-                            android:gravity="center"
-
-                            android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
                             android:text="@string/main_menu_play"
 
-                            android:textAllCaps="true"
-                            android:textColor="@color/green_button_text_color" />
+                            android:textColor="@color/green_button_text_color"
+                            android:theme="@style/GreenButton" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -274,19 +261,19 @@
 
                     android:orientation="horizontal"
 
-                    android:paddingEnd="12dp"
-                    android:paddingLeft="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
 
-                    android:paddingRight="12dp"
-                    android:paddingStart="12dp">
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp">
 
                     <ImageView
                         android:layout_width="60dp"
 
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="16dp"
 
-                        android:layout_marginRight="12dp"
+                        android:layout_marginRight="16dp"
                         android:src="@drawable/main_menu_hourglass" />
 
                     <LinearLayout
@@ -295,20 +282,20 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
 
-                        android:paddingBottom="12dp"
+                        android:paddingBottom="8dp"
                         android:paddingTop="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:layout_marginTop="2dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textStyle="bold"
+
                                 android:text="@string/main_menu_start_sprint_title"
 
                                 android:textColor="@color/main_card_text_color"
@@ -325,30 +312,23 @@
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/main_menu_start_sprint_description"
 
                             android:textColor="@color/main_card_text_color"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
-                        <TextView
-                            android:id="@+id/main_start_sprint_game_button"
+                        <Button
+
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
 
-                            android:background="@color/campaign_item_premium_disabled_stroke_color"
+                            android:text="@string/main_menu_play"
 
-                            android:clickable="true"
-                            android:gravity="center"
-
-                            android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
-                            android:text="@string/main_menu_activate"
-
-                            android:textAllCaps="true"
-                            android:textColor="@color/green_button_text_color" />
-
+                            android:textColor="@color/green_button_text_color"
+                            android:theme="@style/GreenButton" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -375,19 +355,19 @@
 
                     android:orientation="horizontal"
 
-                    android:paddingEnd="12dp"
-                    android:paddingLeft="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
 
-                    android:paddingRight="12dp"
-                    android:paddingStart="12dp">
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp">
 
                     <ImageView
                         android:layout_width="60dp"
 
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="16dp"
 
-                        android:layout_marginRight="12dp"
+                        android:layout_marginRight="16dp"
                         android:src="@drawable/main_menu_target" />
 
                     <LinearLayout
@@ -396,23 +376,22 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
 
-                        android:paddingBottom="12dp"
+                        android:paddingBottom="8dp"
                         android:paddingTop="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:layout_marginTop="2dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/textView2"
                                 android:layout_width="wrap_content"
-                                android:textStyle="bold"
                                 android:layout_height="wrap_content"
 
                                 android:text="@string/main_menu_start_training_title"
+
                                 android:textColor="@color/main_card_text_color"
                                 android:textSize="20sp" />
                         </LinearLayout>
@@ -427,30 +406,24 @@
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/main_menu_start_training_description"
 
                             android:textColor="@color/main_card_text_color"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
-                        <TextView
+                        <Button
                             android:id="@+id/main_start_training_button"
+
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
 
-                            android:background="@color/green_button_color"
-
-                            android:clickable="true"
-                            android:gravity="center"
-
-                            android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
                             android:text="@string/main_menu_play"
 
-                            android:textAllCaps="true"
-                            android:textColor="@color/green_button_text_color" />
-
+                            android:textColor="@color/green_button_text_color"
+                            android:theme="@style/GreenButton" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -477,19 +450,19 @@
 
                     android:orientation="horizontal"
 
-                    android:paddingEnd="12dp"
-                    android:paddingLeft="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
 
-                    android:paddingRight="12dp"
-                    android:paddingStart="12dp">
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp">
 
                     <ImageView
                         android:layout_width="60dp"
 
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="16dp"
 
-                        android:layout_marginRight="12dp"
+                        android:layout_marginRight="16dp"
                         android:src="@drawable/main_menu_agenda" />
 
                     <LinearLayout
@@ -498,20 +471,20 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
 
-                        android:paddingBottom="12dp"
+                        android:paddingBottom="8dp"
                         android:paddingTop="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:layout_marginTop="2dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textStyle="bold"
+
                                 android:text="@string/main_menu_start_advice_title"
 
                                 android:textColor="@color/main_card_text_color"
@@ -528,30 +501,24 @@
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/main_menu_start_advice_description"
 
                             android:textColor="@color/main_card_text_color"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
-                        <TextView
+                        <Button
                             android:id="@+id/main_menu_advice_button"
+
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
 
-                            android:background="@color/green_button_color"
-
-                            android:clickable="true"
-                            android:gravity="center"
-
-                            android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
                             android:text="@string/main_menu_play"
 
-                            android:textAllCaps="true"
-                            android:textColor="@color/green_button_text_color" />
-
+                            android:textColor="@color/green_button_text_color"
+                            android:theme="@style/GreenButton" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
