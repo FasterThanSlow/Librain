@@ -9,12 +9,14 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/result_dialog_header"
+
         android:orientation="horizontal"
 
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
 
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
 
         android:background="@color/header_background_color"
 
@@ -26,8 +28,8 @@
         <TextView
             android:textStyle="bold"
 
-            android:text="@string/pause_dialog_title"
-            android:textSize="24sp"
+            android:text="@string/premium_dialog_title"
+            android:textSize="28sp"
             android:textColor="@color/header_text_color"
 
             android:layout_marginRight="4dp"
@@ -55,8 +57,11 @@
     <LinearLayout
         android:orientation="horizontal"
 
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="12dp"
 
         android:gravity="center_horizontal"
 
@@ -64,8 +69,27 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/pause_dialog_levels_image_view"
+            android:id="@+id/premium_dialog_close_image_view"
+
+            android:clickable="true"
+
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+
+            android:gravity="center"
+            android:background="@drawable/dialog_orange_background_shape"
+            android:src="@drawable/premium_dialog_close_icon"
+
             android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/premium_dialog_buy_image_view"
+
             android:clickable="true"
 
             android:paddingTop="8dp"
@@ -74,33 +98,12 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
 
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-
             android:gravity="center"
-            android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/pause_dialog_levels_icon"
 
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:background="@drawable/dialog_green_background_shape"
+            android:src="@drawable/premium_dialog_buy_icon"
 
-        <ImageView
-            android:id="@+id/pause_dialog_continue_text_view"
             android:layout_width="0dp"
-            android:clickable="true"
-
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-
-            android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/pause_dialog_continue_icon"
-
             android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>

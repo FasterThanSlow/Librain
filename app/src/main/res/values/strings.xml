@@ -59,6 +59,10 @@
     <string name="training_previous">Previous</string>
 
 
+    <!-- Premium Dialog -->
+    <string name="premium_dialog_title">Premium</string>
+
+
 
     <!-- Tutorial Dialog -->
     <string name="tutorial_dialog_title">Tutorial</string>

@@ -19,17 +19,17 @@ public class RateDialog {
     private static final String RATE_APP_DIALOG_SHARED_PREFERENCES = "rate_app_dialog";
 
     private static final String DONT_SHOW_AGAIN_KEY = "dont_show_again";
-    private static final String DIALOG_LAUNCH_TIMES = "dialog_launch_times";;
+    private static final String DIALOG_LAUNCH_TIMES_KEY = "dialog_launch_times";;
 
     private final Context context;
     private final SharedPreferences sharedPreferences;
 
-    private final int neededLaunchTimes;
+    private final int launchingCountToShowing;
 
     public RateDialog(Context context) {
         this.context = context;
         this.sharedPreferences = context.getSharedPreferences(RATE_APP_DIALOG_SHARED_PREFERENCES, 0);
-        this.neededLaunchTimes = context.getResources().getInteger(R.integer.rate_app_dialog_launch_times);
+        this.launchingCountToShowing = context.getResources().getInteger(R.integer.rate_app_dialog_launch_times);
     }
 
     public boolean isShouldShow() {
@@ -37,9 +37,9 @@ public class RateDialog {
             return false;
         }
 
-        int dialogLaunchCount = sharedPreferences.getInt(DIALOG_LAUNCH_TIMES, 0) + 1;
-        if (dialogLaunchCount < neededLaunchTimes) {
-            sharedPreferences.edit().putInt(DIALOG_LAUNCH_TIMES, dialogLaunchCount).apply();
+        int dialogLaunchingCount = sharedPreferences.getInt(DIALOG_LAUNCH_TIMES_KEY, 0) + 1;
+        if (dialogLaunchingCount < launchingCountToShowing) {
+            sharedPreferences.edit().putInt(DIALOG_LAUNCH_TIMES_KEY, dialogLaunchingCount).apply();
             return false;
         } else {
             return true;
@@ -78,7 +78,7 @@ public class RateDialog {
         remindMeLaterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //sharedPreferences.edit().putInt(DIALOG_LAUNCH_TIMES, 0).apply();
+                //sharedPreferences.edit().putInt(DIALOG_LAUNCH_TIMES_KEY, 0).apply();
                 dialog.dismiss();
             }
         });
@@ -86,7 +86,7 @@ public class RateDialog {
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                sharedPreferences.edit().putInt(DIALOG_LAUNCH_TIMES, 0).apply();
+                sharedPreferences.edit().putInt(DIALOG_LAUNCH_TIMES_KEY, 0).apply();
             }
         });
 

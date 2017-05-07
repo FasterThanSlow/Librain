@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.greenkey.librain">
 
     <!-- To access Google+ APIs: -->
+    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,9 +14,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".campaign.CampaignGameActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".mainmenu.MainMenuActivity"
             android:screenOrientation="portrait">
@@ -24,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".campaign.CampaignMenuActivity"
             android:parentActivityName=".mainmenu.MainMenuActivity"
@@ -32,16 +37,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.greenkey.librain.mainmenu.MainMenuActivity" />
         </activity>
+
         <activity
             android:name=".tutorial.TutorialActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".rating.RatingGameActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".training.TrainingMenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".training.TrainingGameActivity"></activity>
+
+        <activity
+            android:name=".training.TrainingGameActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>
