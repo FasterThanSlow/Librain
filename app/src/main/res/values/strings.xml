@@ -19,12 +19,13 @@
     <string name="main_menu_start_advice_title">Советы</string>
     <string name="main_menu_start_training_title">Тренировка</string>
 
-    <string name="main_menu_start_campaign_description">Данный режим игры предназначен для начинающих. Развивайте свою память, выполняя интерактивные задания. В качестве вознаграждения за пройденный уровень получайте звезды.</string>
-    <string name="main_menu_start_raiting_description">Данный режим игры предназначен для начинающих. Проверьте свою память и сравните показатели с другими игроками. Станьте самым внимательным.</string>
-    <string name="main_menu_start_sprint_description">Данный режим игры предназначен для продвинутых. Развивайте свою скоростную память используя ограничения во времени.</string>
+    <string name="main_menu_start_campaign_description">Развивайте свою память, проходя разнообразные уровни. В качестве вознаграждения за пройденный уровень получайте звезды.</string>
+    <string name="main_menu_start_raiting_description">Проверьте себя и свою память в сравнении с другими пользователями приложения.</string>
+    <string name="main_menu_start_sprint_description">Развивайте скоростную память благодаря ограничению во времени. Сравивайте свои показатели с другими пользователями.</string>
     <string name="main_menu_start_advice_description">Читайте информацию, позволяющую вам выработать навыки, которые помогут быстрее и эффективнее развивать память.</string>
-    <string name="main_menu_start_training_description">Данный режим предназначен для начинающих. Закрепляйте полученные навыки, корректируя правила игры под себя.</string>
-    <string name="main_menu_play">Play</string>
+    <string name="main_menu_start_training_description">Выработайте свой личный тренинг и развивайте свою память еще быстрее.</string>
+    <string name="main_menu_play">Играть</string>
+    <string name="main_menu_activate">Активировать</string>
 
 
     <!-- Tutorial -->
@@ -67,7 +68,7 @@
 
     <string name="game_round_1_description">Отобразите расположение фигур</string>
     <string name="game_round_2_description">Совместите оба расположения</string>
-    <string name="game_round_3_description">Отобразите указанное расположение</string>
+    <string name="game_round_3_description">Отобразите одно расположение</string>
 
 
     <!-- Rate app dialog -->

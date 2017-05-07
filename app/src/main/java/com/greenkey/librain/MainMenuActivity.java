@@ -26,7 +26,7 @@ public class MainMenuActivity extends AppCompatActivity {
         final LevelDao levelDao = LevelDao.getInstance(MainMenuActivity.this);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainMenuActivity.this);
 
-        final Button startCampaignButton = (Button) findViewById(R.id.main_start_campaign_button);
+        final TextView startCampaignButton = (TextView) findViewById(R.id.main_start_campaign_button);
         startCampaignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
         final TextView campaignStarsCountTextView = (TextView) findViewById(R.id.main_stars_count_text_view);
         campaignStarsCountTextView.setText(String.valueOf(levelDao.getCompletedStarCount()));
 
-        final Button startRatingGameButton = (Button) findViewById(R.id.main_start_rating_game_button);
+        final TextView startRatingGameButton = (TextView) findViewById(R.id.main_start_rating_game_button);
         startRatingGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        final Button startTrainingButton = (Button) findViewById(R.id.main_start_training_button);
+        final TextView startTrainingButton = (TextView) findViewById(R.id.main_start_training_button);
         startTrainingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
