@@ -59,10 +59,16 @@
     <string name="training_previous">Previous</string>
 
 
+    <!-- Rating Game -->
+    <string name="rating_game_stage">Stage %1$d</string>
+
+
+
     <!-- Premium Dialog -->
     <string name="premium_dialog_title">Premium</string>
 
-
+    <string name="premium_success_message">You\'ve bought premium access</string>
+    <string name="premium_error_message">Error</string>
 
     <!-- Tutorial Dialog -->
     <string name="tutorial_dialog_title">Tutorial</string>

@@ -44,12 +44,10 @@ public class RatingGameActivity extends AppCompatActivity {
     private View blackoutView;
     private View bottomBlackoutView;
 
-    private RatingBar livesRatingBar;
-    private TextView stageNumberTextView;
+    private RatingBar headerLivesRatingBar;
+    private TextView headerTitleTextView;
 
-    private View stageView;
-    private TextView stageTitleTextView;
-    private TextView stageDescriptionTextView;
+    private TextView stageNumberTextView;
 
     private ImageView answerResultImageView;
 
@@ -80,39 +78,43 @@ public class RatingGameActivity extends AppCompatActivity {
         blackoutView = findViewById(R.id.blackout_view);
         bottomBlackoutView = findViewById(R.id.bottom_blackout_view);
 
-        stageView = findViewById(R.id.rating_game_stage_view);
-        stageTitleTextView = (TextView) stageView.findViewById(R.id.rating_game_stage_title_text_View);
-        stageDescriptionTextView = (TextView) stageView.findViewById(R.id.rating_game_stage_description_text_View);
+        stageNumberTextView = (TextView) findViewById(R.id.rating_game_stage_title_text_View);
 
-        livesRatingBar = (RatingBar) findViewById(R.id.rating_game_lives_rating_bar);
-        stageNumberTextView = (TextView) findViewById(R.id.rating_game_stage_number_text_view);
+        headerLivesRatingBar = (RatingBar) findViewById(R.id.rating_bar);
+        headerTitleTextView = (TextView) findViewById(R.id.header_title_text_view);
 
         answerResultImageView = (ImageView) findViewById(R.id.rating_game_answer_result_image_view);
 
-        startStageAnimator = ObjectAnimator.ofFloat(stageView, View.ALPHA, 0.0f, 1.0f);
+        startStageAnimator = ObjectAnimator.ofFloat(stageNumberTextView, View.ALPHA, 0.0f, 1.0f);
         startStageAnimator.setDuration(STAGE_ANIMATION_DURATION);
         startStageAnimator.addListener(startStageAnimatorListener);
 
-        endStageAnimator = ObjectAnimator.ofFloat(stageView, View.ALPHA, 0.0f, 1.0f);
+        endStageAnimator = ObjectAnimator.ofFloat(stageNumberTextView, View.ALPHA, 0.0f, 1.0f);
         endStageAnimator.setDuration(STAGE_ANIMATION_DURATION);
         endStageAnimator.addListener(endStageAnimatorListener);
 
         boardView.setOnTouchListener(boardTouchListener); // Нажатие за пределами полей
         checkResultButton.setOnClickListener(checkResultOnClickListener);
 
+        final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
+        restartButton.setOnClickListener(restartOnClickListener);
+
         reset();
     }
 
     private void reset() {
         stageNumber = DEFAULT_STAGE_NUMBER;
-        stageNumberTextView.setText(String.valueOf(stageNumber));
+        headerTitleTextView.setText(getString(R.string.rating_game_stage, stageNumber));
 
-        livesRatingBar.setProgress(DEFAULT_LIVES_COUNT);
+        headerLivesRatingBar.setProgress(DEFAULT_LIVES_COUNT);
 
-        stageView.setVisibility(View.INVISIBLE);
+        answerResultImageView.setVisibility(View.INVISIBLE);
+        stageNumberTextView.setVisibility(View.INVISIBLE);
+
         distributorView.setVisibility(View.INVISIBLE);
 
         checkResultButton.setVisibility(View.INVISIBLE);
+
         blackoutView.setVisibility(View.INVISIBLE);
         bottomBlackoutView.setVisibility(View.INVISIBLE);
     }
@@ -141,8 +143,8 @@ public class RatingGameActivity extends AppCompatActivity {
             blackoutView.setVisibility(View.INVISIBLE);
             bottomBlackoutView.setVisibility(View.INVISIBLE);
 
-            stageView.setVisibility(View.VISIBLE);
-            stageTitleTextView.setText("Волна " + (stageNumber));
+            stageNumberTextView.setVisibility(View.VISIBLE);
+            stageNumberTextView.setText(getString(R.string.rating_game_stage, stageNumber));
 
             boardView.setItemsOnTouchListener(null);
             distributorView.setItemsOnTouchListener(null);
@@ -157,7 +159,7 @@ public class RatingGameActivity extends AppCompatActivity {
         public void onAnimationEnd(Animator animation) {
             if ( ! isAnimationPaused) {
 
-                stageView.setVisibility(View.INVISIBLE);
+                stageNumberTextView.setVisibility(View.INVISIBLE);
                 boardView.setVisibility(View.VISIBLE);
 
                 gameStage = Generator.createRatingStage(stageNumber);
@@ -188,7 +190,7 @@ public class RatingGameActivity extends AppCompatActivity {
 
             isAnimationPaused = false;
 
-            stageView.setVisibility(View.INVISIBLE);
+            stageNumberTextView.setVisibility(View.INVISIBLE);
             boardView.setVisibility(View.INVISIBLE);
             checkResultButton.setVisibility(View.INVISIBLE);
 
@@ -217,14 +219,14 @@ public class RatingGameActivity extends AppCompatActivity {
 
                     startStageAnimator.start();
                 } else {
-                    int livesCount = livesRatingBar.getProgress();
+                    int livesCount = headerLivesRatingBar.getProgress();
                     if (livesCount == 1) {
                         finish();
                     } else {
                         startStageAnimator.start();
                     }
 
-                    livesRatingBar.setProgress(livesCount - 1);
+                    headerLivesRatingBar.setProgress(livesCount - 1);
                 }
             }
         }
@@ -309,6 +311,34 @@ public class RatingGameActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             endStageAnimator.start();
+        }
+    };
+
+    private View.OnClickListener restartOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View restartButton) {
+            restartButton.setClickable(false);
+
+            if (startStageAnimator.isRunning()) {
+                startStageAnimator.cancel();
+            } else if (showBoardItemsRunnable.isRunning()) {
+                showBoardItemsRunnable.cancel();
+            } else if (endStageAnimator.isRunning()) {
+                endStageAnimator.cancel();
+            }
+
+            reset();
+
+            startStageAnimator.start();
+
+            restartButton.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (restartButton != null) {
+                        restartButton.setClickable(true);
+                    }
+                }
+            }, 1000);
         }
     };
 

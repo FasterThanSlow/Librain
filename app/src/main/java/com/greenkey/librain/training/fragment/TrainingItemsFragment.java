@@ -3,6 +3,7 @@ package com.greenkey.librain.training.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,14 @@ public class TrainingItemsFragment extends Fragment {
             rowCount = getArguments().getInt(ROW_COUNT_KEY);
             typeCount = getArguments().getInt(TYPE_COUNT);
             itemCount = getArguments().getInt(ITEM_COUNT);
+
+            Log.d("TrainingTest", "item count " + itemCount);
+
+            if (columnCount * rowCount < itemCount) {
+                Log.d("TrainingTest", "Поле больше чем нужно");
+                itemCount = MINIMUM_ITEM_COUNt;
+                typeCount = 1;
+            }
         }
     }
 
@@ -118,9 +127,11 @@ public class TrainingItemsFragment extends Fragment {
         selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
 
         itemCountTextView = (TextView) parentView.findViewById(R.id.training_level_item_count_text_view);
+        itemCountTextView.setText(String.valueOf(itemCount));
 
         itemCountSeekBar = (SeekBar) parentView.findViewById(R.id.training_level_item_count_seek_bar);
         itemCountSeekBar.setMax(rowCount * columnCount - MINIMUM_ITEM_COUNt);
+        itemCountSeekBar.setProgress(itemCount - MINIMUM_ITEM_COUNt);
         itemCountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -137,7 +148,6 @@ public class TrainingItemsFragment extends Fragment {
                 resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
             }
         });
-        itemCountSeekBar.setProgress(itemCount - MINIMUM_ITEM_COUNt);
 
         resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
 
@@ -147,7 +157,6 @@ public class TrainingItemsFragment extends Fragment {
     private View.OnClickListener itemTypesCountOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View item) {
-            //if (itemCount >= Integer.valueOf(((TextView) item).getText().toString())) {
             selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
 
             selectedTypeCountTextView = (TextView) item;
@@ -156,11 +165,12 @@ public class TrainingItemsFragment extends Fragment {
             typeCount = Integer.valueOf(selectedTypeCountTextView.getText().toString());
 
             resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
-            //}
         }
     };
 
     private void setItemCount(int itemCount) {
+        Log.d("TrainingTest", "itemCount " + itemCount);
+
         this.itemCount = itemCount;
         itemCountTextView.setText(String.valueOf(itemCount));
 

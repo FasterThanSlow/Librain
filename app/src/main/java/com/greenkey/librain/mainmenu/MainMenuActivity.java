@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenkey.librain.MyApplication;
-import com.greenkey.librain.PremiumDialog;
+import com.greenkey.librain.PremiumHelper;
 import com.greenkey.librain.R;
 import com.greenkey.librain.RateDialog;
 import com.greenkey.librain.rating.RatingGameActivity;
@@ -34,52 +34,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private static final String TUTORIAL_COMPLETED_KEY = "tutorial_completed_key";
     private static final boolean TUTORIAL_COMPLETED_DEFAULT_VALUE = false;
 
-    private static final String PREMIUM_USER_SKU = "com.greenkey.premium";
-
-    private final ActivityCheckout checkout = Checkout.forActivity(this, MyApplication.get().getBilling());
-    private Inventory inventory;
-
-    private boolean isPremiumUser;
-
-    private class PurchaseListener extends EmptyRequestListener<Purchase> {
-        @Override
-        public void onSuccess(@Nonnull Purchase result) {
-            Log.d("BILLING_TEST", "PurchaseListenerOnSuccess");
-
-            isPremiumUser = true;
-
-            Toast.makeText(MainMenuActivity.this, "You've bought the premium!", Toast.LENGTH_LONG).show();
-
-            super.onSuccess(result);
-        }
-
-        @Override
-        public void onError(int response, @Nonnull Exception e) {
-            Log.d("BILLING_TEST", "PurchaseListenerOnError");
-
-            Toast.makeText(MainMenuActivity.this, "Error!", Toast.LENGTH_LONG).show();
-
-            super.onError(response, e);
-        }
-    }
-
-    private class InventoryCallback implements Inventory.Callback {
-        @Override
-        public void onLoaded(@Nonnull Inventory.Products products) {
-            Log.d("BILLING_TEST", "InventoryCallbackOnLoaded");
-
-            final Inventory.Product product = products.get(ProductTypes.IN_APP);
-            if ( ! product.supported) {
-                Log.d("BILLING_TEST", "InventoryCallbackOnLoaded isNotSupported");
-
-                isPremiumUser = false;
-                return;
-            }
-
-            Log.d("BILLING_TEST", "InventoryCallbackOnLoaded isSupported");
-            isPremiumUser = product.isPurchased(PREMIUM_USER_SKU);
-        }
-    }
+    private ActivityCheckout checkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,30 +44,35 @@ public class MainMenuActivity extends AppCompatActivity {
         final LevelDao levelDao = LevelDao.getInstance(MainMenuActivity.this);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainMenuActivity.this);
 
+        checkout = Checkout.forActivity(this, MyApplication.getInstance().getBilling());
         checkout.start();
+        checkout.loadInventory(Inventory.Request.create().
+                loadAllPurchases(), new Inventory.Callback() {
+            @Override
+            public void onLoaded(@Nonnull Inventory.Products products) {
+                final Inventory.Product product = products.get(ProductTypes.IN_APP);
+                if ( ! product.supported) {
+                    return;
+                }
 
-        inventory = checkout.makeInventory();
-        inventory.load(Inventory.Request.create()
-                .loadAllPurchases()
-                .loadSkus(ProductTypes.IN_APP, PREMIUM_USER_SKU), new InventoryCallback());
+                boolean isPremiumUser = product.isPurchased(PremiumHelper.PREMIUM_USER_SKU);
+                if (isPremiumUser) {
+
+                }
+
+                PremiumHelper.setIsPremiumUser(isPremiumUser);
+            }
+        });
 
         final View vdimZaeb = findViewById(R.id.sprint_vdim_zaebal_view);
+        Log.d("BillingTest", "KNOPKA");
         vdimZaeb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPremiumUser) {
-
+                if (PremiumHelper.isPremiumUser()) {
                     Toast.makeText(MainMenuActivity.this, "You are premium user yet!", Toast.LENGTH_LONG).show();
-
                 } else {
-                    PremiumDialog premiumDialog = new PremiumDialog(MainMenuActivity.this);
-                    premiumDialog.setBuyOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //checkout.createPurchaseFlow(new PurchaseListener());
-                            checkout.startPurchaseFlow(ProductTypes.IN_APP, PREMIUM_USER_SKU, null, new PurchaseListener());
-                        }
-                    });
+                    PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(MainMenuActivity.this, checkout);
                     premiumDialog.show();
                 }
             }

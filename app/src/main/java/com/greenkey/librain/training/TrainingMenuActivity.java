@@ -183,6 +183,8 @@ public class TrainingMenuActivity extends AppCompatActivity implements
 
     @Override
     public void onItemsFragmentNext(int itemTypeCount, int itemCount, int[] items) {
+        this.itemCount = itemCount;
+        this.itemTypeCount = itemTypeCount;
         this.items = items;
 
         sharedPreferences.edit()
