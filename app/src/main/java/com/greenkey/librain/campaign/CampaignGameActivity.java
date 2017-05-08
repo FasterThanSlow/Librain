@@ -862,8 +862,6 @@ public class CampaignGameActivity extends AppCompatActivity {
                                     startRoundAnimator.start();
                                 }
                             });
-
-
                         } else {
                             nextImageView.setBackgroundResource(R.drawable.dialog_green_background_shape);
                             nextImageView.setImageResource(R.drawable.premium_dialog_buy_icon);
@@ -899,6 +897,18 @@ public class CampaignGameActivity extends AppCompatActivity {
                                 }
                             });
                         }
+                    } else {
+                        nextImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                resultDialog.dismiss();
+
+                                setCurrentLevel(unlockedLevel);
+                                resetLevelProgress();
+
+                                startRoundAnimator.start();
+                            }
+                        });
                     }
                 } else {
                     nextImageView.setVisibility(View.GONE);
