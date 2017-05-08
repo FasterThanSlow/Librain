@@ -3,6 +3,7 @@ package com.greenkey.librain.campaign;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.greenkey.librain.MyApplication;
+import com.greenkey.librain.PremiumHelper;
 import com.greenkey.librain.R;
 import com.greenkey.librain.dao.LevelDao;
 import com.greenkey.librain.entity.ItemType;
@@ -28,7 +32,13 @@ import com.greenkey.librain.view.ratingbar.RatingBar;
 import com.greenkey.librain.view.boardview.BoardView;
 import com.greenkey.librain.view.distributorview.DistributorView;
 
+import org.solovyev.android.checkout.ActivityCheckout;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Purchase;
+
 import java.util.Arrays;
+
+import javax.annotation.Nonnull;
 
 public class CampaignGameActivity extends AppCompatActivity {
 
@@ -43,6 +53,8 @@ public class CampaignGameActivity extends AppCompatActivity {
     private int currentRound;
 
     private LevelDao levelDao;
+
+    private ActivityCheckout checkout;
 
     private Level currentLevel;
 
@@ -90,11 +102,13 @@ public class CampaignGameActivity extends AppCompatActivity {
     private int boardViewWidth;
     private int boardItemViewWidth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
+
+        checkout = Checkout.forActivity(this, MyApplication.getInstance().getBilling());
+        checkout.start();
 
         levelDao = LevelDao.getInstance(CampaignGameActivity.this);
 
@@ -139,6 +153,18 @@ public class CampaignGameActivity extends AppCompatActivity {
 
         final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
         restartButton.setOnClickListener(restartOnClickListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        checkout.stop();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        checkout.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setCurrentLevel(Level level) {
@@ -241,13 +267,9 @@ public class CampaignGameActivity extends AppCompatActivity {
             } else {
                 if (currentPlayTime < showTime) {
 
-                    //if ( ! isPaused) {
-                        currentPlayTime += DEFAULT_DELAY;
+                    currentPlayTime += DEFAULT_DELAY;
 
-                        isRunning = true;
-                    //} else {
-                    //    isRunning = false;
-                    //}
+                    isRunning = true;
 
                     handler.postDelayed(this, DEFAULT_DELAY);
                 } else {
@@ -767,37 +789,112 @@ public class CampaignGameActivity extends AppCompatActivity {
         }
 
         final ImageView nextImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_next_image_view);
+        nextImageView.setBackgroundResource(R.drawable.dialog_orange_background_shape);
+        nextImageView.setImageResource(R.drawable.result_dialog_next_icon);
+
         final Level nextLevel = levelDao.getLevel(levelId + 1);
         if (nextLevel == null) {
             nextImageView.setVisibility(View.GONE);
         } else {
             if (nextLevel.isEnabled()) {
-                nextImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        resultDialog.dismiss();
-
-                        setCurrentLevel(nextLevel);
-                        resetLevelProgress();
-
-                        startRoundAnimator.start();
-                    }
-                });
-            } else {
-                if (currentScore > 0) {
-                    final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
-
+                if (PremiumHelper.isPremiumUser()) {
                     nextImageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             resultDialog.dismiss();
 
-                            setCurrentLevel(unlockedLevel);
+                            setCurrentLevel(nextLevel);
                             resetLevelProgress();
 
                             startRoundAnimator.start();
                         }
                     });
+                } else {
+                    nextImageView.setBackgroundResource(R.drawable.dialog_green_background_shape);
+                    nextImageView.setImageResource(R.drawable.premium_dialog_buy_icon);
+                    nextImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            resultDialog.dismiss();
+
+                            PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
+                            premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
+                                @Override
+                                public void onSuccess(@Nonnull Purchase result) {
+                                    super.onSuccess(result);
+
+                                    Toast.makeText(CampaignGameActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
+
+                                    setCurrentLevel(nextLevel);
+                                    resetLevelProgress();
+
+                                    startRoundAnimator.start();
+                                }
+
+                                @Override
+                                public void onError(int response, @Nonnull Exception e) {
+                                    super.onError(response, e);
+
+                                    Toast.makeText(CampaignGameActivity.this, R.string.premium_error_message, Toast.LENGTH_LONG).show();
+
+                                    showResultDialog();
+                                }
+                            });
+                            premiumDialog.show();
+                        }
+                    });
+                }
+            } else {
+                if (currentScore > 0) {
+                    final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
+
+                    if (PremiumHelper.isPremiumUser()) {
+                        nextImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                resultDialog.dismiss();
+
+                                setCurrentLevel(unlockedLevel);
+                                resetLevelProgress();
+
+                                startRoundAnimator.start();
+                            }
+                        });
+                    } else {
+                        nextImageView.setBackgroundResource(R.drawable.dialog_green_background_shape);
+                        nextImageView.setImageResource(R.drawable.premium_dialog_buy_icon);
+                        nextImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                resultDialog.dismiss();
+
+                                PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
+                                premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
+                                    @Override
+                                    public void onSuccess(@Nonnull Purchase result) {
+                                        super.onSuccess(result);
+
+                                        Toast.makeText(CampaignGameActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
+
+                                        setCurrentLevel(unlockedLevel);
+                                        resetLevelProgress();
+
+                                        startRoundAnimator.start();
+                                    }
+
+                                    @Override
+                                    public void onError(int response, @Nonnull Exception e) {
+                                        super.onError(response, e);
+
+                                        Toast.makeText(CampaignGameActivity.this, R.string.premium_error_message, Toast.LENGTH_LONG).show();
+
+                                        showResultDialog();
+                                    }
+                                });
+                                premiumDialog.show();
+                            }
+                        });
+                    }
                 } else {
                     nextImageView.setVisibility(View.GONE);
                 }
