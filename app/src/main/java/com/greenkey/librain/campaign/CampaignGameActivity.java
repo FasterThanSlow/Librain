@@ -849,18 +849,6 @@ public class CampaignGameActivity extends AppCompatActivity {
                     final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
 
                     if (PremiumHelper.isPremiumUser()) {
-                        nextImageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                resultDialog.dismiss();
-
-                                setCurrentLevel(unlockedLevel);
-                                resetLevelProgress();
-
-                                startRoundAnimator.start();
-                            }
-                        });
-                    } else {
                         nextImageView.setBackgroundResource(R.drawable.dialog_green_background_shape);
                         nextImageView.setImageResource(R.drawable.premium_dialog_buy_icon);
                         nextImageView.setOnClickListener(new View.OnClickListener() {
@@ -892,6 +880,18 @@ public class CampaignGameActivity extends AppCompatActivity {
                                     }
                                 });
                                 premiumDialog.show();
+                            }
+                        });
+                    } else {
+                        nextImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                resultDialog.dismiss();
+
+                                setCurrentLevel(unlockedLevel);
+                                resetLevelProgress();
+
+                                startRoundAnimator.start();
                             }
                         });
                     }

@@ -46,7 +46,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
         checkout = Checkout.forActivity(this, MyApplication.getInstance().getBilling());
         checkout.start();
-        checkout.loadInventory(Inventory.Request.create().
+
+        Inventory inventory = checkout.loadInventory(Inventory.Request.create().
                 loadAllPurchases(), new Inventory.Callback() {
             @Override
             public void onLoaded(@Nonnull Inventory.Products products) {
@@ -63,6 +64,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 PremiumHelper.setIsPremiumUser(isPremiumUser);
             }
         });
+
+        inventory.cancel();
 
         final View vdimZaeb = findViewById(R.id.sprint_vdim_zaebal_view);
         Log.d("BillingTest", "KNOPKA");
