@@ -797,58 +797,20 @@ public class CampaignGameActivity extends AppCompatActivity {
             nextImageView.setVisibility(View.GONE);
         } else {
             if (nextLevel.isEnabled()) {
-                if (PremiumHelper.isPremiumUser()) {
-                    nextImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            resultDialog.dismiss();
-
-                            setCurrentLevel(nextLevel);
-                            resetLevelProgress();
-
-                            startRoundAnimator.start();
-                        }
-                    });
-                } else {
-                    nextImageView.setBackgroundResource(R.drawable.dialog_green_background_shape);
-                    nextImageView.setImageResource(R.drawable.premium_dialog_buy_icon);
-                    nextImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            resultDialog.dismiss();
-
-                            PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
-                            premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
-                                @Override
-                                public void onSuccess(@Nonnull Purchase result) {
-                                    super.onSuccess(result);
-
-                                    Toast.makeText(CampaignGameActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
-
-                                    setCurrentLevel(nextLevel);
-                                    resetLevelProgress();
-
-                                    startRoundAnimator.start();
-                                }
-
-                                @Override
-                                public void onError(int response, @Nonnull Exception e) {
-                                    super.onError(response, e);
-
-                                    Toast.makeText(CampaignGameActivity.this, R.string.premium_error_message, Toast.LENGTH_LONG).show();
-
-                                    showResultDialog();
-                                }
-                            });
-                            premiumDialog.show();
-                        }
-                    });
-                }
-            } else {
-                if (currentScore > 0) {
-                    final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
-
+                if (nextLevel.isPremium()) {
                     if (PremiumHelper.isPremiumUser()) {
+                        nextImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                resultDialog.dismiss();
+
+                                setCurrentLevel(nextLevel);
+                                resetLevelProgress();
+
+                                startRoundAnimator.start();
+                            }
+                        });
+                    } else {
                         nextImageView.setBackgroundResource(R.drawable.dialog_green_background_shape);
                         nextImageView.setImageResource(R.drawable.premium_dialog_buy_icon);
                         nextImageView.setOnClickListener(new View.OnClickListener() {
@@ -864,7 +826,7 @@ public class CampaignGameActivity extends AppCompatActivity {
 
                                         Toast.makeText(CampaignGameActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
 
-                                        setCurrentLevel(unlockedLevel);
+                                        setCurrentLevel(nextLevel);
                                         resetLevelProgress();
 
                                         startRoundAnimator.start();
@@ -882,18 +844,61 @@ public class CampaignGameActivity extends AppCompatActivity {
                                 premiumDialog.show();
                             }
                         });
-                    } else {
-                        nextImageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                resultDialog.dismiss();
+                    }
+                }
+            } else {
+                if (currentScore > 0) {
+                    final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
+                    if (unlockedLevel.isPremium()) {
+                        if (PremiumHelper.isPremiumUser()) {
+                            nextImageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    resultDialog.dismiss();
 
-                                setCurrentLevel(unlockedLevel);
-                                resetLevelProgress();
+                                    setCurrentLevel(unlockedLevel);
+                                    resetLevelProgress();
 
-                                startRoundAnimator.start();
-                            }
-                        });
+                                    startRoundAnimator.start();
+                                }
+                            });
+
+
+                        } else {
+                            nextImageView.setBackgroundResource(R.drawable.dialog_green_background_shape);
+                            nextImageView.setImageResource(R.drawable.premium_dialog_buy_icon);
+                            nextImageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    resultDialog.dismiss();
+
+                                    PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
+                                    premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
+                                        @Override
+                                        public void onSuccess(@Nonnull Purchase result) {
+                                            super.onSuccess(result);
+
+                                            Toast.makeText(CampaignGameActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
+
+                                            setCurrentLevel(unlockedLevel);
+                                            resetLevelProgress();
+
+                                            startRoundAnimator.start();
+                                        }
+
+                                        @Override
+                                        public void onError(int response, @Nonnull Exception e) {
+                                            super.onError(response, e);
+
+                                            Toast.makeText(CampaignGameActivity.this, R.string.premium_error_message, Toast.LENGTH_LONG).show();
+
+                                            showResultDialog();
+                                        }
+                                    });
+                                    premiumDialog.show();
+                                }
+                            });
+                        }
                     }
                 } else {
                     nextImageView.setVisibility(View.GONE);
