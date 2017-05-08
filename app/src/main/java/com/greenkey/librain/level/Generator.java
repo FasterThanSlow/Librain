@@ -105,34 +105,39 @@ public class Generator {
             rowCount = 3;
             columnCount = 3;
         }
-        else if(itemsCount < 12){
+        else if(itemsCount < 13){
             rowCount = 4;
             columnCount = 4;
-            itemsCount-=1;
         }
         else{
             rowCount = 5;
             columnCount = 5;
-            itemsCount-=2;
         }
 
 
         if(itemsCount < 7){
             items = new int[] {itemsCount};
         }
-        else if(itemsCount < 12){
+        else if(itemsCount < 15){
             int firstTypeCount;
             int secondTypeCount;
 
             if(itemsCount % 2 == 0){
-                firstTypeCount = itemsCount / 2;
+                if (itemsCount > 9)
+                    firstTypeCount = itemsCount / 2 - 3;
+                else
+                    firstTypeCount = itemsCount / 2 - 2;
             }
             else
             {
-                firstTypeCount = itemsCount / 2 + 1;
+                if (itemsCount > 9)
+                    firstTypeCount = itemsCount / 2 - 3 + 1;
+                else
+                    firstTypeCount = itemsCount / 2 - 2 + 1;
             }
 
-            secondTypeCount = itemsCount / 2;
+
+            secondTypeCount = itemsCount / 2 - 2;
             items = new int[] {firstTypeCount, secondTypeCount};
         }
         else{
@@ -142,19 +147,19 @@ public class Generator {
 
             switch (itemsCount % 3){
                 case 2:
-                    firstTypeCount = itemsCount / 3 + 1;
-                    secondTypeCount = itemsCount / 3 + 1;
-                    thirdTypeCount = itemsCount / 3;
+                    firstTypeCount = itemsCount / 3 - 3 + 1;
+                    secondTypeCount = itemsCount / 3  - 3 + 1;
+                    thirdTypeCount = itemsCount / 3 - 3;
                     break;
                 case 1:
-                    firstTypeCount = itemsCount / 3 + 1;
-                    secondTypeCount = itemsCount / 3;
-                    thirdTypeCount = itemsCount / 3;
+                    firstTypeCount = itemsCount / 3 - 3 + 1;
+                    secondTypeCount = itemsCount / 3 - 3;
+                    thirdTypeCount = itemsCount / 3 - 3;
                     break;
                 default:
-                    firstTypeCount = itemsCount / 3;
-                    secondTypeCount = itemsCount / 3;
-                    thirdTypeCount = itemsCount / 3;
+                    firstTypeCount = itemsCount / 3 - 3;
+                    secondTypeCount = itemsCount / 3 - 3;
+                    thirdTypeCount = itemsCount / 3 - 3;
                     break;
             }
 
