@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="campaign_item_size">65dp</dimen>
+    <dimen name="campaign_item_size">60dp</dimen>
 
     <dimen name="game_item_size">60dp</dimen>
 </resources>

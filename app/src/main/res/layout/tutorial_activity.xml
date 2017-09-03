@@ -10,7 +10,7 @@
 
     android:orientation="vertical"
 
-    tools:context="com.greenkey.librain.tutorial.TutorialActivity">
+    tools:context="com.greenkeycompany.librain.tutorial.TutorialActivity">
 
     <FrameLayout
         android:background="@color/header_background_color"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <com.greenkey.librain.view.boardview.BoardView
+        <com.greenkeycompany.librain.view.boardview.BoardView
             android:id="@+id/tutorial_board_view"
             android:gravity="center"
 
@@ -64,7 +64,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.greenkey.librain.view.boardview.BoardView>
+        </com.greenkeycompany.librain.view.boardview.BoardView>
 
         <FrameLayout
             android:id="@+id/tutorial_blackout_view"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.greenkey.librain.view.distributorview.DistributorView
+        <com.greenkeycompany.librain.view.distributorview.DistributorView
             android:id="@+id/tutorial_distributor_view"
 
             android:visibility="invisible"

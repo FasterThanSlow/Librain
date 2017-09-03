@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.greenkey.librain">
+    package="com.greenkeycompany.librain">
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.greenkeycompany.librain.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id" />
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
         <activity
-            android:name=".campaign.CampaignGameActivity"
+            android:name="com.greenkeycompany.librain.campaign.CampaignGameActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".mainmenu.MainMenuActivity"
+            android:name="com.greenkeycompany.librain.mainmenu.MainMenuActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,28 +35,24 @@
         </activity>
 
         <activity
-            android:name=".campaign.CampaignMenuActivity"
-            android:parentActivityName=".mainmenu.MainMenuActivity"
+            android:name="com.greenkeycompany.librain.campaign.CampaignMenuActivity"
+            android:parentActivityName="com.greenkeycompany.librain.mainmenu.MainMenuActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.greenkey.librain.mainmenu.MainMenuActivity" />
+                android:value="com.greenkeycompany.librain.mainmenu.MainMenuActivity" />
         </activity>
 
         <activity
-            android:name=".tutorial.TutorialActivity"
+            android:name="com.greenkeycompany.librain.rating.RatingGameActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".rating.RatingGameActivity"
+            android:name="com.greenkeycompany.librain.training.TrainingMenuActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".training.TrainingMenuActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".training.TrainingGameActivity"
+            android:name="com.greenkeycompany.librain.training.TrainingGameActivity"
             android:screenOrientation="portrait">
         </activity>
 

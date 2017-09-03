@@ -6,12 +6,11 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:orientation="vertical"
-
+    android:clipChildren="false"
     android:background="@color/background_color"
 
-    tools:context="com.greenkey.librain.campaign.CampaignGameActivity">
+    tools:context="com.greenkeycompany.librain.campaign.CampaignGameActivity"
+    android:orientation="vertical">
 
     <FrameLayout
         android:background="@color/header_background_color"
@@ -65,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.greenkey.librain.view.ratingbar.RatingBar
+            <com.greenkeycompany.librain.view.ratingbar.RatingBar
                 android:id="@+id/stars"
 
                 app:starsSrc="@drawable/game_rating_bar_star"
@@ -106,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <com.greenkey.librain.view.boardview.BoardView
+        <com.greenkeycompany.librain.view.boardview.BoardView
             android:id="@+id/board_view"
             android:gravity="center"
 
@@ -116,7 +115,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.greenkey.librain.view.boardview.BoardView>
+        </com.greenkeycompany.librain.view.boardview.BoardView>
 
         <FrameLayout
             android:id="@+id/tutorial_blackout_view"
@@ -127,9 +126,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.greenkey.librain.view.distributorview.DistributorView
+        <com.greenkeycompany.librain.view.distributorview.DistributorView
             android:id="@+id/hidden_stuff"
-
             android:visibility="invisible"
 
             android:layout_gravity="center"

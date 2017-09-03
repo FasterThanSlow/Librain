@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.greenkey.librain.training.fragment.TrainingRoundFragment">
+    tools:context="com.greenkeycompany.librain.training.fragment.TrainingRoundFragment">
 
     <FrameLayout
         android:background="@color/header_background_color"

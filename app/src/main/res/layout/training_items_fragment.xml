@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.greenkey.librain.training.fragment.TrainingItemsFragment">
+    tools:context="com.greenkeycompany.librain.training.fragment.TrainingItemsFragment">
 
     <FrameLayout
         android:background="@color/header_background_color"
@@ -56,7 +56,7 @@
         </LinearLayout>
     </FrameLayout>
 
-    <com.greenkey.librain.view.boardview.BoardView
+    <com.greenkeycompany.librain.view.boardview.BoardView
         android:id="@+id/board_view"
 
         app:item_size="@dimen/game_item_size"

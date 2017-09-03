@@ -38,7 +38,7 @@
             android:layout_width="@dimen/campaign_item_size"
             android:layout_height="@dimen/campaign_item_size" />
 
-        <com.greenkey.librain.view.ratingbar.RatingBar
+        <com.greenkeycompany.librain.view.ratingbar.RatingBar
             android:id="@+id/campaign_item_rating_bar"
 
             app:starsSrc="@drawable/campaign_item_star"
