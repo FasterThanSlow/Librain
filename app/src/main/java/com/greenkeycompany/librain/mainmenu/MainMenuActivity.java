@@ -2,6 +2,7 @@ package com.greenkeycompany.librain.mainmenu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.greenkeycompany.librain.MyApplication;
 import com.greenkeycompany.librain.PremiumHelper;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.RateDialog;
+import com.greenkeycompany.librain.campaign.CampaignMenuActivity;
 import com.greenkeycompany.librain.rating.RatingGameActivity;
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.training.TrainingMenuActivity;
@@ -34,7 +36,6 @@ import javax.annotation.Nonnull;
 public class MainMenuActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int REQUEST_LEADERBOARD = 300;
-    private static final java.lang.String LEADERBOARD_ID = "CgkIyvnk69YcEAIQAA";
     private ActivityCheckout checkout;
     private GoogleApiClient mGoogleApiClient;
 
@@ -76,35 +77,13 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
 
-
-        /* vdimZaeb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PremiumHelper.isPremiumUser()) {
-                    Toast.makeText(MainMenuActivity.this, "You are premium user yet!", Toast.LENGTH_LONG).show();
-                } else {
-                    PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(MainMenuActivity.this, checkout);
-                    premiumDialog.show();
-                }
-            }
-        });*/
-
-
-        final SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                mGoogleApiClient.connect();
-            }
-        });
-
         final TextView startCampaignButton = (TextView) findViewById(R.id.main_start_campaign_button);
         startCampaignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient,
-                        LEADERBOARD_ID), REQUEST_LEADERBOARD);
-                //startActivity(new Intent(MainMenuActivity.this, CampaignMenuActivity.class));
+                /*startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient,
+                        getString(R.string.leaderboard_librain_raiting)), REQUEST_LEADERBOARD);*/
+                startActivity(new Intent(MainMenuActivity.this, CampaignMenuActivity.class));
 
             }
         });
@@ -113,10 +92,19 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
         campaignStarsCountTextView.setText(String.valueOf(levelDao.getCompletedStarCount()));
 
         final TextView startRatingGameButton = (TextView) findViewById(R.id.main_start_rating_game_button);
+        if (PremiumHelper.isPremiumUser()) {
+            startRatingGameButton.setBackgroundResource(R.color.campaign_item_premium_disabled_background_color);
+            startRatingGameButton.setText(R.string.main_menu_activate);
+        }
         startRatingGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, RatingGameActivity.class));
+                if (PremiumHelper.isPremiumUser()) {
+                    startActivity(new Intent(MainMenuActivity.this, RatingGameActivity.class));
+                } else {
+                    PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(MainMenuActivity.this, checkout);
+                    premiumDialog.show();
+                }
             }
         });
 
@@ -135,6 +123,12 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
     protected void onDestroy() {
         checkout.stop();
         super.onDestroy();
@@ -148,7 +142,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Toast.makeText(this, "Google Services успешно подключён", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Google Play Services успешно подключён", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -158,6 +152,6 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, connectionResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ошибка с подключением Google Play Services", Toast.LENGTH_SHORT).show();
     }
 }

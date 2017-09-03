@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 public class PremiumHelper {
 
-    public static final String PREMIUM_USER_SKU = "com.greenkey.premium";
+    public static final String PREMIUM_USER_SKU = "com.greenkeycompany.premium";
 
     private static boolean isPremiumUser;
     public static boolean isPremiumUser() {

@@ -231,14 +231,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
 
-                        android:background="@color/green_button_color"
+                        android:background="@color/campaign_item_premium_disabled_stroke_color"
 
                         android:clickable="true"
                         android:gravity="center"
 
                         android:paddingBottom="6dp"
                         android:paddingTop="6dp"
-                        android:text="@string/main_menu_play"
+                        android:text="@string/main_menu_activate"
 
                         android:textAllCaps="true"
                         android:textColor="@color/green_button_text_color" />
@@ -292,12 +292,6 @@
 
                     android:paddingBottom="12dp"
                     android:paddingTop="8dp">
-
-
-                    <com.google.android.gms.common.SignInButton
-                        android:id="@+id/sign_in_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></com.google.android.gms.common.SignInButton>
 
                     <LinearLayout
                         android:layout_width="match_parent"
