@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.greenkeycompany.librain.MyApplication;
 import com.greenkeycompany.librain.PremiumHelper;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.RateDialog;
+import com.greenkeycompany.librain.advice.view.AdviceActivity;
 import com.greenkeycompany.librain.campaign.CampaignMenuActivity;
 import com.greenkeycompany.librain.rating.RatingGameActivity;
 import com.greenkeycompany.librain.dao.LevelDao;
@@ -33,17 +35,21 @@ import com.google.android.gms.games.Games;
 
 import javax.annotation.Nonnull;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainMenuActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int REQUEST_LEADERBOARD = 300;
     private ActivityCheckout checkout;
-    private GoogleApiClient mGoogleApiClient;
+    //private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_activity);
-
+        ButterKnife.bind(this);
 
         final LevelDao levelDao = LevelDao.getInstance(MainMenuActivity.this);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainMenuActivity.this);
@@ -71,11 +77,13 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
         inventory.cancel();
 
+        /*
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
+                */
 
         final TextView startCampaignButton = (TextView) findViewById(R.id.main_start_campaign_button);
         startCampaignButton.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +130,16 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
         }
     }
 
+    @OnClick(R.id.main_menu_advice_button)
+    public void onAdviceButtonClick() {
+        Log.d("onAdviceButtonClick", "onAdviceButtonClick");
+        startActivity(new Intent(MainMenuActivity.this, AdviceActivity.class));
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+       // mGoogleApiClient.connect();
     }
 
     @Override
@@ -147,7 +161,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
+        //mGoogleApiClient.connect();
     }
 
     @Override
