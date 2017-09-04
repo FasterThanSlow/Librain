@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
  * Created by Alexander on 08.05.2017.
  */
 
+@Deprecated
 public class PremiumHelper {
 
     public static final String PREMIUM_USER_SKU = "com.greenkeycompany.premium";

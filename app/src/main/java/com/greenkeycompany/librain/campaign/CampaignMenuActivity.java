@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.greenkeycompany.librain.MyApplication;
+import com.greenkeycompany.librain.app.App;
 import com.greenkeycompany.librain.PremiumHelper;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.dao.LevelDao;
@@ -52,7 +52,7 @@ public class CampaignMenuActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campaign_activity);
 
-        checkout = Checkout.forActivity(this, MyApplication.getInstance().getBilling());
+        checkout = Checkout.forActivity(this, App.get().getBilling());
         checkout.start();
 
         levelDao = LevelDao.getInstance(CampaignMenuActivity.this);
