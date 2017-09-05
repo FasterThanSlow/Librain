@@ -441,7 +441,7 @@
 
                         android:paddingBottom="6dp"
                         android:paddingTop="6dp"
-                        android:text="@string/main_menu_play"
+                        android:text="@string/main_menu_advice"
 
                         android:textAllCaps="true"
                         android:textColor="@color/green_button_text_color" />

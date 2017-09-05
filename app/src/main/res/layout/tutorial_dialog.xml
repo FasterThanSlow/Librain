@@ -14,7 +14,7 @@
 
         android:layout_marginBottom="16dp"
 
-        android:background="?attr/colorPrimary"
+        android:background="@color/header_background_color"
 
         android:gravity="center_horizontal"
 
