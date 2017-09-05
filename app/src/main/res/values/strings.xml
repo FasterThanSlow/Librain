@@ -100,5 +100,6 @@
     <string name="rate_app_dialog_remind_me_later">Напомнить позже</string>
     <string name="rate_app_dialog_rate_now">Оценить сейчас</string>
     <string name="tutorial_dialog_button_text">Перейти к уровням</string>
+    <string name="purchase_title">Получите премиум доступ</string>
 
 </resources>
