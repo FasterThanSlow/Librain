@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -64,7 +63,8 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            @BindView(R.id.advice_text_view) TextView adviceTextView;
+            @BindView(R.id.item_title_text_view) TextView titleTextView;
+            @BindView(R.id.item_message_text_view) TextView messageTextView;
 
             ViewHolder(View itemView) {
                 super(itemView);
@@ -90,7 +90,8 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
         public void onBindViewHolder(ViewHolder holder, int position) {
             Advice advice = items.get(position);
 
-            holder.adviceTextView.setText(advice.getText());
+            holder.titleTextView.setText(advice.getTitle());
+            holder.messageTextView.setText(advice.getMessage());
         }
 
         @Override

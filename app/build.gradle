@@ -7,8 +7,8 @@ android {
         applicationId "com.greenkeycompany.librain"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.0.5"
+        versionCode 8
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,12 +26,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
-
-
-
-
-
-
 
     compile 'org.solovyev.android:checkout:1.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'

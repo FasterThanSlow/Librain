@@ -58,7 +58,7 @@ public class PurchaseActivity extends AppCompatActivity {
 
             @Override
             public void onError(int response, @Nonnull Exception e) {
-                Toast.makeText(PurchaseActivity.this, "НЕ ПОВЕЗЛО!", Toast.LENGTH_LONG).show();
+                Toast.makeText(PurchaseActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

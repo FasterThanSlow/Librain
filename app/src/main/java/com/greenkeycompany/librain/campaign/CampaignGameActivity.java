@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenkeycompany.librain.app.App;
-import com.greenkeycompany.librain.PremiumHelper;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.entity.ItemType;
@@ -42,7 +41,7 @@ import javax.annotation.Nonnull;
 
 public class CampaignGameActivity extends AppCompatActivity {
 
-    private static final String LEVEL_PARAM = "level";
+    public static final String LEVEL_PARAM = "level";
 
     private static final int START_ROUND_ANIMATION_DURATION = 1500;
     private static final int END_ROUND_ANIMATION_DURATION = 1000;
@@ -168,7 +167,7 @@ public class CampaignGameActivity extends AppCompatActivity {
     }
 
     private void setCurrentLevel(Level level) {
-        levelId = level.getLevelId();
+        levelId = level.getId();
         levelNumberTextView.setText(String.valueOf(levelId));
 
         record = level.getRecord();
@@ -798,8 +797,10 @@ public class CampaignGameActivity extends AppCompatActivity {
         if (nextLevel == null) {
             nextImageView.setVisibility(View.GONE);
         } else {
+            /*
             if (nextLevel.isEnabled()) {
                 if (nextLevel.isPremium()) {
+
                     if (PremiumHelper.isPremiumUser()) {
                         nextImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -915,7 +916,7 @@ public class CampaignGameActivity extends AppCompatActivity {
                 } else {
                     nextImageView.setVisibility(View.GONE);
                 }
-            }
+            }*/
         }
 
 

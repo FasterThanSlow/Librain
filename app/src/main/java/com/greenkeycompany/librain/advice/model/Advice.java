@@ -7,14 +7,21 @@ package com.greenkeycompany.librain.advice.model;
 public class Advice {
 
     private boolean favorite;
-    private final String text;
 
-    public Advice(String text) {
-        this.text = text;
+    private final String title;
+    private final String message;
+
+    public Advice(String title, String message) {
+        this.title = title;
+        this.message = message;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public boolean isFavorite() {

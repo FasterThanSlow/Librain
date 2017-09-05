@@ -27,11 +27,12 @@ public class AdvicePresenter extends MvpBasePresenter<IAdviseView>
 
     @Override
     public void init() {
-        String[] adviceTextArray = context.getResources().getStringArray(R.array.advices_array);
+        String[] adviceTitleArray = context.getResources().getStringArray(R.array.advice_title_array);
+        String[] adviceMessageArray = context.getResources().getStringArray(R.array.advice_message_array);
 
-        adviceList = new ArrayList<>(adviceTextArray.length);
-        for (String advice : adviceTextArray) {
-            adviceList.add(new Advice(advice));
+        adviceList = new ArrayList<>(adviceTitleArray.length);
+        for (int i = 0; i < adviceTitleArray.length; i++) {
+            adviceList.add(new Advice(adviceTitleArray[i], adviceMessageArray[i]));
         }
 
         if (isViewAttached()) {

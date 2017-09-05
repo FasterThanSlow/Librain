@@ -15,7 +15,7 @@ import com.greenkeycompany.librain.app.PremiumUtil;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.RateDialog;
 import com.greenkeycompany.librain.advice.view.AdviceActivity;
-import com.greenkeycompany.librain.campaign.CampaignMenuActivity;
+import com.greenkeycompany.librain.campaign.menu.view.CampaignMenuActivity;
 import com.greenkeycompany.librain.purchase.PurchaseActivity;
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.training.TrainingMenuActivity;

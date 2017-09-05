@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class LevelsPage {
 
-    private final Level.LevelType levelType;
     private final ArrayList<Level> levels;
+    private final Level.LevelType levelType;
 
     public LevelsPage(Level.LevelType levelType, ArrayList<Level> levels) {
         this.levelType = levelType;

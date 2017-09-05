@@ -61,7 +61,6 @@ public class RateDialog {
             public void onClick(View v) {
                 context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName())));
                 sharedPreferences.edit().putBoolean(DONT_SHOW_AGAIN_KEY, true).apply();
-
                 dialog.dismiss();
             }
         });
@@ -71,7 +70,6 @@ public class RateDialog {
             @Override
             public void onClick(View v) {
                 sharedPreferences.edit().putBoolean(DONT_SHOW_AGAIN_KEY, true).apply();
-
                 dialog.dismiss();
             }
         });
@@ -80,7 +78,6 @@ public class RateDialog {
         remindMeLaterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //sharedPreferences.edit().putInt(DIALOG_LAUNCH_TIMES_KEY, 0).apply();
                 dialog.dismiss();
             }
         });

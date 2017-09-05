@@ -28,7 +28,7 @@ public class Level implements Parcelable {
         }
     }
 
-    private final int levelId;
+    private final int id;
 
     private int record;
     private boolean isEnabled;
@@ -40,8 +40,8 @@ public class Level implements Parcelable {
     private final Round secondRound;
     private final Round thirdRound;
 
-    public int getLevelId() {
-        return levelId;
+    public int getId() {
+        return id;
     }
 
     public int getRecord() {
@@ -80,13 +80,13 @@ public class Level implements Parcelable {
         this.record = record;
     }
 
-    public Level(int levelId,
+    public Level(int id,
                  @NonNull LevelType levelType,
                  @NonNull Round firstRound,
                  @NonNull Round secondRound,
                  @NonNull Round thirdRound) {
 
-        this.levelId = levelId;
+        this.id = id;
         this.levelType = levelType;
 
         this.firstRound = firstRound;
@@ -94,14 +94,14 @@ public class Level implements Parcelable {
         this.thirdRound = thirdRound;
     }
 
-    public Level(int levelId,
+    public Level(int id,
                  boolean isPremium,
                  @NonNull LevelType levelType,
                  @NonNull Round firstRound,
                  @NonNull Round secondRound,
                  @NonNull Round thirdRound) {
 
-        this.levelId = levelId;
+        this.id = id;
         this.isPremium = isPremium;
         this.levelType = levelType;
 
@@ -111,7 +111,7 @@ public class Level implements Parcelable {
     }
 
     public Level(Parcel in) {
-        this.levelId = in.readInt();
+        this.id = in.readInt();
 
         this.isPremium = in.readInt() == 1;
         this.levelType = LevelType.valueOf(in.readString());
@@ -126,7 +126,7 @@ public class Level implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(levelId);
+        dest.writeInt(id);
 
         dest.writeInt(isPremium ? 1 : 0);
         dest.writeString(levelType.name());
