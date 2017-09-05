@@ -10,7 +10,7 @@
     tools:context="com.greenkeycompany.librain.training.fragment.TrainingItemsFragment">
 
     <FrameLayout
-        android:background="@color/header_background_color"
+        android:background="?attr/colorPrimary"
 
         android:paddingLeft="16dp"
         android:paddingStart="16dp"

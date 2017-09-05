@@ -1,87 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
 
     android:layout_marginEnd="8dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginStart="8dp"
-    android:layout_marginTop="10dp"
 
-    card_view:cardBackgroundColor="@color/main_card_background_color"
-    card_view:cardCornerRadius="2dp"
-    card_view:cardElevation="4dp"
+    app:cardBackgroundColor="@color/main_card_background_color"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="4dp"
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:orientation="horizontal"
 
-        android:paddingEnd="12dp"
-        android:paddingLeft="12dp"
-        android:paddingTop="0dp"
-        android:paddingRight="12dp"
-        android:paddingStart="12dp">
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp">
 
+        <TextView
+            android:id="@+id/item_title_text_view"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:textColor="@color/main_card_text_color"
 
-            android:paddingBottom="12dp"
-            android:paddingTop="0dp">
+            tools:text="Title"
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            android:layout_marginTop="16dp"
 
-                <TextView
-                    android:id="@+id/item_title_text_view"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_menu_start_rating_title"
-                    android:textColor="@color/main_card_text_color"
-                    android:paddingTop="8dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-                <Space
-                    android:layout_width="0dp"
-                    android:paddingTop="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+        <ImageView
+            android:id="@+id/item_favorite_image_view"
 
-               <ImageView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/ic_lace"/>
-            </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            <View
-                android:layout_width="match_parent"
+            android:src="@drawable/advice_item_favorite_icon"
 
-                android:layout_height="1dp"
-                android:background="@color/main_card_line_color" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/item_title_text_view"
+            app:layout_constraintBottom_toBottomOf="@+id/item_title_text_view" />
 
-            <TextView
-                android:id="@+id/item_message_text_view"
+        <View
+            android:id="@+id/item_line_view"
 
-                android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
 
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="@string/main_menu_start_rating_description"
+            android:background="@color/main_card_line_color"
 
-                android:textColor="@color/main_card_text_color"
-                android:textSize="12sp" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_title_text_view"
+            android:layout_marginTop="8dp" />
 
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/item_message_text_view"
+
+            tools:text="@string/main_menu_start_rating_description"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+
+            android:textColor="@color/main_card_text_color"
+            android:textSize="12sp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_line_view" />
+
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

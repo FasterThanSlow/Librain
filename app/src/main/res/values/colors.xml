@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimary">#00695C</color>
     <color name="colorPrimaryDark">#004D40</color>
     <color name="colorAccent">#82c8b1</color>
 
@@ -10,7 +10,6 @@
     <color name="tutorial_blackout_color">#3c000000</color>
 
     <color name="header_text_color">#FAFAFA</color>
-    <color name="header_background_color">#00695C</color>
     <color name="main_accent">#82c8b1</color>
 
     <!-- Кампания -->
@@ -38,13 +37,6 @@
     <color name="main_card_text_color">#383838</color>
     <color name="main_card_line_color">#717171</color>
     <color name="main_card_background_color">#FFFFFF</color>
-
-
-    <!-- Зелёная кнопка -->
-    <color name="green_button_color">#7CD175</color>
-    <color name="green_button_highlight_color">#82c8b1</color>
-    <color name="green_button_text_color">#FAFAFA</color>
-
 
     <!-- View Pager Indicator -->
     <color name="view_pager_indicator_color">#E0E0E0</color>

@@ -8,12 +8,10 @@
 
     android:background="@color/background_color"
 
-    android:orientation="vertical"
-
-    tools:context="com.greenkeycompany.librain.tutorial.TutorialActivity">
+    android:orientation="vertical">
 
     <FrameLayout
-        android:background="@color/header_background_color"
+        android:background="?attr/colorPrimary"
 
         android:paddingLeft="16dp"
         android:paddingStart="16dp"

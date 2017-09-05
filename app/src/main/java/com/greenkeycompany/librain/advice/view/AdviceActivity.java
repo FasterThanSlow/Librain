@@ -4,21 +4,21 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.advice.model.Advice;
 import com.greenkeycompany.librain.advice.presenter.AdvicePresenter;
 import com.greenkeycompany.librain.advice.presenter.IAdvicePresenter;
+import com.greenkeycompany.librain.advice.view.fragment.advice.AdviceFragment;
+import com.greenkeycompany.librain.advice.view.fragment.favorite.FavoriteAdviceFragment;
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +35,7 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.view_pager) ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,49 +54,76 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
     }
 
     @Override
-    public void setAdvises(@NonNull List<Advice> adviceList) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new AdviceAdapter(adviceList));
+    protected void onStop() {
+        super.onStop();
+        presenter.saveData();
     }
 
-    class AdviceAdapter extends RecyclerView.Adapter<AdviceAdapter.ViewHolder> {
+    private AdviceFragment adviceFragment;
+    private FavoriteAdviceFragment favoriteAdviceFragment;
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void initAdviceFragments(@NonNull ArrayList<Advice> adviceList, @NonNull ArrayList<Advice> favoriteAdviceList) {
+        adviceFragment = AdviceFragment.newInstance(adviceList);
+        favoriteAdviceFragment = FavoriteAdviceFragment.newInstance(favoriteAdviceList);
 
-            @BindView(R.id.item_title_text_view) TextView titleTextView;
-            @BindView(R.id.item_message_text_view) TextView messageTextView;
+        viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 
-            ViewHolder(View itemView) {
-                super(itemView);
-                ButterKnife.bind(this, itemView);
+            private static final int FRAGMENT_COUNT = 2;
+
+            @Override
+            public Fragment getItem(int position) {
+                switch (position) {
+                    case 0: return adviceFragment;
+                    case 1: return favoriteAdviceFragment;
+                    default: return null;
+                }
             }
-        }
 
-        private List<Advice> items;
+            @Override
+            public int getCount() {
+                return FRAGMENT_COUNT;
+            }
+        });
+        tabLayout.setupWithViewPager(viewPager);
 
-        AdviceAdapter(@NonNull List<Advice> items) {
-            this.items = items;
-        }
+        TabLayout.Tab advicesTab = tabLayout.getTabAt(0);
+        advicesTab.setIcon(R.drawable.advice_tab_advice_icon);
+        advicesTab.setText(R.string.advice_all);
 
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).
-                    inflate(R.layout.advice_item, parent, false);
+        TabLayout.Tab favoriteAdvicesTab  = tabLayout.getTabAt(1);
+        favoriteAdvicesTab.setText(R.string.advice_favorite);
+        favoriteAdvicesTab.setIcon(R.drawable.advice_tab_favorite_advice_icon);
+    }
 
-            return new ViewHolder(itemView);
-        }
+    @Override
+    public void onFavoriteAdviceFragmentRemoveFavoriteItem(int id) {
+        presenter.onFavoriteAdviceFragmentRemoveFavoriteItem(id);
+    }
 
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            Advice advice = items.get(position);
+    @Override
+    public void onAdviceFragmentAddFavoriteItem(int id) {
+        presenter.onAdviceFragmentAddFavoriteItem(id);
+    }
 
-            holder.titleTextView.setText(advice.getTitle());
-            holder.messageTextView.setText(advice.getMessage());
-        }
+    @Override
+    public void onAdviceFragmentRemoveFavoriteItem(int id) {
+        presenter.onAdviceFragmentRemoveFavoriteItem(id);
+    }
 
-        @Override
-        public int getItemCount() {
-            return items.size();
-        }
+    @Override
+    public void addItemToFavoriteAdviceFragment(@NonNull Advice advice) {
+        favoriteAdviceFragment.addItem(advice);
+    }
+
+    @Override
+    public void removeItemFromFavoriteAdviceFragment(int id) {
+        favoriteAdviceFragment.removeItem(id);
+    }
+
+    @Override
+    public void notifyItemChangeInAdviceFragment(int id) {
+        adviceFragment.notifyItemChange(id);
     }
 }

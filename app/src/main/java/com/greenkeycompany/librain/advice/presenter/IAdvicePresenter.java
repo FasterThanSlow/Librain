@@ -9,5 +9,10 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 
 public interface IAdvicePresenter extends MvpPresenter<IAdviseView> {
     void init();
-    void onItemSelected(int index);
+    void saveData();
+
+    void onAdviceFragmentAddFavoriteItem(int id);
+    void onAdviceFragmentRemoveFavoriteItem(int id);
+
+    void onFavoriteAdviceFragmentRemoveFavoriteItem(int id);
 }

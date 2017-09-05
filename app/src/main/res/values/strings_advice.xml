@@ -2,15 +2,32 @@
 <resources>
     <string name="advices">Advices</string>
 
+    <string name="advice_all">All</string>
+    <string name="advice_favorite">Favorite</string>
+
+    <string name="advice_favorite_empty_view_message">You have not selected any advises as favorite</string>
+    <dimen name="advice_favorite_empty_view_padding">32dp</dimen>
+    <dimen name="advice_recycler_view_bottom_padding">32dp</dimen>
+
     <string-array name="advice_title_array">
         <item>Совет 1</item>
         <item>Совет 2</item>
         <item>Совет 3</item>
+        <item>Совет 4</item>
+        <item>Совет 5</item>
+        <item>Совет 6</item>
+        <item>Совет 7</item>
+        <item>Совет 8</item>
     </string-array>
 
     <string-array name="advice_message_array">
         <item>Джедаи противостояли злу и в «Порновойнах».</item>
         <item>Музыкальный инструмент (на аудио), вышедший из моды у итальянцев на правом плече, стал национальным у валлийцев на левом.</item>
+        <item>Джедаи противостояли злу и в «Порновойнах».</item>
+        <item>Джедаи противостояли злу и в «Порновойнах».</item>
+        <item>Джедаи противостояли злу и в «Порновойнах».</item>
+        <item>Джедаи противостояли злу и в «Порновойнах».</item>
+        <item>Джедаи противостояли злу и в «Порновойнах».</item>
         <item>Джедаи противостояли злу и в «Порновойнах».</item>
     </string-array>
 </resources>

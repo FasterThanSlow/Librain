@@ -24,7 +24,7 @@ import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.level.Level;
 import com.greenkeycompany.librain.level.LevelsPage;
 import com.greenkeycompany.librain.purchase.PurchaseActivity;
-import com.greenkeycompany.librain.view.viewpagerindicator.ViewPagerIndicator;
+import com.greenkeycompany.librain.campaign.menu.view.viewpagerindicator.ViewPagerIndicator;
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
 import java.util.List;

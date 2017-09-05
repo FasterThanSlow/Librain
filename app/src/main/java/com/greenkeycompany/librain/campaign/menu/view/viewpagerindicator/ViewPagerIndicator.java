@@ -1,4 +1,4 @@
-package com.greenkeycompany.librain.view.viewpagerindicator;
+package com.greenkeycompany.librain.campaign.menu.view.viewpagerindicator;
 
 import android.content.Context;
 import android.content.res.TypedArray;
