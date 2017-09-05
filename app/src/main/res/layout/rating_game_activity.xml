@@ -157,7 +157,6 @@
             android:layout_gravity="center"
 
             android:text="@string/game_check_result"
-            android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
 

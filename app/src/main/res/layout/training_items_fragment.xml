@@ -210,7 +210,6 @@
             android:id="@+id/training_previous_button"
 
             android:text="@string/training_previous"
-            android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
 
@@ -224,7 +223,6 @@
             android:id="@+id/training_next_button"
 
             android:text="@string/training_next"
-            android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
 

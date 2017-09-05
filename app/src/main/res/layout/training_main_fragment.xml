@@ -151,7 +151,6 @@
             android:id="@+id/training_start_button"
 
             android:text="@string/training_start"
-            android:textColor="@color/green_button_text_color"
 
             android:theme="@style/GreenButton"
 
