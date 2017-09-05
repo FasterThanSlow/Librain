@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#004D40</color>
-    <color name="colorAccent">#00C853</color>
+    <color name="colorAccent">#82c8b1</color>
 
     <color name="background_color">#FFFDE7</color>
 
@@ -11,21 +11,21 @@
 
     <color name="header_text_color">#FAFAFA</color>
     <color name="header_background_color">#00695C</color>
-
+    <color name="main_accent">#82c8b1</color>
 
     <!-- Кампания -->
     <color name="campaign_item_level_number_text_color">#555555</color>
 
-    <color name="campaign_item_stroke_color">#00C853</color>
+    <color name="campaign_item_stroke_color">#82c8b1</color>
     <color name="campaign_item_background_color">#FFFFFF</color>
 
     <color name="campaign_item_disabled_stroke_color">#AAAAAA</color>
     <color name="campaign_item_disabled_background_color">#E2E2E2</color>
 
-    <color name="campaign_item_premium_stroke_color">#FFC400</color>
+    <color name="campaign_item_premium_stroke_color">#F9CE46</color>
     <color name="campaign_item_premium_background_color">#FFFFFF</color>
 
-    <color name="campaign_item_premium_disabled_stroke_color">#FFC400</color>
+    <color name="campaign_item_premium_disabled_stroke_color">#F9CE46</color>
     <color name="campaign_item_premium_disabled_background_color">#E2E2E2</color>
 
     <color name="dialog_orange">#F5A44D</color>
@@ -42,12 +42,12 @@
 
     <!-- Зелёная кнопка -->
     <color name="green_button_color">#7CD175</color>
-    <color name="green_button_highlight_color">#40f903</color>
+    <color name="green_button_highlight_color">#82c8b1</color>
     <color name="green_button_text_color">#FAFAFA</color>
 
 
     <!-- View Pager Indicator -->
     <color name="view_pager_indicator_color">#E0E0E0</color>
-    <color name="view_pager_indicator_selected_color">#00C853</color>
+    <color name="view_pager_indicator_selected_color">#82c8b1</color>
 
 </resources>
