@@ -161,7 +161,7 @@
             <TextView
                 android:id="@+id/game_round_title_text_view"
                 tools:text="Round 1"
-                android:textColor="@color/colorTextDark"
+                android:textColor="@color/colorTextSecondary"
                 android:textSize="30sp"
                 android:layout_marginBottom="4dp"
                 android:layout_gravity="center_horizontal"
@@ -178,7 +178,7 @@
             <TextView
                 android:id="@+id/game_round_description_text_view"
                 tools:text="Round 1"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="16sp"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="center_horizontal"

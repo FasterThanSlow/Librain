@@ -24,7 +24,7 @@
 
 
         <activity
-            android:name=".mainmenu.MainMenuActivity"
+            android:name=".mainmenu.view.MainMenuActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -37,11 +37,11 @@
         <activity
             android:name=".campaign.menu.view.CampaignMenuActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".mainmenu.MainMenuActivity"
+            android:parentActivityName=".mainmenu.view.MainMenuActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.greenkeycompany.librain.mainmenu.MainMenuActivity" />
+                android:value="com.greenkeycompany.librain.mainmenu.view.MainMenuActivity" />
         </activity>
 
         <activity
@@ -63,10 +63,10 @@
         <activity
             android:name=".advice.view.AdviceActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".mainmenu.MainMenuActivity">
+            android:parentActivityName=".mainmenu.view.MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.greenkeycompany.librain.mainmenu.MainMenuActivity" />
+                android:value="com.greenkeycompany.librain.mainmenu.view.MainMenuActivity" />
         </activity>
 
         <activity android:name=".purchase.PurchaseActivity">

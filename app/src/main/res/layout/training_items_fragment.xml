@@ -82,7 +82,7 @@
         <TextView
             android:text="@string/training_items_settings_item_types_count"
 
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="12sp"
 
             android:layout_weight="1"
@@ -93,7 +93,7 @@
             android:id="@+id/training_item_types_count_1"
 
             android:text="1"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
 
             android:clickable="true"
             android:background="@drawable/training_item_type_count_background"
@@ -110,7 +110,7 @@
             android:id="@+id/training_item_types_count_2"
 
             android:text="2"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -126,7 +126,7 @@
             android:id="@+id/training_item_types_count_3"
 
             android:text="3"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -142,7 +142,7 @@
             android:id="@+id/training_item_types_count_4"
 
             android:text="4"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -169,7 +169,7 @@
         <TextView
             android:text="@string/training_items_settings_items_count"
 
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="12sp"
 
             android:layout_marginRight="4dp"
@@ -190,7 +190,7 @@
 
             tools:text="12"
 
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="12sp"
 
             android:layout_width="20dp"

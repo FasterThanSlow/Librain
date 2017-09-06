@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="advices_title">Advices</string>
-    <string name="advices_description">Read information that can help you evolve your memory.</string>
-    <string name="advices_read">Read</string>
+    <string name="advices_title">Советы</string>
+    <string name="advices_description">Читайте информацию, которая поможет вам эффективнее развивать память.</string>
+    <string name="advices_read">Читать</string>
 
     <!-- Мы используем иконки вместо названий -->
     <string name="advice_all">All</string>

@@ -8,11 +8,13 @@
     <color name="colorGreyBackground">#E2E2E2</color>
     <color name="colorWhite">#FFFFFF</color>
 
-    <color name="colorPremium">#F9CE46</color>
+    <color name="colorPremiumAccent">#F9CE46</color>
+    <color name="colorPremium">#ff6f00</color>
+
     <color name="colorOrange">#F5A44D</color>
 
-    <color name="colorText">#555555</color>
-    <color name="colorTextDark">#383838</color>
+    <color name="colorTextPrimary">#555555</color>
+    <color name="colorTextSecondary">#383838</color>
     <color name="colorStroke">#AAAAAA</color>
     <color name="colorLine">#717171</color>
 </resources>

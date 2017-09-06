@@ -41,7 +41,7 @@
         android:textSize="14sp"
 
         android:text="@string/pause_dialog_message"
-        android:textColor="@color/colorText"
+        android:textColor="@color/colorTextPrimary"
         android:textStyle="italic"
 
         android:gravity="center_horizontal"

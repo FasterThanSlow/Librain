@@ -89,7 +89,7 @@
 
         <TextView
             android:text="@string/training_main_round_description"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="16sp"
 
             android:layout_marginBottom="8dp"

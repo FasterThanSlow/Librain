@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:paddingBottom="10dp">
+
+    android:background="@color/colorBackground"
+
+    tools:context="com.greenkeycompany.librain.mainmenu.view.MainMenuActivity">
 
     <android.support.constraint.ConstraintLayout
+        android:layout_gravity="center_vertical"
+
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+
         android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-
-        android:background="@color/colorBackground"
-        tools:context="com.greenkeycompany.librain.mainmenu.MainMenuActivity">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="0dp"
+            android:id="@+id/campaign_card_view"
 
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            card_view:cardBackgroundColor="@color/colorWhite"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardElevation="4dp"
-            card_view:layout_constraintHorizontal_bias="0.49"
-            card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent">
+
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="4dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,12 +80,11 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
                             android:text="@string/main_menu_start_campaign_title"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorTextPrimary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -86,7 +94,7 @@
                             android:layout_weight="1" />
 
                         <TextView
-                            android:id="@+id/main_stars_count_text_view"
+                            android:id="@+id/campaign_star_count_text_view"
 
                             android:layout_width="wrap_content"
 
@@ -98,16 +106,16 @@
                             android:drawablePadding="1dp"
 
                             android:drawableStart="@drawable/rating_bar_star_completed"
-                            android:textColor="@color/colorText"
+                            android:textColor="@color/colorTextPrimary"
 
                             android:textSize="14sp"
                             tools:text="5" />
                     </LinearLayout>
 
                     <View
+                        android:layout_height="1dp"
                         android:layout_width="match_parent"
 
-                        android:layout_height="1dp"
                         android:background="@color/colorLine" />
 
                     <TextView
@@ -117,47 +125,52 @@
                         android:layout_marginTop="6dp"
                         android:text="@string/main_menu_start_campaign_description"
 
-                        android:textColor="@color/colorText"
-                        android:textSize="11sp" />
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/main_start_campaign_button"
+                        android:id="@+id/campaign_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
 
-                        android:background="@color/colorAccent"
                         android:textColor="@color/colorWhite"
+                        android:background="@drawable/main_menu_button_color_selector"
+
                         android:clickable="true"
                         android:gravity="center"
 
                         android:paddingBottom="6dp"
                         android:paddingTop="6dp"
+
                         android:text="@string/main_menu_play"
 
                         android:textAllCaps="true" />
-
-
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cardView3"
-            android:layout_width="0dp"
+            android:id="@+id/rating_card_view"
 
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            card_view:cardBackgroundColor="@color/colorWhite"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardElevation="4dp"
-            card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/cardView">
+
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="4dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/campaign_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -200,16 +213,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/main_menu_start_rating_title"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorTextPrimary"
 
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <View
+                        android:layout_height="1dp"
                         android:layout_width="match_parent"
 
-                        android:layout_height="1dp"
                         android:background="@color/colorLine" />
 
                     <TextView
@@ -219,17 +232,18 @@
                         android:layout_marginTop="6dp"
                         android:text="@string/main_menu_start_rating_description"
 
-                        android:textColor="@color/colorText"
-                        android:textSize="11sp" />
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/main_start_rating_game_button"
+                        android:id="@+id/rating_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
 
-                        android:background="@color/colorPremium"
                         android:textColor="@color/colorWhite"
+                        android:background="@drawable/main_menu_button_premium_color_selector"
+
                         android:clickable="true"
                         android:gravity="center"
 
@@ -243,21 +257,25 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cardView4"
+            android:id="@+id/training_card_view"
             android:layout_width="0dp"
-
             android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="10dp"
-            card_view:cardBackgroundColor="@color/colorWhite"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardElevation="4dp"
-            card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/cardView3"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="4dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rating_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -302,15 +320,15 @@
                             android:layout_height="wrap_content"
                             android:text="@string/main_menu_start_training_title"
 
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorTextPrimary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <View
+                        android:layout_height="1dp"
                         android:layout_width="match_parent"
 
-                        android:layout_height="1dp"
                         android:background="@color/colorLine" />
 
                     <TextView
@@ -320,17 +338,18 @@
                         android:layout_marginTop="6dp"
                         android:text="@string/main_menu_start_training_description"
 
-                        android:textColor="@color/colorText"
-                        android:textSize="11sp" />
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/main_start_training_button"
+                        android:id="@+id/training_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
 
-                        android:background="@color/colorAccent"
                         android:textColor="@color/colorWhite"
+                        android:background="@drawable/main_menu_button_color_selector"
+
                         android:clickable="true"
                         android:gravity="center"
 
@@ -345,21 +364,26 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cart_view_sdfsdfad"
+            android:id="@+id/advice_card_view"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
 
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            card_view:cardBackgroundColor="@color/colorWhite"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardElevation="4dp"
-            card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/cardView4">
+
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="4dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/training_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -401,17 +425,17 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/main_menu_start_advice_title"
-                            android:textColor="@color/colorTextDark"
+                            android:text="@string/advices_title"
+                            android:textColor="@color/colorTextPrimary"
 
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <View
+                        android:layout_height="1dp"
                         android:layout_width="match_parent"
 
-                        android:layout_height="1dp"
                         android:background="@color/colorLine" />
 
                     <TextView
@@ -419,32 +443,30 @@
 
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="@string/main_menu_start_advice_description"
+                        android:text="@string/advices_description"
 
-                        android:textColor="@color/colorLine"
-                        android:textSize="11sp" />
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/main_menu_advice_button"
+                        android:id="@+id/advice_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
 
-                        android:background="@color/colorAccent"
+                        android:text="@string/advices_read"
                         android:textColor="@color/colorWhite"
+                        android:background="@drawable/main_menu_button_color_selector"
+
                         android:clickable="true"
                         android:gravity="center"
 
                         android:paddingBottom="6dp"
                         android:paddingTop="6dp"
-                        android:text="@string/main_menu_advice"
 
                         android:textAllCaps="true" />
-
                 </LinearLayout>
             </LinearLayout>
-
         </android.support.v7.widget.CardView>
-
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

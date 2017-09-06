@@ -61,7 +61,7 @@
 
     <TextView
         android:text="@string/training_round_settings_description"
-        android:textColor="@color/colorTextDark"
+        android:textColor="@color/colorTextSecondary"
         android:textSize="16sp"
 
         android:paddingTop="24dp"
@@ -142,7 +142,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="Раунд 1"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorTextSecondary"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -159,7 +159,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/main_menu_start_campaign_description"
 
-                        android:textColor="@color/colorText"
+                        android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -226,7 +226,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="Раунд 2"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorTextSecondary"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -243,7 +243,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/main_menu_start_campaign_description"
 
-                        android:textColor="@color/colorText"
+                        android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -310,7 +310,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="Раунд 3"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorTextSecondary"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -327,7 +327,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/main_menu_start_campaign_description"
 
-                        android:textColor="@color/colorText"
+                        android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>

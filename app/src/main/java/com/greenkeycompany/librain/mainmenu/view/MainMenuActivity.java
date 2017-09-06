@@ -1,15 +1,11 @@
-package com.greenkeycompany.librain.mainmenu;
+package com.greenkeycompany.librain.mainmenu.view;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.greenkeycompany.librain.advice.view.AdviceActivity;
 import com.greenkeycompany.librain.app.App;
 import com.greenkeycompany.librain.app.util.PremiumUtil;
@@ -18,6 +14,7 @@ import com.greenkeycompany.librain.app.RateDialog;
 import com.greenkeycompany.librain.campaign.menu.view.CampaignMenuActivity;
 import com.greenkeycompany.librain.purchase.PurchaseActivity;
 import com.greenkeycompany.librain.dao.LevelDao;
+import com.greenkeycompany.librain.rating.RatingGameActivity;
 import com.greenkeycompany.librain.training.TrainingMenuActivity;
 
 import org.solovyev.android.checkout.ActivityCheckout;
@@ -27,16 +24,20 @@ import org.solovyev.android.checkout.ProductTypes;
 
 import javax.annotation.Nonnull;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainMenuActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainMenuActivity extends AppCompatActivity implements IMainMenuView {
 
     private ActivityCheckout checkout = Checkout.forActivity(this, App.get().getBilling());
     private PremiumUtil premiumUtil = App.get().getPremiumUtil();
 
     //private GoogleApiClient mGoogleApiClient;
     //private static final int REQUEST_LEADERBOARD = 300;
+
+    @BindView(R.id.rating_button) TextView ratingTextView;
+    @BindView(R.id.campaign_star_count_text_view) TextView campaignStarCountTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,31 +73,48 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
                 .build();
                 */
 
-        final TextView campaignStarsCountTextView = (TextView) findViewById(R.id.main_stars_count_text_view);
-        campaignStarsCountTextView.setText(String.valueOf(levelDao.getCompletedStarCount()));
-
         RateDialog rateDialog = new RateDialog(MainMenuActivity.this);
         if (rateDialog.isShouldShow()) {
             rateDialog.show();
         }
     }
 
-    @OnClick(R.id.main_start_campaign_button)
+    @Override
+    public void updateRatingView(boolean isPremiumUser) {
+        if (isPremiumUser) {
+            //ratingTextView.setText();
+            //ratingTextView.setBackgroundResource();
+        } else {
+            //ratingTextView.setText();
+            //ratingTextView.setBackgroundResource();
+        }
+    }
+
+    @Override
+    public void updateCampaignStarView(int starCount) {
+        campaignStarCountTextView.setText(String.valueOf(starCount));
+    }
+
+    @OnClick(R.id.campaign_button)
     public void onCampaignButtonClick() {
         startActivity(new Intent(this, CampaignMenuActivity.class));
     }
 
-    @OnClick(R.id.main_start_rating_game_button)
+    @OnClick(R.id.rating_button)
     public void onRatingGameButtonClick() {
-        startActivity(new Intent(this, PurchaseActivity.class));
+        if (premiumUtil.isPremiumUser()) {
+            startActivity(new Intent(this, RatingGameActivity.class));
+        } else {
+            startActivity(new Intent(this, PurchaseActivity.class));
+        }
     }
 
-    @OnClick(R.id.main_start_training_button)
+    @OnClick(R.id.training_button)
     public void onTrainingButtonClick() {
         startActivity(new Intent(this, TrainingMenuActivity.class));
     }
 
-    @OnClick(R.id.main_menu_advice_button)
+    @OnClick(R.id.advice_button)
     public void onAdviceButtonClick() {
         startActivity(new Intent(this, AdviceActivity.class));
     }
@@ -107,30 +125,22 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
        // mGoogleApiClient.connect();
     }
 
+    private static final int PURCHASE_REQUEST = 900;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         checkout.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PURCHASE_REQUEST) {
+            if (resultCode == RESULT_OK) {
+
+            }
+        }
     }
 
     @Override
     protected void onDestroy() {
         checkout.stop();
         super.onDestroy();
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        //Toast.makeText(this, "Google Play Services успешно подключён", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        //mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Ошибка с подключением Google Play Services", Toast.LENGTH_SHORT).show();
     }
 }

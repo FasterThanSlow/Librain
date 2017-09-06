@@ -124,7 +124,7 @@
 
             tools:text="Stage 1"
 
-            android:textColor="@color/colorTextDark"
+            android:textColor="@color/colorTextSecondary"
             android:textSize="30sp"
 
             android:gravity="center_horizontal"
