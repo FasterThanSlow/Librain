@@ -24,7 +24,7 @@ public class App extends Application {
     private final Billing billing = new Billing(this, new Billing.DefaultConfiguration() {
         @Override @NonNull
         public String getPublicKey() {
-            return  "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkNvqeGQ2iVsWLsldKjAh9U454IRNopgIFL2jpGGFPSUUc0h8RZuFnxHwaNjc3Rf9zhxVPOlYr4bZugT01x5XiyABPvFDJygC3Xujgp2bOYybVqyblMuu5Cs8ab6ARMrvDCptrl88pwU8yjZlQ5T4NDQKCx8kOS1oqH1bGZH9hOAJmBhF7eZBGPJEv8Cl6lci/XWA4ATAyiA0+Pyawg+a7eYD68sdjXanKn1mXjBQl0gtPAomY3NjjCXrE6PDXI92zieMfW+6kEJCOT9VEyOkqXQt0vqVZh0UhBFntPEbz7DFLyZ+/glG2VuzmFGBMASjiKhUNplR3Wpz/b6eo4tBOQIDAQAB";
+            return  "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjgpMzqY6S8Fe5UyOdJNKsB7w5iQuBZojYDP5ZG7wKM9+97lUdqF3+RWQsFWL5tHkWQP1EBR8NlzhvnsvMXxwmrhebeeOFtaLavPwrVp0mlfajPuvCHwDi/8Gg8I8hv2t1r5zbHbCoeiy6CT629SPeCEyrXc5vtqloCXn2csCtFC/fr8Oujb49OeC6wsqcCzcvOs4m2lFyDCZa4rB69Q4oXtSnOVWdLxZ4nATwj3Y832H0Y7hVN5owcEtHyYFeXfhJkosngoRNi9O2U4ZhpsyKS/g7WRHR0mt0J+JtTiqkyW4GiFgRlmBAnnVsUa/0hmFlhl3yVmxMW8BrBn7KBV4EQIDAQAB";
         }
     });
     public Billing getBilling() {
