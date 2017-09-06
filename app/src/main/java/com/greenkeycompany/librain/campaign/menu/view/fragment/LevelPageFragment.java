@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.level.Level;
-import com.greenkeycompany.librain.view.ratingbar.RatingBar;
+import com.greenkeycompany.librain.app.view.ratingbar.RatingBar;
 
 import java.util.ArrayList;
 import java.util.List;

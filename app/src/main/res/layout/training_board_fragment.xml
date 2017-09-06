@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.greenkeycompany.librain.view.boardview.BoardView
+    <com.greenkeycompany.librain.app.view.boardview.BoardView
         android:id="@+id/training_menu_board_view"
 
         app:rowCount="5"

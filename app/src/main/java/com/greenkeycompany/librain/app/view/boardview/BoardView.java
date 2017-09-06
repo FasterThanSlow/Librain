@@ -1,4 +1,4 @@
-package com.greenkeycompany.librain.view.boardview;
+package com.greenkeycompany.librain.app.view.boardview;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.entity.ItemType;
-import com.greenkeycompany.librain.view.PixelConverter;
+import com.greenkeycompany.librain.app.util.PixelConverterUtil;
 
 /**
  * Created by Alexander on 10.02.2017.
@@ -191,8 +191,8 @@ public class BoardView extends LinearLayout {
         }
 
         private void init() {
-            int itemMarginPx = PixelConverter.dpToPx(context, ITEM_MARGIN_DP);
-            int itemPaddingPx = PixelConverter.dpToPx(context, ITEM_PADDING_DP);
+            int itemMarginPx = PixelConverterUtil.dpToPx(context, ITEM_MARGIN_DP);
+            int itemPaddingPx = PixelConverterUtil.dpToPx(context, ITEM_PADDING_DP);
 
             LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(itemSize, itemSize);
             itemLayoutParams.setMargins(itemMarginPx, itemMarginPx, itemMarginPx, itemMarginPx);

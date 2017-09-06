@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.greenkeycompany.librain.R;
-import com.greenkeycompany.librain.view.PixelConverter;
+import com.greenkeycompany.librain.app.util.PixelConverterUtil;
 
 /**
  * Created by Alexander on 11.03.2017.
@@ -63,7 +63,7 @@ public class ViewPagerIndicator extends LinearLayout {
     private void initIndicators(int count, int selectedIndex) {
         this.removeAllViews();
 
-        int paddingPx = PixelConverter.dpToPx(getContext(), INDICATOR_PADDING_DP);
+        int paddingPx = PixelConverterUtil.dpToPx(getContext(), INDICATOR_PADDING_DP);
 
         indicatorsImageViews = new ImageView[count];
         for (int i = 0; i < count; i++) {

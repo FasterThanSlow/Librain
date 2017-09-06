@@ -23,9 +23,9 @@ import com.greenkeycompany.librain.level.gameround.GameRound;
 import com.greenkeycompany.librain.level.gameround.SecondGameRound;
 import com.greenkeycompany.librain.level.gameround.ThirdGameRound;
 import com.greenkeycompany.librain.training.entity.TrainingLevel;
-import com.greenkeycompany.librain.view.ratingbar.RatingBar;
-import com.greenkeycompany.librain.view.boardview.BoardView;
-import com.greenkeycompany.librain.view.distributorview.DistributorView;
+import com.greenkeycompany.librain.app.view.ratingbar.RatingBar;
+import com.greenkeycompany.librain.app.view.boardview.BoardView;
+import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

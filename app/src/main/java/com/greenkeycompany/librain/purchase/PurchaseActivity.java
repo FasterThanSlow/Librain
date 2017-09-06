@@ -5,12 +5,11 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.App;
-import com.greenkeycompany.librain.app.PremiumUtil;
+import com.greenkeycompany.librain.app.util.PremiumUtil;
 
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Checkout;
@@ -58,7 +57,7 @@ public class PurchaseActivity extends AppCompatActivity {
 
             @Override
             public void onError(int response, @Nonnull Exception e) {
-                Toast.makeText(PurchaseActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PurchaseActivity.this, "Код ошибки " + response, Toast.LENGTH_LONG).show();
             }
         });
     }

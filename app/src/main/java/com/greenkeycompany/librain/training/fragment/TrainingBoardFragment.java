@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.greenkeycompany.librain.R;
-import com.greenkeycompany.librain.view.boardview.BoardView;
+import com.greenkeycompany.librain.app.view.boardview.BoardView;
 
 public class TrainingBoardFragment extends Fragment {
 

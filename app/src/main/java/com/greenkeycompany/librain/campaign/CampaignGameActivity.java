@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.greenkeycompany.librain.app.App;
 import com.greenkeycompany.librain.R;
@@ -27,17 +26,14 @@ import com.greenkeycompany.librain.level.Round;
 import com.greenkeycompany.librain.level.gameround.GameRound;
 import com.greenkeycompany.librain.level.gameround.SecondGameRound;
 import com.greenkeycompany.librain.level.gameround.ThirdGameRound;
-import com.greenkeycompany.librain.view.ratingbar.RatingBar;
-import com.greenkeycompany.librain.view.boardview.BoardView;
-import com.greenkeycompany.librain.view.distributorview.DistributorView;
+import com.greenkeycompany.librain.app.view.ratingbar.RatingBar;
+import com.greenkeycompany.librain.app.view.boardview.BoardView;
+import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
 
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Checkout;
-import org.solovyev.android.checkout.Purchase;
 
 import java.util.Arrays;
-
-import javax.annotation.Nonnull;
 
 public class CampaignGameActivity extends AppCompatActivity {
 

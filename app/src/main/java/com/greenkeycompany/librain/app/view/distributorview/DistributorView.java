@@ -1,4 +1,4 @@
-package com.greenkeycompany.librain.view.distributorview;
+package com.greenkeycompany.librain.app.view.distributorview;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -19,12 +19,12 @@ import android.widget.TextView;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.entity.ItemType;
 import com.greenkeycompany.librain.entity.Rule;
-import com.greenkeycompany.librain.view.PixelConverter;
+import com.greenkeycompany.librain.app.util.PixelConverterUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.greenkeycompany.librain.view.PixelConverter.dpToPx;
+import static com.greenkeycompany.librain.app.util.PixelConverterUtil.dpToPx;
 
 /**
  * Created by Alexander on 10.02.2017.
@@ -94,7 +94,7 @@ public class DistributorView extends LinearLayout {
 
         typedArray.recycle();
 
-        int itemsPadding =  PixelConverter.dpToPx(context, ITEMS_LAYOUT_PADDING_DP);
+        int itemsPadding =  PixelConverterUtil.dpToPx(context, ITEMS_LAYOUT_PADDING_DP);
 
         itemsLayout = new LinearLayout(context);
         itemsLayout.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -103,9 +103,9 @@ public class DistributorView extends LinearLayout {
         itemsLayout.setPadding(itemsPadding, itemsPadding, itemsPadding, itemsPadding);
         this.addView(itemsLayout);
 
-        triangleViewSizePx =  PixelConverter.dpToPx(context, TRIANGLE_SIZE_DP);
+        triangleViewSizePx =  PixelConverterUtil.dpToPx(context, TRIANGLE_SIZE_DP);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(triangleViewSizePx, triangleViewSizePx);
-        layoutParams.setMargins(0, PixelConverter.dpToPx(context, TRIANGLE_MARGIN_TOP_DP), 0, 0);
+        layoutParams.setMargins(0, PixelConverterUtil.dpToPx(context, TRIANGLE_MARGIN_TOP_DP), 0, 0);
         triangleImageView = new ImageView(context);
         triangleImageView.setLayoutParams(layoutParams);
         triangleImageView.setImageResource(R.drawable.distributor_view_traingle);

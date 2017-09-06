@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.greenkeycompany.librain.view.ratingbar.RatingBar
+            <com.greenkeycompany.librain.app.view.ratingbar.RatingBar
                 android:id="@+id/rating_bar"
 
                 app:starsSrc="@drawable/rating_game_life_completed"
@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <com.greenkeycompany.librain.view.boardview.BoardView
+        <com.greenkeycompany.librain.app.view.boardview.BoardView
             android:id="@+id/board_view"
             android:gravity="center"
 
@@ -99,7 +99,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.greenkeycompany.librain.view.boardview.BoardView>
+        </com.greenkeycompany.librain.app.view.boardview.BoardView>
 
         <FrameLayout
             android:id="@+id/blackout_view"
@@ -110,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.greenkeycompany.librain.view.distributorview.DistributorView
+        <com.greenkeycompany.librain.app.view.distributorview.DistributorView
             android:id="@+id/distributor_view"
 
             android:visibility="invisible"

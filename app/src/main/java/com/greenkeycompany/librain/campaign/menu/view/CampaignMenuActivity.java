@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.App;
-import com.greenkeycompany.librain.app.PremiumUtil;
+import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.greenkeycompany.librain.campaign.CampaignGameActivity;
 import com.greenkeycompany.librain.campaign.menu.presenter.ICampaignMenuPresenter;
 import com.greenkeycompany.librain.campaign.menu.view.fragment.LevelPageFragment;

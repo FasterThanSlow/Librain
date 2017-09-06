@@ -12,7 +12,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.greenkeycompany.librain.advice.view.AdviceActivity;
 import com.greenkeycompany.librain.app.App;
-import com.greenkeycompany.librain.app.PremiumUtil;
+import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.RateDialog;
 import com.greenkeycompany.librain.campaign.menu.view.CampaignMenuActivity;
@@ -54,6 +54,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
             public void onLoaded(@Nonnull Inventory.Products products) {
                 final Inventory.Product product = products.get(ProductTypes.IN_APP);
                 if ( ! product.supported) {
+                    Toast.makeText(MainMenuActivity.this, "Продукт не поддерживается", Toast.LENGTH_LONG).show();
                     return;
                 }
 

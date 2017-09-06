@@ -1,4 +1,4 @@
-package com.greenkeycompany.librain.app;
+package com.greenkeycompany.librain.app.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

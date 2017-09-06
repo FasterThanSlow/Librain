@@ -43,8 +43,8 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
         setContentView(R.layout.advice_activity);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(R.string.advices);
-        toolbar.setTitleTextColor(Color.WHITE);
+        //toolbar.setTitle(R.string.advices);
+        //toolbar.setTitleTextColor(Color.WHITE);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.action_bar_back_icon);
@@ -90,10 +90,10 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
 
         TabLayout.Tab advicesTab = tabLayout.getTabAt(0);
         advicesTab.setIcon(R.drawable.advice_tab_advice_icon);
-        advicesTab.setText(R.string.advice_all);
+        //advicesTab.setText(R.string.advice_all);
 
         TabLayout.Tab favoriteAdvicesTab  = tabLayout.getTabAt(1);
-        favoriteAdvicesTab.setText(R.string.advice_favorite);
+        //favoriteAdvicesTab.setText(R.string.advice_favorite);
         favoriteAdvicesTab.setIcon(R.drawable.advice_tab_favorite_advice_icon);
     }
 

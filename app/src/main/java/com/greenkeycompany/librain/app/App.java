@@ -3,6 +3,8 @@ package com.greenkeycompany.librain.app;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.greenkeycompany.librain.app.util.PremiumUtil;
+
 import org.solovyev.android.checkout.Billing;
 
 /**

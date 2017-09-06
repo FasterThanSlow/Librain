@@ -14,7 +14,7 @@ import com.greenkeycompany.librain.entity.ItemType;
 import com.greenkeycompany.librain.entity.Rule;
 import com.greenkeycompany.librain.level.Generator;
 import com.greenkeycompany.librain.level.Level;
-import com.greenkeycompany.librain.view.boardview.BoardView;
+import com.greenkeycompany.librain.app.view.boardview.BoardView;
 
 import java.util.Random;
 

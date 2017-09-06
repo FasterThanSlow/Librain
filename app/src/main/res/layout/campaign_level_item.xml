@@ -31,7 +31,7 @@
         android:textSize="26sp"
         tools:text="1" />
 
-    <com.greenkeycompany.librain.view.ratingbar.RatingBar
+    <com.greenkeycompany.librain.app.view.ratingbar.RatingBar
         android:id="@+id/item_rating_bar"
 
         android:layout_width="match_parent"

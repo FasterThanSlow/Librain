@@ -16,9 +16,9 @@ import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.entity.ItemType;
 import com.greenkeycompany.librain.level.Generator;
 import com.greenkeycompany.librain.level.RatingGameStage;
-import com.greenkeycompany.librain.view.ratingbar.RatingBar;
-import com.greenkeycompany.librain.view.boardview.BoardView;
-import com.greenkeycompany.librain.view.distributorview.DistributorView;
+import com.greenkeycompany.librain.app.view.ratingbar.RatingBar;
+import com.greenkeycompany.librain.app.view.boardview.BoardView;
+import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
 
 import java.util.Arrays;
 
