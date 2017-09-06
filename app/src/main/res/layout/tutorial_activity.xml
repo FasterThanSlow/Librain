@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/background_color"
+    android:background="@color/colorBackground"
 
     android:orientation="vertical">
 
@@ -29,7 +29,7 @@
 
             <TextView
                 android:text="@string/tutorial"
-                android:textColor="@color/header_text_color"
+                android:textColor="@color/colorWhite"
                 android:layout_gravity="center_vertical"
 
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
@@ -66,66 +66,45 @@
 
         <FrameLayout
             android:id="@+id/tutorial_blackout_view"
-
             android:visibility="invisible"
-
-            android:background="@color/tutorial_blackout_color"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <com.greenkeycompany.librain.app.view.distributorview.DistributorView
             android:id="@+id/tutorial_distributor_view"
-
             android:visibility="invisible"
-
             android:layout_gravity="center"
-
             app:item_size="@dimen/game_item_size"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/tutorial_third_round_image_view"
-
             android:visibility="invisible"
-
             android:src="@drawable/game_round_three_show_second"
-
             android:layout_gravity="center"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <LinearLayout
             android:id="@+id/tutorial_description_view"
-
             android:orientation="vertical"
-
             android:layout_gravity="center"
-
             android:paddingLeft="32dp"
             android:paddingStart="32dp"
             android:paddingRight="32dp"
             android:paddingEnd="32dp"
-
             android:gravity="center"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tutorial_description_title_text_view"
-
                 tools:text="Round 1"
-
                 android:textSize="24sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-
                 android:layout_marginBottom="4dp"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -136,10 +115,8 @@
 
             <TextView
                 android:id="@+id/tutorial_description_message_text_view"
-
                 tools:text="@string/tutorial_first_round_message"
-
-                android:textColor="@color/dialog_message_text_color"
+                android:textColor="@color/colorText"
                 android:textSize="16sp"
                 android:textStyle="italic"
 
@@ -158,11 +135,7 @@
 
         <FrameLayout
             android:id="@+id/tutorial_bottom_blackout_view"
-
-            android:background="@color/tutorial_blackout_color"
-
             android:visibility="invisible"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </FrameLayout>

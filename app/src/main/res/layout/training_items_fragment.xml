@@ -32,7 +32,7 @@
                 android:id="@+id/header_title_text_view"
 
                 android:text="@string/training"
-                android:textColor="@color/header_text_color"
+                android:textColor="@color/colorWhite"
 
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
 
@@ -82,7 +82,7 @@
         <TextView
             android:text="@string/training_items_settings_item_types_count"
 
-            android:textColor="@color/main_card_text_color"
+            android:textColor="@color/colorText"
             android:textSize="12sp"
 
             android:layout_weight="1"
@@ -93,7 +93,7 @@
             android:id="@+id/training_item_types_count_1"
 
             android:text="1"
-            android:textColor="@color/main_card_text_color"
+            android:textColor="@color/colorText"
 
             android:clickable="true"
             android:background="@drawable/training_item_type_count_background"
@@ -110,7 +110,7 @@
             android:id="@+id/training_item_types_count_2"
 
             android:text="2"
-            android:textColor="@color/main_card_text_color"
+            android:textColor="@color/colorText"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -126,7 +126,7 @@
             android:id="@+id/training_item_types_count_3"
 
             android:text="3"
-            android:textColor="@color/main_card_text_color"
+            android:textColor="@color/colorText"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -142,7 +142,7 @@
             android:id="@+id/training_item_types_count_4"
 
             android:text="4"
-            android:textColor="@color/main_card_text_color"
+            android:textColor="@color/colorText"
 
             android:background="@drawable/training_item_type_count_background"
 
@@ -169,7 +169,7 @@
         <TextView
             android:text="@string/training_items_settings_items_count"
 
-            android:textColor="@color/main_card_text_color"
+            android:textColor="@color/colorText"
             android:textSize="12sp"
 
             android:layout_marginRight="4dp"
@@ -190,7 +190,7 @@
 
             tools:text="12"
 
-            android:textColor="@color/main_card_text_color"
+            android:textColor="@color/colorText"
             android:textSize="12sp"
 
             android:layout_width="20dp"
@@ -208,20 +208,19 @@
 
         <Button
             android:id="@+id/training_previous_button"
-
             android:text="@string/training_previous"
 
             android:theme="@style/GreenButton"
 
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
-
+            android:textColor="@color/colorWhite"
             android:layout_width="100dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/training_next_button"
-
+            android:textColor="@color/colorWhite"
             android:text="@string/training_next"
 
             android:theme="@style/GreenButton"

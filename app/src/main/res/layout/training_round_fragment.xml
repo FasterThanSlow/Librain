@@ -5,7 +5,7 @@
 
     android:orientation="vertical"
 
-    android:background="@color/background_color"
+    android:background="@color/colorBackground"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,7 +35,7 @@
                 android:id="@+id/header_title_text_view"
 
                 android:text="@string/training"
-                android:textColor="@color/header_text_color"
+                android:textColor="@color/colorWhite"
 
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
 
@@ -61,7 +61,7 @@
 
     <TextView
         android:text="@string/training_round_settings_description"
-        android:textColor="@color/main_card_text_color"
+        android:textColor="@color/colorTextDark"
         android:textSize="16sp"
 
         android:paddingTop="24dp"
@@ -96,7 +96,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
 
-            card_view:cardBackgroundColor="@color/main_card_background_color"
+            card_view:cardBackgroundColor="@color/colorWhite"
             card_view:cardCornerRadius="2dp"
             card_view:cardElevation="4dp">
 
@@ -142,7 +142,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="Раунд 1"
-                            android:textColor="@color/main_card_text_color"
+                            android:textColor="@color/colorTextDark"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -150,7 +150,7 @@
                         android:layout_width="match_parent"
 
                         android:layout_height="1dp"
-                        android:background="@color/main_card_line_color" />
+                        android:background="@color/colorLine" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/main_menu_start_campaign_description"
 
-                        android:textColor="@color/main_card_text_color"
+                        android:textColor="@color/colorText"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -180,7 +180,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
 
-            card_view:cardBackgroundColor="@color/main_card_background_color"
+            card_view:cardBackgroundColor="@color/colorWhite"
             card_view:cardCornerRadius="2dp"
             card_view:cardElevation="4dp">
 
@@ -226,7 +226,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="Раунд 2"
-                            android:textColor="@color/main_card_text_color"
+                            android:textColor="@color/colorTextDark"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -234,7 +234,7 @@
                         android:layout_width="match_parent"
 
                         android:layout_height="1dp"
-                        android:background="@color/main_card_line_color" />
+                        android:background="@color/colorLine" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -243,7 +243,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/main_menu_start_campaign_description"
 
-                        android:textColor="@color/main_card_text_color"
+                        android:textColor="@color/colorText"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -264,7 +264,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
 
-            card_view:cardBackgroundColor="@color/main_card_background_color"
+            card_view:cardBackgroundColor="@color/colorWhite"
             card_view:cardCornerRadius="2dp"
             card_view:cardElevation="4dp">
 
@@ -310,7 +310,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="Раунд 3"
-                            android:textColor="@color/main_card_text_color"
+                            android:textColor="@color/colorTextDark"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -318,7 +318,7 @@
                         android:layout_width="match_parent"
 
                         android:layout_height="1dp"
-                        android:background="@color/main_card_line_color" />
+                        android:background="@color/colorLine" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -327,7 +327,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/main_menu_start_campaign_description"
 
-                        android:textColor="@color/main_card_text_color"
+                        android:textColor="@color/colorText"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -345,7 +345,7 @@
         <Button
             android:id="@+id/training_previous_button"
 
-
+            android:textColor="@color/colorWhite"
             android:text="@string/training_previous"
 
             android:theme="@style/GreenButton"
@@ -358,7 +358,7 @@
 
         <Button
             android:id="@+id/training_next_button"
-
+            android:textColor="@color/colorWhite"
             android:text="@string/training_save"
 
             android:theme="@style/GreenButton"

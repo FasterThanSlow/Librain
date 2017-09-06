@@ -8,7 +8,7 @@
     </style>
 
     <style name="GreenButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorWhite</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
     </style>
 

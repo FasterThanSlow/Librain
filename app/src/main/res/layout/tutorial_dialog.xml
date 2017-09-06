@@ -26,7 +26,7 @@
 
             android:text="@string/tutorial_dialog_title"
             android:textSize="24sp"
-            android:textColor="@color/header_text_color"
+            android:textColor="@color/colorWhite"
 
             android:layout_marginRight="4dp"
             android:layout_marginEnd="4dp"
@@ -39,7 +39,7 @@
         android:textSize="14sp"
 
         android:text="@string/tutorial_dialog_message"
-        android:textColor="@color/dialog_message_text_color"
+        android:textColor="@color/colorText"
         android:textStyle="italic"
 
         android:paddingLeft="24dp"

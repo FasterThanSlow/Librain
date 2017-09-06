@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/colorBackground"
     tools:context="com.greenkeycompany.librain.purchase.PurchaseActivity">
 
     <android.support.v7.widget.Toolbar
@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/purchase_button"
         android:text="Приобрести"
-        android:textColor="@color/campaign_item_background_color"
+        android:textColor="@color/colorWhite"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:theme="@style/GreenButton"
@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
+
                 android:text="Еще больше уровней"
                 android:textStyle="bold" />
 

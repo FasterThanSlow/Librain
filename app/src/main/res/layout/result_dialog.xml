@@ -30,7 +30,7 @@
 
             android:text="@string/result_dialog_title"
             android:textSize="28sp"
-            android:textColor="@color/header_text_color"
+            android:textColor="@color/colorWhite"
 
             android:layout_marginRight="4dp"
             android:layout_marginEnd="4dp"

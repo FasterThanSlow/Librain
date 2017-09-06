@@ -4,42 +4,15 @@
     <color name="colorPrimaryDark">#004D40</color>
     <color name="colorAccent">#82c8b1</color>
 
-    <color name="background_color">#FFFDE7</color>
+    <color name="colorBackground">#FFFDE7</color>
+    <color name="colorGreyBackground">#E2E2E2</color>
+    <color name="colorWhite">#FFFFFF</color>
 
-    <color name="blackout_color">#20000000</color>
-    <color name="tutorial_blackout_color">#3c000000</color>
+    <color name="colorPremium">#F9CE46</color>
+    <color name="colorOrange">#F5A44D</color>
 
-    <color name="header_text_color">#FAFAFA</color>
-    <color name="main_accent">#82c8b1</color>
-
-    <!-- Кампания -->
-    <color name="campaign_item_level_number_text_color">#555555</color>
-
-    <color name="campaign_item_stroke_color">#82c8b1</color>
-    <color name="campaign_item_background_color">#FFFFFF</color>
-
-    <color name="campaign_item_disabled_stroke_color">#AAAAAA</color>
-    <color name="campaign_item_disabled_background_color">#E2E2E2</color>
-
-    <color name="campaign_item_premium_stroke_color">#F9CE46</color>
-    <color name="campaign_item_premium_background_color">#FFFFFF</color>
-
-    <color name="campaign_item_premium_disabled_stroke_color">#F9CE46</color>
-    <color name="campaign_item_premium_disabled_background_color">#E2E2E2</color>
-
-    <color name="dialog_orange">#F5A44D</color>
-    <color name="dialog_blue">#65B4CE</color>
-    <color name="dialog_green">#7CD175</color>
-
-    <color name="dialog_message_text_color">#555555</color>
-
-    <!-- Меню -->
-    <color name="main_card_text_color">#383838</color>
-    <color name="main_card_line_color">#717171</color>
-    <color name="main_card_background_color">#FFFFFF</color>
-
-    <!-- View Pager Indicator -->
-    <color name="view_pager_indicator_color">#E0E0E0</color>
-    <color name="view_pager_indicator_selected_color">#82c8b1</color>
-
+    <color name="colorText">#555555</color>
+    <color name="colorTextDark">#383838</color>
+    <color name="colorStroke">#AAAAAA</color>
+    <color name="colorLine">#717171</color>
 </resources>
