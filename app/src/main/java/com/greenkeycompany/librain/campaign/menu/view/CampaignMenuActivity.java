@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.App;
@@ -23,6 +24,7 @@ import com.greenkeycompany.librain.campaign.menu.presenter.CampaignMenuPresenter
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.level.Level;
 import com.greenkeycompany.librain.level.LevelsPage;
+import com.greenkeycompany.librain.mainmenu.view.MainMenuActivity;
 import com.greenkeycompany.librain.purchase.PurchaseActivity;
 import com.greenkeycompany.librain.campaign.menu.view.viewpagerindicator.ViewPagerIndicator;
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
@@ -70,7 +72,7 @@ public class CampaignMenuActivity extends MvpActivity<ICampaignMenuView, ICampai
         viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         viewPagerIndicator.addViewPagerObserve(viewPager);
 
-        presenter.init();
+        presenter.requestToUpdateViews();
     }
 
     @OnClick(R.id.premium_view)
@@ -104,31 +106,35 @@ public class CampaignMenuActivity extends MvpActivity<ICampaignMenuView, ICampai
 
             if (level.isPremium()) {
                 if (premiumUtil.isPremiumUser()) {
-                    startActivityForResult(startGameIntent, UPDATE_REQUEST_CODE);
+                    startActivityForResult(startGameIntent, UPDATE_LEVEL_PAGES_REQUEST_CODE);
                 } else {
                     startActivityForResult(startPurchaseIntent, PURCHASE_REQUEST_CODE);
                 }
             } else {
-                startActivityForResult(startGameIntent, UPDATE_REQUEST_CODE);
+                startActivityForResult(startGameIntent, UPDATE_LEVEL_PAGES_REQUEST_CODE);
             }
         }
     }
 
-    private static final int UPDATE_REQUEST_CODE = 100;
-    private static final int PURCHASE_REQUEST_CODE = 1100;
+    private static final int UPDATE_LEVEL_PAGES_REQUEST_CODE = 300;
+    private static final int PURCHASE_REQUEST_CODE = 400;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case UPDATE_REQUEST_CODE:
+            case UPDATE_LEVEL_PAGES_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    presenter.init();
+                    presenter.requestToUpdateViews();
+                    setResult(RESULT_OK); //FLAG TO UPDATE STAR COUNT IN MAIN MENU
                 }
                 break;
             case PURCHASE_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    premiumView.setVisibility(premiumUtil.isPremiumUser() ? View.INVISIBLE : View.VISIBLE);
+                    premiumUtil.setPremiumUser(true);
+                    premiumView.setVisibility(View.INVISIBLE);
+
+                    Toast.makeText(this, "ТЫ КУПИЛ ПРЕМИУМ!, " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
                 }
                 break;
         }

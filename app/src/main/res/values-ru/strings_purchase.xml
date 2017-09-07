@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="premium_access">Премиум-доступ</string>
+
+    <string name="premium_success_message">У вас есть премиум-доступ</string>
+    <string name="premium_error_message">Код ошибки %1$d</string>
+</resources>

@@ -8,6 +8,6 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
  */
 
 public interface IMainMenuPresenter extends MvpPresenter<IMainMenuView> {
+     void requestToUpdateRatingView(boolean isPremium);
      void requestToUpdateCampaignStarView();
-     void requestToUpdateRatingView();
 }

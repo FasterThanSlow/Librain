@@ -8,13 +8,12 @@
 
     <!-- Main Menu -->
     <string name="main_menu_start_campaign_title">Кампания</string>
-    <string name="main_menu_start_rating_title">Рейтинговая игра</string>
     <string name="main_menu_start_sprint_title">Спринт</string>
 
     <string name="main_menu_start_training_title">Тренировка</string>
 
     <string name="main_menu_start_campaign_description">Развивайте свою память, проходя различные уровни и задания.</string>
-    <string name="main_menu_start_rating_description">Проверьте свою память соревнуясь с другими пользователями приложения.</string>
+
     <string name="main_menu_start_sprint_description">Развивайте скоростную память благодаря ограничению во времени. Сравивайте свои показатели с другими пользователями.</string>
     <string name="main_menu_start_training_description">Выработайте свой личный тренинг и развивайте свою память еще быстрее.</string>
 
@@ -64,9 +63,6 @@
 
     <!-- Premium Dialog -->
     <string name="premium_dialog_title">Premium</string>
-
-    <string name="premium_success_message">You\'ve bought premium access</string>
-    <string name="premium_error_message">Error</string>
 
     <!-- Tutorial Dialog -->
     <string name="tutorial_dialog_title">Tutorial</string>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rating_title">Rating game</string>
+    <string name="rating_description">Test your memory competing with other app users.</string>
+
+    <string name="rating_start">Start</string>
+    <string name="rating_activate">Activate</string>
+</resources>

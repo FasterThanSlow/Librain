@@ -20,7 +20,7 @@ public class CampaignMenuPresenter extends MvpBasePresenter<ICampaignMenuView>
     }
 
     @Override
-    public void init() {
+    public void requestToUpdateViews() {
         int starCount = levelDao.getStarCount();
         int completedStarCount = levelDao.getCompletedStarCount();
 

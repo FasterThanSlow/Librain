@@ -4,13 +4,8 @@
     <string name="advices_description">Читайте информацию, которая поможет вам эффективнее развивать память.</string>
     <string name="advices_read">Читать</string>
 
-    <!-- Мы используем иконки вместо названий -->
-    <string name="advice_all">All</string>
-    <string name="advice_favorite">Favorite</string>
-    <!-- Мы используем иконки вместо названий -->
+    <string name="advice_favorite_empty_view_message">Вы не отметили ни одного совета в качестве избранного</string>
 
-    <string name="advice_favorite_empty_view_message">You have not selected any advises as favorite</string>
-    <dimen name="advice_favorite_empty_view_padding">32dp</dimen>
 
     <string-array name="advice_title_array">
         <item>Совет 1</item>

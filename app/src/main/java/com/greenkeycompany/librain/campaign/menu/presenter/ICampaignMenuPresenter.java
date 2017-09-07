@@ -8,5 +8,5 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
  */
 
 public interface ICampaignMenuPresenter extends MvpPresenter<ICampaignMenuView> {
-    void init();
+    void requestToUpdateViews();
 }

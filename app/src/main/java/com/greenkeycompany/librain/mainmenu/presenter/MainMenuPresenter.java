@@ -1,5 +1,6 @@
 package com.greenkeycompany.librain.mainmenu.presenter;
 
+import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.mainmenu.view.IMainMenuView;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
@@ -18,11 +19,15 @@ public class MainMenuPresenter extends MvpBasePresenter<IMainMenuView>
 
     @Override
     public void requestToUpdateCampaignStarView() {
-
+        if (isViewAttached()) {
+            getView().updateCampaignStarView(levelDao.getCompletedStarCount());
+        }
     }
 
     @Override
-    public void requestToUpdateRatingView() {
-
+    public void requestToUpdateRatingView(boolean isPremium) {
+        if (isViewAttached()) {
+            getView().updateRatingView(isPremium);
+        }
     }
 }

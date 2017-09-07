@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.greenkeycompany.librain.R;
@@ -26,7 +27,6 @@ import butterknife.OnClick;
 public class PurchaseActivity extends AppCompatActivity {
 
     private ActivityCheckout checkout = Checkout.forActivity(this, App.get().getBilling());
-    private PremiumUtil premiumUtil = App.get().getPremiumUtil();
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -46,18 +46,28 @@ public class PurchaseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @OnClick(R.id.purchase_button)
     public void onPurchaseButtonClick() {
         checkout.startPurchaseFlow(ProductTypes.IN_APP, PremiumUtil.PREMIUM_USER_SKU, null, new RequestListener<Purchase>() {
             @Override
             public void onSuccess(@Nonnull Purchase result) {
-                premiumUtil.setPremiumUser(true);
-                Toast.makeText(PurchaseActivity.this, "ПРЕМИУМ!", Toast.LENGTH_LONG).show();
+                setResult(RESULT_OK);
+                Toast.makeText(PurchaseActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(int response, @Nonnull Exception e) {
-                Toast.makeText(PurchaseActivity.this, "Код ошибки " + response, Toast.LENGTH_LONG).show();
+                Toast.makeText(PurchaseActivity.this, getString(R.string.premium_error_message, response), Toast.LENGTH_LONG).show();
             }
         });
     }

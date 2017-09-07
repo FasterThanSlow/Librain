@@ -91,8 +91,8 @@ public class AdviceAdapter extends RecyclerView.Adapter<AdviceAdapter.ViewHolder
         holder.titleTextView.setText(advice.getTitle());
         holder.messageTextView.setText(advice.getMessage());
         holder.favoriteImageView.setImageResource(advice.isFavorite() ?
-                R.drawable.advice_item_favorite_icon_selected :
-                R.drawable.advice_item_favorite_icon);
+                R.drawable.advices_item_favorite_icon_selected :
+                R.drawable.advices_item_favorite_icon);
     }
 
     @Override

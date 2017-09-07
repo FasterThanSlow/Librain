@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:src="@drawable/advice_item_favorite_icon"
+            android:src="@drawable/advices_item_favorite_icon"
 
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/item_title_text_view"
@@ -76,7 +76,7 @@
         <TextView
             android:id="@+id/item_message_text_view"
 
-            tools:text="@string/main_menu_start_rating_description"
+            tools:text="@string/rating_description"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"

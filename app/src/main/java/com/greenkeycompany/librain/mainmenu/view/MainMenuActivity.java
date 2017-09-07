@@ -1,7 +1,7 @@
 package com.greenkeycompany.librain.mainmenu.view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,10 +12,13 @@ import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.RateDialog;
 import com.greenkeycompany.librain.campaign.menu.view.CampaignMenuActivity;
+import com.greenkeycompany.librain.mainmenu.presenter.IMainMenuPresenter;
+import com.greenkeycompany.librain.mainmenu.presenter.MainMenuPresenter;
 import com.greenkeycompany.librain.purchase.PurchaseActivity;
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.rating.RatingGameActivity;
 import com.greenkeycompany.librain.training.TrainingMenuActivity;
+import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Checkout;
@@ -28,7 +31,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainMenuActivity extends AppCompatActivity implements IMainMenuView {
+public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresenter> implements IMainMenuView {
+
+    @NonNull
+    @Override
+    public IMainMenuPresenter createPresenter() {
+        return new MainMenuPresenter(LevelDao.getInstance(this));
+    }
 
     private ActivityCheckout checkout = Checkout.forActivity(this, App.get().getBilling());
     private PremiumUtil premiumUtil = App.get().getPremiumUtil();
@@ -45,8 +54,6 @@ public class MainMenuActivity extends AppCompatActivity implements IMainMenuView
         setContentView(R.layout.main_menu_activity);
         ButterKnife.bind(this);
 
-        final LevelDao levelDao = LevelDao.getInstance(MainMenuActivity.this);
-
         Toast.makeText(this, "Премиум ли ты?[1]), " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
 
         checkout.start();
@@ -59,12 +66,16 @@ public class MainMenuActivity extends AppCompatActivity implements IMainMenuView
                     return;
                 }
 
-                premiumUtil.setPremiumUser(product.isPurchased(PremiumUtil.PREMIUM_USER_SKU));
+                boolean isPurchased = product.isPurchased(PremiumUtil.PREMIUM_USER_SKU);
+                boolean isPremium = premiumUtil.isPremiumUser();
+                if (isPurchased != isPremium) {
+                    premiumUtil.setPremiumUser(isPurchased);
+                    presenter.requestToUpdateRatingView(isPurchased);
+                }
 
                 Toast.makeText(MainMenuActivity.this, "Премиум ли ты?[2]), " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
             }
         });
-
         /*
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -72,6 +83,9 @@ public class MainMenuActivity extends AppCompatActivity implements IMainMenuView
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
                 */
+
+        presenter.requestToUpdateRatingView(premiumUtil.isPremiumUser());
+        presenter.requestToUpdateCampaignStarView();
 
         RateDialog rateDialog = new RateDialog(MainMenuActivity.this);
         if (rateDialog.isShouldShow()) {
@@ -82,11 +96,11 @@ public class MainMenuActivity extends AppCompatActivity implements IMainMenuView
     @Override
     public void updateRatingView(boolean isPremiumUser) {
         if (isPremiumUser) {
-            //ratingTextView.setText();
-            //ratingTextView.setBackgroundResource();
+            ratingTextView.setText(R.string.rating_start);
+            ratingTextView.setBackgroundResource(R.drawable.main_menu_button_color_selector);
         } else {
-            //ratingTextView.setText();
-            //ratingTextView.setBackgroundResource();
+            ratingTextView.setText(R.string.rating_activate);
+            ratingTextView.setBackgroundResource(R.drawable.main_menu_button_activate_premium_color_selector);
         }
     }
 
@@ -97,7 +111,8 @@ public class MainMenuActivity extends AppCompatActivity implements IMainMenuView
 
     @OnClick(R.id.campaign_button)
     public void onCampaignButtonClick() {
-        startActivity(new Intent(this, CampaignMenuActivity.class));
+        ///START FOR RESULT TO UPDATE STARS COUNT AFTER GAME
+        startActivityForResult(new Intent(this, CampaignMenuActivity.class), CAMPAIGN_REQUEST_CODE);
     }
 
     @OnClick(R.id.rating_button)
@@ -105,7 +120,7 @@ public class MainMenuActivity extends AppCompatActivity implements IMainMenuView
         if (premiumUtil.isPremiumUser()) {
             startActivity(new Intent(this, RatingGameActivity.class));
         } else {
-            startActivity(new Intent(this, PurchaseActivity.class));
+            startActivityForResult(new Intent(this, PurchaseActivity.class), PURCHASE_REQUEST_CODE);
         }
     }
 
@@ -125,16 +140,28 @@ public class MainMenuActivity extends AppCompatActivity implements IMainMenuView
        // mGoogleApiClient.connect();
     }
 
-    private static final int PURCHASE_REQUEST = 900;
+    private static final int CAMPAIGN_REQUEST_CODE = 100;
+    private static final int PURCHASE_REQUEST_CODE = 200;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         checkout.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PURCHASE_REQUEST) {
-            if (resultCode == RESULT_OK) {
+        switch (requestCode) {
+            case PURCHASE_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    premiumUtil.setPremiumUser(true);
+                    presenter.requestToUpdateRatingView(true);
 
-            }
+                    Toast.makeText(MainMenuActivity.this, "ТЫ КУПИЛ ПРЕМИУМ!, " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
+                }
+                break;
+            case CAMPAIGN_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    presenter.requestToUpdateCampaignStarView();
+                    presenter.requestToUpdateRatingView(premiumUtil.isPremiumUser());
+                }
+                break;
         }
     }
 

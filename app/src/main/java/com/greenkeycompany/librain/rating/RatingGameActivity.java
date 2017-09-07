@@ -367,7 +367,7 @@ public class RatingGameActivity extends AppCompatActivity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 BoardView.BoardItemView boardItemView = (BoardView.BoardItemView) touchView;
 
-                //init all sizes
+                //requestToUpdateViews all sizes
                 if (boardViewWidth == 0 || boardItemViewWidth == 0)  {
                     boardViewWidth = boardView.getWidth();
                     boardItemViewWidth = boardItemView.getWidth();

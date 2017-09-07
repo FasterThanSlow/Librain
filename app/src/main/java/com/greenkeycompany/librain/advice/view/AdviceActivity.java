@@ -1,6 +1,5 @@
 package com.greenkeycompany.librain.advice.view;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -89,12 +88,12 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
         tabLayout.setupWithViewPager(viewPager);
 
         TabLayout.Tab advicesTab = tabLayout.getTabAt(0);
-        advicesTab.setIcon(R.drawable.advice_tab_advice_icon);
+        advicesTab.setIcon(R.drawable.advices_tab_advice_icon);
         //advicesTab.setText(R.string.advice_all);
 
         TabLayout.Tab favoriteAdvicesTab  = tabLayout.getTabAt(1);
         //favoriteAdvicesTab.setText(R.string.advice_favorite);
-        favoriteAdvicesTab.setIcon(R.drawable.advice_tab_favorite_advice_icon);
+        favoriteAdvicesTab.setIcon(R.drawable.advices_tab_favorite_advice_icon);
     }
 
     @Override
