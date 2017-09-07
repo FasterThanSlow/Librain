@@ -7,38 +7,34 @@
     <string name="game_check_result">Check</string>
 
     <!-- Main Menu -->
-    <string name="main_menu_start_campaign_title">Кампания</string>
-    <string name="main_menu_start_sprint_title">Спринт</string>
+    <string name="main_menu_start_campaign_title">Campaign</string>
+    <string name="main_menu_start_sprint_title">Sprint</string>
 
-    <string name="main_menu_start_training_title">Тренировка</string>
+    <string name="main_menu_start_training_title">Training</string>
 
-    <string name="main_menu_start_campaign_description">Развивайте свою память, проходя различные уровни и задания.</string>
+    <string name="main_menu_start_campaign_description">Develop your memory by going through different levels and tasks.</string>
 
-    <string name="main_menu_start_sprint_description">Развивайте скоростную память благодаря ограничению во времени. Сравивайте свои показатели с другими пользователями.</string>
-    <string name="main_menu_start_training_description">Выработайте свой личный тренинг и развивайте свою память еще быстрее.</string>
+    <string name="main_menu_start_sprint_description">Develop high-speed memory due to time constraints. Combine your indicators with other users.</string>
+    <string name="main_menu_start_training_description">Develop your personal training and develop your memory even faster.</string>
 
-    <string name="main_menu_play">Играть</string>
-    <string name="main_menu_advice">Играть</string>
-    <string name="main_menu_activate">Активировать</string>
+    <string name="main_menu_advice">Read</string>
+    <string name="main_menu_activate">Activate</string>
 
 
     <!-- Tutorial -->
     <string name="tutorial">Tutorial</string>
 
-    <string name="tutorial_start_title">Приветствуем в обучении</string>
-    <string name="tutorial_start_message">"Нажмите на экран для того, чтобы перейти к выполнению заданий."</string>
+    <string name="tutorial_start_title">Welcome in training</string>
+    <string name="tutorial_start_message">Click on the screen to proceed to the tasks.</string>
 
-    <string name="tutorial_first_round_title">Задание 1</string>
-    <string name="tutorial_first_round_message">
-        "Запомните расположение фигур на поле. Когда фигуры исчезнут, расставьте их в соответствии  с этим расположением."</string>
+    <string name="tutorial_first_round_title">Round 1</string>
+    <string name="tutorial_first_round_message">Remember the arrangement of the figures on the field. When the figures disappear, arrange them according to this arrangement.</string>
 
-    <string name="tutorial_second_round_title">Задание 2</string>
-    <string name="tutorial_second_round_message">
-        "Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их совместив оба расположения."</string>
+    <string name="tutorial_second_round_title">Round 2</string>
+    <string name="tutorial_second_round_message">Figures appear on the field two consecutive times. When the shapes disappear, arrange them to fit both locations.\n</string>
 
-    <string name="tutorial_third_round_title">Задание 3</string>
-    <string name="tutorial_third_round_message">
-        "Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения."</string>
+    <string name="tutorial_third_round_title">Round 3</string>
+    <string name="tutorial_third_round_message">Figures appear on the field two consecutive times. When the shapes disappear, arrange them according to the location number indicated on the screen.</string>
 
     <!-- Training -->
     <string name="training">Training</string>
@@ -66,9 +62,7 @@
 
     <!-- Tutorial Dialog -->
     <string name="tutorial_dialog_title">Tutorial</string>
-    <string name="tutorial_dialog_message">
-        "Поздравляем. Вы прошли обучение. В случае возникновения трудностей с прохождением какого-либо уровня или задания воспользуйтесь режимом тренировка."
-    </string>
+    <string name="tutorial_dialog_message">Congratulations. You have been trained. In the event of difficulties with the passage of any level or job, use the training mode.</string>
 
 
     <!-- Pause Dialog -->
@@ -83,18 +77,19 @@
     <string name="game_round_2_title">Round 2</string>
     <string name="game_round_3_title">Round 3</string>
 
-    <string name="game_round_1_description">Отобразите расположение фигур</string>
-    <string name="game_round_2_description">Совместите оба расположения</string>
-    <string name="game_round_3_description">Отобразите одно расположение</string>
+    <string name="game_round_1_description">Display the location of the shapes</string>
+    <string name="game_round_2_description">Align both locations</string>
+    <string name="game_round_3_description">Display one location</string>
 
 
     <!-- Rate app dialog -->
-    <string name="rate_app_dialog_title">Оцените приложение</string>
-    <string name="rate_app_dialog_message">Здравствуйте, если вам понравилось наше приложение и вы заинтересованы в его развитии, потратьте минуту своего времени, чтобы оставить свою оценку и отзыв.</string>
-    <string name="rate_app_dialog_dont_show_again">Нет, спасибо</string>
-    <string name="rate_app_dialog_remind_me_later">Напомнить позже</string>
-    <string name="rate_app_dialog_rate_now">Оценить сейчас</string>
-    <string name="tutorial_dialog_button_text">Перейти к уровням</string>
-    <string name="purchase_title">Получите премиум доступ</string>
+    <string name="rate_app_dialog_title">Rate the app</string>
+    <string name="rate_app_dialog_message">Hello, if you liked our application and you are interested in its development, spend a minute of your time to leave your assessment and feedback.</string>
+    <string name="rate_app_dialog_dont_show_again">No thanks</string>
+    <string name="rate_app_dialog_remind_me_later">Remind me later</string>
+    <string name="rate_app_dialog_rate_now">Rate now</string>
+    <string name="tutorial_dialog_button_text">Go to the levels</string>
+    <string name="purchase_title">Get premium access</string>
+    <string name="main_menu_play">Play</string>
 
 </resources>
