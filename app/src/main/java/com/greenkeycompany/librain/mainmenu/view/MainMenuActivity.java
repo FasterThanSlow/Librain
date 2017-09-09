@@ -17,7 +17,7 @@ import com.greenkeycompany.librain.mainmenu.presenter.MainMenuPresenter;
 import com.greenkeycompany.librain.purchase.PurchaseActivity;
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.rating.RatingGameActivity;
-import com.greenkeycompany.librain.training.TrainingMenuActivity;
+import com.greenkeycompany.librain.training.menu.view.TrainingMenuActivity;
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
 import org.solovyev.android.checkout.ActivityCheckout;

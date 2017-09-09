@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="training">Training</string>
+
+    <!-- Main Fragment -->
+    <string name="training_selected_round_description">Selected rounds</string>
+    <string name="training_start">Start</string>
+
+    <!-- Round Settings Fragment -->
+    <string name="training_settings_round_1_title">Round 1</string>
+    <string name="training_settings_round_1_description">description description description description description description</string>
+    <string name="training_settings_round_2_title">Round 2</string>
+    <string name="training_settings_round_2_description">description description description description description description</string>
+    <string name="training_settings_round_3_title">Round 3</string>
+    <string name="training_settings_round_3_description">description description description description description description</string>
+
+
+
+    <string name="training_board_settings_description">Set the board size</string>
+
+    <string name="training_items_settings_items_count">Items count</string>
+    <string name="training_items_settings_item_types_count">Item types count</string>
+
+    <!-- Navigation buttons -->
+    <string name="training_settings_save">Save</string>
+    <string name="training_settings_cancel">Cancel</string>
+    <string name="training_settings_next">Next</string>
+    <string name="training_settings_previous">Previous</string>
+</resources>

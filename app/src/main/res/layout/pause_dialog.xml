@@ -85,7 +85,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/pause_dialog_continue_text_view"
+            android:id="@+id/pause_dialog_continue_image_view"
             android:layout_width="0dp"
             android:clickable="true"
 

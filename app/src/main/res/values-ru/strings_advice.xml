@@ -6,7 +6,6 @@
 
     <string name="advice_favorite_empty_view_message">Вы не отметили ни одного совета в качестве избранного</string>
 
-
     <string-array name="advice_title_array">
         <item>Создавайте образ</item>
         <item>Обьясните другу</item>

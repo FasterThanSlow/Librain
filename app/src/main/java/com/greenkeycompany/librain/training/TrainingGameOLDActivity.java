@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,9 +33,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TrainingGameActivity extends AppCompatActivity {
+public class TrainingGameOLDActivity extends AppCompatActivity {
 
-    private static final String LEVEL_PARAM = "training_level";
+    public static final String LEVEL_PARAM = "training_level";
 
     private static final int START_ROUND_ANIMATION_DURATION = 1500;
     private static final int END_ROUND_ANIMATION_DURATION = 1000;
@@ -96,7 +98,7 @@ public class TrainingGameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_activity);
+        setContentView(R.layout.training_game_activity);
 
         final TextView headerTextView = (TextView) findViewById(R.id.header_title_text_view);
         headerTextView.setText(R.string.training);
@@ -109,7 +111,7 @@ public class TrainingGameActivity extends AppCompatActivity {
         bottomBlackoutView = findViewById(R.id.tutorial_bottom_blackout_view);
 
         ratingBar = (RatingBar) findViewById(R.id.stars);
-        checkResultButton = (TextView) findViewById(R.id.check_result_button);
+        checkResultButton = (TextView) findViewById(R.id.check_button);
 
         roundView = findViewById(R.id.game_round_banner);
         roundImageView = (ImageView) roundView.findViewById(R.id.tutorial_third_round_image_view);
@@ -164,8 +166,37 @@ public class TrainingGameActivity extends AppCompatActivity {
         boardView.setOnTouchListener(boardTouchListener);
         checkResultButton.setOnClickListener(checkResultOnClickListener);
 
-        final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
-        restartButton.setOnClickListener(restartOnClickListener);
+        //final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
+        //restartButton.setOnClickListener(restartOnClickListener);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.game_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.restart:
+
+                if (startRoundAnimator.isRunning()) {
+                    startRoundAnimator.cancel();
+                } else if (showBoardItemsRunnable.isRunning()) {
+                    showBoardItemsRunnable.cancel();
+                } else if (endRoundAnimator.isRunning()) {
+                    endRoundAnimator.cancel();
+                }
+
+                resetLevelProgress();
+
+                startRoundAnimator.start();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     private void resetLevelProgress() {
@@ -510,6 +541,7 @@ public class TrainingGameActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onPause() {
         if ((resultDialog == null || ! resultDialog.isShowing())) {
@@ -534,33 +566,6 @@ public class TrainingGameActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private View.OnClickListener restartOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(final View restartButton) {
-            restartButton.setClickable(false);
-
-            if (startRoundAnimator.isRunning()) {
-                startRoundAnimator.cancel();
-            } else if (showBoardItemsRunnable.isRunning()) {
-                showBoardItemsRunnable.cancel();
-            } else if (endRoundAnimator.isRunning()) {
-                endRoundAnimator.cancel();
-            }
-
-            resetLevelProgress();
-
-            startRoundAnimator.start();
-
-            restartButton.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (restartButton != null) {
-                        restartButton.setClickable(true);
-                    }
-                }
-            }, 1000);
-        }
-    };
 
     private View.OnClickListener checkResultOnClickListener = new View.OnClickListener() {
         @Override
@@ -715,9 +720,9 @@ public class TrainingGameActivity extends AppCompatActivity {
     private AlertDialog resultDialog;
 
     private void showResultDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingGameActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingGameOLDActivity.this);
 
-        final View dialogView = LayoutInflater.from(TrainingGameActivity.this).inflate(R.layout.result_dialog, null);
+        final View dialogView = LayoutInflater.from(TrainingGameOLDActivity.this).inflate(R.layout.result_dialog, null);
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.result_dialog_rating_bar);
         ratingBar.setMax(roundCount);
@@ -797,9 +802,9 @@ public class TrainingGameActivity extends AppCompatActivity {
 
         isContinuePressed = true; // Эмулиция продолжение на нажатие мимо диалога
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingGameActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingGameOLDActivity.this);
 
-        final View dialogView = LayoutInflater.from(TrainingGameActivity.this).inflate(R.layout.pause_dialog, null);
+        final View dialogView = LayoutInflater.from(TrainingGameOLDActivity.this).inflate(R.layout.pause_dialog, null);
         final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_levels_image_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -811,7 +816,7 @@ public class TrainingGameActivity extends AppCompatActivity {
             }
         });
 
-        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_continue_text_view);
+        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_continue_image_view);
         continueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.greenkeycompany.librain.training.fragment.TrainingItemsFragment">
+    tools:context="com.greenkeycompany.librain.training.menu.fragment.TrainingItemsFragment">
 
     <FrameLayout
         android:background="?attr/colorPrimary"
@@ -207,8 +207,8 @@
         android:layout_height="80dp">
 
         <Button
-            android:id="@+id/training_previous_button"
-            android:text="@string/training_previous"
+            android:id="@+id/previous_button"
+            android:text="@string/training_settings_previous"
 
             android:theme="@style/GreenButton"
 
@@ -219,9 +219,9 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/training_next_button"
+            android:id="@+id/next_button"
             android:textColor="@color/colorWhite"
-            android:text="@string/training_next"
+            android:text="@string/training_settings_next"
 
             android:theme="@style/GreenButton"
 

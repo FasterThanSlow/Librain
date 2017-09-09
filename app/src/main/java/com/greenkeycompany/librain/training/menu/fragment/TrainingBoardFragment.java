@@ -1,4 +1,4 @@
-package com.greenkeycompany.librain.training.fragment;
+package com.greenkeycompany.librain.training.menu.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,20 @@ import android.widget.Button;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.view.boardview.BoardView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
 public class TrainingBoardFragment extends Fragment {
+
+    public interface BoardFragmentListener {
+        void onBoardFragmentNextButtonPressed(int rowCount, int columnCount);
+        void onBoardFragmentPreviousButtonPressed();
+    }
+
+    public TrainingBoardFragment() {
+    }
 
     private static final int MINIMUM_ROW_COUNT = 2;
     private static final int MINIMUM_COLUMN_COUNT = 2;
@@ -22,18 +35,6 @@ public class TrainingBoardFragment extends Fragment {
 
     private int enabledRowCount;
     private int enabledColumnCount;
-
-    private BoardView boardView;
-
-    private BoardFragmentListener listener;
-
-    public interface BoardFragmentListener {
-        void onBoardFragmentNextButtonPressed(int columnCount, int rowCount);
-        void onBoardCancelButtonPressed();
-    }
-
-    public TrainingBoardFragment() {
-    }
 
     public static TrainingBoardFragment newInstance(int enabledColumnCount, int enabledRowCount) {
         TrainingBoardFragment fragment = new TrainingBoardFragment();
@@ -53,37 +54,21 @@ public class TrainingBoardFragment extends Fragment {
         }
     }
 
+    @BindView(R.id.board_view) BoardView boardView;
+
+    private Unbinder unbinder;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.training_board_fragment, container, false);
 
-        final Button nextButton = (Button) view.findViewById(R.id.training_next_button);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onBoardFragmentNextButtonPressed(enabledColumnCount, enabledRowCount);
-                }
-            }
-        });
+        unbinder = ButterKnife.bind(this, view);
 
-        final Button exitButton = (Button) view.findViewById(R.id.training_previous_button);
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onBoardCancelButtonPressed();
-                }
-            }
-        });
-
-        boardView = (BoardView) view.findViewById(R.id.training_menu_board_view);
         boardView.setItemsOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if (MotionEvent.ACTION_DOWN == event.getAction()) {
-
                     final BoardView.BoardItemView[] items = boardView.getItems();
 
                     int selectedItemIndex = 0;
@@ -118,6 +103,12 @@ public class TrainingBoardFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     private void setEnabledBoardItems(int enabledColumnCount, int enabledRowCount) {
         int selectedItemIndex = (enabledRowCount - 1) * boardView.getColumnCount() + enabledColumnCount - 1;
         setEnabledBoardItems(selectedItemIndex);
@@ -143,17 +134,23 @@ public class TrainingBoardFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    @OnClick(R.id.next_button)
+    public void onNextButtonClick() {
+        fragmentListener.onBoardFragmentNextButtonPressed(enabledRowCount, enabledColumnCount);
     }
+
+    @OnClick(R.id.previous_button)
+    public void onPreviousButtonClick() {
+        fragmentListener.onBoardFragmentPreviousButtonPressed();
+    }
+
+    private BoardFragmentListener fragmentListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof BoardFragmentListener) {
-            listener = (BoardFragmentListener) context;
+            fragmentListener = (BoardFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement BoardFragmentListener");
@@ -163,6 +160,6 @@ public class TrainingBoardFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        fragmentListener = null;
     }
 }

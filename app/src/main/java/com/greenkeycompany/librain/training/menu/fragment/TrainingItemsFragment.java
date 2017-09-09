@@ -1,4 +1,4 @@
-package com.greenkeycompany.librain.training.fragment;
+package com.greenkeycompany.librain.training.menu.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class TrainingItemsFragment extends Fragment {
 
-    private static final int MINIMUM_ITEM_COUNt = 2;
+    private static final int MINIMUM_ITEM_COUNt = 1;
 
     private static final String COLUMN_COUNT_KEY = "column_count";
     private static final String ROW_COUNT_KEY = "row_count";
@@ -43,22 +43,21 @@ public class TrainingItemsFragment extends Fragment {
     private List<TextView> typeCountTextViewList;
 
     private BoardView boardView;
-    private ItemsFragmentListener listener;
 
     public interface ItemsFragmentListener {
-        void onItemsFragmentNext(int itemTypeCount, int itemCount, int[] items);
+        void onItemsFragmentNext(int itemTypeCount, int itemCount);
         void onItemsFragmentPrevious();
     }
 
     public TrainingItemsFragment() {
     }
 
-    public static TrainingItemsFragment newInstance(int columnCount, int rowCount, int typeCount, int itemCount) {
+    public static TrainingItemsFragment newInstance(int rowCount, int columnCount, int itemTypeCount, int itemCount) {
         TrainingItemsFragment fragment = new TrainingItemsFragment();
         Bundle args = new Bundle();
-        args.putInt(COLUMN_COUNT_KEY, columnCount);
         args.putInt(ROW_COUNT_KEY, rowCount);
-        args.putInt(TYPE_COUNT, typeCount);
+        args.putInt(COLUMN_COUNT_KEY, columnCount);
+        args.putInt(TYPE_COUNT, itemTypeCount);
         args.putInt(ITEM_COUNT, itemCount);
         fragment.setArguments(args);
         return fragment;
@@ -70,13 +69,11 @@ public class TrainingItemsFragment extends Fragment {
         if (getArguments() != null) {
             columnCount = getArguments().getInt(COLUMN_COUNT_KEY);
             rowCount = getArguments().getInt(ROW_COUNT_KEY);
+
             typeCount = getArguments().getInt(TYPE_COUNT);
             itemCount = getArguments().getInt(ITEM_COUNT);
 
-            Log.d("TrainingTest", "item count " + itemCount);
-
             if (columnCount * rowCount < itemCount) {
-                Log.d("TrainingTest", "Поле больше чем нужно");
                 itemCount = MINIMUM_ITEM_COUNt;
                 typeCount = 1;
             }
@@ -92,21 +89,21 @@ public class TrainingItemsFragment extends Fragment {
 
         final View parentView = inflater.inflate(R.layout.training_items_fragment, container, false);
 
-        final Button nextButton = (Button) parentView.findViewById(R.id.training_next_button);
+        final Button nextButton = (Button) parentView.findViewById(R.id.next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null)
-                    listener.onItemsFragmentNext(typeCount, itemCount, items);
+                if (fragmentListener != null)
+                    fragmentListener.onItemsFragmentNext(typeCount, itemCount);
             }
         });
 
-        final Button previousButton = (Button) parentView.findViewById(R.id.training_previous_button);
+        final Button previousButton = (Button) parentView.findViewById(R.id.previous_button);
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null)
-                    listener.onItemsFragmentPrevious();
+                if (fragmentListener != null)
+                    fragmentListener.onItemsFragmentPrevious();
             }
         });
 
@@ -223,14 +220,16 @@ public class TrainingItemsFragment extends Fragment {
         boardView.setItemsResources(boardResources);
     }
 
+    private ItemsFragmentListener fragmentListener;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof ItemsFragmentListener) {
-            listener = (ItemsFragmentListener) context;
+            fragmentListener = (ItemsFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement BoardFragmentListener");
+                    + " must implement ItemsFragmentListener");
         }
 
     }
@@ -238,6 +237,6 @@ public class TrainingItemsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        fragmentListener = null;
     }
 }

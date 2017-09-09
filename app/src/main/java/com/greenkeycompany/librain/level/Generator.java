@@ -1,5 +1,7 @@
 package com.greenkeycompany.librain.level;
 
+import android.support.annotation.NonNull;
+
 import com.greenkeycompany.librain.entity.ItemType;
 import com.greenkeycompany.librain.entity.Rule;
 import com.greenkeycompany.librain.level.gameround.FirstGameRound;
@@ -23,10 +25,9 @@ public class Generator {
         ItemType[] items = new ItemType[boardSize];
         Arrays.fill(items, ItemType.NONE);
 
-        int rulesCount = rules.length;
-        for (int i = 0; i < rulesCount; i++) {
-            int itemsCount = rules[i].getItemsCount();
-            ItemType itemType = rules[i].getItemType();
+        for (Rule rule : rules) {
+            int itemsCount = rule.getItemsCount();
+            ItemType itemType = rule.getItemType();
 
             int index;
             for (int j = 0; j < itemsCount; j++) {
@@ -173,6 +174,38 @@ public class Generator {
 
 
 
+    //6 предметов на 2 типа = 3/3,
+    // 5 предметов на 3 типа = 2, 2, 1
+    private static int[] createTrainingItems(int itemTypeCount, int itemCount) {
+        int[] items = new int[itemTypeCount];
+
+        if (itemTypeCount == 1) {
+            items[0] = itemCount;
+        } else {
+            int lastValueBuf = itemCount % itemTypeCount;
+            int value = (itemCount - lastValueBuf) / itemTypeCount;
+
+            for (int i = 0; i < itemTypeCount; i++) {
+                items[i] = value;
+            }
+            items[itemTypeCount - 1] += lastValueBuf;
+        }
+
+        return items;
+    }
+
+    public static Rule[] createRulesForTraining(@NonNull Level.LevelType levelType, int itemTypeCount, int itemCount) {
+        final ItemType[] uniqueResources = getUniqueResourceTypes(levelType.getResources(), itemTypeCount);
+        final int[] items = createTrainingItems(itemTypeCount, itemCount);
+
+        final Rule[] rules = new Rule[itemTypeCount];
+        for (int i = 0; i < itemTypeCount; i++) {
+            rules[i] = (new Rule(items[i], uniqueResources[i]));
+        }
+
+        return rules;
+    }
+
     public static Rule[] createRules(Level.LevelType levelType, int[] items) {
         int requiredTypesCount = items.length;
         final ItemType[] uniqueResources = getUniqueResourceTypes(levelType.getResources(), requiredTypesCount);
@@ -185,7 +218,7 @@ public class Generator {
         return rules;
     }
 
-    //Выборка X ресурсов из Y; Например: 2 из 3
+    //Выборка X ресурсов из Y; Например: 2 из 3 (Подмножество, 2 случайные картинки из 3)
     private static ItemType[] getUniqueResourceTypes(ItemType[] source, int itemsCount) {
         int[] usedItemIndexes = new int[itemsCount];
         Arrays.fill(usedItemIndexes, -1);

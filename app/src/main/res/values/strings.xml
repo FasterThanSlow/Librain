@@ -37,21 +37,6 @@
     <string name="tutorial_third_round_message">Figures appear on the field two consecutive times. When the shapes disappear, arrange them according to the location number indicated on the screen.</string>
 
     <!-- Training -->
-    <string name="training">Training</string>
-
-    <string name="training_main_round_description">Selected rounds</string>
-    <string name="training_board_settings_description">Set the board size</string>
-    <string name="training_round_settings_description">Select the desired rounds</string>
-
-    <string name="training_items_settings_items_count">Items count</string>
-    <string name="training_items_settings_item_types_count">Item types count</string>
-
-    <string name="training_start">Start</string>
-    <string name="training_save">Save</string>
-    <string name="training_cancel">Cancel</string>
-    <string name="training_next">Next</string>
-    <string name="training_previous">Previous</string>
-
 
     <!-- Rating Game -->
     <string name="rating_game_stage">Stage %1$d</string>

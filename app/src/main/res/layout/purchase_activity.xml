@@ -15,116 +15,118 @@
         android:background="?attr/colorPrimary"
 
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/purchase_button"
-        android:text="Приобрести"
-        android:textColor="@color/colorWhite"
-        android:layout_width="150dp"
+    <ImageView
+        android:id="@+id/purchase_premium_top_view"
+
+        android:visibility="gone"
+
+        android:src="@drawable/purchase_icon"
+
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/GreenButton"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
 
-    <View
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:background="@drawable/ic_medal"
-        android:id="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/purchase_premium_features_view"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
+        android:id="@+id/purchase_premium_features_view"
+
+        android:visibility="gone"
+
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+
         android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/purchase_premium_top_view"
+        app:layout_constraintBottom_toTopOf="@+id/purchase_premium_button"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintBottom_toTopOf="@+id/purchase_button">
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
             android:orientation="vertical"
             android:paddingLeft="4dp"
             android:paddingRight="4dp">
 
-            <View
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_trophy" />
+            <ImageView
+                android:src="@drawable/ic_trophy"
 
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center"
 
-                android:text="Еще больше уровней"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center_horizontal"
+
+                android:text="@string/purchase_premium_features_title_1"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:text="Дополнительные 20 уровней для более продуктивной тренировки"
+                android:gravity="center_horizontal"
+
+                android:text="@string/purchase_premium_features_description_1"
                 android:textSize="12sp"
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
             android:orientation="vertical"
             android:paddingLeft="4dp"
             android:paddingRight="4dp">
 
-            <View
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_rating" />
+                android:src="@drawable/ic_rating" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:text="Рейтинговый режим"
+                android:gravity="center_horizontal"
+                android:text="@string/purchase_premium_features_title_2"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:text="Режим поволит тренироваться еще эффективнее и отслеживать прогресс"
+                android:gravity="center_horizontal"
+                android:text="@string/purchase_premium_features_description_2"
                 android:textSize="12sp"
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="4dp"
             android:paddingRight="4dp">
@@ -136,21 +138,60 @@
                 android:background="@drawable/ic_plus_sign" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="Отсутствие рекламы"
+                android:text="@string/purchase_premium_features_title_3"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:text="Получите ещё больше комфорта, не отвлекаясь на надоедливую рекламу"
+                android:gravity="center_horizontal"
+                android:text="@string/purchase_premium_features_description_3"
                 android:textSize="12sp"
                 android:textStyle="italic" />
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/purchase_premium_button"
+
+        android:visibility="gone"
+
+        android:text="@string/purchase"
+        android:textColor="@color/colorWhite"
+
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+
+        android:theme="@style/GreenButton"
+
+        app:layout_constraintTop_toBottomOf="@+id/purchase_premium_features_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/purchase_premium_success_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <TextView
+            android:text="ЕСЛИ БУДЕТ ТЕКСТ, ТО СРАЗУ В РЕСУРСЫ (strings purchase)! \n\n КАК СДЕЛАЕШЬ ПОМЕНЯЙ НА GONE и VISIBLE соответственно"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>

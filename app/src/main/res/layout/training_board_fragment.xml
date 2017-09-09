@@ -90,29 +90,29 @@
         android:layout_height="80dp">
 
         <Button
-            android:id="@+id/training_previous_button"
+            android:id="@+id/previous_button"
 
-            android:text="@string/training_cancel"
+            android:text="@string/training_settings_cancel"
 
             android:theme="@style/GreenButton"
             android:textColor="@color/colorWhite"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
 
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/training_next_button"
+            android:id="@+id/next_button"
             android:textColor="@color/colorWhite"
-            android:text="@string/training_next"
+            android:text="@string/training_settings_next"
 
             android:theme="@style/GreenButton"
 
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
 
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

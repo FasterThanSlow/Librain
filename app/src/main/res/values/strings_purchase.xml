@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="premium_access">Premium access</string>
+    <string name="purchase_premium_access">Premium access</string>
 
-    <string name="premium_success_message">You\'ve premium access</string>
-    <string name="premium_error_message">Error code %1$d</string>
+    <string name="purchase">Purchase</string>
+
+    <string name="purchase_premium_features_title_1">Еще больше уровней</string>
+    <string name="purchase_premium_features_description_1">Дополнительные 20 уровней, для более продуктивной тренировки</string>
+    <string name="purchase_premium_features_title_2">Рейтинговый режим</string>
+    <string name="purchase_premium_features_description_2">Режим позволит тренироваться еще эффективнее и отслеживать прогресс</string>
+    <string name="purchase_premium_features_title_3">Отсутствие рекламы</string>
+    <string name="purchase_premium_features_description_3">Получите ещё больше комфорта, не отвлекаясь на рекламу</string>
+
+    <string name="purchase_error_message">Error code %1$d</string>
+
+    <!--- UNUSED -->
+    <string name="purchase_success_message">You\'ve premium access</string>
 </resources>
