@@ -127,7 +127,7 @@
 
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/previous_button"
         android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -176,7 +176,7 @@
         android:textColor="@color/colorWhite"
         android:theme="@style/GreenButton"
 
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/next_button"

@@ -4,12 +4,12 @@
 
     <string name="purchase">Purchase</string>
 
-    <string name="purchase_premium_features_title_1">Еще больше уровней</string>
-    <string name="purchase_premium_features_description_1">Дополнительные 20 уровней, для более продуктивной тренировки</string>
-    <string name="purchase_premium_features_title_2">Рейтинговый режим</string>
-    <string name="purchase_premium_features_description_2">Режим позволит тренироваться еще эффективнее и отслеживать прогресс</string>
-    <string name="purchase_premium_features_title_3">Отсутствие рекламы</string>
-    <string name="purchase_premium_features_description_3">Получите ещё больше комфорта, не отвлекаясь на рекламу</string>
+    <string name="purchase_premium_features_title_1">More levels</string>
+    <string name="purchase_premium_features_description_1">Additional 20 levels, for a more productive workout</string>
+    <string name="purchase_premium_features_title_2">Raiting mode</string>
+    <string name="purchase_premium_features_description_2">The regime will allow you to train even more effectively and track your progress</string>
+    <string name="purchase_premium_features_title_3">Lack of advertising</string>
+    <string name="purchase_premium_features_description_3">Get even more comfort without being distracted by advertising</string>
 
     <string name="purchase_error_message">Error code %1$d</string>
 
