@@ -43,7 +43,7 @@ public class LevelDao {
         ArrayList<Level> spaceLevels = new ArrayList<>();
 
         spaceLevels.add(new Level(1, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{1}), new Round(1000, 3, 3, new int[]{2}), new Round(1000, 3, 3, new int[]{1})));
-        spaceLevels.add(new Level(2,true, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{2}), new Round(1000, 3, 4, new int[]{2}), new Round(1000, 3, 3, new int[]{2})));
+        spaceLevels.add(new Level(2, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{2}), new Round(1000, 3, 4, new int[]{2}), new Round(1000, 3, 3, new int[]{2})));
         spaceLevels.add(new Level(3, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{3}), new Round(1000, 3, 3, new int[]{3}), new Round(1000, 3, 3, new int[]{3})));
         spaceLevels.add(new Level(4, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{4}), new Round(1000, 3, 3, new int[]{4}), new Round(1000, 3, 3, new int[]{4})));
         spaceLevels.add(new Level(5, Level.LevelType.SPACE, new Round(1000, 3, 3, new int[]{5}), new Round(1000, 3, 3, new int[]{5}), new Round(1000, 3, 3, new int[]{5})));
