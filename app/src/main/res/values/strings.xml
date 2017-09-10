@@ -82,5 +82,7 @@
     <string name="training_round_2_description">The figure will appear on the screen 2 times with an interval in time. After they disappear, display the general layout, aligning the position of the figures at the first and second appearance.</string>
     <string name="training_round_1_description">The figure will appear on the screen. Remember their location. After they disappear, display the location of these figures on the field.</string>
     <string name="training_round_1_title">Round 1</string>
+    <string name="training_settings_select_round_title">Select the desired rounds</string>
+    <string name="training_start">Start</string>
 
 </resources>
