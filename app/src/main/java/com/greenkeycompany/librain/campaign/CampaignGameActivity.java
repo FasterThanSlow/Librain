@@ -831,6 +831,40 @@ public class CampaignGameActivity extends AppCompatActivity {
                             }
                         });
                     }
+                } else {
+                    nextImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            resultDialog.dismiss();
+
+                            if (premiumUtil.isPremiumUser()) {
+                                setCurrentLevel(nextLevel);
+                                resetLevelProgress();
+
+                                startRoundAnimator.start();
+                            } else {
+                                if (nextLevel.getId() / 5 == 0 && interstitialAd.isLoaded()) {
+                                    interstitialAd.show();
+                                    interstitialAd.setAdListener(new AdListener() {
+                                        @Override
+                                        public void onAdClosed() {
+                                            interstitialAd.loadAd(new AdRequest.Builder().build());
+
+                                            setCurrentLevel(nextLevel);
+                                            resetLevelProgress();
+
+                                            startRoundAnimator.start();
+                                        }
+                                    });
+                                } else {
+                                    setCurrentLevel(nextLevel);
+                                    resetLevelProgress();
+
+                                    startRoundAnimator.start();
+                                }
+                            }
+                        }
+                    });
                 }
             } else {
                 if (currentScore > 0) {
@@ -866,26 +900,33 @@ public class CampaignGameActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 resultDialog.dismiss();
 
-                                if (unlockedLevel.getId() / 5 == 0 && interstitialAd.isLoaded()) {
-                                    interstitialAd.setAdListener(new AdListener() {
-                                        @Override
-                                        public void onAdClosed() {
-                                            interstitialAd.loadAd(new AdRequest.Builder().build());
-
-                                            setCurrentLevel(unlockedLevel);
-                                            resetLevelProgress();
-
-                                            startRoundAnimator.start();
-                                        }
-                                    });
-                                } else {
+                                if (premiumUtil.isPremiumUser()) {
                                     setCurrentLevel(unlockedLevel);
                                     resetLevelProgress();
 
                                     startRoundAnimator.start();
+                                } else {
+                                    if (unlockedLevel.getId() / 5 == 0 && interstitialAd.isLoaded()) {
+                                        interstitialAd.show();
+                                        interstitialAd.setAdListener(new AdListener() {
+                                            @Override
+                                            public void onAdClosed() {
+                                                interstitialAd.loadAd(new AdRequest.Builder().build());
+
+                                                setCurrentLevel(nextLevel);
+                                                resetLevelProgress();
+
+                                                startRoundAnimator.start();
+                                            }
+                                        });
+                                    } else {
+                                        setCurrentLevel(unlockedLevel);
+                                        resetLevelProgress();
+
+                                        startRoundAnimator.start();
+                                    }
                                 }
-                            }
-                        });
+                            }});
                     }
                 } else {
                     nextImageView.setVisibility(View.GONE);
