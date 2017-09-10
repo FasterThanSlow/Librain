@@ -22,9 +22,8 @@ import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITrainingMenuPresenter> implements
-        ITrainingMenuView,
-
+public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITrainingMenuPresenter>
+        implements ITrainingMenuView,
         TrainingBoardFragment.BoardFragmentListener,
         TrainingItemsFragment.ItemsFragmentListener,
         TrainingRoundsFragment.RoundFragmentListener {
