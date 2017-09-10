@@ -44,4 +44,22 @@
     <string name="tutorial_start_title">Приветствуем в обучении</string>
     <string name="tutorial_third_round_message">Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения.</string>
     <string name="tutorial_third_round_title">Задание 3</string>
+    <string name="training_round_1_title">Задание 1</string>
+    <string name="training_round_3_description">На экране появляются фигуры 2 раза с промежутком во времени. После того как они исчезнут, отобразите выбранное расположение(номер расположения появится на экране).</string>
+    <string name="training_round_2_description">На экране появятся фигуры 2 раза с промежутком во времени. После того как они исчезнут, отобразите общее расположение, совместив положение фигур при первом и втором появлении.</string>
+    <string name="training_round_1_description">На экране появятся фигуры. Запомните их расположение. После того как они исчезнут, отобразите расположение этих фигур на поле.</string>
+    <string name="training_round_2_title">Задание 2</string>
+    <string name="training_round_3_title">Задание 3</string>
+    <string name="purchase_premium_features_title_3">Отсутствие рекламы</string>
+    <string name="purchase_premium_features_title_2">Рейтинговый режим</string>
+    <string name="purchase_premium_features_title_1">Еще больше уровней</string>
+    <string name="purchase_premium_features_description_3">Получите ещё больше комфорта, не отвлекаясь на рекламу</string>
+    <string name="purchase_premium_features_description_2">Режим позволит тренироваться еще эффективнее и отслеживать прогресс</string>
+    <string name="purchase_premium_features_description_1">Дополнительные 20 уровней, для более продуктивной тренировки</string>
+    <string name="training_settings_round_3_title">Задание 3</string>
+    <string name="training_settings_round_2_title">Задание 2</string>
+    <string name="training_settings_round_1_title">Задание 1</string>
+    <string name="training_settings_round_1_description">На экране появятся фигуры. Запомните их расположение. После того как они исчезнут, отобразите расположение этих фигур на поле.</string>
+    <string name="training_settings_round_3_description">На экране появляются фигуры 2 раза с промежутком во времени. После того как они исчезнут, отобразите выбранное расположение(номер расположения появится на экране).</string>
+    <string name="training_settings_round_2_description">На экране появятся фигуры 2 раза с промежутком во времени. После того как они исчезнут, отобразите общее расположение, совместив положение фигур при первом и втором появлении.</string>
 </resources>

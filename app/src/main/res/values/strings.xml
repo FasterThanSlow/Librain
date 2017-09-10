@@ -76,5 +76,13 @@
     <string name="tutorial_dialog_button_text">Go to the levels</string>
     <string name="purchase_title">Get premium access</string>
     <string name="main_menu_play">Play</string>
+    <string name="training_round_2_title">Round 2</string>
+    <string name="training_round_3_title">Round 3</string>
+    <string name="training_round_3_description">The figure appears on the screen 2 times with a time interval. After they disappear, display the selected location (the location number will appear on the screen)</string>
+    <string name="training_round_2_description">The figure will appear on the screen 2 times with an interval in time. After they disappear, display the general layout, aligning the position of the figures at the first and second appearance.</string>
+    <string name="training_round_1_description">The figure will appear on the screen. Remember their location. After they disappear, display the location of these figures on the field.</string>
+    <string name="training_round_1_title">Round 1</string>
+    <string name="training_settings_select_round_title">Select the desired rounds</string>
+    <string name="training_start">Start</string>
 
 </resources>
