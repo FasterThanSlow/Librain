@@ -11,7 +11,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="56dp"
         android:background="?attr/colorPrimary"
 
         app:layout_constraintRight_toRightOf="parent"
@@ -31,8 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/purchase_premium_features_view"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintBottom_toTopOf="@+id/purchase_premium_features_view" />
 
     <LinearLayout
         android:id="@+id/purchase_premium_features_view"
@@ -41,9 +40,6 @@
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
 
         android:orientation="horizontal"
 
@@ -164,7 +160,7 @@
         android:text="@string/purchase"
         android:textColor="@color/colorWhite"
 
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
 
         android:theme="@style/GreenButton"
@@ -179,19 +175,44 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
-        <TextView
-            android:text="ЕСЛИ БУДЕТ ТЕКСТ, ТО СРАЗУ В РЕСУРСЫ (strings purchase)! \n\n КАК СДЕЛАЕШЬ ПОМЕНЯЙ НА GONE и VISIBLE соответственно"
-            android:layout_width="200dp"
+        <ImageView
+            android:id="@+id/purchase_premium_activated_top_view"
+            android:visibility="visible"
+            android:src="@drawable/game_round_right_answer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_bias="0.5"
+            android:layout_marginBottom="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/purchase_activated_title"
+            app:layout_constraintTop_toBottomOf="@+id/purchase_premium_activated_top_view"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/textView"
+            android:layout_marginLeft="8dp"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="32dp" />
+
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

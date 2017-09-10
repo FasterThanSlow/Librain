@@ -60,7 +60,7 @@
     </FrameLayout>
 
     <TextView
-        android:text="@string/training_round_settings_description"
+        android:text="@string/training_settings_select_round_title"
         android:textColor="@color/colorTextSecondary"
         android:textSize="16sp"
 
@@ -82,7 +82,7 @@
         android:layout_height="0dp">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/training_first_round_card_view"
+            android:id="@+id/first_round_card_view"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:paddingStart="16dp">
 
                 <CheckBox
-                    android:id="@+id/training_first_round_check_box"
+                    android:id="@+id/first_round_check_box"
 
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -166,7 +166,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/training_second_round_card_view"
+            android:id="@+id/second_round_card_view"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                 android:paddingStart="16dp">
 
                 <CheckBox
-                    android:id="@+id/training_second_round_check_box"
+                    android:id="@+id/second_round_check_box"
 
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -250,7 +250,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/training_third_round_card_view"
+            android:id="@+id/third_round_card_view"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
                 android:paddingStart="16dp">
 
                 <CheckBox
-                    android:id="@+id/training_third_round_check_box"
+                    android:id="@+id/third_round_check_box"
 
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -346,7 +346,7 @@
             android:id="@+id/training_previous_button"
 
             android:textColor="@color/colorWhite"
-            android:text="@string/training_previous"
+            android:text="@string/training_settings_previous"
 
             android:theme="@style/GreenButton"
 
@@ -359,7 +359,7 @@
         <Button
             android:id="@+id/training_next_button"
             android:textColor="@color/colorWhite"
-            android:text="@string/training_save"
+            android:text="@string/training_settings_save"
 
             android:theme="@style/GreenButton"
 

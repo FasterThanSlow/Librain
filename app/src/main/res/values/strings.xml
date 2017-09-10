@@ -84,5 +84,6 @@
     <string name="training_round_1_title">Round 1</string>
     <string name="training_settings_select_round_title">Select the desired rounds</string>
     <string name="training_start">Start</string>
+    <string name="purchase_activated_title">Поздравляем. Теперь вам доступны все премиум функции приложения Librain. Удачной игры!</string>
 
 </resources>

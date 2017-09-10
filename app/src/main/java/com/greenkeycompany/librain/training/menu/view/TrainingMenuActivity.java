@@ -166,6 +166,11 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
     }
 
     @Override
+    public void onBoardFragmentPreviousButtonPressed() {
+
+    }
+
+    /*@Override
     public void onBoardCancelButtonPressed() {
         //setCurrentFragment(FragmentType.MAIN);
     }
@@ -183,6 +188,11 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
 
         setCurrentFragment(FragmentType.ROUNDS);
         */
+    /*}*/
+
+    @Override
+    public void onItemsFragmentNext(int itemTypeCount, int itemCount) {
+
     }
 
     @Override
