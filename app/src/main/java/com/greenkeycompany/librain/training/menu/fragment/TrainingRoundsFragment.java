@@ -18,10 +18,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class TrainingRoundFragment extends Fragment {
+public class TrainingRoundsFragment extends Fragment {
 
     public interface RoundFragmentListener {
-        void onRoundFragmentNextClick(boolean firstRoundSelected, boolean secondRoundSelected, boolean thirdRoundSelected);
+        void onRoundsFragmentNextClick(boolean firstRoundSelected, boolean secondRoundSelected, boolean thirdRoundSelected);
         void onRoundFragmentPreviousClick();
     }
     
@@ -33,11 +33,11 @@ public class TrainingRoundFragment extends Fragment {
     private boolean secondRoundSelected;
     private boolean thirdRoundSelected;
 
-    public TrainingRoundFragment() {
+    public TrainingRoundsFragment() {
     }
 
-    public static TrainingRoundFragment newInstance(boolean firstRoundSelected, boolean secondRoundSelected, boolean thirdRoundSelected) {
-        TrainingRoundFragment fragment = new TrainingRoundFragment();
+    public static TrainingRoundsFragment newInstance(boolean firstRoundSelected, boolean secondRoundSelected, boolean thirdRoundSelected) {
+        TrainingRoundsFragment fragment = new TrainingRoundsFragment();
         Bundle args = new Bundle();
         args.putBoolean(FIRST_ROUND_SELECTED_PARAM, firstRoundSelected);
         args.putBoolean(SECOND_ROUND_SELECTED_PARAM, secondRoundSelected);
@@ -122,7 +122,7 @@ public class TrainingRoundFragment extends Fragment {
 
     @OnClick(R.id.next_button)
     public void onNextButtonClick() {
-        fragmentListener.onRoundFragmentNextClick(firstRoundSelected, secondRoundSelected, thirdRoundSelected);
+        fragmentListener.onRoundsFragmentNextClick(firstRoundSelected, secondRoundSelected, thirdRoundSelected);
     }
 
     @OnClick(R.id.previous_button)

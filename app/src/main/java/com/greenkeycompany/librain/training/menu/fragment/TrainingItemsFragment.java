@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -18,12 +17,18 @@ import com.greenkeycompany.librain.level.Generator;
 import com.greenkeycompany.librain.level.Level;
 import com.greenkeycompany.librain.app.view.boardview.BoardView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class TrainingItemsFragment extends Fragment {
 
-    private static final int MINIMUM_ITEM_COUNt = 1;
+    private static final int MINIMUM_ITEM_COUNt = 2;
 
     private static final String COLUMN_COUNT_KEY = "column_count";
     private static final String ROW_COUNT_KEY = "row_count";
@@ -31,18 +36,13 @@ public class TrainingItemsFragment extends Fragment {
     private static final String TYPE_COUNT = "type_count";
     private static final String ITEM_COUNT = "item_count";
 
+    private static final Level.LevelType LEVEL_TYPE = Level.LevelType.FRUIT;
+
     private int columnCount;
     private int rowCount;
 
-    private int typeCount;
+    private int itemTypeCount;
     private int itemCount;
-
-    private int[] items;
-
-    private TextView selectedTypeCountTextView;
-    private List<TextView> typeCountTextViewList;
-
-    private BoardView boardView;
 
     public interface ItemsFragmentListener {
         void onItemsFragmentNext(int itemTypeCount, int itemCount);
@@ -70,18 +70,30 @@ public class TrainingItemsFragment extends Fragment {
             columnCount = getArguments().getInt(COLUMN_COUNT_KEY);
             rowCount = getArguments().getInt(ROW_COUNT_KEY);
 
-            typeCount = getArguments().getInt(TYPE_COUNT);
+            itemTypeCount = getArguments().getInt(TYPE_COUNT);
             itemCount = getArguments().getInt(ITEM_COUNT);
 
             if (columnCount * rowCount < itemCount) {
                 itemCount = MINIMUM_ITEM_COUNt;
-                typeCount = 1;
+                itemTypeCount = 1;
             }
         }
     }
 
-    private SeekBar itemCountSeekBar;
-    private TextView itemCountTextView;
+    @BindView(R.id.board_view) BoardView boardView;
+    @BindViews({
+            R.id.item_types_1_view,
+            R.id.item_types_2_view,
+            R.id.item_types_3_view,
+            R.id.item_types_4_view
+    }) List<View> itemTypeCountViewList;
+
+    private View selectedTypeCountView;
+
+    @BindView(R.id.item_count_seek_bar) SeekBar itemCountSeekBar;
+    @BindView(R.id.item_count_text_view) TextView itemCountTextView;
+
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,50 +101,28 @@ public class TrainingItemsFragment extends Fragment {
 
         final View parentView = inflater.inflate(R.layout.training_items_fragment, container, false);
 
-        final Button nextButton = (Button) parentView.findViewById(R.id.next_button);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fragmentListener != null)
-                    fragmentListener.onItemsFragmentNext(typeCount, itemCount);
-            }
-        });
+        unbinder = ButterKnife.bind(this, parentView);
 
-        final Button previousButton = (Button) parentView.findViewById(R.id.previous_button);
-        previousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fragmentListener != null)
-                    fragmentListener.onItemsFragmentPrevious();
-            }
-        });
-
-        boardView = (BoardView) parentView.findViewById(R.id.board_view);
         boardView.createItems(rowCount, columnCount);
+        boardView.post(new Runnable() {
+            @Override
+            public void run() {
+                resetBoardItems();
+            }
+        });
 
-        typeCountTextViewList = new ArrayList<>();
-        typeCountTextViewList.add((TextView) parentView.findViewById(R.id.training_item_types_count_1));
-        typeCountTextViewList.add((TextView) parentView.findViewById(R.id.training_item_types_count_2));
-        typeCountTextViewList.add((TextView) parentView.findViewById(R.id.training_item_types_count_3));
-        typeCountTextViewList.add((TextView) parentView.findViewById(R.id.training_item_types_count_4));
+        selectedTypeCountView = itemTypeCountViewList.get(itemTypeCount - 1);
+        selectedTypeCountView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
 
-        for (TextView itemTypesCount : typeCountTextViewList) {
-            itemTypesCount.setOnClickListener(itemTypesCountOnClickListener);
-        }
-
-        selectedTypeCountTextView = typeCountTextViewList.get(typeCount - 1);
-        selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
-
-        itemCountTextView = (TextView) parentView.findViewById(R.id.training_level_item_count_text_view);
         itemCountTextView.setText(String.valueOf(itemCount));
 
-        itemCountSeekBar = (SeekBar) parentView.findViewById(R.id.training_level_item_count_seek_bar);
         itemCountSeekBar.setMax(rowCount * columnCount - MINIMUM_ITEM_COUNt);
         itemCountSeekBar.setProgress(itemCount - MINIMUM_ITEM_COUNt);
         itemCountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setItemCount(progress + MINIMUM_ITEM_COUNt);
+                resetBoardItems();
             }
 
             @Override
@@ -142,82 +132,85 @@ public class TrainingItemsFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
+                resetBoardItems();
             }
         });
 
-        resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
+        setItemCount(itemCount);
 
         return parentView;
     }
 
-    private View.OnClickListener itemTypesCountOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View item) {
-            selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
+    @OnClick({R.id.item_types_1_view, R.id.item_types_2_view, R.id.item_types_3_view, R.id.item_types_4_view})
+    public void onItemTypesViewClick(View view) {
+        selectedTypeCountView.setBackgroundResource(R.drawable.training_item_type_count_background);
 
-            selectedTypeCountTextView = (TextView) item;
-            selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
+        selectedTypeCountView = view;
+        selectedTypeCountView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
 
-            typeCount = Integer.valueOf(selectedTypeCountTextView.getText().toString());
-
-            resetBoardItems(itemCount, typeCount, Level.LevelType.FRUIT);
+        switch (view.getId()) {
+            case R.id.item_types_1_view: itemTypeCount = 1; break;
+            case R.id.item_types_2_view: itemTypeCount = 2; break;
+            case R.id.item_types_3_view: itemTypeCount = 3; break;
+            case R.id.item_types_4_view: itemTypeCount = 4; break;
         }
-    };
+
+        resetBoardItems();
+    }
+
+    @OnClick(R.id.previous_button)
+    public void onPreviousButtonClick() {
+        fragmentListener.onItemsFragmentPrevious();
+    }
+
+    @OnClick(R.id.next_button)
+    public void onNextButtonClick() {
+        fragmentListener.onItemsFragmentNext(itemTypeCount, itemCount);
+    }
+
+    private void resetBoardItems() {
+        Rule[] rules = Generator.createRulesForTraining(LEVEL_TYPE, itemTypeCount,  itemCount);
+        ItemType[] itemTypes = Generator.createFullBoardItems(rules, rowCount * columnCount);
+
+        boardView.setItemsResources(itemTypes);
+    }
 
     private void setItemCount(int itemCount) {
-        Log.d("TrainingTest", "itemCount " + itemCount);
-
         this.itemCount = itemCount;
-        itemCountTextView.setText(String.valueOf(itemCount));
+        this.itemCountTextView.setText(String.valueOf(itemCount));
 
         switch (itemCount) {
             case 2:
-                typeCountTextViewList.get(2).setVisibility(View.INVISIBLE);
-                typeCountTextViewList.get(3).setVisibility(View.INVISIBLE);
+                itemTypeCountViewList.get(2).setVisibility(View.INVISIBLE);
+                itemTypeCountViewList.get(3).setVisibility(View.INVISIBLE);
 
-                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
+                selectedTypeCountView.setBackgroundResource(R.drawable.training_item_type_count_background);
 
-                typeCount = 1;
-                selectedTypeCountTextView = typeCountTextViewList.get(0);
-                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
+                itemTypeCount = 1;
+                selectedTypeCountView = itemTypeCountViewList.get(0);
+                selectedTypeCountView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
                 break;
             case 3:
-                typeCountTextViewList.get(2).setVisibility(View.VISIBLE);
-                typeCountTextViewList.get(3).setVisibility(View.INVISIBLE);
+                itemTypeCountViewList.get(2).setVisibility(View.VISIBLE);
+                itemTypeCountViewList.get(3).setVisibility(View.INVISIBLE);
 
-                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background);
+                selectedTypeCountView.setBackgroundResource(R.drawable.training_item_type_count_background);
 
-                typeCount = 1;
-                selectedTypeCountTextView = typeCountTextViewList.get(0);
-                selectedTypeCountTextView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
+                itemTypeCount = 1;
+                selectedTypeCountView = itemTypeCountViewList.get(0);
+                selectedTypeCountView.setBackgroundResource(R.drawable.training_item_type_count_background_selected);
                 break;
             default:
-                typeCountTextViewList.get(2).setVisibility(View.VISIBLE);
-                typeCountTextViewList.get(3).setVisibility(View.VISIBLE);
+                itemTypeCountViewList.get(2).setVisibility(View.VISIBLE);
+                itemTypeCountViewList.get(3).setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-    private void resetBoardItems(int itemCount, int typeCount, Level.LevelType levelType) {
-        items = new int[typeCount];
-
-        if (typeCount == 1) {
-            items[0] = itemCount;
-        } else {
-            int lastValueBuf = itemCount % typeCount;
-            int value = (itemCount - lastValueBuf) / typeCount;
-
-            for (int i = 0; i < typeCount; i++) {
-                items[i] = value;
-            }
-            items[typeCount - 1] += lastValueBuf;
-        }
-
-        Rule[] rules = Generator.createRules(levelType, items);
-        ItemType[] boardResources = Generator.createFullBoardItems(rules, columnCount * rowCount);
-
-        boardView.setItemsResources(boardResources);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private ItemsFragmentListener fragmentListener;
@@ -231,7 +224,6 @@ public class TrainingItemsFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement ItemsFragmentListener");
         }
-
     }
 
     @Override

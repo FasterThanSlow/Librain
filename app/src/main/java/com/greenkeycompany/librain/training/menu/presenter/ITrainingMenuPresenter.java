@@ -9,9 +9,14 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 
 public interface ITrainingMenuPresenter extends MvpPresenter<ITrainingMenuView> {
     void init();
-
-    void onActionBarSettingsPressed();
     void onBackPressed();
 
+    void saveBoardSettings(int rowCount, int columnCount);
+    void saveItemsSettings(int itemTypeCount, int itemCount);
+    void saveRoundsSettings(boolean firstRound, boolean secondRound, boolean thirdRound);
 
+    void requestToSetSettingsMainFragment();
+    void requestToSetSettingsBoardFragment();
+    void requestToSetSettingsItemsFragment();
+    void requestToSetSettingsRoundsFragment();
 }

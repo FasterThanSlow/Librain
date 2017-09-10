@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.greenkeycompany.librain.app.App;
 import com.greenkeycompany.librain.R;
+import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.greenkeycompany.librain.dao.LevelDao;
 import com.greenkeycompany.librain.entity.ItemType;
 import com.greenkeycompany.librain.entity.Rule;
@@ -49,7 +50,7 @@ public class CampaignGameActivity extends AppCompatActivity {
 
     private LevelDao levelDao;
 
-    private ActivityCheckout checkout;
+    private PremiumUtil premiumUtil = App.get().getPremiumUtil();
 
     private Level currentLevel;
 
@@ -102,9 +103,6 @@ public class CampaignGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
 
-        checkout = Checkout.forActivity(this, App.get().getBilling());
-        checkout.start();
-
         levelDao = LevelDao.getInstance(CampaignGameActivity.this);
 
         boardView = (BoardView) findViewById(R.id.board_view);
@@ -151,15 +149,9 @@ public class CampaignGameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        checkout.stop();
-        super.onDestroy();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        checkout.onActivityResult(requestCode, resultCode, data);
+        //////////////////
     }
 
     private void setCurrentLevel(Level level) {
@@ -793,11 +785,10 @@ public class CampaignGameActivity extends AppCompatActivity {
         if (nextLevel == null) {
             nextImageView.setVisibility(View.GONE);
         } else {
-            /*
             if (nextLevel.isEnabled()) {
                 if (nextLevel.isPremium()) {
 
-                    if (PremiumHelper.isPremiumUser()) {
+                    if (premiumUtil.isPremiumUser()) {
                         nextImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -817,6 +808,7 @@ public class CampaignGameActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 resultDialog.dismiss();
 
+                                /*
                                 PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
                                 premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
                                     @Override
@@ -840,7 +832,8 @@ public class CampaignGameActivity extends AppCompatActivity {
                                         showResultDialog();
                                     }
                                 });
-                                premiumDialog.show();
+                                */
+                                //premiumDialog.show();
                             }
                         });
                     }
@@ -849,7 +842,7 @@ public class CampaignGameActivity extends AppCompatActivity {
                 if (currentScore > 0) {
                     final Level unlockedLevel = levelDao.unlockLevel(levelId + 1);
                     if (unlockedLevel.isPremium()) {
-                        if (PremiumHelper.isPremiumUser()) {
+                        if (premiumUtil.isPremiumUser()) {
                             nextImageView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -869,6 +862,7 @@ public class CampaignGameActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     resultDialog.dismiss();
 
+                                    /*
                                     PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
                                     premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
                                         @Override
@@ -892,7 +886,8 @@ public class CampaignGameActivity extends AppCompatActivity {
                                             showResultDialog();
                                         }
                                     });
-                                    premiumDialog.show();
+                                    */
+                                    //premiumDialog.show();
                                 }
                             });
                         }
@@ -912,7 +907,7 @@ public class CampaignGameActivity extends AppCompatActivity {
                 } else {
                     nextImageView.setVisibility(View.GONE);
                 }
-            }*/
+            }
         }
 
 

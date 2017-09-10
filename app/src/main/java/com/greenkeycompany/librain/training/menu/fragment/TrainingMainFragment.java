@@ -26,6 +26,8 @@ import butterknife.Unbinder;
 
 public class TrainingMainFragment extends Fragment {
 
+    private static final Level.LevelType LEVEL_TYPE = Level.LevelType.FRUIT;
+
     private static final String TRAINING_CONFIG_PARAM = "training_config";
     private TrainingConfig config;
 
@@ -80,10 +82,7 @@ public class TrainingMainFragment extends Fragment {
         boardView.post(new Runnable() {
             @Override
             public void run() {
-                Level.LevelType[] levelTypes = Level.LevelType.values();
-                Level.LevelType levelType = levelTypes[new Random().nextInt(levelTypes.length)];
-
-                Rule[] rules = Generator.createRulesForTraining(levelType, config.getItemTypeCount(),  config.getRowCount() * config.getColumnCount());
+                Rule[] rules = Generator.createRulesForTraining(LEVEL_TYPE, config.getItemTypeCount(),  config.getItemCount());
                 ItemType[] itemTypes = Generator.createFullBoardItems(rules, config.getRowCount() * config.getColumnCount());
 
                 boardView.setItemsResources(itemTypes);

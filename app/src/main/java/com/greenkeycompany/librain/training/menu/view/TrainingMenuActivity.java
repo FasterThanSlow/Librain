@@ -12,7 +12,7 @@ import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.training.menu.fragment.TrainingBoardFragment;
 import com.greenkeycompany.librain.training.menu.fragment.TrainingItemsFragment;
 import com.greenkeycompany.librain.training.menu.fragment.TrainingMainFragment;
-import com.greenkeycompany.librain.training.menu.fragment.TrainingRoundFragment;
+import com.greenkeycompany.librain.training.menu.fragment.TrainingRoundsFragment;
 import com.greenkeycompany.librain.training.entity.TrainingConfig;
 import com.greenkeycompany.librain.training.util.TrainingPreferenceUtil;
 import com.greenkeycompany.librain.training.menu.presenter.ITrainingMenuPresenter;
@@ -27,7 +27,7 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
 
         TrainingBoardFragment.BoardFragmentListener,
         TrainingItemsFragment.ItemsFragmentListener,
-        TrainingRoundFragment.RoundFragmentListener {
+        TrainingRoundsFragment.RoundFragmentListener {
 
 
     @NonNull
@@ -53,8 +53,6 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
         presenter.init();
     }
 
-
-
     private Menu menu;
 
     @Override
@@ -73,7 +71,7 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-                presenter.onActionBarSettingsPressed();
+                presenter.requestToSetSettingsBoardFragment();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -83,22 +81,6 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
     @Override
     public void onBackPressed() {
         presenter.onBackPressed();
-        /*
-        switch (currentFragmentType) {
-            case MAIN:
-                finish();
-                break;
-            case BOARD:
-                setCurrentFragment(FragmentType.MAIN);
-                break;
-            case ITEMS:
-                setCurrentFragment(FragmentType.BOARD);
-                break;
-            case ROUNDS:
-                setCurrentFragment(FragmentType.ITEMS);
-                break;
-        }
-        */
     }
 
     private void setFragment(Fragment fragment) {
@@ -114,104 +96,50 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
     }
 
     @Override
-    public void setSettingsFragment(@NonNull TrainingConfig config) {
-
-    }
-
-    /*
-
-    private void setCurrentFragment(FragmentType fragmentType) {
-        currentFragmentType = fragmentType;
-
-        Fragment fragment = null;
-
-        switch (fragmentType) {
-            case MAIN:
-                fragment = TrainingMainFragment.newInstance(
-                        enabledColumnCount, enabledRowCount,
-                        itemTypeCount, itemCount,
-                        isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected);
-            break;
-            case BOARD:
-                fragment = TrainingBoardFragment.newInstance(enabledColumnCount, enabledRowCount);
-                break;
-            case ITEMS:
-                fragment = TrainingItemsFragment.newInstance(enabledColumnCount, enabledRowCount, itemTypeCount, itemCount);
-            break;
-            case ROUNDS:
-                fragment = TrainingRoundFragment.newInstance(isFirstRoundSelected, isSecondRoundSelected, isThirdRoundSelected);
-                break;
-        }
-
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
-
-*/
-
-    @Override
-    public void onBoardFragmentNextButtonPressed(int columnCount, int rowCount) {
-        //this.enabledColumnCount = columnCount;
-        //this.enabledRowCount = rowCount;
-/*
-        sharedPreferences.edit()
-                .putInt(ENABLED_COLUMN_COUNT_KEY, columnCount)
-                .putInt(ENABLED_ROW_COUNT_KEY, rowCount)
-                .apply();
-
-        setCurrentFragment(FragmentType.ITEMS);
-        */
+    public void setSettingsBoardFragment(int rowCount, int columnCount) {
+        setFragment(TrainingBoardFragment.newInstance(rowCount, columnCount));
     }
 
     @Override
-    public void onBoardCancelButtonPressed() {
-        //setCurrentFragment(FragmentType.MAIN);
+    public void setSettingsItemsFragment(int rowCount, int columnCount, int itemTypeCount, int itemCount) {
+        setFragment(TrainingItemsFragment.newInstance(rowCount, columnCount, itemTypeCount, itemCount));
     }
 
     @Override
-    public void onItemsFragmentNext(int itemTypeCount, int itemCount, int[] items) {
-        //this.itemCount = itemCount;
-        //this.itemTypeCount = itemTypeCount;
-        //this.items = items;
-/*
-        sharedPreferences.edit()
-                .putInt(ITEM_TYPE_COUNT_KEY, itemTypeCount)
-                .putInt(ITEM_COUNT_KEY, itemCount)
-                .apply();
+    public void setSettingsRoundsFragment(boolean firstRound, boolean secondRound, boolean thirdRound) {
+        setFragment(TrainingRoundsFragment.newInstance(firstRound, secondRound, thirdRound));
+    }
 
-        setCurrentFragment(FragmentType.ROUNDS);
-        */
+    @Override
+    public void onBoardFragmentNextButtonPressed(int rowCount, int columnCount) {
+        presenter.saveBoardSettings(rowCount, columnCount);
+        presenter.requestToSetSettingsItemsFragment();
+    }
+
+    @Override
+    public void onItemsFragmentNext(int itemTypeCount, int itemCount) {
+        presenter.saveItemsSettings(itemTypeCount, itemCount);
+        presenter.requestToSetSettingsRoundsFragment();
+    }
+
+    @Override
+    public void onRoundsFragmentNextClick(boolean firstRoundSelected, boolean secondRoundSelected, boolean thirdRoundSelected) {
+        presenter.saveRoundsSettings(firstRoundSelected, secondRoundSelected, thirdRoundSelected);
+        presenter.requestToSetSettingsMainFragment();
+    }
+
+    @Override
+    public void onBoardFragmentPreviousButtonPressed() {
+        presenter.requestToSetSettingsMainFragment();
     }
 
     @Override
     public void onItemsFragmentPrevious() {
-        //setCurrentFragment(FragmentType.BOARD);
-    }
-
-
-    @Override
-    public void onRoundFragmentNextClick(boolean firstRoundSelected,
-                                         boolean secondRoundSelected,
-                                         boolean thirdRoundSelected) {
-
-        //this.isFirstRoundSelected = isFirstRoundSelected;
-        //this.isSecondRoundSelected = isSecondRoundSelected;
-        //this.isThirdRoundSelected = isThirdRoundSelected;
-/*
-        sharedPreferences.edit()
-                .putBoolean(FIRST_ROUND_SELECTED_KEY, isFirstRoundSelected)
-                .putBoolean(SECOND_ROUND_SELECTED_KEY, isSecondRoundSelected)
-                .putBoolean(THIRD_ROUND_SELECTED_KEY, isThirdRoundSelected)
-                .apply();
-
-        setCurrentFragment(FragmentType.MAIN);
-        */
+        presenter.requestToSetSettingsBoardFragment();
     }
 
     @Override
     public void onRoundFragmentPreviousClick() {
-        //setCurrentFragment(FragmentType.ITEMS);
+        presenter.requestToSetSettingsItemsFragment();
     }
 }
