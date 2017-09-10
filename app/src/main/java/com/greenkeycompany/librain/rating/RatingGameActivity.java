@@ -73,7 +73,7 @@ public class RatingGameActivity extends AppCompatActivity {
         boardView = (BoardView) findViewById(R.id.board_view);
         distributorView = (DistributorView) findViewById(R.id.distributor_view);
 
-        checkResultButton = (Button) findViewById(R.id.check_result_button);
+        checkResultButton = (Button) findViewById(R.id.check_button);
 
         blackoutView = findViewById(R.id.blackout_view);
         bottomBlackoutView = findViewById(R.id.bottom_blackout_view);

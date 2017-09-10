@@ -52,12 +52,24 @@
             android:name=".rating.RatingGameActivity"
             android:screenOrientation="portrait" />
 
+
+
         <activity
-            android:name=".training.TrainingMenuActivity"
+            android:name=".training.TrainingGameOLDActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".training.TrainingGameActivity"
+            android:name=".training.menu.view.TrainingMenuActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".mainmenu.view.MainMenuActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.greenkeycompany.librain.mainmenu.view.MainMenuActivity" />
+        </activity>
+
+        <activity
+            android:name=".training.game.view.TrainingGameActivity"
             android:screenOrientation="portrait" />
 
         <activity

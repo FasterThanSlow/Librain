@@ -115,7 +115,7 @@ public class CampaignGameActivity extends AppCompatActivity {
 
         ratingBar = (RatingBar) findViewById(R.id.stars);
         levelNumberTextView = (TextView) findViewById(R.id.header_level_number_text_view);
-        checkResultButton = (TextView) findViewById(R.id.check_result_button);
+        checkResultButton = (TextView) findViewById(R.id.check_button);
 
         roundView = findViewById(R.id.game_round_banner);
         roundImageView = (ImageView) roundView.findViewById(R.id.tutorial_third_round_image_view);
@@ -982,7 +982,7 @@ public class CampaignGameActivity extends AppCompatActivity {
             }
         });
 
-        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_continue_text_view);
+        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_continue_image_view);
         continueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

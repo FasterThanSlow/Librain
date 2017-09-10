@@ -149,7 +149,7 @@
         android:layout_height="80dp">
 
         <Button
-            android:id="@+id/check_result_button"
+            android:id="@+id/check_button"
 
             android:layout_gravity="center"
 

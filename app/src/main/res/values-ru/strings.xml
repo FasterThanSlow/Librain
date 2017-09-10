@@ -29,17 +29,9 @@
     <string name="rating_game_stage">%1$d стадия</string>
     <string name="result_dialog_title">Ваш результат</string>
     <string name="state">Состояние</string>
-    <string name="training">Тренировка</string>
-    <string name="training_board_settings_description">Установите размер поля</string>
-    <string name="training_cancel">Отмена</string>
-    <string name="training_items_settings_item_types_count">Количество типов элементов</string>
-    <string name="training_items_settings_items_count">Количество элементов</string>
-    <string name="training_main_round_description">Выбранные задания</string>
-    <string name="training_next">Далее</string>
-    <string name="training_previous">Назад</string>
-    <string name="training_round_settings_description">Выберите желаемые задания</string>
-    <string name="training_save">Сохранить</string>
-    <string name="training_start">Начать</string>
+
+
+
     <string name="tutorial">Обучение</string>
     <string name="tutorial_dialog_button_text">Перейти к уровням</string>
     <string name="tutorial_dialog_message">Поздравления. Вы прошли обучение. В случае трудностей с прохождением любого уровня или задания используйте режим обучения.</string>

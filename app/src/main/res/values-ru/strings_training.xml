@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="training">Тренировка</string>
+
+    <string name="training_selected_round_description">Выбранные раунды</string>
+    <string name="training_start">Начать</string>
+
+
+    <string name="training_board_settings_description">Установите размер поля</string>
+    <string name="training_settings_cancel">Отмена</string>
+    <string name="training_items_settings_item_types_count">Количество типов элементов</string>
+    <string name="training_items_settings_items_count">Количество элементов</string>
+    <string name="training_settings_next">Далее</string>
+    <string name="training_settings_previous">Назад</string>
+    <string name="training_settings_select_round_title">Выберите желаемые задания</string>
+    <string name="training_settings_save">Сохранить</string>
+</resources>
