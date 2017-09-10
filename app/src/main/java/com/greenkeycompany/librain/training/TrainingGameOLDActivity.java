@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import com.greenkeycompany.librain.level.Level;
 import com.greenkeycompany.librain.level.gameround.GameRound;
 import com.greenkeycompany.librain.level.gameround.SecondGameRound;
 import com.greenkeycompany.librain.level.gameround.ThirdGameRound;
+import com.greenkeycompany.librain.training.entity.TrainingConfig;
 import com.greenkeycompany.librain.training.entity.TrainingLevel;
 import com.greenkeycompany.librain.app.view.ratingbar.RatingBar;
 import com.greenkeycompany.librain.app.view.boardview.BoardView;
@@ -35,26 +37,16 @@ import java.util.List;
 
 public class TrainingGameOLDActivity extends AppCompatActivity {
 
-    public static final String LEVEL_PARAM = "training_level";
+    private static final int showingTime = 1000;
 
     private static final int START_ROUND_ANIMATION_DURATION = 1500;
     private static final int END_ROUND_ANIMATION_DURATION = 1000;
 
     private static final int THIRD_ROUND_ANIMATION_DURATION = 800;
 
-    private int roundCount;
-    private int currentRoundIndex;
-
-    private int currentScore;
-
-    private int[] items;
-
-    private int showingTime;
-
-    private int columnCount;
-    private int rowCount;
-
-    private TrainingLevel currentLevel;
+    private TrainingConfig config;
+    public static final String TRAINING_CONFIG_PARAM = "training_config";
+    private static final Level.LevelType levelType = Level.LevelType.FRUIT;
 
     private RatingBar ratingBar;
 
@@ -72,7 +64,7 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
     private BoardView boardView;
     private DistributorView distributorView;
 
-    private Level.LevelType levelType;
+    private int[] items;
 
     private GameRound currentGameRound;
 
@@ -93,15 +85,17 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
     private RoundNumber roundNumber;
     private enum RoundNumber {FIRST, SECOND, THIRD}
 
+
     private List<RoundNumber> trainingRoundNumbers;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.training_game_activity);
 
-        final TextView headerTextView = (TextView) findViewById(R.id.header_title_text_view);
-        headerTextView.setText(R.string.training);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         boardView = (BoardView) findViewById(R.id.board_view);
 
@@ -110,7 +104,7 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
         blackoutView = findViewById(R.id.tutorial_blackout_view);
         bottomBlackoutView = findViewById(R.id.tutorial_bottom_blackout_view);
 
-        ratingBar = (RatingBar) findViewById(R.id.stars);
+        ratingBar = (RatingBar) findViewById(R.id.rating_bar);
         checkResultButton = (TextView) findViewById(R.id.check_button);
 
         roundView = findViewById(R.id.game_round_banner);
@@ -131,43 +125,24 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
         thirdRoundAnimator.setDuration(THIRD_ROUND_ANIMATION_DURATION);
         thirdRoundAnimator.addListener(thirdRoundAnimatorListener);
 
-        currentLevel = getIntent().getParcelableExtra(LEVEL_PARAM);
-        if (currentLevel != null) {
+        config = getIntent().getParcelableExtra(TRAINING_CONFIG_PARAM);
+        boardView.createItems(config.getRowCount(), config.getColumnCount());
 
-            trainingRoundNumbers = new ArrayList<>();
+        trainingRoundNumbers = new ArrayList<>();
+        if (config.isFirstRoundSelected()) trainingRoundNumbers.add(RoundNumber.FIRST);
+        if (config.isSecondRoundSelected()) trainingRoundNumbers.add(RoundNumber.SECOND);
+        if (config.isThirdRoundSelected()) trainingRoundNumbers.add(RoundNumber.THIRD);
 
-            if (currentLevel.isFirstRound())
-                trainingRoundNumbers.add(RoundNumber.FIRST);
-            if (currentLevel.isSecondRound())
-                trainingRoundNumbers.add(RoundNumber.SECOND);
-            if (currentLevel.isThirdRound())
-                trainingRoundNumbers.add(RoundNumber.THIRD);
+        roundCount = trainingRoundNumbers.size();
 
-            roundCount = trainingRoundNumbers.size();
+        ratingBar.setMax(roundCount);
 
-            ratingBar.setMax(roundCount);
+        items = Generator.createTrainingItems(config.getItemTypeCount(), config.getItemCount());
 
-            levelType = Level.LevelType.FRUIT;
-
-            items = currentLevel.getRoundItems();
-
-            showingTime = currentLevel.getShowingTime();
-
-            rowCount = currentLevel.getRowCount();
-            columnCount = currentLevel.getColumnCount();
-
-            boardView.createItems(rowCount, columnCount);
-
-            resetLevelProgress();
-        } else {
-            return;
-        }
+        resetLevelProgress();
 
         boardView.setOnTouchListener(boardTouchListener);
         checkResultButton.setOnClickListener(checkResultOnClickListener);
-
-        //final ImageView restartButton = (ImageView) findViewById(R.id.restart_image_view);
-        //restartButton.setOnClickListener(restartOnClickListener);
     }
 
     @Override
@@ -196,8 +171,10 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
+
+    private int currentScore;
+    private int currentRoundIndex;
 
     private void resetLevelProgress() {
         ratingBar.setProgress(0);
@@ -253,14 +230,14 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
                 case FIRST:
                     rules = Generator.createRules(levelType, items);
 
-                    currentGameRound = Generator.createRound1Items(rules, rowCount * columnCount);
+                    currentGameRound = Generator.createRound1Items(rules, config.getRowCount() * config.getColumnCount());
                     boardView.setItemsResources(currentGameRound.getAnswer());
                     break;
                 case SECOND:
                     rules = Generator.createRules(levelType, items);
 
                     isSecondRoundFirstPartShowing = true;
-                    currentGameRound = Generator.createRound2Items(rules, rowCount * columnCount);
+                    currentGameRound = Generator.createRound2Items(rules, config.getRowCount() * config.getColumnCount());
                     boardView.setItemsResources(((SecondGameRound)currentGameRound).getFirstPart());
 
                     break;
@@ -268,7 +245,7 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
                     rules = Generator.createRules(levelType, items);
 
                     isThirdRoundFirstPartShowing = true;
-                    currentGameRound = Generator.createRound3Items(rules, rowCount * columnCount);
+                    currentGameRound = Generator.createRound3Items(rules, config.getRowCount() * config.getColumnCount());
                     boardView.setItemsResources(((ThirdGameRound) currentGameRound).getFirstPart());
                     break;
             }
@@ -453,6 +430,8 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
         public void onAnimationRepeat(Animator animation) {
         }
     };
+
+    private int roundCount;
 
     private Animator.AnimatorListener endRoundAnimatorListener = new Animator.AnimatorListener() {
 

@@ -14,6 +14,7 @@ import com.greenkeycompany.librain.entity.Rule;
 import com.greenkeycompany.librain.level.Generator;
 import com.greenkeycompany.librain.level.Level;
 import com.greenkeycompany.librain.app.view.boardview.BoardView;
+import com.greenkeycompany.librain.training.TrainingGameOLDActivity;
 import com.greenkeycompany.librain.training.entity.TrainingConfig;
 import com.greenkeycompany.librain.training.game.view.TrainingGameActivity;
 
@@ -78,7 +79,7 @@ public class TrainingMainFragment extends Fragment {
                 R.drawable.training_main_round_selected_background :
                 R.drawable.training_main_round_background);
 
-        boardView.createItems(config.getRowCount(), config.getRowCount());
+        boardView.createItems(config.getRowCount(), config.getColumnCount());
         boardView.post(new Runnable() {
             @Override
             public void run() {
@@ -102,7 +103,7 @@ public class TrainingMainFragment extends Fragment {
 
     @OnClick(R.id.training_start_button)
     public void onStartButtonClick() {
-        Intent intent = new Intent(getActivity(), TrainingGameActivity.class).
+        Intent intent = new Intent(getActivity(), TrainingGameOLDActivity.class).
                 putExtra(TrainingGameActivity.TRAINING_CONFIG_PARAM, config);
         startActivity(intent);
     }

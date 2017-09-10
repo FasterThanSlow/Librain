@@ -134,6 +134,7 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
 
     @Override
     public void onItemsFragmentPrevious() {
+        presenter.saveItemsSettings(1, 2);
         presenter.requestToSetSettingsBoardFragment();
     }
 

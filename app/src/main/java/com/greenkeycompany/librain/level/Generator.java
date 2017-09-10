@@ -176,7 +176,7 @@ public class Generator {
 
     //6 предметов на 2 типа = 3/3,
     // 5 предметов на 3 типа = 2, 2, 1
-    private static int[] createTrainingItems(int itemTypeCount, int itemCount) {
+    public static int[] createTrainingItems(int itemTypeCount, int itemCount) {
         int[] items = new int[itemTypeCount];
 
         if (itemTypeCount == 1) {
