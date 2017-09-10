@@ -126,6 +126,7 @@ public class CampaignMenuActivity extends MvpActivity<ICampaignMenuView, ICampai
             case UPDATE_LEVEL_PAGES_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
                     presenter.requestToUpdateViews();
+
                     setResult(RESULT_OK); //FLAG TO UPDATE STAR COUNT IN MAIN MENU
                 }
                 break;
@@ -134,7 +135,7 @@ public class CampaignMenuActivity extends MvpActivity<ICampaignMenuView, ICampai
                     premiumUtil.setPremiumUser(true);
                     premiumView.setVisibility(View.INVISIBLE);
 
-                    Toast.makeText(this, "ТЫ КУПИЛ ПРЕМИУМ!, " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
+                    setResult(RESULT_OK);//FLAG TO UPDATE ACTIVATE BUTTON IN MAIN MENU
                 }
                 break;
         }

@@ -155,9 +155,10 @@ public class CampaignGameActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PURCHASE_REQUEST_CODE) {
-            //if (resultCode == RESULT_OK) {
-                showResultDialog();
-            //}
+            if (resultCode == RESULT_OK) {
+                premiumUtil.setPremiumUser(true);
+            }
+            showResultDialog();
         }
         //////////////////
     }
@@ -843,6 +844,8 @@ public class CampaignGameActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     resultDialog.dismiss();
+
+                                    startActivityForResult(new Intent(CampaignGameActivity.this ,PurchaseActivity.class), PURCHASE_REQUEST_CODE);
                                 }
                             });
                         }

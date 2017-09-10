@@ -62,7 +62,6 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
             public void onLoaded(@Nonnull Inventory.Products products) {
                 final Inventory.Product product = products.get(ProductTypes.IN_APP);
                 if ( ! product.supported) {
-                    Toast.makeText(MainMenuActivity.this, "Продукт не поддерживается", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -152,8 +151,6 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
                 if (resultCode == RESULT_OK) {
                     premiumUtil.setPremiumUser(true);
                     presenter.requestToUpdateRatingView(true);
-
-                    Toast.makeText(MainMenuActivity.this, "ТЫ КУПИЛ ПРЕМИУМ!, " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
                 }
                 break;
             case CAMPAIGN_REQUEST_CODE:
