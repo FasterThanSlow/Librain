@@ -30,6 +30,7 @@ import com.greenkeycompany.librain.level.gameround.ThirdGameRound;
 import com.greenkeycompany.librain.app.view.ratingbar.RatingBar;
 import com.greenkeycompany.librain.app.view.boardview.BoardView;
 import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
+import com.greenkeycompany.librain.purchase.PurchaseActivity;
 
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Checkout;
@@ -148,9 +149,16 @@ public class CampaignGameActivity extends AppCompatActivity {
         restartButton.setOnClickListener(restartOnClickListener);
     }
 
+    private static final int PURCHASE_REQUEST_CODE = 501;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PURCHASE_REQUEST_CODE) {
+            //if (resultCode == RESULT_OK) {
+                showResultDialog();
+            //}
+        }
         //////////////////
     }
 
@@ -787,7 +795,6 @@ public class CampaignGameActivity extends AppCompatActivity {
         } else {
             if (nextLevel.isEnabled()) {
                 if (nextLevel.isPremium()) {
-
                     if (premiumUtil.isPremiumUser()) {
                         nextImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -808,32 +815,7 @@ public class CampaignGameActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 resultDialog.dismiss();
 
-                                /*
-                                PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
-                                premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
-                                    @Override
-                                    public void onSuccess(@Nonnull Purchase result) {
-                                        super.onSuccess(result);
-
-                                        Toast.makeText(CampaignGameActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
-
-                                        setCurrentLevel(nextLevel);
-                                        resetLevelProgress();
-
-                                        startRoundAnimator.start();
-                                    }
-
-                                    @Override
-                                    public void onError(int response, @Nonnull Exception e) {
-                                        super.onError(response, e);
-
-                                        Toast.makeText(CampaignGameActivity.this, R.string.premium_error_message, Toast.LENGTH_LONG).show();
-
-                                        showResultDialog();
-                                    }
-                                });
-                                */
-                                //premiumDialog.show();
+                                startActivityForResult(new Intent(CampaignGameActivity.this ,PurchaseActivity.class), PURCHASE_REQUEST_CODE);
                             }
                         });
                     }
@@ -861,33 +843,6 @@ public class CampaignGameActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     resultDialog.dismiss();
-
-                                    /*
-                                    PremiumHelper.PremiumDialog premiumDialog = new PremiumHelper.PremiumDialog(CampaignGameActivity.this, checkout);
-                                    premiumDialog.setPurchaseListener(new PremiumHelper.PremiumDialogPurchaseListener() {
-                                        @Override
-                                        public void onSuccess(@Nonnull Purchase result) {
-                                            super.onSuccess(result);
-
-                                            Toast.makeText(CampaignGameActivity.this, R.string.premium_success_message, Toast.LENGTH_LONG).show();
-
-                                            setCurrentLevel(unlockedLevel);
-                                            resetLevelProgress();
-
-                                            startRoundAnimator.start();
-                                        }
-
-                                        @Override
-                                        public void onError(int response, @Nonnull Exception e) {
-                                            super.onError(response, e);
-
-                                            Toast.makeText(CampaignGameActivity.this, R.string.premium_error_message, Toast.LENGTH_LONG).show();
-
-                                            showResultDialog();
-                                        }
-                                    });
-                                    */
-                                    //premiumDialog.show();
                                 }
                             });
                         }

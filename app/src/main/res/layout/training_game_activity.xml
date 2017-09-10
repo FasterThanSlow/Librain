@@ -82,9 +82,7 @@
 
         <FrameLayout
             android:id="@+id/tutorial_blackout_view"
-
             android:visibility="invisible"
-
             android:background="@color/blackout_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

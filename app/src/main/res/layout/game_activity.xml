@@ -21,7 +21,7 @@
         android:paddingEnd="16dp"
 
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="56dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -207,6 +207,7 @@
 
         <FrameLayout
             android:id="@+id/tutorial_bottom_blackout_view"
+
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

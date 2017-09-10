@@ -124,17 +124,16 @@ public class TrainingMenuActivity extends MvpActivity<ITrainingMenuView, ITraini
     @Override
     public void onRoundsFragmentNextClick(boolean firstRoundSelected, boolean secondRoundSelected, boolean thirdRoundSelected) {
         presenter.saveRoundsSettings(firstRoundSelected, secondRoundSelected, thirdRoundSelected);
-        presenter.requestToSetSettingsMainFragment();
+        presenter.requestToSetMainFragment();
     }
 
     @Override
     public void onBoardFragmentPreviousButtonPressed() {
-        presenter.requestToSetSettingsMainFragment();
+        presenter.requestToSetMainFragment();
     }
 
     @Override
     public void onItemsFragmentPrevious() {
-        presenter.saveItemsSettings(1, 2);
         presenter.requestToSetSettingsBoardFragment();
     }
 

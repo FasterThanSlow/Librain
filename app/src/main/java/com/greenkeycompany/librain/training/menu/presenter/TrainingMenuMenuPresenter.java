@@ -66,7 +66,7 @@ public class TrainingMenuMenuPresenter extends MvpBasePresenter<ITrainingMenuVie
     }
 
     @Override
-    public void requestToSetSettingsMainFragment() {
+    public void requestToSetMainFragment() {
         fragmentType = FragmentType.MAIN;
         if (isViewAttached()) {
             getView().setMainFragment(config);
@@ -110,6 +110,7 @@ public class TrainingMenuMenuPresenter extends MvpBasePresenter<ITrainingMenuVie
                 }
                 break;
             default:
+                fragmentType = FragmentType.MAIN;
                 if (isViewAttached()) {
                     getView().setMainFragment(config);
                 }

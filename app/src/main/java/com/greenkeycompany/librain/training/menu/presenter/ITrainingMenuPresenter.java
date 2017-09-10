@@ -15,7 +15,7 @@ public interface ITrainingMenuPresenter extends MvpPresenter<ITrainingMenuView> 
     void saveItemsSettings(int itemTypeCount, int itemCount);
     void saveRoundsSettings(boolean firstRound, boolean secondRound, boolean thirdRound);
 
-    void requestToSetSettingsMainFragment();
+    void requestToSetMainFragment();
     void requestToSetSettingsBoardFragment();
     void requestToSetSettingsItemsFragment();
     void requestToSetSettingsRoundsFragment();
