@@ -8,6 +8,8 @@
     <color name="colorGreyBackground">#E2E2E2</color>
     <color name="colorWhite">#FFFFFF</color>
 
+    <color name="blackout_color">#20000000</color>
+
     <color name="colorPremiumAccent">#F9CE46</color>
     <color name="colorPremium">#ff6f00</color>
 
