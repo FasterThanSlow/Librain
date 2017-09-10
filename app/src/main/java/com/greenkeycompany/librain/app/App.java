@@ -3,6 +3,8 @@ package com.greenkeycompany.librain.app;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.ads.MobileAds;
+import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.util.PremiumUtil;
 
 import org.solovyev.android.checkout.Billing;
@@ -39,6 +41,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MobileAds.initialize(this, getString(R.string.application_admob_id));
         premiumUtil = new PremiumUtil(this);
     }
 }

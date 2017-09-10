@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.greenkeycompany.librain.app.App;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.util.PremiumUtil;
@@ -38,6 +41,8 @@ import org.solovyev.android.checkout.Checkout;
 import java.util.Arrays;
 
 public class CampaignGameActivity extends AppCompatActivity {
+
+    private InterstitialAd interstitialAd;
 
     public static final String LEVEL_PARAM = "level";
 
@@ -104,6 +109,12 @@ public class CampaignGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
 
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.interstitial_advertisement_id));
+        if ( ! premiumUtil.isPremiumUser()) {
+            interstitialAd.loadAd(new AdRequest.Builder().build());
+        }
+
         levelDao = LevelDao.getInstance(CampaignGameActivity.this);
 
         boardView = (BoardView) findViewById(R.id.board_view);
@@ -157,10 +168,10 @@ public class CampaignGameActivity extends AppCompatActivity {
         if (requestCode == PURCHASE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 premiumUtil.setPremiumUser(true);
+                setResult(RESULT_OK);
             }
             showResultDialog();
         }
-        //////////////////
     }
 
     private void setCurrentLevel(Level level) {
@@ -855,10 +866,24 @@ public class CampaignGameActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 resultDialog.dismiss();
 
-                                setCurrentLevel(unlockedLevel);
-                                resetLevelProgress();
+                                if (unlockedLevel.getId() / 5 == 0 && interstitialAd.isLoaded()) {
+                                    interstitialAd.setAdListener(new AdListener() {
+                                        @Override
+                                        public void onAdClosed() {
+                                            interstitialAd.loadAd(new AdRequest.Builder().build());
 
-                                startRoundAnimator.start();
+                                            setCurrentLevel(unlockedLevel);
+                                            resetLevelProgress();
+
+                                            startRoundAnimator.start();
+                                        }
+                                    });
+                                } else {
+                                    setCurrentLevel(unlockedLevel);
+                                    resetLevelProgress();
+
+                                    startRoundAnimator.start();
+                                }
                             }
                         });
                     }

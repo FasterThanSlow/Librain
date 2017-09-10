@@ -126,6 +126,9 @@ public class CampaignMenuActivity extends MvpActivity<ICampaignMenuView, ICampai
             case UPDATE_LEVEL_PAGES_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
                     presenter.requestToUpdateViews();
+                    if (premiumUtil.isPremiumUser()) {
+                        premiumView.setVisibility(View.INVISIBLE);
+                    }
 
                     setResult(RESULT_OK); //FLAG TO UPDATE STAR COUNT IN MAIN MENU
                 }
