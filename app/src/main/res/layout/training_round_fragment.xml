@@ -141,7 +141,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:text="Раунд 1"
+                            android:text="@string/training_round_1_title"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="20sp" />
                     </LinearLayout>
@@ -157,7 +157,7 @@
 
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/main_menu_start_campaign_description"
+                        android:text="@string/training_round_1_description"
 
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp" />
@@ -225,7 +225,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:text="Раунд 2"
+                            android:text="@string/training_round_2_title"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="20sp" />
                     </LinearLayout>
@@ -241,7 +241,7 @@
 
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/main_menu_start_campaign_description"
+                        android:text="@string/training_round_2_description"
 
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp" />
@@ -309,7 +309,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:text="Раунд 3"
+                            android:text="@string/training_round_3_title"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="20sp" />
                     </LinearLayout>
@@ -325,7 +325,7 @@
 
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/main_menu_start_campaign_description"
+                        android:text="@string/training_round_3_description"
 
                         android:textColor="@color/colorTextPrimary"
                         android:textSize="12sp" />
