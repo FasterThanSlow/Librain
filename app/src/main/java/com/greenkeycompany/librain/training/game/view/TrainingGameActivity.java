@@ -116,7 +116,7 @@ public class TrainingGameActivity extends MvpActivity<ITrainingGameView, ITraini
 
         final View view = LayoutInflater.from(this).inflate(R.layout.pause_dialog, null);
 
-        final ImageView levelsTextView = ButterKnife.findById(view, R.id.pause_dialog_levels_image_view);
+        final ImageView levelsTextView = ButterKnife.findById(view, R.id.exit_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +126,7 @@ public class TrainingGameActivity extends MvpActivity<ITrainingGameView, ITraini
             }
         });
 
-        final ImageView continueTextView = ButterKnife.findById(view, R.id.pause_dialog_continue_image_view);
+        final ImageView continueTextView = ButterKnife.findById(view, R.id.continue_view);
         continueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

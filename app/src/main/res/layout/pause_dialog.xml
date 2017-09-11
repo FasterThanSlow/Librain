@@ -64,7 +64,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/pause_dialog_levels_image_view"
+            android:id="@+id/exit_view"
             android:layout_width="0dp"
             android:clickable="true"
 
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/pause_dialog_continue_image_view"
+            android:id="@+id/continue_view"
             android:layout_width="0dp"
             android:clickable="true"
 
@@ -99,7 +99,7 @@
             android:gravity="center"
 
             android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/pause_dialog_continue_icon"
+            android:src="@drawable/dialog_continue_icon"
 
             android:layout_weight="1"
             android:layout_height="wrap_content" />

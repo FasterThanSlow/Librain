@@ -38,9 +38,6 @@
 
     <!-- Training -->
 
-    <!-- Rating Game -->
-    <string name="rating_game_stage">Stage %1$d</string>
-
 
     <!-- Premium Dialog -->
     <string name="premium_dialog_title">Premium</string>
@@ -85,8 +82,5 @@
     <string name="training_settings_select_round_title">Select the desired rounds</string>
     <string name="training_start">Start</string>
     <string name="purchase_activated_title">Congratulations. Now all the premium features of the Librain application are available to you. Good game!</string>
-    <string name="raiting_result_dialog_description">Игра закончена. Ваш результат был сохранён. Выберите следущее действие</string>
-    <string name="raiting_result_dialog_current_result">Текущий результат:</string>
-    <string name="raiting_result_dialog_best_result">Лучший результат:</string>
 
 </resources>

@@ -26,7 +26,6 @@ import com.greenkeycompany.librain.level.gameround.GameRound;
 import com.greenkeycompany.librain.level.gameround.SecondGameRound;
 import com.greenkeycompany.librain.level.gameround.ThirdGameRound;
 import com.greenkeycompany.librain.training.entity.TrainingConfig;
-import com.greenkeycompany.librain.training.entity.TrainingLevel;
 import com.greenkeycompany.librain.app.view.ratingbar.RatingBar;
 import com.greenkeycompany.librain.app.view.boardview.BoardView;
 import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
@@ -786,7 +785,7 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(TrainingGameOLDActivity.this);
 
         final View dialogView = LayoutInflater.from(TrainingGameOLDActivity.this).inflate(R.layout.pause_dialog, null);
-        final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_levels_image_view);
+        final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.exit_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -797,7 +796,7 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
             }
         });
 
-        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_continue_image_view);
+        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.continue_view);
         continueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -77,7 +77,7 @@
 
             android:gravity="center"
             android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/result_dialog_levels_icon"
+            android:src="@drawable/dialog_levels_icon"
 
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -93,7 +93,7 @@
 
             android:gravity="center"
             android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/result_dialog_restart_icon"
+            android:src="@drawable/dialog_restart_icon"
 
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -113,7 +113,7 @@
             android:gravity="center"
 
             android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/result_dialog_next_icon"
+            android:src="@drawable/dialog_next_icon"
 
             android:layout_width="0dp"
             android:layout_weight="1"

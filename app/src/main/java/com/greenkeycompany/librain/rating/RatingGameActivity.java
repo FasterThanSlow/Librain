@@ -31,6 +31,8 @@ import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
 
 import java.util.Arrays;
 
+import butterknife.ButterKnife;
+
 public class RatingGameActivity extends AppCompatActivity {
 
     private static final String RATING_BEST_SCORE_KEY = "best_rating_score";
@@ -125,10 +127,7 @@ public class RatingGameActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //if ( ! googleApiClient.isConnected()) {
-        Toast.makeText(this, "googleApiClient.connect()", Toast.LENGTH_LONG).show();
         googleApiClient.connect();
-        //}
     }
 
     @Override
@@ -161,71 +160,137 @@ public class RatingGameActivity extends AppCompatActivity {
         bottomBlackoutView.setVisibility(View.INVISIBLE);
     }
 
-    public void showResultDialog() {
+    private void restart() {
+        if (startStageAnimator.isRunning()) {
+            startStageAnimator.cancel();
+        } else if (showBoardItemsRunnable.isRunning()) {
+            showBoardItemsRunnable.cancel();
+        } else if (endStageAnimator.isRunning()) {
+            endStageAnimator.cancel();
+        }
+
+        reset();
+
+        startStageAnimator.start();
+    }
+
+    private AlertDialog dialog;
+
+    public void showResultDialog(int score, int bestScore) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        final View dialogView = LayoutInflater.from(this).inflate(R.layout.result_dialog, null);
-
-        final ImageView levelsImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_levels_image_view);
-        levelsImageView.setOnClickListener(new View.OnClickListener() {
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.rating_result_dialog, null);
+        final View exitView = ButterKnife.findById(dialogView, R.id.exit_view);
+        exitView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
 
+                RatingGameActivity.this.finish();
+            }
+        });
+        final View restartView = ButterKnife.findById(dialogView, R.id.restart_view);
+        restartView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                restart();
+            }
+        });
+        final View statisticsView = ButterKnife.findById(dialogView, R.id.statistics_view);
+        statisticsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (googleApiClient.isConnected()) {
+                    startActivityForResult(leaderboardIntent, LEADERBOARD_CODE_REQUEST);
+                } else {
+                    ///////////////////////////////////////////////////////////////////
+                }
             }
         });
 
-        final ImageView restartImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_restart_image_view);
-        restartImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        final TextView currentResultTextView = ButterKnife.findById(dialogView, R.id.current_result_text_View);
+        final TextView bestResultTextView = ButterKnife.findById(dialogView, R.id.best_result_text_View);
 
-            }
-        });
+        currentResultTextView.setText(getString(R.string.rating_result_dialog_current_result, score));
+        bestResultTextView.setText(getString(R.string.rating_result_dialog_best_result, bestScore));
 
         builder.setView(dialogView);
         builder.setCancelable(false);
 
-        AlertDialog dialog = builder.create();
+        dialog = builder.create();
         dialog.show();
     }
 
     public void showPauseDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        final View dialogView = LayoutInflater.from(this).inflate(R.layout.result_dialog, null);
-
-        final ImageView levelsImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_levels_image_view);
-        levelsImageView.setOnClickListener(new View.OnClickListener() {
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.rating_pause_dialog, null);
+        final View exitView = ButterKnife.findById(dialogView, R.id.exit_view);
+        exitView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
 
+                RatingGameActivity.this.finish();
             }
         });
-
-        final ImageView restartImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_restart_image_view);
-        restartImageView.setOnClickListener(new View.OnClickListener() {
+        final View restartView = ButterKnife.findById(dialogView, R.id.restart_view);
+        restartView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
 
+                restart();
+            }
+        });
+        final View continueView = ButterKnife.findById(dialogView, R.id.continue_view);
+        continueView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                if (animationWasCancelled) {
+                    startStageAnimator.start();
+                    animationWasCancelled = false;
+                }
             }
         });
 
         builder.setView(dialogView);
         builder.setCancelable(false);
 
-        AlertDialog dialog = builder.create();
+        dialog = builder.create();
         dialog.show();
     }
 
+    boolean animationWasCancelled;
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        //if ((resultDialog == null || ! resultDialog.isShowing()) && (pauseDialog == null || ! pauseDialog.isShowing())) {
+        if ((dialog == null || ! dialog.isShowing())) {
             startStageAnimator.start();
-        //}
+        }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (startStageAnimator.isRunning()) {
+            startStageAnimator.cancel();
+            animationWasCancelled = true;
+
+            showPauseDialog();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ((dialog == null || ! dialog.isShowing())) {
+            showPauseDialog();
+        }
+    }
+
 
     private Animator.AnimatorListener startStageAnimatorListener = new Animator.AnimatorListener() {
 
@@ -281,6 +346,9 @@ public class RatingGameActivity extends AppCompatActivity {
         }
     };
 
+    private Intent leaderboardIntent;
+    private static final int LEADERBOARD_CODE_REQUEST = 301;
+
     private Animator.AnimatorListener endStageAnimatorListener = new Animator.AnimatorListener() {
 
         private boolean isAnimationPaused;
@@ -309,8 +377,6 @@ public class RatingGameActivity extends AppCompatActivity {
             answerResultImageView.setVisibility(View.VISIBLE);
         }
 
-        private Intent leaderboard;
-
         @Override
         public void onAnimationEnd(Animator animation) {
             if ( ! isAnimationPaused) {
@@ -329,14 +395,15 @@ public class RatingGameActivity extends AppCompatActivity {
                             bestScore = stageNumber;
                         }
 
-                        if (leaderboard == null) {
-                            leaderboard = Games.Leaderboards.getLeaderboardIntent(googleApiClient, getString(R.string.leaderboard_librain_raiting));
-                        }
-
                         if (googleApiClient.isConnected()) {
                             Games.Leaderboards.submitScore(googleApiClient, getString(R.string.leaderboard_librain_raiting), stageNumber);
-                            startActivityForResult(leaderboard, 123); //dsf
                         }
+
+                        if (leaderboardIntent == null) {
+                            leaderboardIntent = Games.Leaderboards.getLeaderboardIntent(googleApiClient, getString(R.string.leaderboard_librain_raiting));
+                        }
+
+                        showResultDialog(stageNumber, bestScore);
                     } else {
                         startStageAnimator.start();
                     }

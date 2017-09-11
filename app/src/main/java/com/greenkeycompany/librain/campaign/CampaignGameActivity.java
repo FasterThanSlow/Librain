@@ -165,7 +165,10 @@ public class CampaignGameActivity extends AppCompatActivity {
         if (requestCode == PURCHASE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 premiumUtil.setPremiumUser(true);
+
                 setResult(RESULT_OK);
+
+                finish();
             }
             showResultDialog();
         }
@@ -800,7 +803,7 @@ public class CampaignGameActivity extends AppCompatActivity {
 
         final ImageView nextImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_next_image_view);
         nextImageView.setBackgroundResource(R.drawable.dialog_orange_background_shape);
-        nextImageView.setImageResource(R.drawable.result_dialog_next_icon);
+        nextImageView.setImageResource(R.drawable.dialog_next_icon);
 
         final Level nextLevel = levelDao.getLevel(levelId + 1);
         if (nextLevel == null) {
@@ -935,7 +938,6 @@ public class CampaignGameActivity extends AppCompatActivity {
             }
         }
 
-
         builder.setCancelable(false);
         builder.setView(dialogView);
 
@@ -989,7 +991,7 @@ public class CampaignGameActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(CampaignGameActivity.this);
 
         final View dialogView = LayoutInflater.from(CampaignGameActivity.this).inflate(R.layout.pause_dialog, null);
-        final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_levels_image_view);
+        final ImageView levelsTextView = (ImageView) dialogView.findViewById(R.id.exit_view);
         levelsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1002,7 +1004,7 @@ public class CampaignGameActivity extends AppCompatActivity {
             }
         });
 
-        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.pause_dialog_continue_image_view);
+        final ImageView continueTextView = (ImageView) dialogView.findViewById(R.id.continue_view);
         continueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

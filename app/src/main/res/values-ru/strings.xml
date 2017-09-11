@@ -26,7 +26,7 @@
     <string name="rate_app_dialog_rate_now">Оценить сейчас</string>
     <string name="rate_app_dialog_remind_me_later">Напомнить позже</string>
     <string name="rate_app_dialog_title">Оцените приложение</string>
-    <string name="rating_game_stage">%1$d стадия</string>
+
     <string name="result_dialog_title">Ваш результат</string>
     <string name="state">Состояние</string>
 
@@ -63,7 +63,5 @@
     <string name="training_settings_round_3_description">Запомните и отобразите указанное расположение фигур</string>
     <string name="training_settings_round_2_description">Запомните, совместите и отобразите расположение фигур</string>
     <string name="purchase_activated_title">Поздравляем. Теперь вам доступны все премиум функции приложения Librain. Удачной игры!</string>
-    <string name="raiting_result_dialog_description">Игра закончена. Ваш результат был сохранён. Выберите следущее действие</string>
-    <string name="raiting_result_dialog_current_result">Текущий результат:</string>
-    <string name="raiting_result_dialog_best_result">Лучший результат:</string>
+
 </resources>

@@ -7,4 +7,9 @@
 
     <string name="rating_start">Start</string>
     <string name="rating_activate">Activate</string>
+
+    <string name="rating_result_dialog_description">Игра закончена. Ваш результат был сохранён. Выберите следущее действие</string>
+    <string name="rating_result_dialog_current_result">Текущий результат %1$d</string>
+    <string name="rating_result_dialog_best_result">Лучший результат %1$d</string>
+
 </resources>

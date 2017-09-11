@@ -40,7 +40,7 @@
     <TextView
         android:textSize="14sp"
 
-        android:text="@string/raiting_result_dialog_description"
+        android:text="@string/rating_result_dialog_description"
         android:textColor="@color/colorTextPrimary"
         android:textStyle="italic"
         android:gravity="center_horizontal"
@@ -52,9 +52,11 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/current_result_text_View"
+
         android:textSize="14sp"
 
-        android:text="@string/raiting_result_dialog_current_result"
+        tools:text="@string/rating_result_dialog_current_result"
         android:textColor="@color/colorTextPrimary"
 
         android:gravity="center_horizontal"
@@ -65,9 +67,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/best_result_text_View"
+
         android:textSize="14sp"
 
-        android:text="@string/raiting_result_dialog_best_result"
+        tools:text="@string/rating_result_dialog_best_result"
         android:textColor="@color/colorTextPrimary"
 
         android:gravity="center_horizontal"
@@ -90,7 +94,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/pause_dialog_levels_image_view"
+            android:id="@+id/exit_view"
             android:layout_width="0dp"
             android:clickable="true"
 
@@ -105,49 +109,49 @@
 
             android:gravity="center"
             android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/exit_game_icon"
+            android:src="@drawable/dialog_exit_icon"
 
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/pause_dialog_restart_image_view"
+            android:id="@+id/statistics_view"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="8dp"
+
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_orange_background_shape"
             android:clickable="true"
 
-            android:paddingTop="8dp"
+            android:gravity="center"
             android:paddingBottom="8dp"
 
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-
-            android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/result_dialog_levels_icon"
-
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:paddingTop="8dp"
+            android:src="@drawable/dialog_chart_icon" />
 
         <ImageView
-            android:id="@+id/pause_dialog_continue_image_view"
+            android:id="@+id/restart_view"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="8dp"
+
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_orange_background_shape"
             android:clickable="true"
 
-            android:paddingTop="8dp"
+            android:gravity="center"
             android:paddingBottom="8dp"
 
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-
-            android:background="@drawable/dialog_orange_background_shape"
-            android:src="@drawable/restart_raiting_icon"
-
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:paddingTop="8dp"
+            android:src="@drawable/dialog_restart_icon" />
     </LinearLayout>
 </LinearLayout>

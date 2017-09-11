@@ -48,7 +48,7 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
     private ActivityCheckout checkout = Checkout.forActivity(this, App.get().getBilling());
     private PremiumUtil premiumUtil = App.get().getPremiumUtil();
 
-    private GoogleApiClient googleApiClient;
+    //private GoogleApiClient googleApiClient;
     //private static final int REQUEST_LEADERBOARD = 300;
 
     @BindView(R.id.rating_button) TextView ratingTextView;
