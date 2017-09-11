@@ -3,6 +3,8 @@
     <string name="rating_title">Рейтинговая игра</string>
     <string name="rating_description">Проверьте свою память соревнуясь с другими пользователями приложения.</string>
 
+    <string name="rating_stage">Стадия %1$d</string>
+
     <string name="rating_start">Начать</string>
     <string name="rating_activate">Активировать</string>
 </resources>

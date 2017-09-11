@@ -2,17 +2,22 @@ package com.greenkeycompany.librain.rating;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiActivity;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.greenkeycompany.librain.R;
@@ -27,6 +32,10 @@ import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
 import java.util.Arrays;
 
 public class RatingGameActivity extends AppCompatActivity {
+
+    private static final String RATING_BEST_SCORE_KEY = "best_rating_score";
+    private SharedPreferences sharedPreferences;
+    int bestScore;
 
     private static final int DEFAULT_STAGE_NUMBER = 1;
     private static final int DEFAULT_LIVES_COUNT = 3;
@@ -48,8 +57,8 @@ public class RatingGameActivity extends AppCompatActivity {
     private View blackoutView;
     private View bottomBlackoutView;
 
-    private RatingBar headerLivesRatingBar;
-    private TextView headerTitleTextView;
+    private RatingBar livesRatingBar;
+    private TextView stateTextView;
 
     private TextView stageNumberTextView;
 
@@ -72,6 +81,9 @@ public class RatingGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rating_game_activity);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        bestScore = sharedPreferences.getInt(RATING_BEST_SCORE_KEY, 0);
+
         googleApiClient = GoogleApiUtil.getGoogleApi(this);
 
         handler = new Handler();
@@ -86,8 +98,8 @@ public class RatingGameActivity extends AppCompatActivity {
 
         stageNumberTextView = (TextView) findViewById(R.id.rating_game_stage_title_text_View);
 
-        headerLivesRatingBar = (RatingBar) findViewById(R.id.rating_bar);
-        headerTitleTextView = (TextView) findViewById(R.id.header_title_text_view);
+        livesRatingBar = (RatingBar) findViewById(R.id.rating_bar);
+        stateTextView = (TextView) findViewById(R.id.header_title_text_view);
 
         answerResultImageView = (ImageView) findViewById(R.id.rating_game_answer_result_image_view);
 
@@ -113,9 +125,10 @@ public class RatingGameActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if ( ! googleApiClient.isConnected()) {
-            googleApiClient.connect();
-        }
+        //if ( ! googleApiClient.isConnected()) {
+        Toast.makeText(this, "googleApiClient.connect()", Toast.LENGTH_LONG).show();
+        googleApiClient.connect();
+        //}
     }
 
     @Override
@@ -126,11 +139,16 @@ public class RatingGameActivity extends AppCompatActivity {
         }
     }
 
+    public void setStageNumberView(int stageNumber) {
+        stateTextView.setText(getString(R.string.rating_stage, stageNumber));
+    }
+
     private void reset() {
         stageNumber = DEFAULT_STAGE_NUMBER;
-        headerTitleTextView.setText(getString(R.string.rating_game_stage, stageNumber));
 
-        headerLivesRatingBar.setProgress(DEFAULT_LIVES_COUNT);
+        setStageNumberView(stageNumber);
+
+        livesRatingBar.setProgress(DEFAULT_LIVES_COUNT);
 
         answerResultImageView.setVisibility(View.INVISIBLE);
         stageNumberTextView.setVisibility(View.INVISIBLE);
@@ -142,6 +160,63 @@ public class RatingGameActivity extends AppCompatActivity {
         blackoutView.setVisibility(View.INVISIBLE);
         bottomBlackoutView.setVisibility(View.INVISIBLE);
     }
+
+    public void showResultDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.result_dialog, null);
+
+        final ImageView levelsImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_levels_image_view);
+        levelsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        final ImageView restartImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_restart_image_view);
+        restartImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showPauseDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.result_dialog, null);
+
+        final ImageView levelsImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_levels_image_view);
+        levelsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        final ImageView restartImageView = (ImageView) dialogView.findViewById(R.id.result_dialog_restart_image_view);
+        restartImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     @Override
     protected void onResume() {
@@ -168,7 +243,9 @@ public class RatingGameActivity extends AppCompatActivity {
             bottomBlackoutView.setVisibility(View.INVISIBLE);
 
             stageNumberTextView.setVisibility(View.VISIBLE);
-            stageNumberTextView.setText(getString(R.string.rating_game_stage, stageNumber));
+            stageNumberTextView.setText(getString(R.string.rating_stage, stageNumber));
+
+            setStageNumberView(stageNumber);
 
             boardView.setItemsOnTouchListener(null);
             distributorView.setItemsOnTouchListener(null);
@@ -232,6 +309,8 @@ public class RatingGameActivity extends AppCompatActivity {
             answerResultImageView.setVisibility(View.VISIBLE);
         }
 
+        private Intent leaderboard;
+
         @Override
         public void onAnimationEnd(Animator animation) {
             if ( ! isAnimationPaused) {
@@ -243,17 +322,26 @@ public class RatingGameActivity extends AppCompatActivity {
 
                     startStageAnimator.start();
                 } else {
-                    int livesCount = headerLivesRatingBar.getProgress();
+                    int livesCount = livesRatingBar.getProgress();
                     if (livesCount == 1) {
+                        if (stageNumber > bestScore) {
+                            sharedPreferences.edit().putInt(RATING_BEST_SCORE_KEY, stageNumber).apply();
+                            bestScore = stageNumber;
+                        }
+
+                        if (leaderboard == null) {
+                            leaderboard = Games.Leaderboards.getLeaderboardIntent(googleApiClient, getString(R.string.leaderboard_librain_raiting));
+                        }
+
                         if (googleApiClient.isConnected()) {
                             Games.Leaderboards.submitScore(googleApiClient, getString(R.string.leaderboard_librain_raiting), stageNumber);
-                            startActivity(Games.Leaderboards.getLeaderboardIntent(googleApiClient, getString(R.string.leaderboard_librain_raiting)));
+                            startActivityForResult(leaderboard, 123); //dsf
                         }
                     } else {
                         startStageAnimator.start();
                     }
 
-                    headerLivesRatingBar.setProgress(livesCount - 1);
+                    livesRatingBar.setProgress(livesCount - 1);
                 }
             }
         }

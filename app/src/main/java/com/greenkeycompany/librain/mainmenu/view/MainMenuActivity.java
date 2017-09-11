@@ -82,7 +82,7 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
             }
         });
 
-        googleApiClient = GoogleApiUtil.getGoogleApi(this);
+        //googleApiClient = GoogleApiUtil.getGoogleApi(this);
 
         presenter.requestToUpdateRatingView(premiumUtil.isPremiumUser());
         presenter.requestToUpdateCampaignStarView();
@@ -134,12 +134,11 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
         startActivity(new Intent(this, AdviceActivity.class));
     }
 
+    /*
     @Override
     protected void onStart() {
         super.onStart();
-        if ( ! googleApiClient.isConnected()) {
-            googleApiClient.connect();
-        }
+        googleApiClient.connect();
     }
 
     @Override
@@ -149,6 +148,7 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
             googleApiClient.disconnect();
         }
     }
+    */
 
     private static final int CAMPAIGN_REQUEST_CODE = 100;
     private static final int PURCHASE_REQUEST_CODE = 200;

@@ -171,9 +171,13 @@ public class CampaignGameActivity extends AppCompatActivity {
         }
     }
 
+    public void setLevelNumberView(int levelNumber) {
+        levelNumberTextView.setText(getString(R.string.campaign_level, levelNumber));
+    }
+
     private void setCurrentLevel(Level level) {
         levelId = level.getId();
-        levelNumberTextView.setText(String.valueOf(levelId));
+        setLevelNumberView(levelId);
 
         record = level.getRecord();
 

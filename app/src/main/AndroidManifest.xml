@@ -46,10 +46,12 @@
 
         <activity
             android:name=".campaign.CampaignGameActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".rating.RatingGameActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
 
