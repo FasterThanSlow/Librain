@@ -50,8 +50,6 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
         setContentView(R.layout.advice_activity);
         ButterKnife.bind(this);
 
-        //toolbar.setTitle(R.string.advices);
-        //toolbar.setTitleTextColor(Color.WHITE);
         if ( ! premiumUtil.isPremiumUser()) {
             adView.loadAd(new AdRequest.Builder().build());
         } else {

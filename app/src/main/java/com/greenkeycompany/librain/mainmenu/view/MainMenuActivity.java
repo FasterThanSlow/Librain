@@ -3,11 +3,17 @@ package com.greenkeycompany.librain.mainmenu.view;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
 import com.greenkeycompany.librain.advice.view.AdviceActivity;
 import com.greenkeycompany.librain.app.App;
+import com.greenkeycompany.librain.app.util.GoogleApiUtil;
 import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.RateDialog;
@@ -42,7 +48,7 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
     private ActivityCheckout checkout = Checkout.forActivity(this, App.get().getBilling());
     private PremiumUtil premiumUtil = App.get().getPremiumUtil();
 
-    //private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient googleApiClient;
     //private static final int REQUEST_LEADERBOARD = 300;
 
     @BindView(R.id.rating_button) TextView ratingTextView;
@@ -75,13 +81,8 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
                 Toast.makeText(MainMenuActivity.this, "Премиум ли ты?[2]), " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
             }
         });
-        /*
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
-                .build();
-                */
+
+        googleApiClient = GoogleApiUtil.getGoogleApi(this);
 
         presenter.requestToUpdateRatingView(premiumUtil.isPremiumUser());
         presenter.requestToUpdateCampaignStarView();
@@ -136,7 +137,17 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
     @Override
     protected void onStart() {
         super.onStart();
-       // mGoogleApiClient.connect();
+        if ( ! googleApiClient.isConnected()) {
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (googleApiClient.isConnected()) {
+            googleApiClient.disconnect();
+        }
     }
 
     private static final int CAMPAIGN_REQUEST_CODE = 100;

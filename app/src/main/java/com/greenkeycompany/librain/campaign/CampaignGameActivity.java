@@ -121,7 +121,7 @@ public class CampaignGameActivity extends AppCompatActivity {
         bottomBlackoutView = findViewById(R.id.tutorial_bottom_blackout_view);
 
         ratingBar = (RatingBar) findViewById(R.id.stars);
-        levelNumberTextView = (TextView) findViewById(R.id.header_level_number_text_view);
+        levelNumberTextView = (TextView) findViewById(R.id.header_title_text_view);
         checkResultButton = (TextView) findViewById(R.id.check_button);
 
         roundView = findViewById(R.id.game_round_banner);

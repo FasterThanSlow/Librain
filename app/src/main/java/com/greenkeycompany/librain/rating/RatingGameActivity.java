@@ -12,7 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiActivity;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
 import com.greenkeycompany.librain.R;
+import com.greenkeycompany.librain.app.util.GoogleApiUtil;
 import com.greenkeycompany.librain.entity.ItemType;
 import com.greenkeycompany.librain.level.Generator;
 import com.greenkeycompany.librain.level.RatingGameStage;
@@ -68,6 +72,8 @@ public class RatingGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rating_game_activity);
 
+        googleApiClient = GoogleApiUtil.getGoogleApi(this);
+
         handler = new Handler();
 
         boardView = (BoardView) findViewById(R.id.board_view);
@@ -100,6 +106,24 @@ public class RatingGameActivity extends AppCompatActivity {
         restartButton.setOnClickListener(restartOnClickListener);
 
         reset();
+    }
+
+    private GoogleApiClient googleApiClient;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if ( ! googleApiClient.isConnected()) {
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (googleApiClient.isConnected()) {
+            googleApiClient.disconnect();
+        }
     }
 
     private void reset() {
@@ -221,7 +245,10 @@ public class RatingGameActivity extends AppCompatActivity {
                 } else {
                     int livesCount = headerLivesRatingBar.getProgress();
                     if (livesCount == 1) {
-                        finish();
+                        if (googleApiClient.isConnected()) {
+                            Games.Leaderboards.submitScore(googleApiClient, getString(R.string.leaderboard_librain_raiting), stageNumber);
+                            startActivity(Games.Leaderboards.getLeaderboardIntent(googleApiClient, getString(R.string.leaderboard_librain_raiting)));
+                        }
                     } else {
                         startStageAnimator.start();
                     }
