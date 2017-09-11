@@ -84,9 +84,14 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
         googleApiClient = GoogleApiUtil.getGoogleApi(this, new GoogleApiClient.OnConnectionFailedListener() {
             @Override
             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                Toast.makeText(MainMenuActivity.this, "onConnectionFailed " + connectionResult.getErrorCode(), Toast.LENGTH_LONG).show();
+
+
                 try {
                     connectionResult.startResolutionForResult(MainMenuActivity.this, CONNECTION_REQUEST_CODE);
                 } catch (IntentSender.SendIntentException e) {
+                    Toast.makeText(MainMenuActivity.this, "IntentSender.SendIntentException " + e, Toast.LENGTH_LONG).show();
+
                     Log.d("googleApiClient", e.toString());
                 }
             }
@@ -151,9 +156,7 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
     @Override
     protected void onStop() {
         super.onStop();
-        if (googleApiClient.isConnected()) {
-            googleApiClient.disconnect();
-        }
+        googleApiClient.disconnect();
     }
 
     private static final int CONNECTION_REQUEST_CODE = 123;

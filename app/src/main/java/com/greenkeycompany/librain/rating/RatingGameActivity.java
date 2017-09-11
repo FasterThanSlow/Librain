@@ -89,7 +89,7 @@ public class RatingGameActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         bestScore = sharedPreferences.getInt(RATING_BEST_SCORE_KEY, 0);
 
-        googleApiClient = GoogleApiUtil.getGoogleApi(this, null);
+        googleApiClient = GoogleApiUtil.getGoogleApi(this);
 
         handler = new Handler();
 
@@ -136,10 +136,9 @@ public class RatingGameActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (googleApiClient.isConnected()) {
-            googleApiClient.disconnect();
-        }
+        googleApiClient.disconnect();
     }
+
 
     public void setStageNumberView(int stageNumber) {
         stateTextView.setText(getString(R.string.rating_stage, stageNumber));
@@ -398,10 +397,9 @@ public class RatingGameActivity extends AppCompatActivity {
 
                         if (googleApiClient.isConnected()) {
                             Games.Leaderboards.submitScore(googleApiClient, getString(R.string.leaderboard_librain_raiting), stageNumber);
-                        }
-
-                        if (leaderboardIntent == null) {
-                            leaderboardIntent = Games.Leaderboards.getLeaderboardIntent(googleApiClient, getString(R.string.leaderboard_librain_raiting));
+                            if (leaderboardIntent == null) {
+                                leaderboardIntent = Games.Leaderboards.getLeaderboardIntent(googleApiClient, getString(R.string.leaderboard_librain_raiting));
+                            }
                         }
 
                         showResultDialog(stageNumber, bestScore);
