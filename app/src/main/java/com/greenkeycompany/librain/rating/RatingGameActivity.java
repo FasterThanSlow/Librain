@@ -3,9 +3,11 @@ package com.greenkeycompany.librain.rating;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.greenkeycompany.librain.R;
@@ -78,6 +81,18 @@ public class RatingGameActivity extends AppCompatActivity {
     private int boardViewWidth;
     private int boardItemViewWidth;
 
+    private static final int CONNECTION_REQUEST_CODE = 123;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CONNECTION_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                restart();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +101,16 @@ public class RatingGameActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         bestScore = sharedPreferences.getInt(RATING_BEST_SCORE_KEY, 0);
 
-        googleApiClient = GoogleApiUtil.getGoogleApi(this);
+        googleApiClient = GoogleApiUtil.getGoogleApi(this, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                try {
+                    connectionResult.startResolutionForResult(RatingGameActivity.this, CONNECTION_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.d("googleApiClient", e.toString());
+                }
+            }
+        });
 
         handler = new Handler();
 
@@ -203,8 +227,6 @@ public class RatingGameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (googleApiClient.isConnected()) {
                     startActivityForResult(leaderboardIntent, LEADERBOARD_CODE_REQUEST);
-                } else {
-                    ///////////////////////////////////////////////////////////////////
                 }
             }
         });

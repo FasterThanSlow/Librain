@@ -17,6 +17,7 @@ import com.greenkeycompany.librain.app.util.GoogleApiUtil;
 import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.app.RateDialog;
+import com.greenkeycompany.librain.app.util.ValueAnimatorEnablerUtil;
 import com.greenkeycompany.librain.campaign.menu.view.CampaignMenuActivity;
 import com.greenkeycompany.librain.mainmenu.presenter.IMainMenuPresenter;
 import com.greenkeycompany.librain.mainmenu.presenter.MainMenuPresenter;
@@ -60,7 +61,7 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
         setContentView(R.layout.main_menu_activity);
         ButterKnife.bind(this);
 
-        Toast.makeText(this, "Премиум ли ты?[1]), " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
+        ValueAnimatorEnablerUtil.init(this);
 
         checkout.start();
         checkout.loadInventory(Inventory.Request.create().loadAllPurchases(), new Inventory.Callback() {
@@ -77,8 +78,6 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
                     premiumUtil.setPremiumUser(isPurchased);
                     presenter.requestToUpdateRatingView(isPurchased);
                 }
-
-                Toast.makeText(MainMenuActivity.this, "Премиум ли ты?[2]), " + premiumUtil.isPremiumUser(), Toast.LENGTH_LONG).show();
             }
         });
 

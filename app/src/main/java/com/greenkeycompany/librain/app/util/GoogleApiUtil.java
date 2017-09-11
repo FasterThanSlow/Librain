@@ -19,26 +19,10 @@ public class GoogleApiUtil {
 
     private static GoogleApiClient googleApiClient;
 
-    public static GoogleApiClient getGoogleApi(final Context context) {
+    public static GoogleApiClient getGoogleApi(final Context context, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient.Builder(context)
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                        @Override
-                        public void onConnected(@Nullable Bundle bundle) {
-                            Toast.makeText(context, "GoogleApiClient" + "onConnected", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onConnectionSuspended(int i) {
-                            Toast.makeText(context, "GoogleApiClient" + "onConnectionSuspended " + i, Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                        @Override
-                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                            Toast.makeText(context, "GoogleApiClient" + "onConnectionFailed " + connectionResult.getErrorCode(), Toast.LENGTH_LONG).show();
-                        }
-                    })
+                    .addOnConnectionFailedListener(onConnectionFailedListener)
                     .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                     .build();
         }
