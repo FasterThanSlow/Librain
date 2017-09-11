@@ -9,12 +9,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.greenkeycompany.librain.R;
 import com.greenkeycompany.librain.advice.model.Advice;
 import com.greenkeycompany.librain.advice.presenter.AdvicePresenter;
 import com.greenkeycompany.librain.advice.presenter.IAdvicePresenter;
 import com.greenkeycompany.librain.advice.view.fragment.advice.AdviceFragment;
 import com.greenkeycompany.librain.advice.view.fragment.favorite.FavoriteAdviceFragment;
+import com.greenkeycompany.librain.app.App;
+import com.greenkeycompany.librain.app.util.PremiumUtil;
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
 import java.util.ArrayList;
@@ -31,10 +35,14 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
         return new AdvicePresenter(this);
     }
 
+    private PremiumUtil premiumUtil = App.get().getPremiumUtil();
+
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
 
     @BindView(R.id.view_pager) ViewPager viewPager;
+
+    @BindView(R.id.ad_view) AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +52,43 @@ public class AdviceActivity extends MvpActivity<IAdviseView, IAdvicePresenter>
 
         //toolbar.setTitle(R.string.advices);
         //toolbar.setTitleTextColor(Color.WHITE);
+        if ( ! premiumUtil.isPremiumUser()) {
+            adView.loadAd(new AdRequest.Builder().build());
+        } else {
+            adView.setVisibility(View.GONE);
+        }
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.action_bar_back_icon);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         presenter.init();
+    }
+
+    @Override
+    public void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    /** Called when returning to the activity */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    /** Called before the activity is destroyed */
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 
     @Override

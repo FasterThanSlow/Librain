@@ -2,8 +2,9 @@
 <resources>
     <string name="app_name" translatable="false">LiBrain</string>
 
-    <string name="application_admob_id">ca-app-pub-5571311973400433~8573107052</string>
-    <string name="interstitial_advertisement_id">ca-app-pub-5571311973400433/4599747614</string>
+    <string name="application_admob_id" translatable="false">ca-app-pub-5571311973400433~8573107052</string>
+    <string name="interstitial_advertisement_id" translatable="false">ca-app-pub-5571311973400433/4599747614</string>
+    <string name="banner_advertisement_id" translatable="false">ca-app-pub-5571311973400433/1164200951</string>
 
     <string name="settings">Settings</string>
     <string name="restart">Restart</string>

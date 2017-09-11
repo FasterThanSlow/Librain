@@ -35,9 +35,6 @@ import com.greenkeycompany.librain.app.view.boardview.BoardView;
 import com.greenkeycompany.librain.app.view.distributorview.DistributorView;
 import com.greenkeycompany.librain.purchase.PurchaseActivity;
 
-import org.solovyev.android.checkout.ActivityCheckout;
-import org.solovyev.android.checkout.Checkout;
-
 import java.util.Arrays;
 
 public class CampaignGameActivity extends AppCompatActivity {
@@ -843,7 +840,7 @@ public class CampaignGameActivity extends AppCompatActivity {
 
                                 startRoundAnimator.start();
                             } else {
-                                if (nextLevel.getId() / 5 == 0 && interstitialAd.isLoaded()) {
+                                if (nextLevel.getId() % 5 == 0 && interstitialAd.isLoaded()) {
                                     interstitialAd.show();
                                     interstitialAd.setAdListener(new AdListener() {
                                         @Override
@@ -906,7 +903,7 @@ public class CampaignGameActivity extends AppCompatActivity {
 
                                     startRoundAnimator.start();
                                 } else {
-                                    if (unlockedLevel.getId() / 5 == 0 && interstitialAd.isLoaded()) {
+                                    if (unlockedLevel.getId() % 5 == 0 && interstitialAd.isLoaded()) {
                                         interstitialAd.show();
                                         interstitialAd.setAdListener(new AdListener() {
                                             @Override
