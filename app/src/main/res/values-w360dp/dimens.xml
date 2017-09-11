@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="campaign_item_size">60dp</dimen>
-
+    <dimen name="game_round_description_text_size">16sp</dimen>
     <dimen name="game_item_size">60dp</dimen>
 </resources>

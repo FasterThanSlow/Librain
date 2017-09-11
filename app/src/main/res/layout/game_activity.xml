@@ -165,9 +165,9 @@
 
             <TextView
                 android:id="@+id/game_round_description_text_view"
-                tools:text="Round 1"
+                tools:text="@string/game_round_1_description"
                 android:textColor="@color/colorTextPrimary"
-                android:textSize="16sp"
+                android:textSize="@dimen/game_round_description_text_size"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="italic"

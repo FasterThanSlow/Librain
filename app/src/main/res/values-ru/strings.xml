@@ -36,13 +36,13 @@
     <string name="tutorial_dialog_button_text">Перейти к уровням</string>
     <string name="tutorial_dialog_message">Поздравления. Вы прошли обучение. В случае трудностей с прохождением любого уровня или задания используйте режим обучения.</string>
     <string name="tutorial_dialog_title">Обучение</string>
-    <string name="tutorial_first_round_message">Запомните расположение фигур на поле. Когда фигуры исчезнут, расставьте их в соответствии  с этим расположением.</string>
+    <string name="tutorial_first_round_message">Запомните и отобразите расположение фигур</string>
     <string name="tutorial_first_round_title">Задание 1</string>
-    <string name="tutorial_second_round_message">Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их совместив оба расположения.</string>
+    <string name="tutorial_second_round_message">Запомните, совместите и отобразите расположение фигур</string>
     <string name="tutorial_second_round_title">Задание 2</string>
     <string name="tutorial_start_message">Нажмите на экран для того, чтобы перейти к выполнению заданий.</string>
     <string name="tutorial_start_title">Приветствуем в обучении</string>
-    <string name="tutorial_third_round_message">Фигуры появляются на поле последовательно два раза. Когда фигуры исчезнут, расставьте их в соответствии с указанным на экране номером расположения.</string>
+    <string name="tutorial_third_round_message">Запомните и отобразите указанное расположение фигур</string>
     <string name="tutorial_third_round_title">Задание 3</string>
     <string name="training_round_1_title">Задание 1</string>
     <string name="training_round_3_description">На экране появляются фигуры 2 раза с промежутком во времени. После того как они исчезнут, отобразите выбранное расположение(номер расположения появится на экране).</string>
@@ -59,8 +59,11 @@
     <string name="training_settings_round_3_title">Задание 3</string>
     <string name="training_settings_round_2_title">Задание 2</string>
     <string name="training_settings_round_1_title">Задание 1</string>
-    <string name="training_settings_round_1_description">На экране появятся фигуры. Запомните их расположение. После того как они исчезнут, отобразите расположение этих фигур на поле.</string>
-    <string name="training_settings_round_3_description">На экране появляются фигуры 2 раза с промежутком во времени. После того как они исчезнут, отобразите выбранное расположение(номер расположения появится на экране).</string>
-    <string name="training_settings_round_2_description">На экране появятся фигуры 2 раза с промежутком во времени. После того как они исчезнут, отобразите общее расположение, совместив положение фигур при первом и втором появлении.</string>
+    <string name="training_settings_round_1_description">Запомните и отобразите расположение фигур</string>
+    <string name="training_settings_round_3_description">Запомните и отобразите указанное расположение фигур</string>
+    <string name="training_settings_round_2_description">Запомните, совместите и отобразите расположение фигур</string>
     <string name="purchase_activated_title">Поздравляем. Теперь вам доступны все премиум функции приложения Librain. Удачной игры!</string>
+    <string name="raiting_result_dialog_description">Игра закончена. Ваш результат был сохранён. Выберите следущее действие</string>
+    <string name="raiting_result_dialog_current_result">Текущий результат:</string>
+    <string name="raiting_result_dialog_best_result">Лучший результат:</string>
 </resources>

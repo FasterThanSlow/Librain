@@ -28,13 +28,13 @@
     <string name="tutorial_start_message">Click on the screen to proceed to the tasks.</string>
 
     <string name="tutorial_first_round_title">Round 1</string>
-    <string name="tutorial_first_round_message">Remember the arrangement of the figures on the field. When the figures disappear, arrange them according to this arrangement.</string>
+    <string name="tutorial_first_round_message">Memorize and display the arrangement of the figures</string>
 
     <string name="tutorial_second_round_title">Round 2</string>
-    <string name="tutorial_second_round_message">Figures appear on the field two consecutive times. When the shapes disappear, arrange them to fit both locations.\n</string>
+    <string name="tutorial_second_round_message">Remember, combine and display the arrangement of the figures</string>
 
     <string name="tutorial_third_round_title">Round 3</string>
-    <string name="tutorial_third_round_message">Figures appear on the field two consecutive times. When the shapes disappear, arrange them according to the location number indicated on the screen.</string>
+    <string name="tutorial_third_round_message">Memorize and display the specified arrangement of figures</string>
 
     <!-- Training -->
 
@@ -85,5 +85,8 @@
     <string name="training_settings_select_round_title">Select the desired rounds</string>
     <string name="training_start">Start</string>
     <string name="purchase_activated_title">Congratulations. Now all the premium features of the Librain application are available to you. Good game!</string>
+    <string name="raiting_result_dialog_description">Игра закончена. Ваш результат был сохранён. Выберите следущее действие</string>
+    <string name="raiting_result_dialog_current_result">Текущий результат:</string>
+    <string name="raiting_result_dialog_best_result">Лучший результат:</string>
 
 </resources>

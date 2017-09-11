@@ -654,6 +654,8 @@ public class TrainingGameOLDActivity extends AppCompatActivity {
                                 distributorView.setY(y - distributorViewHeight + distributorView.getTriangleViewSizePx() / 2);
                                 distributorView.setTriangleOffset((int)(boardItemView.getX() - distributorView.getX() + boardItemViewWidth / 2 - distributorView.getTriangleViewSizePx() / 2));
 
+                                distributorView.bringToFront();
+                                distributorView.invalidate();
                                 distributorView.setVisibility(View.VISIBLE);
                                 break;
                         }
