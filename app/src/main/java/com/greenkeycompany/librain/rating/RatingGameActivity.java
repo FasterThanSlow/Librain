@@ -81,18 +81,6 @@ public class RatingGameActivity extends AppCompatActivity {
     private int boardViewWidth;
     private int boardItemViewWidth;
 
-    private static final int CONNECTION_REQUEST_CODE = 123;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CONNECTION_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                restart();
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,16 +89,7 @@ public class RatingGameActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         bestScore = sharedPreferences.getInt(RATING_BEST_SCORE_KEY, 0);
 
-        googleApiClient = GoogleApiUtil.getGoogleApi(this, new GoogleApiClient.OnConnectionFailedListener() {
-            @Override
-            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                try {
-                    connectionResult.startResolutionForResult(RatingGameActivity.this, CONNECTION_REQUEST_CODE);
-                } catch (IntentSender.SendIntentException e) {
-                    Log.d("googleApiClient", e.toString());
-                }
-            }
-        });
+        googleApiClient = GoogleApiUtil.getGoogleApi(this, null);
 
         handler = new Handler();
 

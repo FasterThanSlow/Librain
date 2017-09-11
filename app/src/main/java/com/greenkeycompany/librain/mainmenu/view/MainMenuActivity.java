@@ -1,6 +1,7 @@
 package com.greenkeycompany.librain.mainmenu.view;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -49,8 +50,7 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
     private ActivityCheckout checkout = Checkout.forActivity(this, App.get().getBilling());
     private PremiumUtil premiumUtil = App.get().getPremiumUtil();
 
-    //private GoogleApiClient googleApiClient;
-    //private static final int REQUEST_LEADERBOARD = 300;
+    private GoogleApiClient googleApiClient;
 
     @BindView(R.id.rating_button) TextView ratingTextView;
     @BindView(R.id.campaign_star_count_text_view) TextView campaignStarCountTextView;
@@ -81,7 +81,16 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
             }
         });
 
-        //googleApiClient = GoogleApiUtil.getGoogleApi(this);
+        googleApiClient = GoogleApiUtil.getGoogleApi(this, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                try {
+                    connectionResult.startResolutionForResult(MainMenuActivity.this, CONNECTION_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.d("googleApiClient", e.toString());
+                }
+            }
+        });
 
         presenter.requestToUpdateRatingView(premiumUtil.isPremiumUser());
         presenter.requestToUpdateCampaignStarView();
@@ -133,7 +142,6 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
         startActivity(new Intent(this, AdviceActivity.class));
     }
 
-    /*
     @Override
     protected void onStart() {
         super.onStart();
@@ -147,8 +155,8 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
             googleApiClient.disconnect();
         }
     }
-    */
 
+    private static final int CONNECTION_REQUEST_CODE = 123;
     private static final int CAMPAIGN_REQUEST_CODE = 100;
     private static final int PURCHASE_REQUEST_CODE = 200;
 
@@ -157,6 +165,13 @@ public class MainMenuActivity extends MvpActivity<IMainMenuView, IMainMenuPresen
         checkout.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            case CONNECTION_REQUEST_CODE: {
+                if (resultCode == RESULT_OK) {
+                   //
+                }
+            }
+            break;
+
             case PURCHASE_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
                     premiumUtil.setPremiumUser(true);
