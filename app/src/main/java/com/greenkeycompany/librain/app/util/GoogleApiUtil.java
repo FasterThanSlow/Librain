@@ -23,40 +23,12 @@ public class GoogleApiUtil {
     public static GoogleApiClient getGoogleApi(final @NonNull Context context, @NonNull GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         return new GoogleApiClient.Builder(context)
                 .addOnConnectionFailedListener(onConnectionFailedListener)
-                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                    @Override
-                    public void onConnected(@Nullable Bundle bundle) {
-                        Toast.makeText(context, "onConnected", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onConnectionSuspended(int i) {
-                        Toast.makeText(context, "onConnectionSuspended", Toast.LENGTH_LONG).show();
-                    }
-                })
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
     }
 
     public static GoogleApiClient getGoogleApi(final @NonNull Context context) {
         return new GoogleApiClient.Builder(context)
-                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(context, "onConnectionFailed " + connectionResult.getErrorCode(), Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                    @Override
-                    public void onConnected(@Nullable Bundle bundle) {
-                        Toast.makeText(context, "onConnected", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onConnectionSuspended(int i) {
-                        Toast.makeText(context, "onConnectionSuspended", Toast.LENGTH_LONG).show();
-                    }
-                })
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
     }
